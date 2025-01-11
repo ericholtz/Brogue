@@ -1,0 +1,1 @@
+This directory is where all of our textures will go. Most will be tilemaps, which I made a subdir for.
