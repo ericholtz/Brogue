@@ -1,5 +1,5 @@
-Demonic Dungeon User Interface
-------------------------------
+Demonic Dungeon
+---------------
 
 
 Enjoy my assets? Keep up to date by following me on itch or twitter.

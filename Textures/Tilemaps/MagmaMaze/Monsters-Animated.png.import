@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnv57eosd2d6a"
-path="res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"
+uid="uid://d1fm6uf77ro8u"
+path="res://.godot/imported/Monsters-Animated.png-a1181907c314fc366772d7945e7e2497.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/UI/Inputs.png"
-dest_files=["res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"]
+source_file="res://Textures/Tilemaps/MagmaMaze/Monsters-Animated.png"
+dest_files=["res://.godot/imported/Monsters-Animated.png-a1181907c314fc366772d7945e7e2497.ctex"]
 
 [params]
 

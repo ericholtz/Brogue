@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnv57eosd2d6a"
-path="res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"
+uid="uid://budu328q5lgqm"
+path="res://.godot/imported/Heroes-Animated.png-159283744766a6ba4fb0f2ebd565eea0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/UI/Inputs.png"
-dest_files=["res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"]
+source_file="res://Textures/Tilemaps/FrozenCavern/Heroes-Animated.png"
+dest_files=["res://.godot/imported/Heroes-Animated.png-159283744766a6ba4fb0f2ebd565eea0.ctex"]
 
 [params]
 

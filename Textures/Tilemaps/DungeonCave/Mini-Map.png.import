@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnv57eosd2d6a"
-path="res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"
+uid="uid://dk87kta0by406"
+path="res://.godot/imported/Mini-Map.png-e97f06f343b4c13921ec88a5098e3fad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/UI/Inputs.png"
-dest_files=["res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"]
+source_file="res://Textures/Tilemaps/DungeonCave/Mini-Map.png"
+dest_files=["res://.godot/imported/Mini-Map.png-e97f06f343b4c13921ec88a5098e3fad.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnv57eosd2d6a"
-path="res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"
+uid="uid://bnc5luq3dj63m"
+path="res://.godot/imported/Heroes-Animated.png-928d5097b745b9a29840e16ed02f9648.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/UI/Inputs.png"
-dest_files=["res://.godot/imported/Inputs.png-b22b795b99a97a95d4ec5af2003198dd.ctex"]
+source_file="res://Textures/Tilemaps/HauntedTemple/Heroes-Animated.png"
+dest_files=["res://.godot/imported/Heroes-Animated.png-928d5097b745b9a29840e16ed02f9648.ctex"]
 
 [params]
 
