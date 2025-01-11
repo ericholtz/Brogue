@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnrptm120il4c"
-path="res://.godot/imported/Walls.png-48299060a9ecbe831f4dc3f65e18dd21.ctex"
+uid="uid://drmr1cy8vwhja"
+path="res://.godot/imported/Items.png-d7205346286b4c739344880c4b0b043d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/Walls.png"
-dest_files=["res://.godot/imported/Walls.png-48299060a9ecbe831f4dc3f65e18dd21.ctex"]
+source_file="res://Textures/Tilemaps/Overworld/Items.png"
+dest_files=["res://.godot/imported/Items.png-d7205346286b4c739344880c4b0b043d.ctex"]
 
 [params]
 

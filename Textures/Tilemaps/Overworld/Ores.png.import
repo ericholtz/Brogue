@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c17rnf2105nab"
-path="res://.godot/imported/Structures.png-1d528e4771693f3e75cbf761f00f9fc4.ctex"
+uid="uid://dt8tgksg5f5ca"
+path="res://.godot/imported/Ores.png-27b1a40f2e68a1e756b3634f003bdbdc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/Structures.png"
-dest_files=["res://.godot/imported/Structures.png-1d528e4771693f3e75cbf761f00f9fc4.ctex"]
+source_file="res://Textures/Tilemaps/Overworld/Ores.png"
+dest_files=["res://.godot/imported/Ores.png-27b1a40f2e68a1e756b3634f003bdbdc.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cehox861ysv82"
-path="res://.godot/imported/Interface.png-35b424de41de6556d27517f1b986086a.ctex"
+uid="uid://cloel5uo63amv"
+path="res://.godot/imported/Furniture.png-3436aba2ecfe34db31d997534d227289.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/Interface.png"
-dest_files=["res://.godot/imported/Interface.png-35b424de41de6556d27517f1b986086a.ctex"]
+source_file="res://Textures/Tilemaps/Interiors/Furniture.png"
+dest_files=["res://.godot/imported/Furniture.png-3436aba2ecfe34db31d997534d227289.ctex"]
 
 [params]
 

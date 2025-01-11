@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btvlrlbccac8a"
-path="res://.godot/imported/Crops.png-efb19b1cba47ddad81f38b782855caf1.ctex"
+uid="uid://vvbni3us8lwx"
+path="res://.godot/imported/Interface.png-11966eae3c9fb37b64eb2b3454882b51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/Crops.png"
-dest_files=["res://.godot/imported/Crops.png-efb19b1cba47ddad81f38b782855caf1.ctex"]
+source_file="res://Textures/Tilemaps/Interiors/Interface.png"
+dest_files=["res://.godot/imported/Interface.png-11966eae3c9fb37b64eb2b3454882b51.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chbnjv3vtm3wq"
-path="res://.godot/imported/Ships.png-9a6e685d6669ae285dcc64001694ffbe.ctex"
+uid="uid://c17rnf2105nab"
+path="res://.godot/imported/Structures.png-6049f30220fe3f43b0a066fdb816e575.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Tilemaps/Ships.png"
-dest_files=["res://.godot/imported/Ships.png-9a6e685d6669ae285dcc64001694ffbe.ctex"]
+source_file="res://Textures/Tilemaps/Overworld/Structures.png"
+dest_files=["res://.godot/imported/Structures.png-6049f30220fe3f43b0a066fdb816e575.ctex"]
 
 [params]
 
