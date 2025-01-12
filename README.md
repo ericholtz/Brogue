@@ -1,2 +1,2 @@
 # Brogue
-modern recreation of the original Rogue in Godot
+A modern recreation of the original Rogue in Godot.
