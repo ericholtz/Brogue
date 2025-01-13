@@ -1,6 +1,7 @@
 extends Area2D
 
 @onready var PlayerAnim = $AnimatedSprite2D
+@onready var Ray = $RayCast2D
 
 var tileSize = 16
 var inputs = {"Up": Vector2.UP,
@@ -23,4 +24,7 @@ func _input(event):
 			move(dir)
 
 func move(dir):
-	position += inputs[dir] * tileSize
+	Ray.target_position = inputs[dir] * tileSize
+	Ray.force_raycast_update()
+	if !Ray.is_colliding():
+		position += inputs[dir] * tileSize
