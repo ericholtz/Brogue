@@ -189,17 +189,22 @@ tile_map_data = PackedByteArray("AAAQAA0AAAAEAAMAAAASAAcAAAAFAAIAAAAJAAUAAAADAAE
 tile_set = SubResource("TileSet_kl3hf")
 
 [node name="Player" type="Area2D" parent="."]
-position = Vector2(219, 154)
+position = Vector2(216, 152)
 script = ExtResource("2_vlv10")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0.00147247, -0.0235901)
 sprite_frames = SubResource("SpriteFrames_q1x14")
 animation = &"Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0.00147247, -0.0235901)
 shape = SubResource("RectangleShape2D_fy2yg")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0.00147247, -0.0235901)
 zoom = Vector2(3, 3)
 
 [node name="RayCast2D" type="RayCast2D" parent="Player"]
+position = Vector2(0.00147247, -0.0235901)
+target_position = Vector2(0, 16)
