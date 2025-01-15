@@ -150,6 +150,10 @@ texture = ExtResource("1_7gmgy")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_dywxk")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hlr5"]
+atlas = ExtResource("3_cg777")
+region = Rect2(48, 16, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("3_cg777")
 region = Rect2(16, 16, 16, 16)
@@ -158,21 +162,17 @@ region = Rect2(16, 16, 16, 16)
 atlas = ExtResource("3_cg777")
 region = Rect2(32, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7hlr5"]
-atlas = ExtResource("3_cg777")
-region = Rect2(48, 16, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_q1x14"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hlr5")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0otx2")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hy0ej")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7hlr5")
 }],
 "loop": true,
 "name": &"Idle",
