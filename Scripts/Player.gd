@@ -7,6 +7,9 @@ extends Area2D
 var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
+var items = []
+var gold = 0
+
 var tileSize = 16
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
@@ -40,3 +43,18 @@ func move(dir):
 		moving = true #set this to true until tween is finished to disallow multiple moves at once
 		await tween.finished
 		moving = false
+
+func _on_large_gold_area_entered(area: Area2D) -> void:
+	if (area.name == "Player"):
+		gold += 10
+		print("+10 Gold! Total Gold: ", gold)
+
+func _on_medium_gold_area_entered(area: Area2D) -> void:
+	if (area.name == "Player"):
+		gold += 5
+		print("+5 Gold! Total Gold: ", gold)
+
+func _on_small_gold_area_entered(area: Area2D) -> void:
+	if (area.name == "Player"):
+		gold += 2
+		print("+2 Gold! Total Gold: ", gold)
