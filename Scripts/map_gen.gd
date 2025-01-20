@@ -47,8 +47,6 @@ func generate() -> void:
 	
 	$"../Player".global_position = (first_room_pos * 262) + Vector2(262, 262)
 
-
-
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
 	# no generated rooms reached max
 	if room_count >= rooms_to_generate:
