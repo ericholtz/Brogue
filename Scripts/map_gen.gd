@@ -45,7 +45,7 @@ func generate() -> void:
 	print(stri)
 	instantiate_rooms()
 	
-	$"../Player".global_position = (first_room_pos * 261) + Vector2(262, 262)
+	$"../Player".global_position = (first_room_pos * 262) + Vector2(262, 262)
 
 
 
