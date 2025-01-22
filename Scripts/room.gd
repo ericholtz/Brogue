@@ -29,3 +29,6 @@ func west():
 	if $WallW:
 		$WallW.queue_free()
 	
+func gold():
+	$Gold.visible = true
+	
