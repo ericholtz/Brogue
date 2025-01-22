@@ -40,3 +40,4 @@ func move(dir):
 		moving = true #set this to true until tween is finished to disallow multiple moves at once
 		await tween.finished
 		moving = false
+		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
