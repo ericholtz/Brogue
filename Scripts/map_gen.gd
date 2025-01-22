@@ -14,38 +14,44 @@ var room_nodes : Array
 
 #spawn chance
 @export var enemy_spawn_chance : float
-@export var coin_spawn_chance : float
+@export var coin_spawn_chance : float = 0.8
 @export var heart_spawn_chance : float
 
 @export var max_enemies_per_room : int
 @export var max_hearts_per_room : int
-@export var max_coins_per_room : int
+@export var max_coins_per_room : int = 10
 
 func _ready() -> void:
 	map = []
 	room_nodes = []
-	for i in range(map_width):
+	for y in range(map_height):
 		map.append([])
-		for j in range(map_height):
-			map[i].append(false)
-	seed(375892334)
+		for x in range(map_width):
+			map[y].append(false)
+	seed(randf_range(0, 1000000))
 	generate()
 	
 
 func generate() -> void:
 	check_room(3, 3, 0, Vector2.ZERO, true)
+	# Validate the first room position
+	if not map[first_room_pos.x][first_room_pos.y]:
+		adjust_first_room()
+		
 	var stri = ""
-	for i in range(map_width):
+	for y in range(map_height):
 		stri += "\n"
-		for j in range(map_height):
-			if map[i][j]:
+		for x in range(map_width):
+			if map[x][y]:
 				stri += "0"
 			else:
 				stri += "X"
 	print(stri)
 	instantiate_rooms()
 	
-	$"../Player".global_position = (first_room_pos * 262) + Vector2(262, 262)
+	$"../Player".global_position = (first_room_pos * (272 - 8)) + Vector2(128, 128)
+	print("First room position (grid):", first_room_pos)
+	print("Player global position:", $"../Player".global_position)
 
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
 	# no generated rooms reached max
@@ -60,10 +66,13 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	# room already exists
 	if map[x][y] == true:
 		return
+		
 	# get first room position
-	if first_room:
+	if first_room and map[x][y] == false:
 		first_room_pos = Vector2(x,y)
-	
+		print(first_room_pos)
+		print(first_room_pos.x)
+		
 	room_count += 1
 	map[x][y] = true
 	
@@ -94,7 +103,7 @@ func instantiate_rooms() -> void:
 				continue
 				
 			var room = room_scene.instantiate()
-			room.position = Vector2(x, y) * 256
+			room.position = Vector2(x, y) * 272
 			
 			if y < map_height - 1 and map[x][y + 1] == true:
 				#print("Room at", x, y, "has a north neighbor at", x, y + 1)
@@ -112,6 +121,9 @@ func instantiate_rooms() -> void:
 				#print("Room at", x, y, "has an east neighbor at", x + 1, y)
 				room.east()
 				
+			# Randomly spawn items or monsters
+			spawn_room_content(room)
+			
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
 				
@@ -124,3 +136,53 @@ func instantiate_rooms() -> void:
 
 func calculate_key_and_exit() -> void:
 	pass
+	
+func adjust_first_room() -> void:
+	for x in range(map_width):
+		for y in range(map_height):
+			if map[x][y]:
+				first_room_pos = Vector2(x, y)
+				print("Adjusted first room position to: ", first_room_pos)
+				return
+				
+func spawn_room_content(room: Node) -> void:
+	# Spawn enemies
+	#if randf() < enemy_spawn_chance:
+		#for i in range(randi() % max_enemies_per_room + 1):  # Random number of enemies
+			#var enemy = load("res://Nodes/enemy.tscn").instantiate()
+			#enemy.position = get_random_position_in_room()
+			#room.add_child(enemy)
+	
+	# Spawn coins
+	if randf() < coin_spawn_chance:
+		print("spawning coins")
+		for i in range(randi() % max_coins_per_room + 1):  # Random number of coins
+			var coin = load("res://Nodes/gold.tscn").instantiate()
+			coin.choose_size()
+			coin.position = get_random_position_in_room(room)
+			print(coin.position)
+			if is_position_valid_for_item(coin.position, room):
+				$"..".call_deferred("add_child", coin)
+			
+func get_random_position_in_room(room : Node) -> Vector2:
+	# Assuming a room size of 272x272
+	return Vector2((randf() * 272) + room.position.x, (randf() *272) + room.position.y)
+	
+func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
+	var items = room.get_children()
+	for item in items:
+		if item is Node2D and item.position.distance_to(position) < 32:
+			print("failed to add gold")
+			return false
+	return true
+## Function to calculate the size of a TileMap in pixels
+#func get_tilemap_size(tilemap: TileMap) -> Vector2:
+	## Get the cell size of the tiles
+	#var cell_size = tilemap.cell_size
+	## Get the grid size by finding the used rectangle
+	#var used_rect = tilemap.get_used_rect()
+	## Calculate the size of the TileMap in pixels
+	#var map_width = used_rect.size.x * cell_size.x
+	#var map_height = used_rect.size.y * cell_size.y
+	#return Vector2(map_width, map_height)
+			

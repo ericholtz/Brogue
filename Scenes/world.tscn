@@ -1,9 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://c8hmiu1sf2ew"]
+[gd_scene load_steps=9 format=3 uid="uid://c8hmiu1sf2ew"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="2_vlv10"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="3_cg777"]
-[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="4_0uyay"]
-[ext_resource type="Script" path="res://Scripts/collect.gd" id="4_xqvom"]
 [ext_resource type="Script" path="res://Scripts/map_gen.gd" id="5_w6rwl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7hlr5"]
@@ -38,12 +36,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy2yg"]
 size = Vector2(16, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ggcnd"]
-size = Vector2(14, 14)
-
 [node name="World" type="Node2D"]
 
 [node name="Player" type="Area2D" parent="."]
+z_index = 8
 position = Vector2(216, 152)
 collision_mask = 5
 script = ExtResource("2_vlv10")
@@ -61,104 +57,5 @@ zoom = Vector2(3, 3)
 [node name="RayCast2D" type="RayCast2D" parent="Player"]
 target_position = Vector2(0, 16)
 
-[node name="LargeGold1" type="Area2D" parent="."]
-position = Vector2(24, 248)
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="LargeGold1"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(64, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LargeGold1"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="MediumGold1" type="Area2D" parent="."]
-position = Vector2(408, 264)
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="MediumGold1"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(80, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MediumGold1"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="SmallGold1" type="Area2D" parent="."]
-position = Vector2(376, 280)
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="SmallGold1"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(96, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallGold1"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="SmallGold2" type="Area2D" parent="."]
-position = Vector2(104, 232)
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="SmallGold2"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(96, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallGold2"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="LargeGold" type="Area2D" parent="."]
-visible = false
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="LargeGold"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(64, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LargeGold"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="MediumGold" type="Area2D" parent="."]
-visible = false
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="MediumGold"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(80, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MediumGold"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
-[node name="SmallGold" type="Area2D" parent="."]
-visible = false
-script = ExtResource("4_xqvom")
-
-[node name="Sprite2D" type="Sprite2D" parent="SmallGold"]
-texture = ExtResource("4_0uyay")
-region_enabled = true
-region_rect = Rect2(96, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallGold"]
-shape = SubResource("RectangleShape2D_ggcnd")
-
 [node name="map_gen" type="Node" parent="."]
 script = ExtResource("5_w6rwl")
-
-[connection signal="area_entered" from="LargeGold1" to="Player" method="_on_large_gold_area_entered"]
-[connection signal="area_entered" from="LargeGold1" to="LargeGold1" method="_on_area_entered"]
-[connection signal="area_entered" from="MediumGold1" to="Player" method="_on_medium_gold_area_entered"]
-[connection signal="area_entered" from="MediumGold1" to="MediumGold1" method="_on_area_entered"]
-[connection signal="area_entered" from="SmallGold1" to="Player" method="_on_small_gold_area_entered"]
-[connection signal="area_entered" from="SmallGold1" to="SmallGold1" method="_on_area_entered"]
-[connection signal="area_entered" from="SmallGold2" to="Player" method="_on_small_gold_area_entered"]
-[connection signal="area_entered" from="SmallGold2" to="SmallGold2" method="_on_area_entered"]
-[connection signal="area_entered" from="LargeGold" to="Player" method="_on_large_gold_area_entered"]
-[connection signal="area_entered" from="LargeGold" to="LargeGold" method="_on_area_entered"]
-[connection signal="area_entered" from="MediumGold" to="Player" method="_on_medium_gold_area_entered"]
-[connection signal="area_entered" from="MediumGold" to="MediumGold" method="_on_area_entered"]
-[connection signal="area_entered" from="SmallGold" to="Player" method="_on_small_gold_area_entered"]
-[connection signal="area_entered" from="SmallGold" to="SmallGold" method="_on_area_entered"]
