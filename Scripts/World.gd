@@ -23,6 +23,5 @@ func enemyTurn():
 	#handle enemy signals here
 	print("Ending enemy turn")
 
-#this listens for any input from the player and increments the turn counter
 func _on_player_input_event():
 	takeTurn(1);
