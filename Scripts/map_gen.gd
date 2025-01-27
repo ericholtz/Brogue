@@ -160,13 +160,18 @@ func spawn_room_content(room: Node) -> void:
 			var coin = load("res://Nodes/gold.tscn").instantiate()
 			coin.choose_size()
 			coin.position = get_random_position_in_room(room)
+			coin.position.x = floor(coin.position.x / 16) * 16 + 8
+			coin.position.y = floor(coin.position.y / 16) * 16 + 8
 			print(coin.position)
 			if is_position_valid_for_item(coin.position, room):
 				$"..".call_deferred("add_child", coin)
 			
 func get_random_position_in_room(room : Node) -> Vector2:
 	# Assuming a room size of 272x272
-	return Vector2((randf() * 272) + room.position.x, (randf() *272) + room.position.y)
+	return Vector2(
+		(randf() * 144) + room.position.x + 16, 
+		(randf() * 144) + room.position.y + 16
+	)
 	
 func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 	var items = room.get_children()
