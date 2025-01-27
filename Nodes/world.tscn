@@ -41,6 +41,7 @@ size = Vector2(16, 16)
 script = ExtResource("1_2wb56")
 
 [node name="Player" type="Area2D" parent="."]
+z_index = 1
 position = Vector2(216, 152)
 script = ExtResource("2_vlv10")
 

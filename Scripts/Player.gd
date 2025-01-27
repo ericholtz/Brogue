@@ -8,6 +8,7 @@ var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
 var items = []
+var health = 10
 var gold = 0
 
 var tileSize = 16
