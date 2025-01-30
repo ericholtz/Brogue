@@ -1,6 +1,6 @@
 extends Node
 
-@onready var room_scene : PackedScene = load("res://Nodes/room.tscn")
+@onready var room_scene : PackedScene = load("res://Scenes/room.tscn")
 
 var map_width : int = 7
 var map_height : int = 7
@@ -149,7 +149,7 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn enemies
 	#if randf() < enemy_spawn_chance:
 		#for i in range(randi() % max_enemies_per_room + 1):  # Random number of enemies
-			#var enemy = load("res://Nodes/enemy.tscn").instantiate()
+			#var enemy = load("res://Scenes/enemy.tscn").instantiate()
 			#enemy.position = get_random_position_in_room()
 			#room.add_child(enemy)
 	
@@ -157,7 +157,7 @@ func spawn_room_content(room: Node) -> void:
 	if randf() < coin_spawn_chance:
 		print("spawning coins")
 		for i in range(randi() % max_coins_per_room + 1):  # Random number of coins
-			var coin = load("res://Nodes/gold.tscn").instantiate()
+			var coin = load("res://Scenes/gold.tscn").instantiate()
 			coin.choose_size()
 			coin.position = get_random_position_in_room(room)
 			coin.position.x = floor(coin.position.x / 16) * 16 + 8

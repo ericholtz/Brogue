@@ -11,11 +11,15 @@ config_version=5
 [application]
 
 config/name="Brogue"
-run/main_scene="res://Nodes/world.tscn"
+run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Textures/Icons/BrogueIcon.png"
 config/macos_native_icon="res://Textures/Icons/BrogueIcon.icns"
 config/windows_native_icon="res://BrogueIcon.ico"
+
+[autoload]
+
+GameMaster="*res://Core/GameMaster.gd"
 
 [display]
 
