@@ -4,5 +4,5 @@ extends CanvasLayer
 func _ready():
 	GameMaster.gained_gold.connect(update_gold_display)
 
-func update_gold_display(gained_gold):
+func update_gold_display(_gained_gold):
 	$GoldDisplay.text = str(GameMaster.gold)
