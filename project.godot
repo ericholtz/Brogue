@@ -17,6 +17,10 @@ config/icon="res://Textures/Icons/BrogueIcon.png"
 config/macos_native_icon="res://Textures/Icons/BrogueIcon.icns"
 config/windows_native_icon="res://BrogueIcon.ico"
 
+[autoload]
+
+GameMaster="*res://Core/GameMaster.gd"
+
 [display]
 
 window/size/viewport_width=1600

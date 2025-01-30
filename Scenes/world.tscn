@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cqqguphmvsvh8"]
+[gd_scene load_steps=13 format=3 uid="uid://cqqguphmvsvh8"]
 
 [ext_resource type="Script" path="res://Scripts/World.gd" id="1_mmcn7"]
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="2_trmsc"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="3_6w2ow"]
 [ext_resource type="Script" path="res://Scripts/map_gen.gd" id="4_33hq0"]
+[ext_resource type="Script" path="res://Core/UIManager.gd" id="5_7qe8y"]
+[ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="6_3lq2y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("3_6w2ow")
@@ -37,6 +39,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fy2yg"]
 size = Vector2(16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3j6l"]
+atlas = ExtResource("6_3lq2y")
+region = Rect2(16, 256, 16, 16)
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_mmcn7")
 
@@ -64,5 +70,20 @@ target_position = Vector2(0, 16)
 
 [node name="map_gen" type="Node2D" parent="."]
 script = ExtResource("4_33hq0")
+
+[node name="UIManager" type="CanvasLayer" parent="."]
+script = ExtResource("5_7qe8y")
+
+[node name="GoldIcon" type="TextureRect" parent="UIManager"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_c3j6l")
+
+[node name="GoldDisplay" type="Label" parent="UIManager"]
+offset_left = 40.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 40.0
+text = "0"
 
 [connection signal="input_event" from="Player" to="." method="_on_player_input_event"]
