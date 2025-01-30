@@ -21,6 +21,10 @@ config/windows_native_icon="res://BrogueIcon.ico"
 
 GameMaster="*res://Core/GameMaster.gd"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1600
