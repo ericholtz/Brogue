@@ -1,20 +1,20 @@
 [gd_scene load_steps=10 format=3 uid="uid://cqqguphmvsvh8"]
 
-[ext_resource type="Script" path="res://Scripts/World.gd" id="1_2wb56"]
-[ext_resource type="Script" path="res://Scripts/Player.gd" id="2_vlv10"]
-[ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="3_cg777"]
-[ext_resource type="Script" path="res://Scripts/map_gen.gd" id="4_ry04y"]
+[ext_resource type="Script" path="res://Scripts/World.gd" id="1_mmcn7"]
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="2_trmsc"]
+[ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="3_6w2ow"]
+[ext_resource type="Script" path="res://Scripts/map_gen.gd" id="4_33hq0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
-atlas = ExtResource("3_cg777")
+atlas = ExtResource("3_6w2ow")
 region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hy0ej"]
-atlas = ExtResource("3_cg777")
+atlas = ExtResource("3_6w2ow")
 region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7hlr5"]
-atlas = ExtResource("3_cg777")
+atlas = ExtResource("3_6w2ow")
 region = Rect2(48, 16, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q1x14"]
@@ -38,12 +38,12 @@ animations = [{
 size = Vector2(16, 16)
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_2wb56")
+script = ExtResource("1_mmcn7")
 
 [node name="Player" type="Area2D" parent="."]
 z_index = 1
 position = Vector2(216, 152)
-script = ExtResource("2_vlv10")
+script = ExtResource("2_trmsc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(0.00147247, -0.0235901)
@@ -63,6 +63,6 @@ position = Vector2(0.00147247, -0.0235901)
 target_position = Vector2(0, 16)
 
 [node name="map_gen" type="Node2D" parent="."]
-script = ExtResource("4_ry04y")
+script = ExtResource("4_33hq0")
 
 [connection signal="input_event" from="Player" to="." method="_on_player_input_event"]
