@@ -21,6 +21,10 @@ config/windows_native_icon="res://BrogueIcon.ico"
 
 GameMaster="*res://Core/GameMaster.gd"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1600
@@ -31,6 +35,10 @@ window/stretch/mode="canvas_items"
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-vim/plugin.cfg")
 
 [input]
 
