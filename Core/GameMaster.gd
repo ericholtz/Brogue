@@ -8,13 +8,13 @@ var gold = 0
 func collectItem(itemName: String):
 	match itemName:
 		"SmallGold":
-			gained_gold.emit(2)
 			gold += 2
+			gained_gold.emit(2)
 		"MediumGold":
-			gained_gold.emit(5)
 			gold += 5
+			gained_gold.emit(5)
 		"LargeGold":
-			gained_gold.emit(10)
 			gold += 10
+			gained_gold.emit(10)
 		_:
 			gained_item.emit(itemName)
