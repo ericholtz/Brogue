@@ -2,6 +2,15 @@ extends Node
 
 @onready var room_scene : PackedScene = load("res://Scenes/room.tscn")
 
+@onready var items : Array[PackedScene] = [
+	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn")
+	]
+@onready var gold : Array[PackedScene] = [
+	load("res://Scenes/Gold/SmallGold.tscn"),
+	load("res://Scenes/Gold/MediumGold.tscn"),
+	load("res://Scenes/Gold/LargeGold.tscn")
+	]
+
 var map_width : int = 7
 var map_height : int = 7
 var rooms_to_generate : int = 12
@@ -15,11 +24,13 @@ var room_nodes : Array
 #spawn chance
 @export var enemy_spawn_chance : float
 @export var coin_spawn_chance : float = 0.8
+@export var item_spawn_chance : float = 0.5
 @export var heart_spawn_chance : float
 
 @export var max_enemies_per_room : int
 @export var max_hearts_per_room : int
 @export var max_coins_per_room : int = 10
+@export var max_items_per_room : int = 5
 
 func _ready() -> void:
 	map = []
@@ -28,7 +39,7 @@ func _ready() -> void:
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
-	seed(randf_range(0, 1000000))
+	seed(randi_range(0, 1000000))
 	generate()
 	
 
@@ -157,15 +168,28 @@ func spawn_room_content(room: Node) -> void:
 	if randf() < coin_spawn_chance:
 		print("spawning coins")
 		for i in range(randi() % max_coins_per_room + 1):  # Random number of coins
-			var coin = load("res://Scenes/gold.tscn").instantiate()
-			coin.choose_size()
+			var coin = gold.pick_random().instantiate()
+			coin.z_index = 1
 			coin.position = get_random_position_in_room(room)
 			coin.position.x = floor(coin.position.x / 16) * 16 + 8
 			coin.position.y = floor(coin.position.y / 16) * 16 + 8
 			print(coin.position)
 			if is_position_valid_for_item(coin.position, room):
 				$"..".call_deferred("add_child", coin)
-			
+
+	# Spawn items
+	if randf() < item_spawn_chance:
+		print("spawning items")
+		for i in range(randi() % max_items_per_room + 1):  # Random number of items
+			var item = items.pick_random().instantiate()
+			item.z_index = 1
+			item.position = get_random_position_in_room(room)
+			item.position.x = floor(item.position.x / 16) * 16 + 8
+			item.position.y = floor(item.position.y / 16) * 16 + 8
+			print(item.position)
+			if is_position_valid_for_item(item.position, room):
+				$"..".call_deferred("add_child", item)
+
 func get_random_position_in_room(room : Node) -> Vector2:
 	# Assuming a room size of 272x272
 	return Vector2(
@@ -190,4 +214,3 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 	#var map_width = used_rect.size.x * cell_size.x
 	#var map_height = used_rect.size.y * cell_size.y
 	#return Vector2(map_width, map_height)
-			
