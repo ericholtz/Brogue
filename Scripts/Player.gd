@@ -8,8 +8,11 @@ var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
 var items = []
-var health = 10
 var gold = 0
+
+var health = 10
+var strength = 1
+var defense = 1
 
 var tileSize = 16
 var inputs = {"Up": Vector2.UP,
@@ -18,9 +21,14 @@ var inputs = {"Up": Vector2.UP,
 			"Down": Vector2.DOWN}
 
 func _ready():
+	# position and animation
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	PlayerAnim.play("Idle")
+	
+	# connect to gained_gold and gained_item signals
+	GameMaster.gained_gold.connect(_on_gold_gain.bind())
+	GameMaster.gained_item.connect(_on_item_gain.bind())
 
 func _input(event):
 	if moving:
@@ -46,17 +54,17 @@ func move(dir):
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 
-func _on_large_gold_area_entered(area: Area2D) -> void:
-	if (area.name == "Player"):
-		GameMaster.gain_gold(10)
-		print("+10 Gold! Total Gold: ", gold)
+func _on_gold_gain(gold_count: int):
+	# increase gold counter
+	gold += gold_count
+	print("collected gold, increasing gold by ", gold_count, "; total gold = ", gold)
 
-func _on_medium_gold_area_entered(area: Area2D) -> void:
-	if (area.name == "Player"):
-		GameMaster.gain_gold(5)
-		print("+5 Gold! Total Gold: ", gold)
-
-func _on_small_gold_area_entered(area: Area2D) -> void:
-	if (area.name == "Player"):
-		GameMaster.gain_gold(2)
-		print("+2 Gold! Total Gold: ", gold)
+func _on_item_gain(item_gained: String):
+	# add to list
+	items.append(item_gained)
+	
+	# modify stats
+	match item_gained:
+		"MetalSword":
+			print("collected MetalSword, increasing strength by one")
+			strength += 1
