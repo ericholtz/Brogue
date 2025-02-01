@@ -5,6 +5,12 @@ extends Node
 @onready var items : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn")
 	]
+
+@onready var Skeleton_Warrior : Array[PackedScene] = [
+	load("res://Scenes/Monsters/enemies.tscn")
+	]
+
+	
 @onready var gold : Array[PackedScene] = [
 	load("res://Scenes/Gold/SmallGold.tscn"),
 	load("res://Scenes/Gold/MediumGold.tscn"),
@@ -157,12 +163,18 @@ func adjust_first_room() -> void:
 				return
 				
 func spawn_room_content(room: Node) -> void:
-	# Spawn enemies
-	#if randf() < enemy_spawn_chance:
-		#for i in range(randi() % max_enemies_per_room + 1):  # Random number of enemies
-			#var enemy = load("res://Scenes/enemy.tscn").instantiate()
-			#enemy.position = get_random_position_in_room()
-			#room.add_child(enemy)
+	# Spawn Skeleton_Warrior
+	if randf() < enemy_spawn_chance:
+		print("Spawning: Skeleton Warriors")
+		for i in range(randi() % max_enemies_per_room + 1):  # Random number of coins
+			var SW = Skeleton_Warrior.pick_random().instantiate()
+			SW.z_index = 1
+			SW.position = get_random_position_in_room(room)
+			SW.position.x = floor(SW.position.x / 16) * 16 + 8
+			SW.position.y = floor(SW.position.y / 16) * 16 + 8
+			print(SW.position)
+			if is_position_valid_for_item(SW.position, room):
+				$"..".call_deferred("add_child", SW)
 	
 	# Spawn coins
 	if randf() < coin_spawn_chance:
