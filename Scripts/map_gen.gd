@@ -28,12 +28,12 @@ var map : Array
 var room_nodes : Array
 
 #spawn chance
-@export var enemy_spawn_chance : float
+@export var enemy_spawn_chance : float = 0.7
 @export var coin_spawn_chance : float = 0.8
 @export var item_spawn_chance : float = 0.5
 @export var heart_spawn_chance : float
 
-@export var max_enemies_per_room : int
+@export var max_enemies_per_room : int = 7
 @export var max_hearts_per_room : int
 @export var max_coins_per_room : int = 10
 @export var max_items_per_room : int = 5
@@ -170,8 +170,8 @@ func spawn_room_content(room: Node) -> void:
 			var SW = Skeleton_Warrior.pick_random().instantiate()
 			SW.z_index = 1
 			SW.position = get_random_position_in_room(room)
-			SW.position.x = floor(SW.position.x / 16) * 16 + 8
-			SW.position.y = floor(SW.position.y / 16) * 16 + 8
+			SW.position.x = floor(SW.position.x / 16) * 16
+			SW.position.y = floor(SW.position.y / 16) * 16 
 			print(SW.position)
 			if is_position_valid_for_item(SW.position, room):
 				$"..".call_deferred("add_child", SW)
