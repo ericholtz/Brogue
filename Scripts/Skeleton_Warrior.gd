@@ -26,7 +26,7 @@ func _ready():
 	# position and animation
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
-	Animations.play("Idle")
+	Animations.play("")
 
 func _input(event):
 	if moving:
