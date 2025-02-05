@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://b04jb1bracxia"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_giwdq"]
+[ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_1sfjo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
+atlas = ExtResource("2_1sfjo")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hy0ej"]
+atlas = ExtResource("2_1sfjo")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hlr5"]
+atlas = ExtResource("2_1sfjo")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0l2wx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0otx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hy0ej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hlr5")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2cp1y"]
+size = Vector2(16, 16)
+
+[node name="Player" type="Area2D"]
+z_index = 1
+position = Vector2(216, 152)
+script = ExtResource("1_giwdq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.00147247, -0.0235901)
+sprite_frames = SubResource("SpriteFrames_0l2wx")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.00147247, -0.0235901)
+shape = SubResource("RectangleShape2D_2cp1y")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0.00147247, -0.0235901)
+zoom = Vector2(3, 3)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0.00147247, -0.0235901)
+target_position = Vector2(0, 16)
+
+[node name="temp" type="Node2D" parent="."]

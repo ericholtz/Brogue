@@ -5,6 +5,14 @@ var turnCounter = 0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var player = preload("res://Scenes/Player.tscn").instantiate()
+	add_child(player)
+	
+	
+	
+	var instance = preload("res://Scenes/map_gen.tscn")
+	var level = instance.instantiate()
+	add_child(level)
 	pass # Replace with function body.
 
 #function to take a turn, should basically wait for the player signal then handle all the enemies
