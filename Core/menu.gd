@@ -1,7 +1,5 @@
 extends Control
 
-#@onready var TextBox : PackedScene = load("res://Scenes/TextBox.tscn")
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -15,3 +13,7 @@ func _ready() -> void:
 func _on_start_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/world.tscn")
 	
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
