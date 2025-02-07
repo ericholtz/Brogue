@@ -104,14 +104,6 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	if map[x][y] == true:
 		return
 	
-	#var selected_room = room_scene.pick_random()
-	#var is_hallway = selected_room.resource_path.ends_with("hallway.tscn")
-	#
-	## if the first room is a hallway switch it
-	#while first_room and is_hallway:
-		#selected_room = room_scene.pick_random()
-		#is_hallway = selected_room.resource_path.ends_with("hallway.tscn")
-	
 	# get first room position
 	if first_room and map[x][y] == false:
 		first_room_pos = Vector2(x,y)
@@ -256,13 +248,3 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			print("failed to add gold")
 			return false
 	return true
-## Function to calculate the size of a TileMap in pixels
-#func get_tilemap_size(tilemap: TileMap) -> Vector2:
-	## Get the cell size of the tiles
-	#var cell_size = tilemap.cell_size
-	## Get the grid size by finding the used rectangle
-	#var used_rect = tilemap.get_used_rect()
-	## Calculate the size of the TileMap in pixels
-	#var map_width = used_rect.size.x * cell_size.x
-	#var map_height = used_rect.size.y * cell_size.y
-	#return Vector2(map_width, map_height)
