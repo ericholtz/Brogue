@@ -8,7 +8,7 @@ var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
 var items = []
-var gold = 0
+@export var gold = 0
 
 var player_name = ""
 var health = 10
@@ -43,6 +43,7 @@ func _input(event):
 			PlayerAnim.flip_h = false
 		if event.is_action_pressed(dir):
 			move(dir)
+			GameMaster.takeTurn(1)
 
 func move(dir):
 	Ray.target_position = inputs[dir] * tileSize	#set ray to move direction +16 pixels
