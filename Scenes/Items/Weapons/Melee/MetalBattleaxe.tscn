@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://esv5miupjya"]
+
+[ext_resource type="Script" path="res://Scripts/collect.gd" id="1_kroog"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_ckyc3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
+size = Vector2(14, 14)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MetalBattleaxe" type="Area2D" parent="."]
+script = ExtResource("1_kroog")
+
+[node name="Sprite2D" type="Sprite2D" parent="MetalBattleaxe"]
+texture = ExtResource("2_ckyc3")
+region_enabled = true
+region_rect = Rect2(16, 48, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MetalBattleaxe"]
+shape = SubResource("RectangleShape2D_xgu2b")
+
+[connection signal="area_entered" from="MetalBattleaxe" to="MetalBattleaxe" method="_on_area_entered"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cf0wqi6u8gm08"]
+
+[ext_resource type="Script" path="res://Scripts/collect.gd" id="1_ocdcj"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_47bdd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
+size = Vector2(14, 14)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GreenPotion" type="Area2D" parent="."]
+script = ExtResource("1_ocdcj")
+
+[node name="Sprite2D" type="Sprite2D" parent="GreenPotion"]
+texture = ExtResource("2_47bdd")
+region_enabled = true
+region_rect = Rect2(64, 16, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GreenPotion"]
+shape = SubResource("RectangleShape2D_xgu2b")
+
+[connection signal="area_entered" from="GreenPotion" to="GreenPotion" method="_on_area_entered"]
