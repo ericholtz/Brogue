@@ -1,6 +1,9 @@
 extends Node
 
-@onready var room_scene : PackedScene = load("res://Scenes/room.tscn")
+@onready var room_scene : Array[PackedScene] = [
+	load("res://Scenes/Rooms/room.tscn"),
+	load("res://Scenes/Rooms/hallway.tscn")
+	]
 
 @onready var items : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn")
@@ -83,14 +86,24 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	# room already exists
 	if map[x][y] == true:
 		return
-		
+	
+	#var selected_room = room_scene.pick_random()
+	#var is_hallway = selected_room.resource_path.ends_with("hallway.tscn")
+	#
+	## if the first room is a hallway switch it
+	#while first_room and is_hallway:
+		#selected_room = room_scene.pick_random()
+		#is_hallway = selected_room.resource_path.ends_with("hallway.tscn")
+	
 	# get first room position
 	if first_room and map[x][y] == false:
 		first_room_pos = Vector2(x,y)
 		print(first_room_pos)
 		print(first_room_pos.x)
 		
+	#if not is_hallway:
 	room_count += 1
+		
 	map[x][y] = true
 	
 	var north : bool = randf() > (0.2 if general_direction == Vector2.UP else 0.8)
@@ -119,7 +132,13 @@ func instantiate_rooms() -> void:
 			if not map[x][y]:
 				continue
 				
-			var room = room_scene.instantiate()
+			var room
+			if Vector2(x, y) == first_room_pos:
+				room = room_scene[0].instantiate()
+				print("changed first room")
+			else:
+				room = room_scene.pick_random().instantiate()
+			
 			room.position = Vector2(x, y) * 272
 			
 			if y < map_height - 1 and map[x][y + 1] == true:
@@ -137,9 +156,13 @@ func instantiate_rooms() -> void:
 			if x < map_width - 1 and map[x + 1][y] == true:
 				#print("Room at", x, y, "has an east neighbor at", x + 1, y)
 				room.east()
-				
+			
+			if room.room_name == "hallway":
+				room.corner()
+					
 			# Randomly spawn items or monsters
-			spawn_room_content(room)
+			else:
+				spawn_room_content(room)
 			
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
