@@ -3,6 +3,7 @@ extends Node2D
 @export var inside_width : int
 @export var inside_height : int
 
+var room_name = "room"
 var Generation
 
 func north():
