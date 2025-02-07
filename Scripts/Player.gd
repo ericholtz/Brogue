@@ -8,7 +8,7 @@ var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
 var items = []
-var gold = 0
+@export var gold = 0
 
 var player_name = ""
 var health = 10
@@ -31,6 +31,8 @@ func _ready():
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())
 	GameMaster.gained_item.connect(_on_item_gain.bind())
 	GameMaster.set_name.connect(_on_name_recieved.bind())
+	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
+	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 
 func _input(event):
 	if not GameMaster.can_move or moving:
@@ -43,6 +45,7 @@ func _input(event):
 			PlayerAnim.flip_h = false
 		if event.is_action_pressed(dir):
 			move(dir)
+			GameMaster.takeTurn(1)
 
 func move(dir):
 	Ray.target_position = inputs[dir] * tileSize	#set ray to move direction +16 pixels
@@ -74,3 +77,12 @@ func _on_item_gain(item_gained: String):
 func _on_name_recieved(p_name: String):
 	player_name = p_name
 	
+func _on_damage_received(amount: int):
+	if health > 0:
+		health -= amount
+	print("Player took ", amount, " damage. New health:", health)
+
+func _on_heal_received(amount: int):
+	if health < 15:
+		health += amount
+	print("Player healed ", amount, " points. New health:", health)
