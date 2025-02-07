@@ -1,6 +1,9 @@
 extends Node
 
-@onready var room_scene : PackedScene = load("res://Scenes/room.tscn")
+@onready var room_scene : Array[PackedScene] = [
+	load("res://Scenes/Rooms/room.tscn"),
+	load("res://Scenes/Rooms/hallway.tscn")
+	]
 
 @onready var items : Array[PackedScene] = [
 	# Weapons
@@ -100,14 +103,16 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	# room already exists
 	if map[x][y] == true:
 		return
-		
+	
 	# get first room position
 	if first_room and map[x][y] == false:
 		first_room_pos = Vector2(x,y)
 		print(first_room_pos)
 		print(first_room_pos.x)
 		
+	#if not is_hallway:
 	room_count += 1
+		
 	map[x][y] = true
 	
 	var north : bool = randf() > (0.2 if general_direction == Vector2.UP else 0.8)
@@ -136,7 +141,13 @@ func instantiate_rooms() -> void:
 			if not map[x][y]:
 				continue
 				
-			var room = room_scene.instantiate()
+			var room
+			if Vector2(x, y) == first_room_pos:
+				room = room_scene[0].instantiate()
+				print("changed first room")
+			else:
+				room = room_scene.pick_random().instantiate()
+			
 			room.position = Vector2(x, y) * 272
 			
 			if y < map_height - 1 and map[x][y + 1] == true:
@@ -154,9 +165,13 @@ func instantiate_rooms() -> void:
 			if x < map_width - 1 and map[x + 1][y] == true:
 				#print("Room at", x, y, "has an east neighbor at", x + 1, y)
 				room.east()
-				
+			
+			if room.room_name == "hallway":
+				room.corner()
+					
 			# Randomly spawn items or monsters
-			spawn_room_content(room)
+			else:
+				spawn_room_content(room)
 			
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
@@ -233,13 +248,3 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			print("failed to add gold")
 			return false
 	return true
-## Function to calculate the size of a TileMap in pixels
-#func get_tilemap_size(tilemap: TileMap) -> Vector2:
-	## Get the cell size of the tiles
-	#var cell_size = tilemap.cell_size
-	## Get the grid size by finding the used rectangle
-	#var used_rect = tilemap.get_used_rect()
-	## Calculate the size of the TileMap in pixels
-	#var map_width = used_rect.size.x * cell_size.x
-	#var map_height = used_rect.size.y * cell_size.y
-	#return Vector2(map_width, map_height)

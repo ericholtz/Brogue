@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://l8w62v1pvxbf"]
+[gd_scene load_steps=5 format=3 uid="uid://dn6d13c6fbyo"]
 
 [ext_resource type="StyleBox" uid="uid://bf7dg57ysvnqc" path="res://Shaders/Styles/Textbox.tres" id="1_hchbw"]
 [ext_resource type="Script" path="res://Scripts/text_box.gd" id="1_rdtkp"]

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/room.gd" id="1_8m40j"]
 [ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="1_xk5t1"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5i2ka"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vsmlx"]
 texture = ExtResource("1_xk5t1")
 0:0/0 = 0
 1:0/0 = 0
@@ -254,7 +254,7 @@ texture = ExtResource("1_xk5t1")
 
 [sub_resource type="TileSet" id="TileSet_65lyi"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_5i2ka")
+sources/0 = SubResource("TileSetAtlasSource_vsmlx")
 
 [node name="Room" type="Node2D"]
 script = ExtResource("1_8m40j")
