@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://cqqguphmvsvh8"]
 
 [ext_resource type="Script" path="res://Scripts/World.gd" id="1_mmcn7"]
-[ext_resource type="FontFile" uid="uid://bjun5phkakh86" path="res://Scripts/m5x7.ttf" id="4_05mhg"]
 [ext_resource type="Script" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="4_ug0ho"]
 [ext_resource type="Script" path="res://Core/UIManager.gd" id="5_7qe8y"]
 [ext_resource type="Script" path="res://Scripts/heal_test.gd" id="5_gyu86"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="6_3lq2y"]
@@ -11,25 +11,25 @@
 atlas = ExtResource("6_3lq2y")
 region = Rect2(16, 256, 16, 16)
 
-[sub_resource type="LabelSettings" id="LabelSettings_cl420"]
-font = ExtResource("4_05mhg")
+[sub_resource type="LabelSettings" id="LabelSettings_kffld"]
+font = ExtResource("4_ug0ho")
 font_size = 64
-outline_size = 7
+outline_size = 8
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 14
-shadow_color = Color(0, 0, 0, 0.533333)
+shadow_size = 16
+shadow_color = Color(0, 0, 0, 0.458824)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ykt21"]
 atlas = ExtResource("6_3lq2y")
 region = Rect2(336, 160, 16, 16)
 
-[sub_resource type="LabelSettings" id="LabelSettings_m2045"]
-font = ExtResource("4_05mhg")
+[sub_resource type="LabelSettings" id="LabelSettings_iofbg"]
+font = ExtResource("4_ug0ho")
 font_size = 64
-outline_size = 7
+outline_size = 8
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 14
-shadow_color = Color(0, 0, 0, 0.533333)
+shadow_size = 16
+shadow_color = Color(0, 0, 0, 0.458824)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_mmcn7")
@@ -50,7 +50,7 @@ offset_top = 24.0
 offset_right = 264.0
 offset_bottom = 88.0
 text = "0"
-label_settings = SubResource("LabelSettings_cl420")
+label_settings = SubResource("LabelSettings_kffld")
 vertical_alignment = 1
 
 [node name="HealthIcon" type="TextureRect" parent="UIManager"]
@@ -66,7 +66,7 @@ offset_top = 136.0
 offset_right = 264.0
 offset_bottom = 200.0
 text = "10"
-label_settings = SubResource("LabelSettings_m2045")
+label_settings = SubResource("LabelSettings_iofbg")
 vertical_alignment = 1
 
 [node name="DmgTest" type="Button" parent="UIManager"]

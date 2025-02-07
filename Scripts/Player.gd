@@ -78,9 +78,11 @@ func _on_name_recieved(p_name: String):
 	player_name = p_name
 	
 func _on_damage_received(amount: int):
-	health -= amount
-	print("Player took", amount, "damage. New health:", health)
+	if health > 0:
+		health -= amount
+	print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
-	health += amount
-	print("Player healed", amount, "points. New health:", health)
+	if health < 15:
+		health += amount
+	print("Player healed ", amount, " points. New health:", health)

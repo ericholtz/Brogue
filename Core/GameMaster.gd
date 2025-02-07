@@ -21,12 +21,13 @@ func collectItem(itemName: String):
 			gained_item.emit(itemName)
 
 func damage_player(amount: int):
-	damage_player_signal.emit(amount)
 	print("Damaging player for "+str(amount)+" points.")
+	damage_player_signal.emit(amount)
 
 func heal_player(amount: int):
-	heal_player_signal.emit(amount)
 	print("Healing player for "+str(amount)+" points.")
+	heal_player_signal.emit(amount)
+
 
 func setname(player_name: String):
 	if player_name:
