@@ -3,7 +3,8 @@ extends Node
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
-signal health_changed(new_health: int)
+signal damage_player_signal(amount: int)
+signal heal_player_signal(amount: int)
 
 var turnCounter = 0
 var can_move = false
@@ -20,12 +21,12 @@ func collectItem(itemName: String):
 			gained_item.emit(itemName)
 
 func damage_player(amount: int):
-	$Player.health -= amount
-	health_changed.emit($Player.health)
+	damage_player_signal.emit(amount)
+	print("Damaging player for "+str(amount)+" points.")
 
 func heal_player(amount: int):
-	$Player.health += amount
-	health_changed.emit($Player.health)
+	heal_player_signal.emit(amount)
+	print("Healing player for "+str(amount)+" points.")
 
 func setname(player_name: String):
 	if player_name:

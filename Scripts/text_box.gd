@@ -7,6 +7,7 @@ extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Engine.time_scale = 0
+	$"../UIManager".visible=false
 	pass
 
 
@@ -20,6 +21,7 @@ func _process(_delta: float) -> void:
 			text_box_container.hide()
 			#load("res://Scenes/world.tscn")
 			Engine.time_scale = 1
+			$"../UIManager".visible=true
 			
 			GameMaster.setname(p_name.text)
 			#print(p_name.text)

@@ -31,6 +31,8 @@ func _ready():
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())
 	GameMaster.gained_item.connect(_on_item_gain.bind())
 	GameMaster.set_name.connect(_on_name_recieved.bind())
+	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
+	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 
 func _input(event):
 	if not GameMaster.can_move or moving:
@@ -75,3 +77,10 @@ func _on_item_gain(item_gained: String):
 func _on_name_recieved(p_name: String):
 	player_name = p_name
 	
+func _on_damage_received(amount: int):
+	health -= amount
+	print("Player took", amount, "damage. New health:", health)
+
+func _on_heal_received(amount: int):
+	health += amount
+	print("Player healed", amount, "points. New health:", health)
