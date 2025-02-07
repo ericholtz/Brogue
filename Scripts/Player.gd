@@ -7,7 +7,7 @@ extends Area2D
 var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
-var items = []
+var inventory = []
 @export var gold = 0
 
 var player_name = ""
@@ -66,13 +66,41 @@ func _on_gold_gain(gold_count: int):
 
 func _on_item_gain(item_gained: String):
 	# add to list
-	items.append(item_gained)
+	inventory.append(item_gained)
 	
 	# modify stats
 	match item_gained:
-		"MetalSword":
-			print("collected MetalSword, increasing strength by one")
+		# Weapons
+		"GoldSword":
+			print("collected GoldSword, increasing strength by 1")
 			strength += 1
+		"MetalSword":
+			print("collected MetalSword, increasing strength by 4")
+			strength += 4
+		"MetalHammer":
+			print("collected MetalHammer, increasing strength by 2")
+			strength += 2
+		"MetalBattleaxe":
+			print("collected MetalBattleaxe, increasing strength by 2")
+			strength += 3
+		
+		# Armor
+		"LeatherArmor":
+			print("collected LeatherArmor, increasing defense by 1")
+			strength += 1
+		"ChainArmor":
+			print("collected ChainArmor, increasing defense by 3")
+			strength += 3
+		
+		# Potions
+		"BluePotion": print("collected BluePotion, adding to inventory")
+		"GreenPotion": print("collected GreenPotion, adding to inventory")
+		"OrangePotion": print("collected OrangePotion, adding to inventory")
+		"PurplePotion": print("collected PurplePotion, adding to inventory")
+		"RedPotion": print("collected RedPotion, adding to inventory")
+		
+		# Misc
+		"MetalKey": print("collected MetalKey, adding to inventory")
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name

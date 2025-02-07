@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dy55a1cshubie"]
+
+[ext_resource type="Script" path="res://Scripts/collect.gd" id="1_k6w7a"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_8oufd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
+size = Vector2(14, 14)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MetalHammer" type="Area2D" parent="."]
+script = ExtResource("1_k6w7a")
+
+[node name="Sprite2D" type="Sprite2D" parent="MetalHammer"]
+texture = ExtResource("2_8oufd")
+region_enabled = true
+region_rect = Rect2(48, 48, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MetalHammer"]
+shape = SubResource("RectangleShape2D_xgu2b")
+
+[connection signal="area_entered" from="MetalHammer" to="MetalHammer" method="_on_area_entered"]
