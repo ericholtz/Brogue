@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqqguphmvsvh8"]
+[gd_scene load_steps=6 format=3 uid="uid://cqqguphmvsvh8"]
 
 [ext_resource type="Script" path="res://Scripts/World.gd" id="1_mmcn7"]
 [ext_resource type="Script" path="res://Core/UIManager.gd" id="5_7qe8y"]
@@ -8,6 +8,10 @@
 atlas = ExtResource("6_3lq2y")
 region = Rect2(16, 256, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykt21"]
+atlas = ExtResource("6_3lq2y")
+region = Rect2(336, 160, 16, 16)
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_mmcn7")
 
@@ -15,13 +19,29 @@ script = ExtResource("1_mmcn7")
 script = ExtResource("5_7qe8y")
 
 [node name="GoldIcon" type="TextureRect" parent="UIManager"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 48.0
 texture = SubResource("AtlasTexture_c3j6l")
 
 [node name="GoldDisplay" type="Label" parent="UIManager"]
-offset_left = 40.0
-offset_top = 8.0
-offset_right = 104.0
-offset_bottom = 40.0
+offset_left = 56.0
+offset_top = 24.0
+offset_right = 120.0
+offset_bottom = 56.0
 text = "0"
+
+[node name="HealthIcon" type="TextureRect" parent="UIManager"]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 48.0
+offset_bottom = 96.0
+texture = SubResource("AtlasTexture_ykt21")
+
+[node name="HealthDisplay" type="Label" parent="UIManager"]
+offset_left = 56.0
+offset_top = 72.0
+offset_right = 120.0
+offset_bottom = 104.0
+text = "10"

@@ -3,6 +3,7 @@ extends Node
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
+signal health_changed(new_health: int)
 
 var turnCounter = 0
 var can_move = false
@@ -17,6 +18,14 @@ func collectItem(itemName: String):
 			gained_gold.emit(10)
 		_:
 			gained_item.emit(itemName)
+
+func damage_player(amount: int):
+	$Player.health -= amount
+	health_changed.emit($Player.health)
+
+func heal_player(amount: int):
+	$Player.health += amount
+	health_changed.emit($Player.health)
 
 func setname(player_name: String):
 	if player_name:
@@ -40,6 +49,3 @@ func enemyTurn():
 	print("Starting enemy turn")
 	#handle enemy signals here
 	print("Ending enemy turn")
-
-func _on_player_input_event():
-	takeTurn(1);
