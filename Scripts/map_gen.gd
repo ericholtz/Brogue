@@ -3,14 +3,31 @@ extends Node
 @onready var room_scene : PackedScene = load("res://Scenes/room.tscn")
 
 @onready var items : Array[PackedScene] = [
-	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn")
+	# Weapons
+	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
+	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
+	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
+	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
+	
+	# Armor
+	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
+	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
+	
+	# Potions
+	load("res://Scenes/Items/Potions/BluePotion.tscn"),
+	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
+	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
+	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
+	load("res://Scenes/Items/Potions/RedPotion.tscn"),
+	
+	# Misc
+	load("res://Scenes/Items/Misc/MetalKey.tscn"),
 	]
 
 @onready var Skeleton_Warrior : Array[PackedScene] = [
 	load("res://Scenes/Monsters/enemies.tscn")
 	]
 
-	
 @onready var gold : Array[PackedScene] = [
 	load("res://Scenes/Gold/SmallGold.tscn"),
 	load("res://Scenes/Gold/MediumGold.tscn"),
@@ -210,8 +227,8 @@ func get_random_position_in_room(room : Node) -> Vector2:
 	)
 	
 func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
-	var items = room.get_children()
-	for item in items:
+	var roomItems = room.get_children()
+	for item in roomItems:
 		if item is Node2D and item.position.distance_to(position) < 32:
 			print("failed to add gold")
 			return false
