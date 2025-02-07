@@ -29,7 +29,7 @@ func _ready():
 	Animations.play("")
 
 func _input(event):
-	if moving:
+	if not GameMaster.can_move or moving:
 		#if we're already tweening movement, don't move again
 		return
 	for dir in inputs.keys():

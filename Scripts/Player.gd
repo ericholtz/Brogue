@@ -10,6 +10,7 @@ var moving = false #keeps us from glitching out movement
 var items = []
 var gold = 0
 
+var player_name = ""
 var health = 10
 var strength = 1
 var defense = 1
@@ -29,9 +30,10 @@ func _ready():
 	# connect to gained_gold and gained_item signals
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())
 	GameMaster.gained_item.connect(_on_item_gain.bind())
+	GameMaster.set_name.connect(_on_name_recieved.bind())
 
 func _input(event):
-	if moving:
+	if not GameMaster.can_move or moving:
 		#if we're already tweening movement, don't move again
 		return
 	for dir in inputs.keys():
@@ -68,3 +70,7 @@ func _on_item_gain(item_gained: String):
 		"MetalSword":
 			print("collected MetalSword, increasing strength by one")
 			strength += 1
+
+func _on_name_recieved(p_name: String):
+	player_name = p_name
+	

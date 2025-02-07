@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn6d13c6fbyo"]
+
+[ext_resource type="StyleBox" uid="uid://bf7dg57ysvnqc" path="res://Shaders/Styles/Textbox.tres" id="1_hchbw"]
+[ext_resource type="Script" path="res://Scripts/text_box.gd" id="1_rdtkp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qvkv0"]
+font_size = 34
+
+[sub_resource type="LabelSettings" id="LabelSettings_w13fk"]
+font_size = 64
+
+[node name="TextBox" type="CanvasLayer"]
+script = ExtResource("1_rdtkp")
+
+[node name="TextBoxContainer" type="MarginContainer" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 256.0
+offset_top = -223.0
+offset_right = -344.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="TextBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_hchbw")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextBoxContainer"]
+layout_direction = 1
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Panel" type="Panel" parent="TextBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "What is your Name?"
+label_settings = SubResource("LabelSettings_qvkv0")
+horizontal_alignment = 1
+vertical_alignment = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Start" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 64
+text = "*"
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 31
+placeholder_text = "Insert Name Here"
+alignment = 1
+max_length = 14
+expand_to_text_length = true
+
+[node name="End" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "*"
+label_settings = SubResource("LabelSettings_w13fk")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="text_submitted" from="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]

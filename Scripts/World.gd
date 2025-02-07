@@ -1,23 +1,25 @@
 extends Node2D
 
 var turnCounter = 0;
-@onready var player = $Player
+#var player = $Player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var player = preload("res://Scenes/Player.tscn").instantiate()
-	add_child(player)
+	var player_node = preload("res://Scenes/Player.tscn").instantiate()
+	add_child(player_node)
 	
+	var name_box_node = preload("res://Scenes/TextBox.tscn").instantiate()
+	add_child(name_box_node)
 	
+	var level_node = preload("res://Scenes/map_gen.tscn").instantiate()
+	add_child(level_node)
 	
-	var instance = preload("res://Scenes/map_gen.tscn")
-	var level = instance.instantiate()
-	add_child(level)
-	pass # Replace with function body.
 
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
 func takeTurn(turnsTaken: int):
+	#if not GameMaster.can_move:
+		#return
 	print("Starting player turn")
 	turnCounter += turnsTaken
 	print("Current turn: ",turnCounter);
