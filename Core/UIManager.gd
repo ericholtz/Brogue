@@ -8,13 +8,13 @@ func _ready():
 
 func update_gold_display(_gained_gold):
 	# Defer the update so it runs after the player data actually updates
-	call_deferred("_update_gold_display")
+	call_deferred("_update_gold_text")
 
-func _update_gold_display():
+func _update_gold_text():
 	$GoldDisplay.text = str($"../Player".gold)
 
 func update_health_display(_adjust_health):
-	call_deferred("_update_health_display")
+	call_deferred("_update_health_text")
 
-func _update_health_display():
+func _update_health_text():
 	$HealthDisplay.text = str($"../Player".health)
