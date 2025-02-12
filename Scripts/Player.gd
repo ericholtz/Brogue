@@ -16,6 +16,7 @@ var strength = 1
 var defense = 1
 
 var tileSize = 16
+#dict map of input strings to directional vectors
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
 			"Right": Vector2.RIGHT,

@@ -6,13 +6,16 @@ func _ready():
 	GameMaster.damage_player_signal.connect(update_health_display)
 	GameMaster.heal_player_signal.connect(update_health_display)
 
+#public function that can connect to a signal
 func update_gold_display(_gained_gold):
 	# Defer the update so it runs after the player data actually updates
 	call_deferred("_update_gold_text")
 
+#private function called solely to update the ui text
 func _update_gold_text():
 	$GoldDisplay.text = str($"../Player".gold)
 
+#ditto the above for health
 func update_health_display(_adjust_health):
 	call_deferred("_update_health_text")
 
