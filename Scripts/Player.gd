@@ -39,6 +39,7 @@ func _ready():
 
 #Called every frame to handle continuous input
 func _process(delta):
+	var hasMoved = false
 	#if we're already tweening movement, don't move again
 	if not GameMaster.can_move or moving:
 		moveTimer = 0.0
@@ -52,27 +53,31 @@ func _process(delta):
 		PlayerAnim.flip_h = true
 	if Input.is_action_pressed("Right"):
 		PlayerAnim.flip_h = false
+	if Input.is_action_just_pressed("Space"):
+		GameMaster.takeTurn(1)
 	
 	#if input is JUST pressed, bypass movement delay and move immediately
 	for dir in inputs.keys():
-		if Input.is_action_just_pressed(dir):
-			move(dir)
-			GameMaster.takeTurn(1)
+		if Input.is_action_just_pressed(dir) and not hasMoved:
+			if await move(dir):
+				GameMaster.takeTurn(1)
 			#reset movement timer on succesful move
-			moveTimer = 0
+			moveTimer = moveDelay
+			hasMoved = true
 			return
 			
 	#if movement timer has elapsed and key is held, loop turns
 	if moveTimer <= 0:
 		for dir in inputs.keys():
-			if Input.is_action_pressed(dir):
-				move(dir)
-				GameMaster.takeTurn(1)
+			if Input.is_action_pressed(dir) and not hasMoved:
+				if await move(dir):
+					GameMaster.takeTurn(1)
 				#set movement timer to automove delay in this case
 				moveTimer = moveDelay
+				hasMoved = true
 				return
 
-func move(dir):
+func move(dir) -> bool:
 	#set ray to move direction +16 pixels
 	Ray.target_position = inputs[dir] * tileSize
 	#update instantly
@@ -90,7 +95,10 @@ func move(dir):
 		moving = false
 		#emit a movement signal here, after the player succesfully moves
 		emit_signal("input_event")
+		moveTimer = moveDelay
+		return true
 	moveTimer = moveDelay
+	return false
 
 func _on_gold_gain(gold_count: int):
 	# increase gold counter
