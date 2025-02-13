@@ -16,6 +16,8 @@ var strength = 1
 var defense = 1
 
 var tileSize = 16
+var moveTimer = 0.0  #timer used to count down movement delay
+var moveDelay = 0.15 #movement delay in seconds
 #dict map of input strings to directional vectors
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
@@ -35,18 +37,29 @@ func _ready():
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 
-func _input(event):
+#Called every frame to handle continuous input
+func _process(delta):
 	if not GameMaster.can_move or moving:
 		#if we're already tweening movement, don't move again
+		moveTimer = 0.0
 		return
+	#decrease timer every frame
+	if moveTimer > 0:
+		moveTimer -= delta
+		return
+	
+	if Input.is_action_pressed("Left"):
+		PlayerAnim.flip_h = true
+	if Input.is_action_pressed("Right"):
+		PlayerAnim.flip_h = false
+
 	for dir in inputs.keys():
-		if event.is_action_pressed("Left"):
-			PlayerAnim.flip_h = true
-		if event.is_action_pressed("Right"):
-			PlayerAnim.flip_h = false
-		if event.is_action_pressed(dir):
+		if Input.is_action_pressed(dir) and moveTimer <= 0:
 			move(dir)
 			GameMaster.takeTurn(1)
+			#reset movement timer on succesfull move
+			moveTimer = moveDelay
+			break
 
 func move(dir):
 	Ray.target_position = inputs[dir] * tileSize	#set ray to move direction +16 pixels
@@ -59,6 +72,7 @@ func move(dir):
 		await tween.finished
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
+	moveTimer = moveDelay
 
 func _on_gold_gain(gold_count: int):
 	# increase gold counter
