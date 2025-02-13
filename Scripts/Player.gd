@@ -17,7 +17,7 @@ var defense = 1
 
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
-var moveDelay = 0.15 #movement delay in seconds
+var moveDelay = 0.1  #movement delay in seconds
 #dict map of input strings to directional vectors
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
@@ -39,39 +39,57 @@ func _ready():
 
 #Called every frame to handle continuous input
 func _process(delta):
+	#if we're already tweening movement, don't move again
 	if not GameMaster.can_move or moving:
-		#if we're already tweening movement, don't move again
 		moveTimer = 0.0
 		return
-	#decrease timer every frame
-	if moveTimer > 0:
-		moveTimer -= delta
-		return
 	
+	#decrease timer by delta every frame
+	moveTimer -= delta
+	
+	#flip sprite based on input direction
 	if Input.is_action_pressed("Left"):
 		PlayerAnim.flip_h = true
 	if Input.is_action_pressed("Right"):
 		PlayerAnim.flip_h = false
-
+	
+	#if input is JUST pressed, bypass movement delay and move immediately
 	for dir in inputs.keys():
-		if Input.is_action_pressed(dir) and moveTimer <= 0:
+		if Input.is_action_just_pressed(dir):
 			move(dir)
 			GameMaster.takeTurn(1)
-			#reset movement timer on succesfull move
-			moveTimer = moveDelay
-			break
+			#reset movement timer on succesful move
+			moveTimer = 0
+			return
+			
+	#if movement timer has elapsed and key is held, loop turns
+	if moveTimer <= 0:
+		for dir in inputs.keys():
+			if Input.is_action_pressed(dir):
+				move(dir)
+				GameMaster.takeTurn(1)
+				#set movement timer to automove delay in this case
+				moveTimer = moveDelay
+				return
 
 func move(dir):
-	Ray.target_position = inputs[dir] * tileSize	#set ray to move direction +16 pixels
+	#set ray to move direction +16 pixels
+	Ray.target_position = inputs[dir] * tileSize
+	#update instantly
 	Ray.force_raycast_update()
-	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
-		var tween = create_tween() #create a new Tween object to handle smooth movement
+	
+	#if ray is colliding with a wall, we can't move there
+	if !Ray.is_colliding():
+		#create a new Tween object to handle smooth movement
+		var tween = create_tween()
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 		tween.tween_property(self, "position", position + inputs[dir] * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
-		moving = true #set this to true until tween is finished to disallow multiple moves at once
+		#set this flag to true until tween is finished to disallow multiple moves at once
+		moving = true
 		await tween.finished
 		moving = false
-		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
+		#emit a movement signal here, after the player succesfully moves
+		emit_signal("input_event")
 	moveTimer = moveDelay
 
 func _on_gold_gain(gold_count: int):
