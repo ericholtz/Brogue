@@ -22,7 +22,8 @@ var moveDelay = 0.1  #movement delay in seconds
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
 			"Right": Vector2.RIGHT,
-			"Down": Vector2.DOWN}
+			"Down": Vector2.DOWN,
+			"Space": Vector2.ZERO}
 
 func _ready():
 	# position and animation
@@ -53,8 +54,6 @@ func _process(delta):
 		PlayerAnim.flip_h = true
 	if Input.is_action_pressed("Right"):
 		PlayerAnim.flip_h = false
-	if Input.is_action_just_pressed("Space"):
-		GameMaster.takeTurn(1)
 	
 	#if input is JUST pressed, bypass movement delay and move immediately
 	for dir in inputs.keys():
