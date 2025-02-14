@@ -9,5 +9,10 @@ func _ready():
 	var name_box_node = preload("res://Scenes/TextBox.tscn").instantiate()
 	add_child(name_box_node)
 	
-	var level_node = preload("res://Scenes/map_gen.tscn").instantiate()
-	add_child(level_node)
+	#var level_node = preload("res://Scenes/level.tscn").instantiate()
+	#add_child(level_node)
+	
+	var map_node = preload("res://Scenes/map_gen.tscn").instantiate()
+	add_child(map_node)
+	
+	

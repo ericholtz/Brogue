@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bshgb46jx5no4"]
+
+[ext_resource type="Script" path="res://Scripts/exit_door.gd" id="1_8kdwr"]
+[ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="1_vvgi1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h1ot"]
+size = Vector2(14, 14)
+
+[node name="ExitDoor" type="Node2D"]
+
+[node name="Exit_door" type="Area2D" parent="."]
+script = ExtResource("1_8kdwr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Exit_door"]
+texture = ExtResource("1_vvgi1")
+region_enabled = true
+region_rect = Rect2(32, 191, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit_door"]
+shape = SubResource("RectangleShape2D_5h1ot")
+
+[connection signal="area_entered" from="Exit_door" to="Exit_door" method="_on_area_entered"]
