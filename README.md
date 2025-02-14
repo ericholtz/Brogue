@@ -4,10 +4,10 @@
 		Members: Silas, Gabe, Alex, Eric
 		Description: A modern recreation of the original Rogue.
 		Table of contents: Work in progress
-		Engin: Godot
+		Engine: Godot
 	
 	## Rogue ##
-		Here is a link to Wiki witch has more details on the original rouge.
+		Here is a link to Wiki which has more details on the original rouge.
 		(https://en.wikipedia.org/wiki/Rogue_(video_game))
 	
 	## Game Deatails ##
@@ -20,13 +20,13 @@
 		Yeah... so... Learn Git... And Godot...
 		At this time you have to download Godot first.
 		Then download the git zip for the project into the godot file structure.
-		Then open it in godot and exicute it.
+		Then open it in godot and execute it.
 	
 	## How To Play ##
-		Use W or H to move up
-		Use A or J to move left
-		Use S or K to move Down
-		Use D or L to move Left
+		Use W or H or Up-Arrow to move up
+		Use A or J or Left-Arrow to move left
+		Use S or K or Down-Arrow to move down
+		Use D or L or Right-Arrow to move right
 	
 	## Cool Cams ##
 		### Eric ###
@@ -42,8 +42,8 @@
 			Player... GameMaster...
 		
 		### Silas ###
-			A couple different anamations for each enemy Type.
-			A manual Astar Pathing algorithom.
+			A couple different animations for each enemy Type.
+			A manual Astar Pathing algorithm.
 			More to come...
 	
 	## Contribution Guidelines ##
