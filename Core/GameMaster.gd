@@ -3,6 +3,7 @@ extends Node
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
+signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 
@@ -44,6 +45,7 @@ func takeTurn(turnsTaken: int):
 	print("Current turn: ",turnCounter);
 	#apply over-time effects, increment timers, whatever is appropriate here
 	print("Ending player turn")
+	took_turns.emit(1)
 	enemyTurn()
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
