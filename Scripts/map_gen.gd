@@ -37,15 +37,19 @@ extends Node
 	load("res://Scenes/Gold/LargeGold.tscn")
 	]
 
+# variables for map
 var map_width : int = 7
 var map_height : int = 7
 var rooms_to_generate : int = 12
 var room_count : int = 0
 var rooms_instantiated : int
 var first_room_pos : Vector2
+var last_room : Node
+var max_distance = -1
 
 var map : Array
 var room_nodes : Array
+var current_seed = randi()
 
 #spawn chance
 @export var enemy_spawn_chance : float = 0.7
@@ -61,20 +65,30 @@ var room_nodes : Array
 func _ready() -> void:
 	map = []
 	room_nodes = []
+	
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
 	seed(randi_range(0, 1000000))
 	generate()
-	
 
+# clear all child nodes under map_gen
+func clear_map() -> void:
+	for child in $"../map_gen".get_children():
+		child.queue_free()
+	await get_tree().process_frame
+
+# start inserting rooms into map
 func generate() -> void:
+	# varify map clear is finished
+	await get_tree().process_frame
 	check_room(3, 3, 0, Vector2.ZERO, true)
 	# Validate the first room position
 	if not map[first_room_pos.x][first_room_pos.y]:
 		adjust_first_room()
-		
+	
+	# print view of map generation in the command line
 	var stri = ""
 	for y in range(map_height):
 		stri += "\n"
@@ -85,7 +99,9 @@ func generate() -> void:
 				stri += "X"
 	print(stri)
 	instantiate_rooms()
+	add_exit_to_last_room()
 	
+	# move player to start position
 	$"../Player".global_position = (first_room_pos * (272 - 8)) + Vector2(128, 128)
 	print("First room position (grid):", first_room_pos)
 	print("Player global position:", $"../Player".global_position)
@@ -112,9 +128,10 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 		
 	#if not is_hallway:
 	room_count += 1
-		
+	
 	map[x][y] = true
 	
+	# determine direction of open doors
 	var north : bool = randf() > (0.2 if general_direction == Vector2.UP else 0.8)
 	var south : bool = randf() > (0.2 if general_direction == Vector2.DOWN else 0.8)
 	var east : bool = randf() > (0.2 if general_direction == Vector2.RIGHT else 0.8)
@@ -149,34 +166,38 @@ func instantiate_rooms() -> void:
 				room = room_scene.pick_random().instantiate()
 			
 			room.position = Vector2(x, y) * 272
+			var distance = get_distance(Vector2(x, y), first_room_pos)
+			
+			if distance > max_distance and not room.room_name == "hallway":
+				max_distance = distance
+				last_room = room
 			
 			if y < map_height - 1 and map[x][y + 1] == true:
-				#print("Room at", x, y, "has a north neighbor at", x, y + 1)
 				room.south()
 			
 			if y > 0 and map[x][y - 1] == true:
-				#print("Room at", x, y, "has a south neighbor at", x, y - 1)
 				room.north()
 				
 			if x > 0 and map[x - 1][y] == true:
-				#print("Room at", x, y, "has a west neighbor at", x - 1, y)
 				room.west()
 				
 			if x < map_width - 1 and map[x + 1][y] == true:
-				#print("Room at", x, y, "has an east neighbor at", x + 1, y)
 				room.east()
-			
-			if room.room_name == "hallway":
-				room.corner()
-					
-			# Randomly spawn items or monsters
-			else:
-				spawn_room_content(room)
 			
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
 				
-			$"..".call_deferred("add_child", room)
+			# add room to the world map
+			$"../map_gen".add_child(room)
+			
+			# dont spawn content if its a hallway
+			if room.room_name == "hallway":
+				room.corner()
+				
+			# Randomly spawn items or monsters
+			else:
+				spawn_room_content(room)
+			
 			room_nodes.append(room)
 	
 	get_tree().create_timer(1)
@@ -186,6 +207,7 @@ func instantiate_rooms() -> void:
 func calculate_key_and_exit() -> void:
 	pass
 	
+# adjust the first room position if it does not spawn
 func adjust_first_room() -> void:
 	for x in range(map_width):
 		for y in range(map_height):
@@ -193,7 +215,8 @@ func adjust_first_room() -> void:
 				first_room_pos = Vector2(x, y)
 				print("Adjusted first room position to: ", first_room_pos)
 				return
-				
+
+# spawn all items/monsters/coins for each room
 func spawn_room_content(room: Node) -> void:
 	# Spawn Skeleton_Warrior
 	if randf() < enemy_spawn_chance:
@@ -206,7 +229,7 @@ func spawn_room_content(room: Node) -> void:
 			SW.position.y = floor(SW.position.y / 16) * 16 
 			print(SW.position)
 			if is_position_valid_for_item(SW.position, room):
-				$"..".call_deferred("add_child", SW)
+				$"../map_gen".call_deferred("add_child", SW)
 	
 	# Spawn coins
 	if randf() < coin_spawn_chance:
@@ -219,7 +242,7 @@ func spawn_room_content(room: Node) -> void:
 			coin.position.y = floor(coin.position.y / 16) * 16 + 8
 			print(coin.position)
 			if is_position_valid_for_item(coin.position, room):
-				$"..".call_deferred("add_child", coin)
+				$"../map_gen".call_deferred("add_child", coin)
 
 	# Spawn items
 	if randf() < item_spawn_chance:
@@ -232,15 +255,17 @@ func spawn_room_content(room: Node) -> void:
 			item.position.y = floor(item.position.y / 16) * 16 + 8
 			print(item.position)
 			if is_position_valid_for_item(item.position, room):
-				$"..".call_deferred("add_child", item)
+				$"../map_gen".call_deferred("add_child", item)
 
+# get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
 	# Assuming a room size of 272x272
 	return Vector2(
 		(randf() * 144) + room.position.x + 16, 
 		(randf() * 144) + room.position.y + 16
 	)
-	
+
+# validate the item will land within the room
 func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 	var roomItems = room.get_children()
 	for item in roomItems:
@@ -248,3 +273,39 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			print("failed to add gold")
 			return false
 	return true
+
+# get the distance between first room and target room
+func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
+	return abs(start_pos.x - target_pos.x) + abs(start_pos.y - target_pos.y)
+
+# insert exit door at farthest room location
+func add_exit_to_last_room() -> void:
+	if last_room:
+		var exit = load("res://Scenes/Rooms/exit_door.tscn").instantiate()
+		exit.z_index = 10
+		exit.position = get_random_position_in_room(last_room)
+		exit.position.x = floor(exit.position.x / 16) * 16 + 8
+		exit.position.y = floor(exit.position.y / 16) * 16 + 8
+		print(exit.position)
+		if is_position_valid_for_item(exit.position, last_room):
+			$"../map_gen".call_deferred("add_child", exit)
+
+# when the level is complete regenerate a new map
+func regenerate_map() -> void:
+	# clear all children under map
+	clear_map()
+	await get_tree().process_frame
+	# reset variables
+	room_count = 0
+	max_distance = -1
+	rooms_instantiated = 0
+	first_room_pos = Vector2.ZERO
+	map = []
+	room_nodes = []
+	
+	for y in range(map_height):
+		map.append([])
+		for x in range(map_width):
+			map[y].append(false)
+	seed(randi_range(0, 1000000))
+	generate()
