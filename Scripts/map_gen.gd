@@ -229,7 +229,6 @@ func spawn_room_content(room: Node) -> void:
 			SW.position.y = floor(SW.position.y / 16) * 16 
 			print(SW.position)
 			if is_position_valid_for_item(SW.position, room):
-				#room.call_deferred("add_child", SW)
 				$"../map_gen".call_deferred("add_child", SW)
 	
 	# Spawn coins
@@ -243,7 +242,6 @@ func spawn_room_content(room: Node) -> void:
 			coin.position.y = floor(coin.position.y / 16) * 16 + 8
 			print(coin.position)
 			if is_position_valid_for_item(coin.position, room):
-				#room.call_deferred("add_child", coin)
 				$"../map_gen".call_deferred("add_child", coin)
 
 	# Spawn items
@@ -257,7 +255,6 @@ func spawn_room_content(room: Node) -> void:
 			item.position.y = floor(item.position.y / 16) * 16 + 8
 			print(item.position)
 			if is_position_valid_for_item(item.position, room):
-				#room.add_child(item)
 				$"../map_gen".call_deferred("add_child", item)
 
 # get random location in each given room
@@ -291,7 +288,6 @@ func add_exit_to_last_room() -> void:
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
 		print(exit.position)
 		if is_position_valid_for_item(exit.position, last_room):
-			#room.add_child(item)
 			$"../map_gen".call_deferred("add_child", exit)
 
 # when the level is complete regenerate a new map
