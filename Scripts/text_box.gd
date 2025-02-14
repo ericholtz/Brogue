@@ -24,8 +24,6 @@ func _process(_delta: float) -> void:
 			$"../UIManager".visible=true
 			
 			GameMaster.setname(p_name.text)
-			#print(p_name.text)
-			#get_tree().change_scene_to_file("res://Scenes/world.tscn")
 		else:
 			print("NO TEXT")
 	pass
