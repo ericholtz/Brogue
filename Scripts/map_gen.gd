@@ -37,6 +37,8 @@ extends Node
 	load("res://Scenes/Gold/LargeGold.tscn")
 	]
 
+var level : int = 1
+
 # variables for map
 var map_width : int = 7
 var map_height : int = 7
@@ -51,16 +53,30 @@ var map : Array
 var room_nodes : Array
 var current_seed = randi()
 
+# Base values for scaling
+const BASE_MAP_SIZE = 7
+const BASE_ROOMS = 12
+const BASE_ENEMY_SPAWN_CHANCE = 0.2
+const BASE_MAX_ENEMIES = 2
+const BASE_MAX_COINS = 2
+const BASE_MAX_ITEMS = 2
+
+# Scaling factors
+const MAP_GROWTH_RATE = 2  # How much the map increases each level
+const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
+const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
+const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
+
 #spawn chance
-@export var enemy_spawn_chance : float = 0.7
-@export var coin_spawn_chance : float = 0.8
-@export var item_spawn_chance : float = 0.5
+@export var enemy_spawn_chance : float = 0.2
+@export var coin_spawn_chance : float = 0.2
+@export var item_spawn_chance : float = 0.2
 @export var heart_spawn_chance : float
 
-@export var max_enemies_per_room : int = 7
+@export var max_enemies_per_room : int = 2
 @export var max_hearts_per_room : int
-@export var max_coins_per_room : int = 10
-@export var max_items_per_room : int = 5
+@export var max_coins_per_room : int = 2
+@export var max_items_per_room : int = 2
 
 func _ready() -> void:
 	map = []
@@ -85,8 +101,8 @@ func generate() -> void:
 	await get_tree().process_frame
 	check_room(3, 3, 0, Vector2.ZERO, true)
 	# Validate the first room position
-	if not map[first_room_pos.x][first_room_pos.y]:
-		adjust_first_room()
+	#if not map[first_room_pos.x][first_room_pos.y]:
+		#adjust_first_room()
 	
 	# print view of map generation in the command line
 	var stri = ""
@@ -295,6 +311,24 @@ func regenerate_map() -> void:
 	# clear all children under map
 	clear_map()
 	await get_tree().process_frame
+	
+	level += 1
+	
+	map_width = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
+	map_height = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
+	
+	rooms_to_generate = BASE_ROOMS + (level * ROOMS_GROWTH_RATE)
+	
+	# Scale spawn rates but cap them at 1.0 (100%)
+	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	coin_spawn_chance = min(coin_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	item_spawn_chance = min(item_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	
+	# Increase enemy capacity per room
+	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_coins_per_room = BASE_MAX_COINS + (level * ENEMY_GROWTH_RATE)
+	max_items_per_room = BASE_MAX_ITEMS + (level * ENEMY_GROWTH_RATE)
+	
 	# reset variables
 	room_count = 0
 	max_distance = -1
