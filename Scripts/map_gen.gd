@@ -28,7 +28,7 @@ extends Node
 	]
 
 @onready var Skeleton_Warrior : Array[PackedScene] = [
-	load("res://Scenes/Monsters/enemies.tscn")
+	load("res://Scenes/Monsters/skeleton_warrior.tscn")
 	]
 
 @onready var gold : Array[PackedScene] = [

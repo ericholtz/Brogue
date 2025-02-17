@@ -20,3 +20,4 @@ region_rect = Rect2(16, 64, 16, 16)
 shape = SubResource("RectangleShape2D_xgu2b")
 
 [connection signal="area_entered" from="ChainArmor" to="ChainArmor" method="_on_area_entered"]
+[connection signal="body_entered" from="ChainArmor" to="ChainArmor" method="_on_body_entered"]

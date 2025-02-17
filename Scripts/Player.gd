@@ -1,4 +1,5 @@
-extends Area2D
+extends CharacterBody2D
+#extends Node2D
 
 #onready vars to reference other nodes and manipulate their values
 @onready var PlayerAnim = $AnimatedSprite2D

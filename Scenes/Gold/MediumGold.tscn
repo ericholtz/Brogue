@@ -20,3 +20,4 @@ region_rect = Rect2(80, 128, 16, 16)
 shape = SubResource("RectangleShape2D_tcaiq")
 
 [connection signal="area_entered" from="MediumGold" to="MediumGold" method="_on_area_entered"]
+[connection signal="body_entered" from="MediumGold" to="MediumGold" method="_on_body_entered"]

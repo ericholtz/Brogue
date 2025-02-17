@@ -20,3 +20,4 @@ region_rect = Rect2(64, 128, 16, 16)
 shape = SubResource("RectangleShape2D_5i2ws")
 
 [connection signal="area_entered" from="LargeGold" to="LargeGold" method="_on_area_entered"]
+[connection signal="body_entered" from="LargeGold" to="LargeGold" method="_on_body_entered"]

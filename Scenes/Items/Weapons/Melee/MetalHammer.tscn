@@ -20,3 +20,4 @@ region_rect = Rect2(48, 48, 16, 16)
 shape = SubResource("RectangleShape2D_xgu2b")
 
 [connection signal="area_entered" from="MetalHammer" to="MetalHammer" method="_on_area_entered"]
+[connection signal="body_entered" from="MetalHammer" to="MetalHammer" method="_on_body_entered"]
