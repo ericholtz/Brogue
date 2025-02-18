@@ -109,8 +109,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	player = null
-	print("player exited area")
+	if body.name == "Player":
+		player = null
+		print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

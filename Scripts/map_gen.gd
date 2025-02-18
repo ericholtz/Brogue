@@ -390,7 +390,7 @@ func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
 func add_exit_to_last_room() -> void:
 	if last_room:
 		var exit = load("res://Scenes/Rooms/exit_door.tscn").instantiate()
-		exit.z_index = 10
+		exit.z_index = 9
 		exit.position = get_random_position_in_room(last_room)
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
