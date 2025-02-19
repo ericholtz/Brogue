@@ -31,6 +31,7 @@ func _ready():
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	PlayerAnim.play("Idle")
+	add_to_group("Player")
 	
 	# connect to gained_gold and gained_item signals
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())
@@ -84,7 +85,12 @@ func move(dir) -> bool:
 	Ray.force_raycast_update()
 	
 	#if ray is colliding with a wall, we can't move there
-	if !Ray.is_colliding():
+	if Ray.is_colliding():
+		var collider = Ray.get_collider()
+		if collider.is_in_group("enemies"):
+			GameMaster.damage_player(collider.Str)
+			return false
+	else:
 		#create a new Tween object to handle smooth movement
 		var tween = create_tween()
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve

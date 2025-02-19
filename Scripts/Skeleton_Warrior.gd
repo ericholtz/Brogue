@@ -74,17 +74,22 @@ func move(dir) -> bool:
 	
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
-	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+	if Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+		var collider = Ray.get_collider()
+		if collider.is_in_group("Player"):
+				GameMaster.damage_player(Str)
+				return false
+		else:
+				return false
+	else:
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 		tween.tween_property(self, "position", position + dir * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
 		moving = true #set this to true until tween is finished to disallow multiple moves at once
 		await tween.finished
 		moving = false
-		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
+		emit_signal("input_event") #emit a mdddovement signal here, after the player succesfully moves
 		return true #flag for movement happening
-	return false #no movement, no delay
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
