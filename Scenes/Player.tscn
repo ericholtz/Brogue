@@ -36,10 +36,11 @@ animations = [{
 size = Vector2(16, 16)
 
 [node name="Player" type="CharacterBody2D"]
-z_index = 1
+z_index = 2
 script = ExtResource("1_2lqgk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
 position = Vector2(0.00147247, -0.0235901)
 sprite_frames = SubResource("SpriteFrames_5dfc8")
 animation = &"Idle"
