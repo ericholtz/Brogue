@@ -23,7 +23,7 @@ func _ready():
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 11
 	
-func _process(delta):
+func _process(_delta):
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles
