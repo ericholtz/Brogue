@@ -4,15 +4,14 @@ extends Node2D
 @export var reveal_radius: int = 3  # Radius of revealed area
 @onready var fog_tilemap = $Fog
 
-
 @export var inside_width : int
 @export var inside_height : int
 
-var room_name = "room"
+var room_name = "Large Horizontal"
 var Generation
 
 var start_idx = -3
-var total_width = 17
+var total_width = 34
 var total_height = 17
 
 func _ready():
@@ -40,19 +39,29 @@ func reveal_area(position):
 		for y in range(-reveal_radius, reveal_radius + 1):
 			var fog_tile = tile_pos + Vector2i(x, y)
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
-			
-func north():
+
+func northleft():
 	#pass
-	$DoorN.visible = true
-	if $WallN:
-		$WallN.queue_free()
-	
-func south():
+	$DoorLeftN.visible = true
+	if $WallLeftN:
+		$WallLeftN.queue_free()
+
+func northright():
+	$DoorRightN.visible = true
+	if $WallRightN:
+		$WallRightN.queue_free()
+
+func southleft():
 	#pass
-	$DoorS.visible = true
-	if $WallS:
-		$WallS.queue_free()
-	
+	$DoorLeftS.visible = true
+	if $WallLeftS:
+		$WallLeftS.queue_free()
+
+func southright():
+	$DoorRightS.visible = true
+	if $WallRightS:
+		$WallRightS.queue_free()
+
 func east():
 	#pass
 	$DoorE.visible = true

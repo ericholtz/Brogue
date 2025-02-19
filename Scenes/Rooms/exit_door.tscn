@@ -20,3 +20,4 @@ region_rect = Rect2(32, 191, 16, 16)
 shape = SubResource("RectangleShape2D_5h1ot")
 
 [connection signal="area_entered" from="Exit_door" to="Exit_door" method="_on_area_entered"]
+[connection signal="body_entered" from="Exit_door" to="Exit_door" method="_on_body_entered"]
