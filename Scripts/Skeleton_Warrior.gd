@@ -41,7 +41,10 @@ func take_turn():
 	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-	await move(try_move)
+	if try_move == Vector2.ZERO:  # Skip if no movement is needed
+		return
+	if await move(try_move):
+		await get_tree().process_frame
 
 
 #func move_monster_towards_player(monster: Area2D, player: Area2D) -> void:
@@ -61,7 +64,7 @@ func take_turn():
 	
 
 
-func move(dir):
+func move(dir) -> bool:
 	
 	#var min_val = 1
 	#var max_val = 4
@@ -79,6 +82,8 @@ func move(dir):
 		await tween.finished
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
+		return true #flag for movement happening
+	return false #no movement, no delay
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
