@@ -38,18 +38,25 @@ func setname(player_name: String):
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
 func takeTurn(turnsTaken: int):
-	#if not GameMaster.can_move:
-		#return
+	var player = get_tree().get_first_node_in_group("player")
+	if not can_move:
+		return
 	print("Starting player turn")
 	turnCounter += turnsTaken
 	print("Current turn: ",turnCounter);
+	can_move = false
 	#apply over-time effects, increment timers, whatever is appropriate here
 	print("Ending player turn")
 	took_turns.emit(1)
-	enemyTurn()
+	await enemyTurn()
+	can_move = true
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
 	print("Starting enemy turn")
-	#handle enemy signals here
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for i in range(enemies.size()):
+		var enemy = enemies[i]
+		print("Enemy [", i, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
+		await enemy.take_turn()
 	print("Ending enemy turn")

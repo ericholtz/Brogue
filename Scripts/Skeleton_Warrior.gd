@@ -29,40 +29,22 @@ var inputs = {"Up": Vector2.UP,
 
 func _ready():
 	# position and animation
+	add_to_group("enemies")
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	Animations.play("")
 
-func _input(event):
-	var try_move = Vector2.ZERO
-	var rand_move = Vector2.ZERO
-	if not GameMaster.can_move or moving:
-		#if we're already tweening movement, don't move again
+func take_turn():
+	if moving:
 		return
-		
 	
-	#var rng = RandomNumberGenerator.new()
-	#var my_random_number = rng.randf_range(1, 4)
-	#var dir = Input.get_vector("Left", "Right", "Up", "Down")
-	
-	#for dir in inputs.keys():
-		#if event.is_action_pressed("Left"):
-			#Animations.flip_h = true
-			##This Makes enemy face correct direction
-		#if event.is_action_pressed("Right"):
-			#Animations.flip_h = false
-			##This Makes enemy face correct direction
-		#if event.is_action_pressed(dir):
-			#move(dir)
-	
-	# move enemy in direction of the player if within area
+	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-		print(try_move)
-	# move in random direction on turn
-	#else:
-		#try_move = vec_to_cardinal(position.direction_to(rand_move))
-	move(try_move)
+	if try_move == Vector2.ZERO:  # Skip if no movement is needed
+		return
+	if await move(try_move):
+		await get_tree().process_frame
 
 
 #func move_monster_towards_player(monster: Area2D, player: Area2D) -> void:
@@ -82,7 +64,7 @@ func _input(event):
 	
 
 
-func move(dir):
+func move(dir) -> bool:
 	
 	#var min_val = 1
 	#var max_val = 4
@@ -100,6 +82,8 @@ func move(dir):
 		await tween.finished
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
+		return true #flag for movement happening
+	return false #no movement, no delay
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
