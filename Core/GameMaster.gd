@@ -38,7 +38,7 @@ func setname(player_name: String):
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
 func takeTurn(turnsTaken: int):
-	var player = get_tree().get_first_node_in_group("player")
+	#var player = get_tree().get_first_node_in_group("player")
 	if not can_move:
 		return
 	print("Starting player turn")
