@@ -46,10 +46,13 @@ func takeTurn(turnsTaken: int):
 	#apply over-time effects, increment timers, whatever is appropriate here
 	print("Ending player turn")
 	took_turns.emit(1)
-	enemyTurn()
+	await enemyTurn()
+	can_move = true
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
 	print("Starting enemy turn")
-	#handle enemy signals here
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for enemy in enemies:
+		enemy.take_turn()
 	print("Ending enemy turn")

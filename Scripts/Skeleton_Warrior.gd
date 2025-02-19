@@ -29,39 +29,18 @@ var inputs = {"Up": Vector2.UP,
 
 func _ready():
 	# position and animation
+	add_to_group("enemies")
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	Animations.play("")
 
-func _input(event):
-	var try_move = Vector2.ZERO
-	var rand_move = Vector2.ZERO
+func take_turn():
 	if not GameMaster.can_move or moving:
-		#if we're already tweening movement, don't move again
 		return
-		
 	
-	#var rng = RandomNumberGenerator.new()
-	#var my_random_number = rng.randf_range(1, 4)
-	#var dir = Input.get_vector("Left", "Right", "Up", "Down")
-	
-	#for dir in inputs.keys():
-		#if event.is_action_pressed("Left"):
-			#Animations.flip_h = true
-			##This Makes enemy face correct direction
-		#if event.is_action_pressed("Right"):
-			#Animations.flip_h = false
-			##This Makes enemy face correct direction
-		#if event.is_action_pressed(dir):
-			#move(dir)
-	
-	# move enemy in direction of the player if within area
+	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-		print(try_move)
-	# move in random direction on turn
-	#else:
-		#try_move = vec_to_cardinal(position.direction_to(rand_move))
 	move(try_move)
 
 
@@ -110,8 +89,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	player = null
-	print("player exited area")
+	if body.name == "Player":
+		player = null
+		print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
