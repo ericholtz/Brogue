@@ -33,8 +33,8 @@ func fill_fog():
 			fog_tilemap.set_cell(Vector2i(x, y), 0, Vector2i(3, 13), 0)  # Use your fog tile ID
 			
 # Reveals tiles around the player
-func reveal_area(position):
-	var tile_pos = fog_tilemap.local_to_map(fog_tilemap.to_local(position))
+func reveal_area(playerposition):
+	var tile_pos = fog_tilemap.local_to_map(fog_tilemap.to_local(playerposition))
 	
 	for x in range(-reveal_radius, reveal_radius + 1):
 		for y in range(-reveal_radius, reveal_radius + 1):
