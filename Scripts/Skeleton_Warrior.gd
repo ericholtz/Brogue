@@ -35,13 +35,13 @@ func _ready():
 	Animations.play("")
 
 func take_turn():
-	if not GameMaster.can_move or moving:
+	if moving:
 		return
 	
 	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-	move(try_move)
+	await move(try_move)
 
 
 #func move_monster_towards_player(monster: Area2D, player: Area2D) -> void:
