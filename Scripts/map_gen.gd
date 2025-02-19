@@ -32,6 +32,10 @@ extends Node
 @onready var Skeleton_Warrior : Array[PackedScene] = [
 	load("res://Scenes/Monsters/skeleton_warrior.tscn")
 	]
+	
+@onready var Bat : Array[PackedScene] = [
+	load("res://Scenes/Monsters/Bat.tscn")
+	]
 
 @onready var gold : Array[PackedScene] = [
 	load("res://Scenes/Gold/SmallGold.tscn"),
@@ -329,7 +333,7 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn Skeleton_Warrior
 	if randf() < enemy_spawn_chance:
 		print("Spawning: Skeleton Warriors")
-		for i in range(randi() % max_enemies_per_room + 1):  # Random number of coins
+		for i in range(randi() % max_enemies_per_room + 1):  # Random number of Skeleton_Warrior
 			var SW = Skeleton_Warrior.pick_random().instantiate()
 			SW.z_index = 1
 			SW.position = get_random_position_in_room(room)
@@ -338,6 +342,19 @@ func spawn_room_content(room: Node) -> void:
 			print(SW.position)
 			if is_position_valid_for_item(SW.position, room):
 				$"../map_gen".call_deferred("add_child", SW)
+
+	if randf() < enemy_spawn_chance:
+		# Spawn Skeleton_Warrior
+		print("Spawning: Bats")
+		for i in range(randi() % max_enemies_per_room + 1):  # Random number of Bats
+			var bat = Bat.pick_random().instantiate()
+			bat.z_index = 1
+			bat.position = get_random_position_in_room(room)
+			bat.position.x = floor(bat.position.x / 16) * 16
+			bat.position.y = floor(bat.position.y / 16) * 16 
+			print(bat.position)
+			if is_position_valid_for_item(bat.position, room):
+				$"../map_gen".call_deferred("add_child", bat)
 	
 	# Spawn coins
 	if randf() < coin_spawn_chance:
