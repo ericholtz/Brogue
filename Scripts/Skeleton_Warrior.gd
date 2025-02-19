@@ -62,7 +62,6 @@ func take_turn():
 
 
 func move(dir):
-	print(dir)
 	
 	#var min_val = 1
 	#var max_val = 4

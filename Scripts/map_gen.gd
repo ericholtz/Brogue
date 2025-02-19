@@ -2,7 +2,9 @@ extends Node
 
 @onready var room_scene : Array[PackedScene] = [
 	load("res://Scenes/Rooms/room.tscn"),
-	load("res://Scenes/Rooms/hallway.tscn")
+	load("res://Scenes/Rooms/hallway.tscn"),
+	load("res://Scenes/Rooms/largeroomHor.tscn"),
+	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
 @onready var items : Array[PackedScene] = [
@@ -37,6 +39,8 @@ extends Node
 	load("res://Scenes/Gold/LargeGold.tscn")
 	]
 
+var level : int = 1
+
 # variables for map
 var map_width : int = 7
 var map_height : int = 7
@@ -48,28 +52,43 @@ var last_room : Node
 var max_distance = -1
 
 var map : Array
-var room_nodes : Array
+var room_grid
 var current_seed = randi()
 
+# Base values for scaling
+const BASE_MAP_SIZE = 7
+const BASE_ROOMS = 12
+const BASE_ENEMY_SPAWN_CHANCE = 0.2
+const BASE_MAX_ENEMIES = 2
+const BASE_MAX_COINS = 2
+const BASE_MAX_ITEMS = 2
+
+# Scaling factors
+const MAP_GROWTH_RATE = 2  # How much the map increases each level
+const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
+const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
+const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
+
 #spawn chance
-@export var enemy_spawn_chance : float = 0.7
-@export var coin_spawn_chance : float = 0.8
-@export var item_spawn_chance : float = 0.5
+@export var enemy_spawn_chance : float = 0.2
+@export var coin_spawn_chance : float = 0.2
+@export var item_spawn_chance : float = 0.2
 @export var heart_spawn_chance : float
 
-@export var max_enemies_per_room : int = 7
+@export var max_enemies_per_room : int = 2
 @export var max_hearts_per_room : int
-@export var max_coins_per_room : int = 10
-@export var max_items_per_room : int = 5
+@export var max_coins_per_room : int = 2
+@export var max_items_per_room : int = 2
 
 func _ready() -> void:
 	map = []
-	room_nodes = []
+	room_grid = {}
 	
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
+			room_grid[Vector2(x, y)] = null
 	seed(randi_range(0, 1000000))
 	generate()
 
@@ -83,10 +102,13 @@ func clear_map() -> void:
 func generate() -> void:
 	# varify map clear is finished
 	await get_tree().process_frame
-	check_room(3, 3, 0, Vector2.ZERO, true)
+	var size_h = round(map_height / 2)
+	var size_w = round(map_width / 2)
+	print(size_h, size_w)
+	check_room(size_w, size_h, 0, Vector2.ZERO, true)
 	# Validate the first room position
-	if not map[first_room_pos.x][first_room_pos.y]:
-		adjust_first_room()
+	#if not map[first_room_pos.x][first_room_pos.y]:
+		#adjust_first_room()
 	
 	# print view of map generation in the command line
 	var stri = ""
@@ -100,9 +122,10 @@ func generate() -> void:
 	print(stri)
 	instantiate_rooms()
 	add_exit_to_last_room()
+	print(room_grid)
 	
 	# move player to start position
-	$"../Player".global_position = (first_room_pos * (272 - 8)) + Vector2(128, 128)
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
 	print("First room position (grid):", first_room_pos)
 	print("Player global position:", $"../Player".global_position)
 
@@ -117,11 +140,11 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	if first_room == false and remaining <= 0:
 		return
 	# room already exists
-	if map[x][y] == true:
+	if map[x][y]:
 		return
 	
 	# get first room position
-	if first_room and map[x][y] == false:
+	if first_room:
 		first_room_pos = Vector2(x,y)
 		print(first_room_pos)
 		print(first_room_pos.x)
@@ -149,22 +172,71 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 		check_room(x - 1, y, max_remaining if first_room else remaining - 1, Vector2.LEFT if first_room else general_direction)
 		
 func instantiate_rooms() -> void:
+	# Base room options (default to only room and hallway)
 	if rooms_instantiated:
 		return
 	rooms_instantiated = true
+	#var merged_map = {}
+	#var room_grid = {}
 	
 	for x in range(map_width):
 		for y in range(map_height):
-			if not map[x][y]:
+			if not map[x][y] or room_grid[Vector2(x, y)]:
 				continue
-				
+			var valid_rooms = [room_scene[0], room_scene[1]]
 			var room
+			#var pos = Vector2(x, y)
+			# See if next cells are mergeable
+			var merge_right = x < map_width - 1 and map[x + 1][y] and room_grid[Vector2(x + 1, y)] == null
+			var merge_down = y < map_height - 1 and map[x][y + 1] and room_grid[Vector2(x, y + 1)] == null
+			
+			# Check if placing a large horizontal room would overlap with a vertical room
+			#var can_place_horizontal = merge_right and not room_grid.has(Vector2(x, y + 1))  # Ensure no vertical room below
+			#var can_place_vertical = merge_down and not room_grid.has(Vector2(x + 1, y))  # Ensure no horizontal room to the right
+			
+			# Try to merge horizontally if possible
+			if merge_right:
+				print(map[x+1][y], Vector2(x+1,y))
+				if y > 0 and x < map_width - 1 and not room_grid[Vector2(x, y - 1)] == "Large Vertical" and not room_grid[Vector2(x + 1, y - 1)] == "Large Vertical":
+					valid_rooms.append(room_scene[2])
+				elif y == 0:
+					valid_rooms.append(room_scene[2])
+				#else:
+					#print("Error with merge right logic at")
+					#print(Vector2(x,y), Vector2(x, y+1))
+				#print("Merged Large Horinzontal at (%d, %d) with (%d, %d)" % [x, y, x + 1, y])
+			
+			# Try to merge vertically if possible
+			if merge_down:
+				print(map[x][y+1], Vector2(x, y+1))
+				if x > 0 and y < map_height - 1 and not room_grid[Vector2(x - 1, y)] == "Large Horizontal" and not room_grid[Vector2(x - 1, y + 1)] == "Large Horizontal":
+					valid_rooms.append(room_scene[3])  # Large Vertical
+				elif x == 0:
+					valid_rooms.append(room_scene[3])  # Large Vertical
+				#else:
+					#print("Error with merge down logic")
+					#print(Vector2(x,y), Vector2(x, y+1))
+				#print("Merged Large Vertical at (%d, %d) with (%d, %d)" % [x, y, x, y + 1])
+			
+			
 			if Vector2(x, y) == first_room_pos:
 				room = room_scene[0].instantiate()
 				print("changed first room")
 			else:
-				room = room_scene.pick_random().instantiate()
+				room = valid_rooms.pick_random().instantiate()  # Pick from valid list
 			
+			room_grid[Vector2(x, y)] = room.room_name
+			# Mark merged tiles for large rooms
+			if room.room_name == "Large Horizontal":
+				room_grid[Vector2(x + 1, y)] = room.room_name
+				print("Merged Large Horizontal at (%d, %d) through (%d, %d)" % [x, y, x + 1, y])
+				
+				
+			elif room.room_name == "Large Vertical":
+				room_grid[Vector2(x, y + 1)] = room.room_name
+				print("Merged Large Vertical at (%d, %d) through (%d, %d)" % [x, y, x, y + 1])
+				
+			#
 			room.position = Vector2(x, y) * 272
 			var distance = get_distance(Vector2(x, y), first_room_pos)
 			
@@ -172,17 +244,53 @@ func instantiate_rooms() -> void:
 				max_distance = distance
 				last_room = room
 			
-			if y < map_height - 1 and map[x][y + 1] == true:
+			if y < map_height - 1 and map[x][y + 1]:
+				if room.room_name == "Large Horizontal":
+					room.southleft()
+				elif room.room_name != "Large Vertical":
+					room.south()
+			
+			# check below double vertical room
+			if y < map_height - 2 and map[x][y + 2] and room.room_name == "Large Vertical":
 				room.south()
 			
-			if y > 0 and map[x][y - 1] == true:
-				room.north()
-				
-			if x > 0 and map[x - 1][y] == true:
-				room.west()
-				
-			if x < map_width - 1 and map[x + 1][y] == true:
-				room.east()
+			if x < map_width - 1 and y < map_height - 1 and map[x + 1][y] and map[x + 1][y + 1]:
+				if room.room_name == "Large Horizontal":
+					room.southright()
+			
+			if y > 0 and map[x][y - 1]:
+				if room.room_name == "Large Horizontal":
+					room.northleft()
+				else:
+					room.north()
+			
+			if x < map_width - 1 and y > 0 and map[x + 1][y - 1] and map[x + 1][y]:
+				if room.room_name == "Large Horizontal":
+					room.northright()
+			
+			if x > 0 and map[x - 1][y]:
+				if room.room_name == "Large Vertical":
+					room.westtop()
+				else:
+					room.west()
+			
+			if x > 0 and y < map_height - 1 and map[x - 1][y + 1]:
+				if room.room_name == "Large Vertical":
+					room.westbot()
+			
+			if x < map_width - 1 and map[x + 1][y]: 
+				if room.room_name == "Large Vertical":
+					room.easttop()
+				elif room.room_name != "Large Horizontal":
+					room.east()
+			
+			if x < map_width - 2 and map[x + 2][y]:
+				if room.room_name == "Large Horizontal":
+					room.east()
+			
+			if x < map_width - 1 and y < map_height - 1 and map[x + 1][y + 1]:
+				if room.room_name == "Large Vertical":
+					room.eastbot()
 			
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
@@ -198,7 +306,7 @@ func instantiate_rooms() -> void:
 			else:
 				spawn_room_content(room)
 			
-			room_nodes.append(room)
+			#room_nodes.append(room)
 	
 	get_tree().create_timer(1)
 	calculate_key_and_exit()
@@ -282,7 +390,7 @@ func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
 func add_exit_to_last_room() -> void:
 	if last_room:
 		var exit = load("res://Scenes/Rooms/exit_door.tscn").instantiate()
-		exit.z_index = 10
+		exit.z_index = 9
 		exit.position = get_random_position_in_room(last_room)
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
@@ -295,17 +403,37 @@ func regenerate_map() -> void:
 	# clear all children under map
 	clear_map()
 	await get_tree().process_frame
+	
+	level += 1
+	
+	map_width = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
+	map_height = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
+	
+	rooms_to_generate = BASE_ROOMS + (level * ROOMS_GROWTH_RATE)
+	
+	# Scale spawn rates but cap them at 1.0 (100%)
+	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	coin_spawn_chance = min(coin_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	item_spawn_chance = min(item_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	
+	# Increase enemy capacity per room
+	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_coins_per_room = BASE_MAX_COINS + (level * ENEMY_GROWTH_RATE)
+	max_items_per_room = BASE_MAX_ITEMS + (level * ENEMY_GROWTH_RATE)
+	
 	# reset variables
 	room_count = 0
 	max_distance = -1
 	rooms_instantiated = 0
 	first_room_pos = Vector2.ZERO
 	map = []
-	room_nodes = []
+	room_grid = {}
+	#room_nodes = []
 	
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
+			room_grid[Vector2(x, y)] = null
 	seed(randi_range(0, 1000000))
 	generate()
