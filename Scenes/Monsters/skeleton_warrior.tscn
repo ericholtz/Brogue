@@ -47,11 +47,13 @@ shape = SubResource("RectangleShape2D_3i2wy")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_qw51r")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 1
 shape = SubResource("RectangleShape2D_n24i7")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
