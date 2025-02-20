@@ -3,6 +3,8 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# set new seed on world load
+	
 	var cmd_node = preload("res://Scenes/Menus/command_line.tscn").instantiate()
 	add_child(cmd_node)
 	

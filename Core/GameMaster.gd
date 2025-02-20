@@ -1,11 +1,20 @@
 extends Node
 
+#var rng : RandomNumberGenerator
+
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
+
+# Turn on/off debug statments
+var DEBUG_MAP = false
+
+# seeds
+var current_seed
+var user_seed
 
 var turnCounter = 0
 var can_move = false

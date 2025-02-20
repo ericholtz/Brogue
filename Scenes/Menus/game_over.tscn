@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/game_over.gd" id="1_08yff"]
 
 [sub_resource type="SystemFont" id="SystemFont_vjdim"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_qgwkb"]
 font = SubResource("SystemFont_vjdim")

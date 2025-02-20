@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var name_label = $PanelContainer/VBoxContainer/Name
+@onready var seed_label = $PanelContainer/VBoxContainer/Seed
 @onready var attack_label = $PanelContainer/VBoxContainer/GridContainer/AtkVal
 @onready var defense_label = $PanelContainer/VBoxContainer/GridContainer/DefVal
 @onready var health_label = $PanelContainer/VBoxContainer/GridContainer/HealthVal
@@ -23,6 +24,7 @@ func _input(event):
 
 func update_stats():
 	name_label.text = "Name: " + player.player_name
+	seed_label.text = "Seed: " + str(GameMaster.current_seed)
 	health_label.text = str(player.health)
 	attack_label.text = str(player.strength)
 	defense_label.text = str(player.defense)
