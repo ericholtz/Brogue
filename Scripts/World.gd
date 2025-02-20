@@ -3,7 +3,10 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var player_node = preload("res://Scenes/player.tscn").instantiate()
+	var cmd_node = preload("res://Scenes/Menus/command_line.tscn").instantiate()
+	add_child(cmd_node)
+	
+	var player_node = preload("res://Scenes/Player.tscn").instantiate()
 	add_child(player_node)
 	
 	var name_box_node = preload("res://Scenes/Menus/TextBox.tscn").instantiate()
@@ -11,5 +14,3 @@ func _ready():
 	
 	var map_node = preload("res://Scenes/map_gen.tscn").instantiate()
 	add_child(map_node)
-	
-	
