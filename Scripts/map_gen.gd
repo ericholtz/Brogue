@@ -62,8 +62,8 @@ var current_seed = randi()
 # Base values for scaling
 const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
-const BASE_ENEMY_SPAWN_CHANCE = 0.2
-const BASE_MAX_ENEMIES = 2
+const BASE_ENEMY_SPAWN_CHANCE = 0.1
+const BASE_MAX_ENEMIES = 10
 const BASE_MAX_GOLD = 2
 const BASE_MAX_WEAPONS = 1
 const BASE_MAX_ARMOR = 1
@@ -77,7 +77,7 @@ const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
-@export var enemy_spawn_chance : float = 0.2
+@export var enemy_spawn_chance : float = 0.9
 @export var gold_spawn_chance : float = 0.2
 @export var weapon_spawn_chance : float = 0.1
 @export var armor_spawn_chance : float = 0.1
@@ -341,33 +341,29 @@ func adjust_first_room() -> void:
 # spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
 	# Spawn enemies
-	if randf() < enemy_spawn_chance:
-		print("Spawning: Enemies")
-		spawn_entity(room, enemies.pick_random().instantiate(), max_enemies_per_room)
+	print("Spawning: Enemies")
+	spawn_entities(room, enemies, enemy_spawn_chance, max_enemies_per_room)
 	# Spawn gold
-	if randf() < gold_spawn_chance:
-		print("Spawning: Gold")
-		spawn_entity(room, gold.pick_random().instantiate(), max_gold_per_room)
+	print("Spawning: Gold")
+	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
 	# Spawn weapons
-	if randf() < weapon_spawn_chance:
-		print("Spawning: Weapons")
-		spawn_entity(room, weapons.pick_random().instantiate(), max_weapons_per_room)
+	print("Spawning: Weapons")
+	spawn_entities(room, weapons, weapon_spawn_chance, max_weapons_per_room)
 	# Spawn armor
-	if randf() < armor_spawn_chance:
-		print("Spawning: Armor")
-		spawn_entity(room, armor.pick_random().instantiate(), max_armor_per_room)
+	print("Spawning: Armor")
+	spawn_entities(room, armor, armor_spawn_chance, max_armor_per_room)
 	# Spawn potions
-	if randf() < potion_spawn_chance:
-		print("Spawning: Potions")
-		spawn_entity(room, potions.pick_random().instantiate(), max_potions_per_room)
+	print("Spawning: Potions")
+	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
 	# Spawn misc
-	if randf() < misc_spawn_chance:
-		print("Spawning: Armor")
-		spawn_entity(room, misc.pick_random().instantiate(), max_misc_per_room)
+	print("Spawning: Misc")
+	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
 
 # spawn one entity based off room, instantiated node, and chance and max constants about the node
-func spawn_entity(room : Node, entity : Node, max_per_room : int) -> void:
+func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance : float, max_per_room : int) -> void:
+	if randf() < spawn_chance:
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
+			var entity = entity_pool.pick_random().instantiate()
 			entity.position = get_random_position_in_room(room)
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
