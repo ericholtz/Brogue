@@ -6,18 +6,16 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)
 
-[node name="Node2D" type="Node2D"]
-
-[node name="LeatherArmor" type="Area2D" parent="."]
+[node name="LeatherArmor" type="Area2D"]
 script = ExtResource("1_53dro")
 
-[node name="Sprite2D" type="Sprite2D" parent="LeatherArmor"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_al4xn")
 region_enabled = true
 region_rect = Rect2(96, 64, 16, 16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeatherArmor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xgu2b")
 
-[connection signal="area_entered" from="LeatherArmor" to="LeatherArmor" method="_on_area_entered"]
-[connection signal="body_entered" from="LeatherArmor" to="LeatherArmor" method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
