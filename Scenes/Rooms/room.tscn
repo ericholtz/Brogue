@@ -542,4 +542,5 @@ tile_map_data = PackedByteArray("AAAAAAAAAAADAAEAAAAAAAoAAAADAAIAAAAAAAkAAAAFAAI
 tile_set = SubResource("TileSet_65lyi")
 
 [node name="Fog" type="TileMapLayer" parent="."]
+visible = false
 tile_set = SubResource("TileSet_id54f")

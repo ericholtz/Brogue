@@ -8,7 +8,7 @@ extends CharacterBody2D
 var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
-var inventory = []
+var inventory = {}
 @export var gold = 0
 
 var player_name = ""
@@ -42,6 +42,7 @@ func _ready():
 #Called every frame to handle continuous input
 func _process(delta):
 	var hasMoved = false
+	
 	#if we're already tweening movement, don't move again
 	if not GameMaster.can_move or moving:
 		moveTimer = 0.0
@@ -100,6 +101,11 @@ func move(dir) -> bool:
 	moveTimer = moveDelay
 	return false
 
+func end_game():
+	GameMaster.can_move = false
+	var game_over = preload("res://Scenes/Menus/game_over.tscn").instantiate()
+	$"..".add_child(game_over)
+
 func _on_gold_gain(gold_count: int):
 	# increase gold counter
 	gold += gold_count
@@ -107,7 +113,10 @@ func _on_gold_gain(gold_count: int):
 
 func _on_item_gain(item_gained: String):
 	# add to list
-	inventory.append(item_gained)
+	if item_gained in inventory:
+		inventory[item_gained] += 1
+	else:
+		inventory[item_gained] = 1
 	
 	# modify stats
 	match item_gained:
@@ -128,10 +137,10 @@ func _on_item_gain(item_gained: String):
 		# Armor
 		"LeatherArmor":
 			print("collected LeatherArmor, increasing defense by 1")
-			strength += 1
+			defense += 1
 		"ChainArmor":
 			print("collected ChainArmor, increasing defense by 3")
-			strength += 3
+			defense += 3
 		
 		# Potions
 		"BluePotion": print("collected BluePotion, adding to inventory")
@@ -145,10 +154,14 @@ func _on_item_gain(item_gained: String):
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
+	var stat_node = preload("res://Scenes/Menus/player_stats.tscn").instantiate()
+	$"..".add_child(stat_node)
 	
 func _on_damage_received(amount: int):
 	if health > 0:
 		health -= amount
+		if health <= 0:
+			end_game()
 	print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):

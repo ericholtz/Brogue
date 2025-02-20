@@ -406,6 +406,7 @@ func add_exit_to_last_room() -> void:
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
+	GameMaster.can_move = false
 	# clear all children under map
 	clear_map()
 	await get_tree().process_frame
@@ -449,3 +450,4 @@ func regenerate_map() -> void:
 			room_grid[Vector2(x, y)] = null
 	seed(randi_range(0, 1000000))
 	generate()
+	GameMaster.can_move = true
