@@ -3,19 +3,18 @@ extends CharacterBody2D
 @onready var Animations = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
 
-
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
 
 #I dont use this! But When doing item it might be nice
-var gold = 5
+var gold = 10
 
 #Monsters States
 var Health = 10
-var Str = 1
-var Def = 2
-var Movement_Speed = 1
+var Str = 3
+var Def = 1
+var Movement_Speed = 2
 
 var tileSize = 16
 
@@ -45,7 +44,6 @@ func take_turn():
 		await get_tree().process_frame
 
 
-
 func move(dir) -> bool:
 	
 	#var min_val = 1
@@ -67,17 +65,6 @@ func move(dir) -> bool:
 		return true #flag for movement happening
 	return false #no movement, no delay
 
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		player = body
-		print("player in area")
-
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.name == "Player":
-		player = null
-		print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
@@ -97,3 +84,14 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.y = 0
 	
 	return res
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		player = body
+		print("player in area")
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		player = null
+		print("player exited area")
