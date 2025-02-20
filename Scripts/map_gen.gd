@@ -32,7 +32,7 @@ extends Node
 	]
 
 @onready var enemies : Array[PackedScene] = [
-	load("res://Scenes/Monsters/skeleton_warrior.tscn")
+	load("res://Scenes/Monsters/skeleton_warrior.tscn"),
 	load("res://Scenes/Monsters/Bat.tscn")
 	]
 
