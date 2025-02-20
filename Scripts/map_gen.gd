@@ -7,31 +7,33 @@ extends Node
 	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
-@onready var items : Array[PackedScene] = [
-	# Weapons
+@onready var weapons : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
-	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
-	
-	# Armor
+	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn")
+	]
+
+@onready var armor : Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
-	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
-	
-	# Potions
+	load("res://Scenes/Items/Armor/ChainArmor.tscn")
+	]
+
+@onready var potions : Array[PackedScene] = [
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
 	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
-	load("res://Scenes/Items/Potions/RedPotion.tscn"),
-	
-	# Misc
-	load("res://Scenes/Items/Misc/MetalKey.tscn"),
+	load("res://Scenes/Items/Potions/RedPotion.tscn")
 	]
 
-@onready var Skeleton_Warrior : Array[PackedScene] = [
+@onready var misc : Array[PackedScene] = [
+	load("res://Scenes/Items/Misc/MetalKey.tscn")
+	]
+
+@onready var enemies : Array[PackedScene] = [
 	load("res://Scenes/Monsters/skeleton_warrior.tscn")
-	##load("res://Scenes/Monsters/Bat.tscn")
+	load("res://Scenes/Monsters/Bat.tscn")
 	]
 
 
@@ -62,8 +64,11 @@ const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
 const BASE_ENEMY_SPAWN_CHANCE = 0.2
 const BASE_MAX_ENEMIES = 2
-const BASE_MAX_COINS = 2
-const BASE_MAX_ITEMS = 2
+const BASE_MAX_GOLD = 2
+const BASE_MAX_WEAPONS = 1
+const BASE_MAX_ARMOR = 1
+const BASE_MAX_POTIONS = 1
+const BASE_MAX_MISC = 1
 
 # Scaling factors
 const MAP_GROWTH_RATE = 2  # How much the map increases each level
@@ -71,16 +76,23 @@ const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
 const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
-#spawn chance
+# spawn chance
 @export var enemy_spawn_chance : float = 0.2
-@export var coin_spawn_chance : float = 0.2
-@export var item_spawn_chance : float = 0.2
+@export var gold_spawn_chance : float = 0.2
+@export var weapon_spawn_chance : float = 0.1
+@export var armor_spawn_chance : float = 0.1
+@export var potion_spawn_chance : float = 0.1
+@export var misc_spawn_chance : float = 0.1
 @export var heart_spawn_chance : float
 
+# max per room
 @export var max_enemies_per_room : int = 2
 @export var max_hearts_per_room : int
-@export var max_coins_per_room : int = 2
-@export var max_items_per_room : int = 2
+@export var max_gold_per_room : int = 2
+@export var max_weapons_per_room : int = 1
+@export var max_armor_per_room : int = 1
+@export var max_potions_per_room : int = 1
+@export var max_misc_per_room : int = 1
 
 func _ready() -> void:
 	map = []
@@ -326,59 +338,42 @@ func adjust_first_room() -> void:
 				print("Adjusted first room position to: ", first_room_pos)
 				return
 
-# spawn all items/monsters/coins for each room
+# spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
-	# Spawn Skeleton_Warrior
+	# Spawn enemies
 	if randf() < enemy_spawn_chance:
-		print("Spawning: Skeleton Warriors")
-		for i in range(randi() % max_enemies_per_room + 1):  # Random number of Skeleton_Warrior
-			var SW = Skeleton_Warrior.pick_random().instantiate()
-			SW.z_index = 1
-			SW.position = get_random_position_in_room(room)
-			SW.position.x = floor(SW.position.x / 16) * 16
-			SW.position.y = floor(SW.position.y / 16) * 16 
-			print(SW.position)
-			if is_position_valid_for_item(SW.position, room):
-				$"../map_gen".call_deferred("add_child", SW)
+		print("Spawning: Enemies")
+		spawn_entity(room, enemies.pick_random().instantiate(), max_enemies_per_room)
+	# Spawn gold
+	if randf() < gold_spawn_chance:
+		print("Spawning: Gold")
+		spawn_entity(room, gold.pick_random().instantiate(), max_gold_per_room)
+	# Spawn weapons
+	if randf() < weapon_spawn_chance:
+		print("Spawning: Weapons")
+		spawn_entity(room, weapons.pick_random().instantiate(), max_weapons_per_room)
+	# Spawn armor
+	if randf() < armor_spawn_chance:
+		print("Spawning: Armor")
+		spawn_entity(room, armor.pick_random().instantiate(), max_armor_per_room)
+	# Spawn potions
+	if randf() < potion_spawn_chance:
+		print("Spawning: Potions")
+		spawn_entity(room, potions.pick_random().instantiate(), max_potions_per_room)
+	# Spawn misc
+	if randf() < misc_spawn_chance:
+		print("Spawning: Armor")
+		spawn_entity(room, misc.pick_random().instantiate(), max_misc_per_room)
 
-	if randf() < enemy_spawn_chance:
-		# Spawn Skeleton_Warrior
-		print("Spawning: Bats")
-		for i in range(randi() % max_enemies_per_room + 1):  # Random number of Bats
-			var bat = Bat.pick_random().instantiate()
-			bat.z_index = 1
-			bat.position = get_random_position_in_room(room)
-			bat.position.x = floor(bat.position.x / 16) * 16
-			bat.position.y = floor(bat.position.y / 16) * 16 
-			print(bat.position)
-			if is_position_valid_for_item(bat.position, room):
-				$"../map_gen".call_deferred("add_child", bat)
-	
-	# Spawn coins
-	if randf() < coin_spawn_chance:
-		print("spawning coins")
-		for i in range(randi() % max_coins_per_room + 1):  # Random number of coins
-			var coin = gold.pick_random().instantiate()
-			coin.z_index = 1
-			coin.position = get_random_position_in_room(room)
-			coin.position.x = floor(coin.position.x / 16) * 16 + 8
-			coin.position.y = floor(coin.position.y / 16) * 16 + 8
-			print(coin.position)
-			if is_position_valid_for_item(coin.position, room):
-				$"../map_gen".call_deferred("add_child", coin)
-
-	# Spawn items
-	if randf() < item_spawn_chance:
-		print("spawning items")
-		for i in range(randi() % max_items_per_room + 1):  # Random number of items
-			var item = items.pick_random().instantiate()
-			item.z_index = 1
-			item.position = get_random_position_in_room(room)
-			item.position.x = floor(item.position.x / 16) * 16 + 8
-			item.position.y = floor(item.position.y / 16) * 16 + 8
-			print(item.position)
-			if is_position_valid_for_item(item.position, room):
-				$"../map_gen".call_deferred("add_child", item)
+# spawn one entity based off room, instantiated node, and chance and max constants about the node
+func spawn_entity(room : Node, entity : Node, max_per_room : int) -> void:
+		for i in range(randi() % max_per_room + 1):  # Random number of gold
+			entity.position = get_random_position_in_room(room)
+			entity.position.x = floor(entity.position.x / 16) * 16 + 8
+			entity.position.y = floor(entity.position.y / 16) * 16 + 8
+			print(entity.position)
+			if is_position_valid_for_item(entity.position, room):
+				$"../map_gen".call_deferred("add_child", entity)
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
@@ -428,13 +423,19 @@ func regenerate_map() -> void:
 	
 	# Scale spawn rates but cap them at 1.0 (100%)
 	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
-	coin_spawn_chance = min(coin_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
-	item_spawn_chance = min(item_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	gold_spawn_chance = min(gold_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	weapon_spawn_chance = min(weapon_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	armor_spawn_chance = min(armor_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	potion_spawn_chance = min(potion_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	misc_spawn_chance = min(misc_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	
 	# Increase enemy capacity per room
 	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
-	max_coins_per_room = BASE_MAX_COINS + (level * ENEMY_GROWTH_RATE)
-	max_items_per_room = BASE_MAX_ITEMS + (level * ENEMY_GROWTH_RATE)
+	max_gold_per_room = BASE_MAX_GOLD + (level * ENEMY_GROWTH_RATE)
+	max_weapons_per_room = BASE_MAX_WEAPONS + (level * ENEMY_GROWTH_RATE)
+	max_armor_per_room = BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE)
+	max_potions_per_room = BASE_MAX_POTIONS + (level * ENEMY_GROWTH_RATE)
+	max_misc_per_room = BASE_MAX_MISC + (level * ENEMY_GROWTH_RATE)
 	
 	# reset variables
 	room_count = 0
