@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var Animations = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
 
+var entity_name = "Bat"
+
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null

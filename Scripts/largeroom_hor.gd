@@ -19,6 +19,7 @@ func _ready():
 	fog_tilemap.z_index = 10
 	
 func _process(_delta):
+	$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles

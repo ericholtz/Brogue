@@ -12,6 +12,8 @@ signal heal_player_signal(amount: int)
 # Turn on/off debug statments
 var DEBUG_MAP = false
 
+var DISABLE_FOG = true
+
 # seeds
 var current_seed
 var user_seed
