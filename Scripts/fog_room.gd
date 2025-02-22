@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var player: Node2D  = $"/root/World/Player"# Drag your player node here
+@onready var player: Node2D  = $"/root/World/Player"
 @export var reveal_radius: int = 3  # Radius of revealed area
 @onready var fog_tilemap = $Fog
 
@@ -8,7 +8,7 @@ extends Node2D
 @export var inside_width : int
 @export var inside_height : int
 
-var room_name = "room"
+var room_name = "empty"
 var Generation
 
 var start_idx = -3
@@ -41,31 +41,3 @@ func reveal_area(playerposition):
 		for y in range(-reveal_radius, reveal_radius + 1):
 			var fog_tile = tile_pos + Vector2i(x, y)
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
-			
-func north():
-	#pass
-	$DoorN.visible = true
-	if $WallN:
-		$WallN.queue_free()
-	
-func south():
-	#pass
-	$DoorS.visible = true
-	if $WallS:
-		$WallS.queue_free()
-	
-func east():
-	#pass
-	$DoorE.visible = true
-	if $WallE:
-		$WallE.queue_free()
-	
-func west():
-	#pass
-	$DoorW.visible = true
-	if $WallW:
-		$WallW.queue_free()
-	
-func gold():
-	$Gold.visible = true
-	

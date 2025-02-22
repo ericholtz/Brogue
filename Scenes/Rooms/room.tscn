@@ -259,7 +259,7 @@ sources/0 = SubResource("TileSetAtlasSource_5js5s")
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eoeq3"]
 blend_mode = 3
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ftrop"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fms5b"]
 texture = ExtResource("1_xk5t1")
 0:0/0 = 0
 1:0/0 = 0
@@ -496,7 +496,7 @@ texture = ExtResource("1_xk5t1")
 3:13/0/material = SubResource("CanvasItemMaterial_eoeq3")
 
 [sub_resource type="TileSet" id="TileSet_id54f"]
-sources/0 = SubResource("TileSetAtlasSource_ftrop")
+sources/0 = SubResource("TileSetAtlasSource_fms5b")
 
 [node name="Room" type="Node2D"]
 script = ExtResource("1_8m40j")
@@ -542,5 +542,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAAADAAEAAAAAAAoAAAADAAIAAAAAAAkAAAAFAAI
 tile_set = SubResource("TileSet_65lyi")
 
 [node name="Fog" type="TileMapLayer" parent="."]
-visible = false
 tile_set = SubResource("TileSet_id54f")

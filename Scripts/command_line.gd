@@ -18,10 +18,26 @@ func _input(event):
 				input_field.grab_focus()
 
 func _on_command_entered(command):
-	if command.strip_edges() != "":
+	command = command.strip_edges()
+	var words = command.split(" ", false)
+	if words.size() == 0 or words[0] == "":
+		return
+	
+	if words.size() > 3:
+		
 		command_history.append("> " + command)
-		process_command(command)
-		update_history()
+		command_history.append("Unknown command: Too many arguments")
+	elif words.size() == 3 and not words[2].is_valid_int():
+		command_history.append("> " + command)
+		command_history.append("Unknown command: Third argument must be an integer")
+	
+	else:
+		var cmd = words[0]
+		var option = words[1] if words.size() >= 2 else ""
+		var num = int(words[2]) if words.size() == 3 else -1
+		command_history.append("> " + command)
+		process_command(cmd, option, num)
+	update_history()
 	input_field.text = ""
 
 func update_history():
@@ -29,15 +45,32 @@ func update_history():
 	for cmd in command_history:
 		history_label.append_text(cmd + "\n")
 
-func process_command(command):
+func process_command(command, option = "", num = ""):
 	match command:
 		"help":
-			command_history.append("Available commands: help, clear")
+			command_history.append("Available commands: help, clear, kill, noclip, godmode, fog, position, spawn <entity> <num>")
 		"clear":
 			command_history.clear()
 		"kill":
+			visible = false
 			$"../Player".end_game()
 		"noclip":
-			$"../Player".end_game()
+			$"../Player".no_clip()
+			command_history.append("No Clip set: " + str($"../Player".noclip_enabled))
+		"godmode":
+			$"../Player".god_mode()
+			command_history.append("God mode set: " + str($"../Player".godmode_enabled))
+		"spawn":
+			if option != "":
+				if num != -1:
+					command_history.append("Attempting Spawn of " + option + " in room " + str($"../Player".global_position.floor()))
+					$"../map_gen".force_spawn($"../Player".global_position, option, num)
+		"fog":
+			GameMaster.DISABLE_FOG = !GameMaster.DISABLE_FOG
+			command_history.append("Dissable Fog " + str(GameMaster.DISABLE_FOG))
+		"position":
+			var cur_room = ($"../Player".global_position) / 272
+			print(cur_room)
+			print(cur_room.floor())
 		_:
 			command_history.append("Unknown command: " + command)

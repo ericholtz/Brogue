@@ -4,6 +4,10 @@ extends CharacterBody2D
 #onready vars to reference other nodes and manipulate their values
 @onready var PlayerAnim = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
+@onready var collision = $CollisionShape2D
+
+var noclip_enabled = false
+var godmode_enabled = false
 
 var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
@@ -38,11 +42,12 @@ func _ready():
 	GameMaster.set_name.connect(_on_name_recieved.bind())
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
+	
 
 #Called every frame to handle continuous input
 func _process(delta):
-	var hasMoved = false
 	
+	var hasMoved = false
 	#if we're already tweening movement, don't move again
 	if not GameMaster.can_move or moving:
 		moveTimer = 0.0
@@ -79,6 +84,13 @@ func _process(delta):
 				return
 
 func move(dir) -> bool:
+	
+	if noclip_enabled:
+		# Move freely without collision checks
+		position += inputs[dir] * tileSize
+		moveTimer = moveDelay
+		return true
+
 	#set ray to move direction +16 pixels
 	Ray.target_position = inputs[dir] * tileSize
 	#update instantly
@@ -158,6 +170,9 @@ func _on_name_recieved(p_name: String):
 	$"..".add_child(stat_node)
 	
 func _on_damage_received(amount: int):
+	if godmode_enabled:
+		health = 10
+		return
 	if health > 0:
 		health -= amount
 		if health <= 0:
@@ -168,3 +183,11 @@ func _on_heal_received(amount: int):
 	if health < 15:
 		health += amount
 	print("Player healed ", amount, " points. New health:", health)
+
+func no_clip():
+	noclip_enabled = !noclip_enabled
+	collision.disabled = !collision.disabled
+	$RayCast2D.enabled = !$RayCast2D.enabled
+
+func god_mode():
+	godmode_enabled = !godmode_enabled

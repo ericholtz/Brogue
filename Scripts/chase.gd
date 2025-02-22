@@ -3,20 +3,16 @@ extends CharacterBody2D
 @onready var Animations = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
 
-var entity_name = "Skeleton Warrior"
 
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
 
-#I dont use this! But When doing item it might be nice
-var gold = 5
-
 #Monsters States
 var Health = 10
-var Str = 1
-var Def = 2
-var Movement_Speed = 1
+var Str = 0.1
+var Def = 100
+var Movement_Speed = 0.5
 
 var tileSize = 16
 
@@ -27,6 +23,7 @@ var inputs = {"Up": Vector2.UP,
 			"Down": Vector2.DOWN}
 
 func _ready():
+	player = $"../Player"
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
