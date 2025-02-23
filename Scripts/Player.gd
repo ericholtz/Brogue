@@ -12,7 +12,8 @@ var godmode_enabled = false
 var animationSpeed = 18 #tweening speed
 var moving = false #keeps us from glitching out movement
 
-var inventory = {}
+@onready var inventoryNode : Node2D = $"Inventory"
+var inventory : Array[String] = []
 @export var gold = 0
 
 var player_name = ""
@@ -29,6 +30,8 @@ var inputs = {"Up": Vector2.UP,
 			"Right": Vector2.RIGHT,
 			"Down": Vector2.DOWN,
 			"Space": Vector2.ZERO}
+
+enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
 
 func _ready():
 	# position and animation
@@ -118,51 +121,59 @@ func end_game():
 	var game_over = preload("res://Scenes/Menus/game_over.tscn").instantiate()
 	$"..".add_child(game_over)
 
-func _on_gold_gain(gold_count: int):
+func _on_gold_gain(gold_worth: int):
 	# increase gold counter
-	gold += gold_count
-	print("collected gold, increasing gold by ", gold_count, "; total gold = ", gold)
+	gold += gold_worth
+	print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
 
-func _on_item_gain(item_gained: String):
-	# add to list
-	if item_gained in inventory:
-		inventory[item_gained] += 1
+func _on_item_gain(itemRoot : Area2D):
+	# get item info
+	var item = itemRoot.get_child(0)
+	var itemName = item.name
+	
+	# add to inventory
+	if itemName not in inventory:
+		inventory.append(itemName)
+		itemRoot.reparent(inventoryNode)
+		itemRoot.visible = false
+		print("Added ", itemName, " to inventory. Current inventory is:")
+		print(inventory)
 	else:
-		inventory[item_gained] = 1
+		print("Already have one ", itemName, " cannot pick up more")
 	
 	# modify stats
-	match item_gained:
-		# Weapons
-		"GoldSword":
-			print("collected GoldSword, increasing strength by 1")
-			strength += 1
-		"MetalSword":
-			print("collected MetalSword, increasing strength by 4")
-			strength += 4
-		"MetalHammer":
-			print("collected MetalHammer, increasing strength by 2")
-			strength += 2
-		"MetalBattleaxe":
-			print("collected MetalBattleaxe, increasing strength by 2")
-			strength += 3
-		
-		# Armor
-		"LeatherArmor":
-			print("collected LeatherArmor, increasing defense by 1")
-			defense += 1
-		"ChainArmor":
-			print("collected ChainArmor, increasing defense by 3")
-			defense += 3
-		
-		# Potions
-		"BluePotion": print("collected BluePotion, adding to inventory")
-		"GreenPotion": print("collected GreenPotion, adding to inventory")
-		"OrangePotion": print("collected OrangePotion, adding to inventory")
-		"PurplePotion": print("collected PurplePotion, adding to inventory")
-		"RedPotion": print("collected RedPotion, adding to inventory")
-		
-		# Misc
-		"MetalKey": print("collected MetalKey, adding to inventory")
+	#match item_gained:
+		## Weapons
+		#"GoldSword":
+			#print("collected GoldSword, increasing strength by 1")
+			#strength += 1
+		#"MetalSword":
+			#print("collected MetalSword, increasing strength by 4")
+			#strength += 4
+		#"MetalHammer":
+			#print("collected MetalHammer, increasing strength by 2")
+			#strength += 2
+		#"MetalBattleaxe":
+			#print("collected MetalBattleaxe, increasing strength by 2")
+			#strength += 3
+		#
+		## Armor
+		#"LeatherArmor":
+			#print("collected LeatherArmor, increasing defense by 1")
+			#defense += 1
+		#"ChainArmor":
+			#print("collected ChainArmor, increasing defense by 3")
+			#defense += 3
+		#
+		## Potions
+		#"BluePotion": print("collected BluePotion, adding to inventory")
+		#"GreenPotion": print("collected GreenPotion, adding to inventory")
+		#"OrangePotion": print("collected OrangePotion, adding to inventory")
+		#"PurplePotion": print("collected PurplePotion, adding to inventory")
+		#"RedPotion": print("collected RedPotion, adding to inventory")
+		#
+		## Misc
+		#"MetalKey": print("collected MetalKey, adding to inventory")
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
