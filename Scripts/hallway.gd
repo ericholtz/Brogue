@@ -46,28 +46,24 @@ func reveal_area(playerposition):
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
 
 func north():
-	#pass
 	$DoorN.visible = true
 	flag_north = true
 	if $WallN:
 		$WallN.queue_free()
 	
 func south():
-	#pass
 	$DoorS.visible = true
 	flag_south = true
 	if $WallS:
 		$WallS.queue_free()
 	
 func east():
-	#pass
 	$DoorE.visible = true
 	flag_east = true
 	if $WallE:
 		$WallE.queue_free()
 	
 func west():
-	#pass
 	$DoorW.visible = true
 	flag_west = true
 	if $WallW:
@@ -111,7 +107,7 @@ func corner():
 		$CornerSW.visible = true
 		
 	else:
-		print("dead end")
+		if GameMaster.DEBUG_MAP: print("dead end")
 		if flag_north:
 			$CornerN.visible = true
 		elif flag_east:

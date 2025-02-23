@@ -57,7 +57,6 @@ var max_distance = -1
 
 var map : Array
 var room_grid
-var current_seed = randi()
 
 # Base values for scaling
 const BASE_MAP_SIZE = 7
@@ -98,13 +97,17 @@ func _ready() -> void:
 	map = []
 	room_grid = {}
 	
+	if GameMaster.user_seed:
+		GameMaster.current_seed = GameMaster.user_seed
+	else:
+		GameMaster.current_seed = randi_range(1, 1000000000)
+	
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
-	seed(randi_range(0, 1000000))
-	generate()
+	generate(0)
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -113,15 +116,21 @@ func clear_map() -> void:
 	await get_tree().process_frame
 
 # start inserting rooms into map
-func generate() -> void:
+func generate(cur_level : int) -> void:
 	# varify map clear is finished
 	await get_tree().process_frame
 	var size_h = round(map_height / 2)
 	var size_w = round(map_width / 2)
-	print(size_h, size_w)
+	
+	seed(GameMaster.current_seed + cur_level)
+	
 	check_room(size_w, size_h, 0, Vector2.ZERO, true)
 	# Validate the first room position
 	#if not map[first_room_pos.x][first_room_pos.y]:
+		#if GameMaster.DEBUG_MAP:
+			#print("Invalid first room")
+			#print(map[first_room_pos.x][first_room_pos.y], first_room_pos)
+		#generate()
 		#adjust_first_room()
 	
 	# print view of map generation in the command line
@@ -133,15 +142,16 @@ func generate() -> void:
 				stri += "0"
 			else:
 				stri += "X"
-	print(stri)
+	if GameMaster.DEBUG_MAP: print(stri)
 	instantiate_rooms()
 	add_exit_to_last_room()
-	print(room_grid)
+	if GameMaster.DEBUG_MAP: print(room_grid)
 	
 	# move player to start position
 	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
-	print("First room position (grid):", first_room_pos)
-	print("Player global position:", $"../Player".global_position)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
 	# no generated rooms reached max
@@ -159,9 +169,8 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	
 	# get first room position
 	if first_room:
-		first_room_pos = Vector2(x,y)
-		print(first_room_pos)
-		print(first_room_pos.x)
+		first_room_pos = Vector2(x, y)
+		if GameMaster.DEBUG_MAP: print(first_room_pos)
 		
 	#if not is_hallway:
 	room_count += 1
@@ -190,52 +199,39 @@ func instantiate_rooms() -> void:
 	if rooms_instantiated:
 		return
 	rooms_instantiated = true
-	#var merged_map = {}
-	#var room_grid = {}
 	
 	for x in range(map_width):
 		for y in range(map_height):
 			if not map[x][y] or room_grid[Vector2(x, y)]:
 				continue
+
 			var valid_rooms = [room_scene[0], room_scene[1]]
 			var room
-			#var pos = Vector2(x, y)
+
 			# See if next cells are mergeable
 			var merge_right = x < map_width - 1 and map[x + 1][y] and room_grid[Vector2(x + 1, y)] == null
 			var merge_down = y < map_height - 1 and map[x][y + 1] and room_grid[Vector2(x, y + 1)] == null
 			
-			# Check if placing a large horizontal room would overlap with a vertical room
-			#var can_place_horizontal = merge_right and not room_grid.has(Vector2(x, y + 1))  # Ensure no vertical room below
-			#var can_place_vertical = merge_down and not room_grid.has(Vector2(x + 1, y))  # Ensure no horizontal room to the right
-			
 			# Try to merge horizontally if possible
 			if merge_right:
-				print(map[x+1][y], Vector2(x+1,y))
+				if GameMaster.DEBUG_MAP: print(map[x+1][y], Vector2(x+1,y))
 				if y > 0 and x < map_width - 1 and not room_grid[Vector2(x, y - 1)] == "Large Vertical" and not room_grid[Vector2(x + 1, y - 1)] == "Large Vertical":
 					valid_rooms.append(room_scene[2])
 				elif y == 0:
 					valid_rooms.append(room_scene[2])
-				#else:
-					#print("Error with merge right logic at")
-					#print(Vector2(x,y), Vector2(x, y+1))
-				#print("Merged Large Horinzontal at (%d, %d) with (%d, %d)" % [x, y, x + 1, y])
 			
 			# Try to merge vertically if possible
 			if merge_down:
-				print(map[x][y+1], Vector2(x, y+1))
+				if GameMaster.DEBUG_MAP: print(map[x][y+1], Vector2(x, y+1))
 				if x > 0 and y < map_height - 1 and not room_grid[Vector2(x - 1, y)] == "Large Horizontal" and not room_grid[Vector2(x - 1, y + 1)] == "Large Horizontal":
 					valid_rooms.append(room_scene[3])  # Large Vertical
 				elif x == 0:
 					valid_rooms.append(room_scene[3])  # Large Vertical
-				#else:
-					#print("Error with merge down logic")
-					#print(Vector2(x,y), Vector2(x, y+1))
-				#print("Merged Large Vertical at (%d, %d) with (%d, %d)" % [x, y, x, y + 1])
 			
-			
+			# this is supposed to make spawn room the base room every time...
 			if Vector2(x, y) == first_room_pos:
 				room = room_scene[0].instantiate()
-				print("changed first room")
+				if GameMaster.DEBUG_MAP: print("changed first room")
 			else:
 				room = valid_rooms.pick_random().instantiate()  # Pick from valid list
 			
@@ -243,21 +239,20 @@ func instantiate_rooms() -> void:
 			# Mark merged tiles for large rooms
 			if room.room_name == "Large Horizontal":
 				room_grid[Vector2(x + 1, y)] = room.room_name
-				print("Merged Large Horizontal at (%d, %d) through (%d, %d)" % [x, y, x + 1, y])
-				
 				
 			elif room.room_name == "Large Vertical":
 				room_grid[Vector2(x, y + 1)] = room.room_name
-				print("Merged Large Vertical at (%d, %d) through (%d, %d)" % [x, y, x, y + 1])
 				
-			#
+			# set position in room and check distance from first room
 			room.position = Vector2(x, y) * 272
 			var distance = get_distance(Vector2(x, y), first_room_pos)
 			
+			# set a last_room to the farthest room generated
 			if distance > max_distance and not room.room_name == "hallway":
 				max_distance = distance
 				last_room = room
 			
+			# logic for opening doors between each of the generated rooms and halls
 			if y < map_height - 1 and map[x][y + 1]:
 				if room.room_name == "Large Horizontal":
 					room.southleft()
@@ -298,6 +293,7 @@ func instantiate_rooms() -> void:
 				elif room.room_name != "Large Horizontal":
 					room.east()
 			
+			# check to the right of a double horizontal room
 			if x < map_width - 2 and map[x + 2][y]:
 				if room.room_name == "Large Horizontal":
 					room.east()
@@ -319,8 +315,6 @@ func instantiate_rooms() -> void:
 			# Randomly spawn items or monsters
 			else:
 				spawn_room_content(room)
-			
-			#room_nodes.append(room)
 	
 	get_tree().create_timer(1)
 	calculate_key_and_exit()
@@ -341,22 +335,22 @@ func adjust_first_room() -> void:
 # spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
 	# Spawn enemies
-	print("Spawning: Enemies")
+	if GameMaster.DEBUG_MAP: print("Spawning: Enemies")
 	spawn_entities(room, enemies, enemy_spawn_chance, max_enemies_per_room)
 	# Spawn gold
-	print("Spawning: Gold")
+	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
 	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
 	# Spawn weapons
-	print("Spawning: Weapons")
+	if GameMaster.DEBUG_MAP: print("Spawning: Weapons")
 	spawn_entities(room, weapons, weapon_spawn_chance, max_weapons_per_room)
 	# Spawn armor
-	print("Spawning: Armor")
+	if GameMaster.DEBUG_MAP: print("Spawning: Armor")
 	spawn_entities(room, armor, armor_spawn_chance, max_armor_per_room)
 	# Spawn potions
-	print("Spawning: Potions")
+	if GameMaster.DEBUG_MAP: print("Spawning: Potions")
 	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
 	# Spawn misc
-	print("Spawning: Misc")
+	if GameMaster.DEBUG_MAP: print("Spawning: Misc")
 	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
 
 # spawn one entity based off room, instantiated node, and chance and max constants about the node
@@ -367,7 +361,7 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			entity.position = get_random_position_in_room(room)
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
-			print(entity.position)
+			if GameMaster.DEBUG_MAP: print(entity.position)
 			if is_position_valid_for_item(entity.position, room):
 				$"../map_gen".call_deferred("add_child", entity)
 
@@ -384,7 +378,7 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 	var roomItems = room.get_children()
 	for item in roomItems:
 		if item is Node2D and item.position.distance_to(position) < 32:
-			print("failed to add gold")
+			print("failed to add thing to room")
 			return false
 	return true
 
@@ -400,12 +394,13 @@ func add_exit_to_last_room() -> void:
 		exit.position = get_random_position_in_room(last_room)
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
-		print(exit.position)
+		if GameMaster.DEBUG_MAP: print(exit.position)
 		if is_position_valid_for_item(exit.position, last_room):
 			$"../map_gen".call_deferred("add_child", exit)
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
+	GameMaster.can_move = false
 	# clear all children under map
 	clear_map()
 	await get_tree().process_frame
@@ -447,5 +442,5 @@ func regenerate_map() -> void:
 		for x in range(map_width):
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
-	seed(randi_range(0, 1000000))
-	generate()
+	generate(level)
+	GameMaster.can_move = true

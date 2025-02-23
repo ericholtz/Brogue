@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://djtye3tp4e48i"]
+
+[ext_resource type="Script" path="res://Scripts/game_over.gd" id="1_08yff"]
+
+[sub_resource type="SystemFont" id="SystemFont_vjdim"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qgwkb"]
+font = SubResource("SystemFont_vjdim")
+font_size = 32
+font_color = Color(1, 0.0627451, 0.0431373, 1)
+outline_size = 7
+outline_color = Color(0.0117647, 0.737255, 0, 0.972549)
+shadow_size = 0
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_08yff")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -64.0
+offset_right = 48.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_qgwkb")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PlayAgain" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="MainMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+label_settings = SubResource("LabelSettings_qgwkb")
+horizontal_alignment = 1
+uppercase = true

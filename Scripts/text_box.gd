@@ -14,8 +14,8 @@ func _ready() -> void:
 func _hide_text_box(_unused_arg = null):
 	hide()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
+
+func _on_line_edit_text_submitted(_new_text: String) -> void:
 	if Input.is_action_just_pressed("ui_text_submit"):
 		if p_name.text:
 			text_box_container.hide()
