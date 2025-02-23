@@ -1,6 +1,7 @@
 extends Node
 
 @onready var room_scene : Array[PackedScene] = [
+	load("res://Scenes/Rooms/fog_room.tscn"),
 	load("res://Scenes/Rooms/room.tscn"),
 	load("res://Scenes/Rooms/hallway.tscn"),
 	load("res://Scenes/Rooms/largeroomHor.tscn"),
@@ -57,6 +58,7 @@ var max_distance = -1
 
 var map : Array
 var room_grid
+var vec_map
 
 # Base values for scaling
 const BASE_MAP_SIZE = 7
@@ -94,19 +96,27 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var max_misc_per_room : int = 1
 
 func _ready() -> void:
+	# array of the valid rooms
 	map = []
+	# dictionary of location and room name
 	room_grid = {}
+	# dictionary of location and room node
+	vec_map = {}
 	
+	# setup for inserting a seed befor begining of run
 	if GameMaster.user_seed:
 		GameMaster.current_seed = GameMaster.user_seed
+	# start with random seed
 	else:
 		GameMaster.current_seed = randi_range(1, 1000000000)
 	
+	# initilize all nodes to false and null
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
+			vec_map[Vector2(x,y)] = null
 	generate(0)
 
 # clear all child nodes under map_gen
@@ -123,15 +133,8 @@ func generate(cur_level : int) -> void:
 	var size_w = round(map_width / 2)
 	
 	seed(GameMaster.current_seed + cur_level)
-	
+	# populate map with all rooms
 	check_room(size_w, size_h, 0, Vector2.ZERO, true)
-	# Validate the first room position
-	#if not map[first_room_pos.x][first_room_pos.y]:
-		#if GameMaster.DEBUG_MAP:
-			#print("Invalid first room")
-			#print(map[first_room_pos.x][first_room_pos.y], first_room_pos)
-		#generate()
-		#adjust_first_room()
 	
 	# print view of map generation in the command line
 	var stri = ""
@@ -143,16 +146,18 @@ func generate(cur_level : int) -> void:
 			else:
 				stri += "X"
 	if GameMaster.DEBUG_MAP: print(stri)
+	# place rooms according to map
 	instantiate_rooms()
+	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
-	if GameMaster.DEBUG_MAP: print(room_grid)
 	
-	# move player to start position
+	# move player to start position maybe need await for new tree before moving player
 	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
 	if GameMaster.DEBUG_MAP: 
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
 
+# populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
 	# no generated rooms reached max
 	if room_count >= rooms_to_generate:
@@ -193,7 +198,8 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 		check_room(x + 1, y, max_remaining if first_room else remaining - 1, Vector2.RIGHT if first_room else general_direction)
 	if west or first_room:
 		check_room(x - 1, y, max_remaining if first_room else remaining - 1, Vector2.LEFT if first_room else general_direction)
-		
+
+# pick a room from the list of rooms to put into the world
 func instantiate_rooms() -> void:
 	# Base room options (default to only room and hallway)
 	if rooms_instantiated:
@@ -202,10 +208,11 @@ func instantiate_rooms() -> void:
 	
 	for x in range(map_width):
 		for y in range(map_height):
+			create_fog_room(x, y)
 			if not map[x][y] or room_grid[Vector2(x, y)]:
 				continue
 
-			var valid_rooms = [room_scene[0], room_scene[1]]
+			var valid_rooms = [room_scene[1], room_scene[2]]
 			var room
 
 			# See if next cells are mergeable
@@ -216,21 +223,21 @@ func instantiate_rooms() -> void:
 			if merge_right:
 				if GameMaster.DEBUG_MAP: print(map[x+1][y], Vector2(x+1,y))
 				if y > 0 and x < map_width - 1 and not room_grid[Vector2(x, y - 1)] == "Large Vertical" and not room_grid[Vector2(x + 1, y - 1)] == "Large Vertical":
-					valid_rooms.append(room_scene[2])
+					valid_rooms.append(room_scene[3])
 				elif y == 0:
-					valid_rooms.append(room_scene[2])
+					valid_rooms.append(room_scene[3])
 			
 			# Try to merge vertically if possible
 			if merge_down:
 				if GameMaster.DEBUG_MAP: print(map[x][y+1], Vector2(x, y+1))
 				if x > 0 and y < map_height - 1 and not room_grid[Vector2(x - 1, y)] == "Large Horizontal" and not room_grid[Vector2(x - 1, y + 1)] == "Large Horizontal":
-					valid_rooms.append(room_scene[3])  # Large Vertical
+					valid_rooms.append(room_scene[4])  # Large Vertical
 				elif x == 0:
-					valid_rooms.append(room_scene[3])  # Large Vertical
+					valid_rooms.append(room_scene[4])  # Large Vertical
 			
 			# this is supposed to make spawn room the base room every time...
 			if Vector2(x, y) == first_room_pos:
-				room = room_scene[0].instantiate()
+				room = room_scene[1].instantiate()
 				if GameMaster.DEBUG_MAP: print("changed first room")
 			else:
 				room = valid_rooms.pick_random().instantiate()  # Pick from valid list
@@ -239,9 +246,10 @@ func instantiate_rooms() -> void:
 			# Mark merged tiles for large rooms
 			if room.room_name == "Large Horizontal":
 				room_grid[Vector2(x + 1, y)] = room.room_name
-				
+				vec_map[Vector2(x + 1, y)] = room
 			elif room.room_name == "Large Vertical":
 				room_grid[Vector2(x, y + 1)] = room.room_name
+				vec_map[Vector2(x, y + 1)] = room
 				
 			# set position in room and check distance from first room
 			room.position = Vector2(x, y) * 272
@@ -305,24 +313,34 @@ func instantiate_rooms() -> void:
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
 				
+			# create dictionary to get room node back when needed
+			vec_map[Vector2(x,y)] = room
 			# add room to the world map
 			$"../map_gen".add_child(room)
 			
 			# dont spawn content if its a hallway
 			if room.room_name == "hallway":
 				room.corner()
-				
+			
 			# Randomly spawn items or monsters
 			else:
 				spawn_room_content(room)
-	
+			
 	get_tree().create_timer(1)
 	calculate_key_and_exit()
 
 
 func calculate_key_and_exit() -> void:
 	pass
-	
+
+# add fog to all empty rooms to make it look nice
+func create_fog_room(x : int, y : int):
+	if map[x][y]:
+		return
+	var room = room_scene[0].instantiate()
+	room.position = Vector2(x, y) * 272
+	$"../map_gen".add_child(room)
+
 # adjust the first room position if it does not spawn
 func adjust_first_room() -> void:
 	for x in range(map_width):
@@ -367,6 +385,12 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
+	if room.room_name == "Large Verticle":
+		pass
+	
+	if room.room_name == "Large Horizontal":
+		pass
+	
 	# Assuming a room size of 272x272
 	return Vector2(
 		(randf() * 144) + room.position.x + 16, 
@@ -397,6 +421,25 @@ func add_exit_to_last_room() -> void:
 		if GameMaster.DEBUG_MAP: print(exit.position)
 		if is_position_valid_for_item(exit.position, last_room):
 			$"../map_gen".call_deferred("add_child", exit)
+
+# command line spawn
+func force_spawn(player_pos : Vector2, entity : String, option : int):
+	var spawn_options = {"gold" : gold, "enemy" : enemies }
+	var thing = spawn_options[entity][option].instantiate()
+	if thing:
+		var cur_room = vec_map[((player_pos) / 272).floor()]
+		if cur_room.room_name == "hallway":
+			$"../CommandLine".command_history.append("cant spawn inside " + cur_room.room_name)
+			return
+		thing.position = get_random_position_in_room(cur_room)
+		thing.position.x = floor(thing.position.x / 16) * 16 + 8
+		thing.position.y = floor(thing.position.y / 16) * 16 + 8
+		if GameMaster.DEBUG_MAP: print(thing.position)
+		if is_position_valid_for_item(thing.position, cur_room):
+			$"../map_gen".call_deferred("add_child", thing)
+			$"../CommandLine".command_history.append("Succesfully spawned " + thing.entity_name)
+	else:
+		$"../CommandLine".command_history.append("Spawning thing failed")
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
@@ -435,7 +478,7 @@ func regenerate_map() -> void:
 	first_room_pos = Vector2.ZERO
 	map = []
 	room_grid = {}
-	#room_nodes = []
+	vec_map = {}
 	
 	for y in range(map_height):
 		map.append([])

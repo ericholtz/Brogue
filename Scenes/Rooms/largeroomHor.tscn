@@ -259,7 +259,7 @@ sources/0 = SubResource("TileSetAtlasSource_ogthx")
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eoeq3"]
 blend_mode = 3
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lyw6r"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nahb4"]
 texture = ExtResource("1_yhyyq")
 0:0/0 = 0
 1:0/0 = 0
@@ -495,8 +495,8 @@ texture = ExtResource("1_yhyyq")
 3:13/0/modulate = Color(0, 0, 0, 1)
 3:13/0/material = SubResource("CanvasItemMaterial_eoeq3")
 
-[sub_resource type="TileSet" id="TileSet_qpu42"]
-sources/0 = SubResource("TileSetAtlasSource_lyw6r")
+[sub_resource type="TileSet" id="TileSet_j21ld"]
+sources/0 = SubResource("TileSetAtlasSource_nahb4")
 
 [node name="LargeroomHor" type="Node2D"]
 script = ExtResource("1_w1e0c")
@@ -556,5 +556,4 @@ tile_map_data = PackedByteArray("AAAHAAIAAAAKAAIAAAAEAAQAAAAJAAQAAAAGAAYAAAAJAAE
 tile_set = SubResource("TileSet_7aqmj")
 
 [node name="Fog" type="TileMapLayer" parent="."]
-visible = false
-tile_set = SubResource("TileSet_qpu42")
+tile_set = SubResource("TileSet_j21ld")

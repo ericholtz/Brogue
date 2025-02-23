@@ -21,9 +21,10 @@ var flag_west = false
 
 func _ready():
 	fill_fog()  # Covers the map at the start
-	fog_tilemap.z_index = 11
+	fog_tilemap.z_index = 10
 	
 func _process(_delta):
+	$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles
