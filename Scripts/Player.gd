@@ -140,40 +140,6 @@ func _on_item_gain(itemRoot : Area2D):
 		print(inventory)
 	else:
 		print("Already have one ", itemName, " cannot pick up more")
-	
-	# modify stats
-	#match item_gained:
-		## Weapons
-		#"GoldSword":
-			#print("collected GoldSword, increasing strength by 1")
-			#strength += 1
-		#"MetalSword":
-			#print("collected MetalSword, increasing strength by 4")
-			#strength += 4
-		#"MetalHammer":
-			#print("collected MetalHammer, increasing strength by 2")
-			#strength += 2
-		#"MetalBattleaxe":
-			#print("collected MetalBattleaxe, increasing strength by 2")
-			#strength += 3
-		#
-		## Armor
-		#"LeatherArmor":
-			#print("collected LeatherArmor, increasing defense by 1")
-			#defense += 1
-		#"ChainArmor":
-			#print("collected ChainArmor, increasing defense by 3")
-			#defense += 3
-		#
-		## Potions
-		#"BluePotion": print("collected BluePotion, adding to inventory")
-		#"GreenPotion": print("collected GreenPotion, adding to inventory")
-		#"OrangePotion": print("collected OrangePotion, adding to inventory")
-		#"PurplePotion": print("collected PurplePotion, adding to inventory")
-		#"RedPotion": print("collected RedPotion, adding to inventory")
-		#
-		## Misc
-		#"MetalKey": print("collected MetalKey, adding to inventory")
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
