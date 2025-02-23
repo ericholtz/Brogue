@@ -16,10 +16,13 @@ var moving = false #keeps us from glitching out movement
 var inventory : Array[String] = []
 @export var gold = 0
 
+var baseStrength = 1
+var baseDefense = 1
+
 var player_name = ""
 var health = 10
-var strength = 1
-var defense = 1
+var strength = baseStrength
+var defense = baseDefense
 
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
@@ -138,8 +141,15 @@ func _on_item_gain(itemRoot : Area2D):
 		itemRoot.visible = false
 		print("Added ", itemName, " to inventory. Current inventory is:")
 		print(inventory)
+		
+		if (item.type == EntityType.MELEE_WEAPON):
+			strength = baseStrength + itemRoot.find_child("MeleeWeaponStats").attack
+			print("Now wielding ", itemName, ". strength = ", strength)
+		if (item.type == EntityType.ARMOR):
+			defense = baseDefense + itemRoot.find_child("ArmorStats").defense
+			print("Now wearing ", itemName, ". defense = ", defense)
 	else:
-		print("Already have one ", itemName, " cannot pick up more")
+		print("Already have one ", itemName, ", cannot pick up more")
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
