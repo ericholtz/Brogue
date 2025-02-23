@@ -385,6 +385,12 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
+	if room.room_name == "Large Verticle":
+		pass
+	
+	if room.room_name == "Large Horizontal":
+		pass
+	
 	# Assuming a room size of 272x272
 	return Vector2(
 		(randf() * 144) + room.position.x + 16, 
