@@ -38,22 +38,24 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n24i7"]
 size = Vector2(48, 48)
 
-[node name="Skeleton Warrior" type="CharacterBody2D"]
+[node name="Node2D" type="Node2D"]
+
+[node name="Skeleton Warrior" type="CharacterBody2D" parent="."]
 script = ExtResource("1_25kjv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Skeleton Warrior"]
 shape = SubResource("RectangleShape2D_3i2wy")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="Skeleton Warrior"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Skeleton Warrior"]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_qw51r")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="Skeleton Warrior"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Skeleton Warrior/Area2D"]
 shape = SubResource("RectangleShape2D_n24i7")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Skeleton Warrior/Area2D" to="Skeleton Warrior" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Skeleton Warrior/Area2D" to="Skeleton Warrior" method="_on_area_2d_body_exited"]

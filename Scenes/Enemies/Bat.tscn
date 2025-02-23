@@ -37,21 +37,23 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldeem"]
 size = Vector2(80, 80)
 
-[node name="Bat" type="CharacterBody2D"]
+[node name="Node2D" type="Node2D"]
+
+[node name="Bat" type="CharacterBody2D" parent="."]
 script = ExtResource("1_eiiw1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bat"]
 shape = SubResource("RectangleShape2D_egyex")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="Bat"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Bat"]
 sprite_frames = SubResource("SpriteFrames_o73c6")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="Bat"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bat/Area2D"]
 shape = SubResource("RectangleShape2D_ldeem")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Bat/Area2D" to="Bat" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Bat/Area2D" to="Bat" method="_on_area_2d_body_exited"]
