@@ -60,3 +60,27 @@ func enemyTurn():
 		print("Enemy [", i, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
 		await enemy.take_turn()
 	print("Ending enemy turn")
+
+#combat method, this can be changed for balance
+func combat(player, enemy):
+	var playerName = player.player_name
+	var enemyName = enemy.name
+	#take combatant strength - opponent defense as damage, floor to 1
+	var playerDamage = max(player.strength - enemy.defense, 1)
+	var enemyDamage = max(enemy.strength - player.defense, 1)
+	
+	#I don't love that this doesn't use signals both ways but I wrote it and it works
+	enemy.health -= playerDamage
+	print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.")
+	damage_player_signal.emit(enemyDamage)
+	print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	
+	#if enemy dies, call free
+	if enemy.health <= 0:
+		print(enemyName," defeated!")
+		enemy.queue_free()
+	
+	#if player dies, game over. Need Gabe's game over screen called here.
+	if player.health <= 0:
+		print(playerName," died!")
+		pass

@@ -79,17 +79,17 @@ func _process(delta):
 				return
 
 func move(dir) -> bool:
-	#set ray to move direction +16 pixels
+	#set ray to move direction +16 pixels, and update immediately
 	Ray.target_position = inputs[dir] * tileSize
-	#update instantly
 	Ray.force_raycast_update()
 	
-	#if ray is colliding with a wall, we can't move there
+	#check if ray is colliding with wall/enemy
+	#return true for valid turn, false for invalid turn
 	if Ray.is_colliding():
 		var collider = Ray.get_collider()
 		if collider.is_in_group("enemies"):
-			GameMaster.damage_player(collider.Str)
-			return false
+			GameMaster.combat(self, collider)
+			return true
 	else:
 		#create a new Tween object to handle smooth movement
 		var tween = create_tween()
@@ -151,13 +151,13 @@ func _on_item_gain(item_gained: String):
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
-	
+
 func _on_damage_received(amount: int):
 	if health > 0:
 		health -= amount
-	print("Player took ", amount, " damage. New health:", health)
+	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
 	if health < 15:
 		health += amount
-	print("Player healed ", amount, " points. New health:", health)
+	#print("Player healed ", amount, " points. New health:", health)

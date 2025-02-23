@@ -14,9 +14,9 @@ var player = null
 var gold = 0
 
 #Monsters States
-var Health = 10
-var Str = 2
-var Def = 1
+var health = 10
+var strength = 2
+var defense = 1
 var Movement_Speed = 1
 
 var tileSize = 16
@@ -30,6 +30,7 @@ var inputs = {"Up": Vector2.UP,
 func _ready():
 	# position and animation
 	add_to_group("enemies")
+	name = "Skeleton"
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	Animations.play("")
@@ -77,7 +78,7 @@ func move(dir) -> bool:
 	if Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var collider = Ray.get_collider()
 		if collider.is_in_group("Player"):
-				GameMaster.damage_player(Str)
+				GameMaster.combat(collider, self)
 				return false
 		else:
 				return false
