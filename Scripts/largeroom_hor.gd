@@ -4,8 +4,8 @@ extends Node2D
 @export var reveal_radius: int = 3  # Radius of revealed area
 @onready var fog_tilemap = $Fog
 
-@export var inside_width : int
-@export var inside_height : int
+@export var inside_width : int = 26
+@export var inside_height : int = 9
 
 var room_name = "Large Horizontal"
 var Generation
