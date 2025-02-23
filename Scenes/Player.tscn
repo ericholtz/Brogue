@@ -56,3 +56,5 @@ zoom = Vector2(3, 3)
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0.00147247, -0.0235901)
 target_position = Vector2(0, 16)
+
+[node name="Inventory" type="Node2D" parent="."]
