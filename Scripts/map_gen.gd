@@ -8,7 +8,7 @@ extends Node
 	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
-@onready var weapons : Array[PackedScene] = [
+@onready var melee_weapons : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
@@ -33,8 +33,8 @@ extends Node
 	]
 
 @onready var enemies : Array[PackedScene] = [
-	load("res://Scenes/Monsters/skeleton_warrior.tscn"),
-	load("res://Scenes/Monsters/Bat.tscn")
+	load("res://Scenes/Enemies/SkeletonWarrior.tscn"),
+	load("res://Scenes/Enemies/Bat.tscn")
 	]
 
 
@@ -66,7 +66,7 @@ const BASE_ROOMS = 12
 const BASE_ENEMY_SPAWN_CHANCE = 0.1
 const BASE_MAX_ENEMIES = 10
 const BASE_MAX_GOLD = 2
-const BASE_MAX_WEAPONS = 1
+const BASE_MAX_MELEE_WEAPONS = 1
 const BASE_MAX_ARMOR = 1
 const BASE_MAX_POTIONS = 1
 const BASE_MAX_MISC = 1
@@ -80,7 +80,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 # spawn chance
 @export var enemy_spawn_chance : float = 0.9
 @export var gold_spawn_chance : float = 0.2
-@export var weapon_spawn_chance : float = 0.1
+@export var melee_weapon_spawn_chance : float = 0.1
 @export var armor_spawn_chance : float = 0.1
 @export var potion_spawn_chance : float = 0.1
 @export var misc_spawn_chance : float = 0.1
@@ -90,7 +90,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var max_enemies_per_room : int = 2
 @export var max_hearts_per_room : int
 @export var max_gold_per_room : int = 2
-@export var max_weapons_per_room : int = 1
+@export var max_melee_weapons_per_room : int = 1
 @export var max_armor_per_room : int = 1
 @export var max_potions_per_room : int = 1
 @export var max_misc_per_room : int = 1
@@ -358,9 +358,9 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn gold
 	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
 	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
-	# Spawn weapons
+	# Spawn melee_weapons
 	if GameMaster.DEBUG_MAP: print("Spawning: Weapons")
-	spawn_entities(room, weapons, weapon_spawn_chance, max_weapons_per_room)
+	spawn_entities(room, melee_weapons, melee_weapon_spawn_chance, max_melee_weapons_per_room)
 	# Spawn armor
 	if GameMaster.DEBUG_MAP: print("Spawning: Armor")
 	spawn_entities(room, armor, armor_spawn_chance, max_armor_per_room)
@@ -424,7 +424,7 @@ func add_exit_to_last_room() -> void:
 
 # command line spawn
 func force_spawn(player_pos : Vector2, entity : String, option : int):
-	var spawn_options = {"gold" : gold, "enemy" : enemies }
+	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "enemy" : enemies, "gold" : gold}
 	var thing = spawn_options[entity][option].instantiate()
 	if thing:
 		var cur_room = vec_map[((player_pos) / 272).floor()]
@@ -437,7 +437,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		if GameMaster.DEBUG_MAP: print(thing.position)
 		if is_position_valid_for_item(thing.position, cur_room):
 			$"../map_gen".call_deferred("add_child", thing)
-			$"../CommandLine".command_history.append("Succesfully spawned " + thing.entity_name)
+			$"../CommandLine".command_history.append("Succesfully spawned " + thing.get_child(0).name)
 	else:
 		$"../CommandLine".command_history.append("Spawning thing failed")
 
@@ -458,7 +458,7 @@ func regenerate_map() -> void:
 	# Scale spawn rates but cap them at 1.0 (100%)
 	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	gold_spawn_chance = min(gold_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
-	weapon_spawn_chance = min(weapon_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	melee_weapon_spawn_chance = min(melee_weapon_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	armor_spawn_chance = min(armor_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	potion_spawn_chance = min(potion_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	misc_spawn_chance = min(misc_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
@@ -466,7 +466,7 @@ func regenerate_map() -> void:
 	# Increase enemy capacity per room
 	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	max_gold_per_room = BASE_MAX_GOLD + (level * ENEMY_GROWTH_RATE)
-	max_weapons_per_room = BASE_MAX_WEAPONS + (level * ENEMY_GROWTH_RATE)
+	max_melee_weapons_per_room = BASE_MAX_MELEE_WEAPONS + (level * ENEMY_GROWTH_RATE)
 	max_armor_per_room = BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE)
 	max_potions_per_room = BASE_MAX_POTIONS + (level * ENEMY_GROWTH_RATE)
 	max_misc_per_room = BASE_MAX_MISC + (level * ENEMY_GROWTH_RATE)
