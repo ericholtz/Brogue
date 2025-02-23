@@ -65,15 +65,20 @@ func enemyTurn():
 func combat(player, enemy):
 	var playerName = player.player_name
 	var enemyName = enemy.name
-	#take combatant strength - opponent defense as damage, floor to 1
+	#take combatant strength - opponent defense as damage, floor to 1. Enemies can do 0 damage to player if they roll badly.
 	var playerDamage = max(player.strength - enemy.defense, 1)
 	var enemyDamage = max(enemy.strength - player.defense, 1)
+	if enemyDamage == 1:
+		enemyDamage = randi_range(0,1)
 	
 	#I don't love that this doesn't use signals both ways but I wrote it and it works
 	enemy.health -= playerDamage
 	print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.")
 	damage_player_signal.emit(enemyDamage)
-	print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	if enemyDamage >= 1:
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	else:
+		print(enemyName," missed!")
 	
 	#if enemy dies, call free
 	if enemy.health <= 0:
