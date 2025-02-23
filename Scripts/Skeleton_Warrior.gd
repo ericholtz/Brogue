@@ -89,7 +89,7 @@ func move(dir) -> bool:
 		moving = true #set this to true until tween is finished to disallow multiple moves at once
 		await tween.finished
 		moving = false
-		emit_signal("input_event") #emit a mdddovement signal here, after the player succesfully moves
+		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 		return true #flag for movement happening
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
