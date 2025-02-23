@@ -5,8 +5,8 @@ extends Node2D
 @onready var fog_tilemap = $Fog
 
 
-@export var inside_width : int
-@export var inside_height : int
+@export var inside_width : int = 9
+@export var inside_height : int = 9
 
 var room_name = "room"
 var Generation
