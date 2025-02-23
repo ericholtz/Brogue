@@ -3,20 +3,16 @@ extends CharacterBody2D
 @onready var Animations = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
 
-var entity_name = "Skeleton Warrior"
 
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
 
-#I dont use this! But When doing item it might be nice
-var gold = 5
-
 #Monsters States
 var Health = 10
-var Str = 1
-var Def = 2
-var Movement_Speed = 1
+var Str = 0.1
+var Def = 100
+var Movement_Speed = 0.5
 
 var tileSize = 16
 
@@ -27,11 +23,9 @@ var inputs = {"Up": Vector2.UP,
 			"Down": Vector2.DOWN}
 
 func _ready():
+	player = $"../Player"
 	# position and animation
 	add_to_group("enemies")
-	name = "Skeleton"
-	position = position.snapped(Vector2.ONE * tileSize)
-	position += Vector2.ONE * tileSize/2
 	Animations.play("")
 
 func take_turn():
@@ -58,14 +52,7 @@ func move(dir) -> bool:
 	
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
-	if Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
-		var collider = Ray.get_collider()
-		if collider.is_in_group("Player"):
-				GameMaster.combat(collider, self)
-				return false
-		else:
-				return false
-	else:
+	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 		tween.tween_property(self, "position", position + dir * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
@@ -74,6 +61,8 @@ func move(dir) -> bool:
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 		return true #flag for movement happening
+	return false #no movement, no delay
+
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":

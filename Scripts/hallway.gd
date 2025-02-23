@@ -21,9 +21,10 @@ var flag_west = false
 
 func _ready():
 	fill_fog()  # Covers the map at the start
-	fog_tilemap.z_index = 11
+	fog_tilemap.z_index = 10
 	
 func _process(_delta):
+	$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles
@@ -46,28 +47,24 @@ func reveal_area(playerposition):
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
 
 func north():
-	#pass
 	$DoorN.visible = true
 	flag_north = true
 	if $WallN:
 		$WallN.queue_free()
 	
 func south():
-	#pass
 	$DoorS.visible = true
 	flag_south = true
 	if $WallS:
 		$WallS.queue_free()
 	
 func east():
-	#pass
 	$DoorE.visible = true
 	flag_east = true
 	if $WallE:
 		$WallE.queue_free()
 	
 func west():
-	#pass
 	$DoorW.visible = true
 	flag_west = true
 	if $WallW:
@@ -111,7 +108,7 @@ func corner():
 		$CornerSW.visible = true
 		
 	else:
-		print("dead end")
+		if GameMaster.DEBUG_MAP: print("dead end")
 		if flag_north:
 			$CornerN.visible = true
 		elif flag_east:

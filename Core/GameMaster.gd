@@ -1,5 +1,7 @@
 extends Node
 
+#var rng : RandomNumberGenerator
+
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
@@ -7,19 +9,27 @@ signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 
+# Turn on/off debug statments
+var DEBUG_MAP = false
+
+var DISABLE_FOG = true
+
+# seeds
+var current_seed
+var user_seed
+
 var turnCounter = 0
 var can_move = false
 
-func collectItem(itemName: String):
-	match itemName:
-		"SmallGold":
-			gained_gold.emit(2)
-		"MediumGold":
-			gained_gold.emit(5)
-		"LargeGold":
-			gained_gold.emit(10)
+enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
+
+func collectEntity(entity: Area2D):
+	var entityType = entity.get_child(0).type
+	match entityType:
+		EntityType.GOLD:
+			gained_gold.emit(entity.find_child("GoldStats").gold_worth)
 		_:
-			gained_item.emit(itemName)
+			gained_item.emit(entity)
 
 func damage_player(amount: int):
 	print("Damaging player for "+str(amount)+" points.")

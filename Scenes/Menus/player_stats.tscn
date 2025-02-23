@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://dngn0i1cn5aip"]
+
+[ext_resource type="Script" path="res://Scripts/player_stats.gd" id="1_f5bc8"]
+
+[node name="PlayerStats" type="CanvasLayer"]
+script = ExtResource("1_f5bc8")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Seed" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+columns = 2
+
+[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Attack:"
+
+[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Def" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Defense:"
+
+[node name="DefVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Health" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Health:"
+
+[node name="HealthVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Inventory" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory"]
+layout_mode = 2
+
+[node name="Close" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Close"

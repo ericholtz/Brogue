@@ -1,37 +1,42 @@
 extends Node
 
 @onready var room_scene : Array[PackedScene] = [
+	load("res://Scenes/Rooms/fog_room.tscn"),
 	load("res://Scenes/Rooms/room.tscn"),
 	load("res://Scenes/Rooms/hallway.tscn"),
 	load("res://Scenes/Rooms/largeroomHor.tscn"),
 	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
-@onready var items : Array[PackedScene] = [
-	# Weapons
+@onready var melee_weapons : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
-	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
-	
-	# Armor
+	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn")
+	]
+
+@onready var armor : Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
-	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
-	
-	# Potions
+	load("res://Scenes/Items/Armor/ChainArmor.tscn")
+	]
+
+@onready var potions : Array[PackedScene] = [
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
 	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
-	load("res://Scenes/Items/Potions/RedPotion.tscn"),
-	
-	# Misc
-	load("res://Scenes/Items/Misc/MetalKey.tscn"),
+	load("res://Scenes/Items/Potions/RedPotion.tscn")
 	]
 
-@onready var Skeleton_Warrior : Array[PackedScene] = [
-	load("res://Scenes/Monsters/skeleton_warrior.tscn")
+@onready var misc : Array[PackedScene] = [
+	load("res://Scenes/Items/Misc/MetalKey.tscn")
 	]
+
+@onready var enemies : Array[PackedScene] = [
+	load("res://Scenes/Enemies/SkeletonWarrior.tscn"),
+	load("res://Scenes/Enemies/Bat.tscn")
+	]
+
 
 @onready var gold : Array[PackedScene] = [
 	load("res://Scenes/Gold/SmallGold.tscn"),
@@ -53,15 +58,18 @@ var max_distance = -1
 
 var map : Array
 var room_grid
-var current_seed = randi()
+var vec_map
 
 # Base values for scaling
 const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
-const BASE_ENEMY_SPAWN_CHANCE = 0.2
-const BASE_MAX_ENEMIES = 2
-const BASE_MAX_COINS = 2
-const BASE_MAX_ITEMS = 2
+const BASE_ENEMY_SPAWN_CHANCE = 0.1
+const BASE_MAX_ENEMIES = 10
+const BASE_MAX_GOLD = 2
+const BASE_MAX_MELEE_WEAPONS = 1
+const BASE_MAX_ARMOR = 1
+const BASE_MAX_POTIONS = 1
+const BASE_MAX_MISC = 1
 
 # Scaling factors
 const MAP_GROWTH_RATE = 2  # How much the map increases each level
@@ -69,28 +77,47 @@ const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
 const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
-#spawn chance
-@export var enemy_spawn_chance : float = 0.2
-@export var coin_spawn_chance : float = 0.2
-@export var item_spawn_chance : float = 0.2
+# spawn chance
+@export var enemy_spawn_chance : float = 0.9
+@export var gold_spawn_chance : float = 0.2
+@export var melee_weapon_spawn_chance : float = 0.1
+@export var armor_spawn_chance : float = 0.1
+@export var potion_spawn_chance : float = 0.1
+@export var misc_spawn_chance : float = 0.1
 @export var heart_spawn_chance : float
 
+# max per room
 @export var max_enemies_per_room : int = 2
 @export var max_hearts_per_room : int
-@export var max_coins_per_room : int = 2
-@export var max_items_per_room : int = 2
+@export var max_gold_per_room : int = 2
+@export var max_melee_weapons_per_room : int = 1
+@export var max_armor_per_room : int = 1
+@export var max_potions_per_room : int = 1
+@export var max_misc_per_room : int = 1
 
 func _ready() -> void:
+	# array of the valid rooms
 	map = []
+	# dictionary of location and room name
 	room_grid = {}
+	# dictionary of location and room node
+	vec_map = {}
 	
+	# setup for inserting a seed befor begining of run
+	if GameMaster.user_seed:
+		GameMaster.current_seed = GameMaster.user_seed
+	# start with random seed
+	else:
+		GameMaster.current_seed = randi_range(1, 1000000000)
+	
+	# initilize all nodes to false and null
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
-	seed(randi_range(0, 1000000))
-	generate()
+			vec_map[Vector2(x,y)] = null
+	generate(0)
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -99,16 +126,15 @@ func clear_map() -> void:
 	await get_tree().process_frame
 
 # start inserting rooms into map
-func generate() -> void:
+func generate(cur_level : int) -> void:
 	# varify map clear is finished
 	await get_tree().process_frame
 	var size_h = round(map_height / 2)
 	var size_w = round(map_width / 2)
-	print(size_h, size_w)
+	
+	seed(GameMaster.current_seed + cur_level)
+	# populate map with all rooms
 	check_room(size_w, size_h, 0, Vector2.ZERO, true)
-	# Validate the first room position
-	#if not map[first_room_pos.x][first_room_pos.y]:
-		#adjust_first_room()
 	
 	# print view of map generation in the command line
 	var stri = ""
@@ -119,16 +145,19 @@ func generate() -> void:
 				stri += "0"
 			else:
 				stri += "X"
-	print(stri)
+	if GameMaster.DEBUG_MAP: print(stri)
+	# place rooms according to map
 	instantiate_rooms()
+	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
-	print(room_grid)
 	
-	# move player to start position
+	# move player to start position maybe need await for new tree before moving player
 	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
-	print("First room position (grid):", first_room_pos)
-	print("Player global position:", $"../Player".global_position)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 
+# populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
 	# no generated rooms reached max
 	if room_count >= rooms_to_generate:
@@ -145,9 +174,8 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 	
 	# get first room position
 	if first_room:
-		first_room_pos = Vector2(x,y)
-		print(first_room_pos)
-		print(first_room_pos.x)
+		first_room_pos = Vector2(x, y)
+		if GameMaster.DEBUG_MAP: print(first_room_pos)
 		
 	#if not is_hallway:
 	room_count += 1
@@ -170,58 +198,47 @@ func check_room(x : int, y : int, remaining : int, general_direction : Vector2, 
 		check_room(x + 1, y, max_remaining if first_room else remaining - 1, Vector2.RIGHT if first_room else general_direction)
 	if west or first_room:
 		check_room(x - 1, y, max_remaining if first_room else remaining - 1, Vector2.LEFT if first_room else general_direction)
-		
+
+# pick a room from the list of rooms to put into the world
 func instantiate_rooms() -> void:
 	# Base room options (default to only room and hallway)
 	if rooms_instantiated:
 		return
 	rooms_instantiated = true
-	#var merged_map = {}
-	#var room_grid = {}
 	
 	for x in range(map_width):
 		for y in range(map_height):
+			create_fog_room(x, y)
 			if not map[x][y] or room_grid[Vector2(x, y)]:
 				continue
-			var valid_rooms = [room_scene[0], room_scene[1]]
+
+			var valid_rooms = [room_scene[1], room_scene[2]]
 			var room
-			#var pos = Vector2(x, y)
+
 			# See if next cells are mergeable
 			var merge_right = x < map_width - 1 and map[x + 1][y] and room_grid[Vector2(x + 1, y)] == null
 			var merge_down = y < map_height - 1 and map[x][y + 1] and room_grid[Vector2(x, y + 1)] == null
 			
-			# Check if placing a large horizontal room would overlap with a vertical room
-			#var can_place_horizontal = merge_right and not room_grid.has(Vector2(x, y + 1))  # Ensure no vertical room below
-			#var can_place_vertical = merge_down and not room_grid.has(Vector2(x + 1, y))  # Ensure no horizontal room to the right
-			
 			# Try to merge horizontally if possible
 			if merge_right:
-				print(map[x+1][y], Vector2(x+1,y))
+				if GameMaster.DEBUG_MAP: print(map[x+1][y], Vector2(x+1,y))
 				if y > 0 and x < map_width - 1 and not room_grid[Vector2(x, y - 1)] == "Large Vertical" and not room_grid[Vector2(x + 1, y - 1)] == "Large Vertical":
-					valid_rooms.append(room_scene[2])
+					valid_rooms.append(room_scene[3])
 				elif y == 0:
-					valid_rooms.append(room_scene[2])
-				#else:
-					#print("Error with merge right logic at")
-					#print(Vector2(x,y), Vector2(x, y+1))
-				#print("Merged Large Horinzontal at (%d, %d) with (%d, %d)" % [x, y, x + 1, y])
+					valid_rooms.append(room_scene[3])
 			
 			# Try to merge vertically if possible
 			if merge_down:
-				print(map[x][y+1], Vector2(x, y+1))
+				if GameMaster.DEBUG_MAP: print(map[x][y+1], Vector2(x, y+1))
 				if x > 0 and y < map_height - 1 and not room_grid[Vector2(x - 1, y)] == "Large Horizontal" and not room_grid[Vector2(x - 1, y + 1)] == "Large Horizontal":
-					valid_rooms.append(room_scene[3])  # Large Vertical
+					valid_rooms.append(room_scene[4])  # Large Vertical
 				elif x == 0:
-					valid_rooms.append(room_scene[3])  # Large Vertical
-				#else:
-					#print("Error with merge down logic")
-					#print(Vector2(x,y), Vector2(x, y+1))
-				#print("Merged Large Vertical at (%d, %d) with (%d, %d)" % [x, y, x, y + 1])
+					valid_rooms.append(room_scene[4])  # Large Vertical
 			
-			
+			# this is supposed to make spawn room the base room every time...
 			if Vector2(x, y) == first_room_pos:
-				room = room_scene[0].instantiate()
-				print("changed first room")
+				room = room_scene[1].instantiate()
+				if GameMaster.DEBUG_MAP: print("changed first room")
 			else:
 				room = valid_rooms.pick_random().instantiate()  # Pick from valid list
 			
@@ -229,21 +246,21 @@ func instantiate_rooms() -> void:
 			# Mark merged tiles for large rooms
 			if room.room_name == "Large Horizontal":
 				room_grid[Vector2(x + 1, y)] = room.room_name
-				print("Merged Large Horizontal at (%d, %d) through (%d, %d)" % [x, y, x + 1, y])
-				
-				
+				vec_map[Vector2(x + 1, y)] = room
 			elif room.room_name == "Large Vertical":
 				room_grid[Vector2(x, y + 1)] = room.room_name
-				print("Merged Large Vertical at (%d, %d) through (%d, %d)" % [x, y, x, y + 1])
+				vec_map[Vector2(x, y + 1)] = room
 				
-			#
+			# set position in room and check distance from first room
 			room.position = Vector2(x, y) * 272
 			var distance = get_distance(Vector2(x, y), first_room_pos)
 			
+			# set a last_room to the farthest room generated
 			if distance > max_distance and not room.room_name == "hallway":
 				max_distance = distance
 				last_room = room
 			
+			# logic for opening doors between each of the generated rooms and halls
 			if y < map_height - 1 and map[x][y + 1]:
 				if room.room_name == "Large Horizontal":
 					room.southleft()
@@ -284,6 +301,7 @@ func instantiate_rooms() -> void:
 				elif room.room_name != "Large Horizontal":
 					room.east()
 			
+			# check to the right of a double horizontal room
 			if x < map_width - 2 and map[x + 2][y]:
 				if room.room_name == "Large Horizontal":
 					room.east()
@@ -295,26 +313,34 @@ func instantiate_rooms() -> void:
 			if(first_room_pos != Vector2(x, y)):
 				room.Generation = self
 				
+			# create dictionary to get room node back when needed
+			vec_map[Vector2(x,y)] = room
 			# add room to the world map
 			$"../map_gen".add_child(room)
 			
 			# dont spawn content if its a hallway
 			if room.room_name == "hallway":
 				room.corner()
-				
+			
 			# Randomly spawn items or monsters
 			else:
 				spawn_room_content(room)
 			
-			#room_nodes.append(room)
-	
 	get_tree().create_timer(1)
 	calculate_key_and_exit()
 
 
 func calculate_key_and_exit() -> void:
 	pass
-	
+
+# add fog to all empty rooms to make it look nice
+func create_fog_room(x : int, y : int):
+	if map[x][y]:
+		return
+	var room = room_scene[0].instantiate()
+	room.position = Vector2(x, y) * 272
+	$"../map_gen".add_child(room)
+
 # adjust the first room position if it does not spawn
 func adjust_first_room() -> void:
 	for x in range(map_width):
@@ -324,49 +350,47 @@ func adjust_first_room() -> void:
 				print("Adjusted first room position to: ", first_room_pos)
 				return
 
-# spawn all items/monsters/coins for each room
+# spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
-	# Spawn Skeleton_Warrior
-	if randf() < enemy_spawn_chance:
-		print("Spawning: Skeleton Warriors")
-		for i in range(randi() % max_enemies_per_room + 1):  # Random number of coins
-			var SW = Skeleton_Warrior.pick_random().instantiate()
-			SW.z_index = 1
-			SW.position = get_random_position_in_room(room)
-			SW.position.x = floor(SW.position.x / 16) * 16
-			SW.position.y = floor(SW.position.y / 16) * 16 
-			print(SW.position)
-			if is_position_valid_for_item(SW.position, room):
-				$"../map_gen".call_deferred("add_child", SW)
-	
-	# Spawn coins
-	if randf() < coin_spawn_chance:
-		print("spawning coins")
-		for i in range(randi() % max_coins_per_room + 1):  # Random number of coins
-			var coin = gold.pick_random().instantiate()
-			coin.z_index = 1
-			coin.position = get_random_position_in_room(room)
-			coin.position.x = floor(coin.position.x / 16) * 16 + 8
-			coin.position.y = floor(coin.position.y / 16) * 16 + 8
-			print(coin.position)
-			if is_position_valid_for_item(coin.position, room):
-				$"../map_gen".call_deferred("add_child", coin)
+	# Spawn enemies
+	if GameMaster.DEBUG_MAP: print("Spawning: Enemies")
+	spawn_entities(room, enemies, enemy_spawn_chance, max_enemies_per_room)
+	# Spawn gold
+	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
+	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
+	# Spawn melee_weapons
+	if GameMaster.DEBUG_MAP: print("Spawning: Weapons")
+	spawn_entities(room, melee_weapons, melee_weapon_spawn_chance, max_melee_weapons_per_room)
+	# Spawn armor
+	if GameMaster.DEBUG_MAP: print("Spawning: Armor")
+	spawn_entities(room, armor, armor_spawn_chance, max_armor_per_room)
+	# Spawn potions
+	if GameMaster.DEBUG_MAP: print("Spawning: Potions")
+	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
+	# Spawn misc
+	if GameMaster.DEBUG_MAP: print("Spawning: Misc")
+	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
 
-	# Spawn items
-	if randf() < item_spawn_chance:
-		print("spawning items")
-		for i in range(randi() % max_items_per_room + 1):  # Random number of items
-			var item = items.pick_random().instantiate()
-			item.z_index = 1
-			item.position = get_random_position_in_room(room)
-			item.position.x = floor(item.position.x / 16) * 16 + 8
-			item.position.y = floor(item.position.y / 16) * 16 + 8
-			print(item.position)
-			if is_position_valid_for_item(item.position, room):
-				$"../map_gen".call_deferred("add_child", item)
+# spawn one entity based off room, instantiated node, and chance and max constants about the node
+func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance : float, max_per_room : int) -> void:
+	if randf() < spawn_chance:
+		for i in range(randi() % max_per_room + 1):  # Random number of gold
+			var entity = entity_pool.pick_random().instantiate()
+			entity.position = get_random_position_in_room(room)
+			entity.position.x = floor(entity.position.x / 16) * 16 + 8
+			entity.position.y = floor(entity.position.y / 16) * 16 + 8
+			if GameMaster.DEBUG_MAP: print(entity.position)
+			if is_position_valid_for_item(entity.position, room):
+				$"../map_gen".call_deferred("add_child", entity)
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
+	if room.room_name == "Large Verticle":
+		pass
+	
+	if room.room_name == "Large Horizontal":
+		pass
+	
 	# Assuming a room size of 272x272
 	return Vector2(
 		(randf() * 144) + room.position.x + 16, 
@@ -378,7 +402,7 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 	var roomItems = room.get_children()
 	for item in roomItems:
 		if item is Node2D and item.position.distance_to(position) < 32:
-			print("failed to add gold")
+			print("failed to add thing to room")
 			return false
 	return true
 
@@ -394,12 +418,32 @@ func add_exit_to_last_room() -> void:
 		exit.position = get_random_position_in_room(last_room)
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
-		print(exit.position)
+		if GameMaster.DEBUG_MAP: print(exit.position)
 		if is_position_valid_for_item(exit.position, last_room):
 			$"../map_gen".call_deferred("add_child", exit)
 
+# command line spawn
+func force_spawn(player_pos : Vector2, entity : String, option : int):
+	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "enemy" : enemies, "gold" : gold}
+	var thing = spawn_options[entity][option].instantiate()
+	if thing:
+		var cur_room = vec_map[((player_pos) / 272).floor()]
+		if cur_room.room_name == "hallway":
+			$"../CommandLine".command_history.append("cant spawn inside " + cur_room.room_name)
+			return
+		thing.position = get_random_position_in_room(cur_room)
+		thing.position.x = floor(thing.position.x / 16) * 16 + 8
+		thing.position.y = floor(thing.position.y / 16) * 16 + 8
+		if GameMaster.DEBUG_MAP: print(thing.position)
+		if is_position_valid_for_item(thing.position, cur_room):
+			$"../map_gen".call_deferred("add_child", thing)
+			$"../CommandLine".command_history.append("Succesfully spawned " + thing.get_child(0).name)
+	else:
+		$"../CommandLine".command_history.append("Spawning thing failed")
+
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
+	GameMaster.can_move = false
 	# clear all children under map
 	clear_map()
 	await get_tree().process_frame
@@ -413,13 +457,19 @@ func regenerate_map() -> void:
 	
 	# Scale spawn rates but cap them at 1.0 (100%)
 	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
-	coin_spawn_chance = min(coin_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
-	item_spawn_chance = min(item_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	gold_spawn_chance = min(gold_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	melee_weapon_spawn_chance = min(melee_weapon_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	armor_spawn_chance = min(armor_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	potion_spawn_chance = min(potion_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
+	misc_spawn_chance = min(misc_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	
 	# Increase enemy capacity per room
 	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
-	max_coins_per_room = BASE_MAX_COINS + (level * ENEMY_GROWTH_RATE)
-	max_items_per_room = BASE_MAX_ITEMS + (level * ENEMY_GROWTH_RATE)
+	max_gold_per_room = BASE_MAX_GOLD + (level * ENEMY_GROWTH_RATE)
+	max_melee_weapons_per_room = BASE_MAX_MELEE_WEAPONS + (level * ENEMY_GROWTH_RATE)
+	max_armor_per_room = BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE)
+	max_potions_per_room = BASE_MAX_POTIONS + (level * ENEMY_GROWTH_RATE)
+	max_misc_per_room = BASE_MAX_MISC + (level * ENEMY_GROWTH_RATE)
 	
 	# reset variables
 	room_count = 0
@@ -428,12 +478,12 @@ func regenerate_map() -> void:
 	first_room_pos = Vector2.ZERO
 	map = []
 	room_grid = {}
-	#room_nodes = []
+	vec_map = {}
 	
 	for y in range(map_height):
 		map.append([])
 		for x in range(map_width):
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
-	seed(randi_range(0, 1000000))
-	generate()
+	generate(level)
+	GameMaster.can_move = true

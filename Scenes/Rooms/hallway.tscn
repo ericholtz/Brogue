@@ -512,7 +512,7 @@ sources/0 = SubResource("TileSetAtlasSource_fulv6")
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eoeq3"]
 blend_mode = 3
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g2fpy"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uqnu2"]
 texture = ExtResource("1_3ivhg")
 0:0/0 = 0
 1:0/0 = 0
@@ -749,7 +749,7 @@ texture = ExtResource("1_3ivhg")
 3:13/0/material = SubResource("CanvasItemMaterial_eoeq3")
 
 [sub_resource type="TileSet" id="TileSet_k0yfh"]
-sources/0 = SubResource("TileSetAtlasSource_g2fpy")
+sources/0 = SubResource("TileSetAtlasSource_uqnu2")
 
 [node name="LargeHall" type="Node2D"]
 script = ExtResource("1_dm8bd")

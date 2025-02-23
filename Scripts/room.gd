@@ -10,16 +10,19 @@ extends Node2D
 
 var room_name = "room"
 var Generation
+var spawned_entity
 
 var start_idx = -3
 var total_width = 17
 var total_height = 17
 
 func _ready():
+	spawned_entity = {}
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
 	
 func _process(_delta):
+	$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles

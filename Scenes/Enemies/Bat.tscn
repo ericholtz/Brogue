@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://cox5mbxj51dgo"]
+
+[ext_resource type="Script" path="res://Scripts/bat.gd" id="1_eiiw1"]
+[ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_n0lap"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_egyex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltkm2"]
+atlas = ExtResource("2_n0lap")
+region = Rect2(144, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrsy1"]
+atlas = ExtResource("2_n0lap")
+region = Rect2(160, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hg3gn"]
+atlas = ExtResource("2_n0lap")
+region = Rect2(176, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o73c6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltkm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrsy1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hg3gn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldeem"]
+size = Vector2(80, 80)
+
+[node name="Bat" type="CharacterBody2D"]
+script = ExtResource("1_eiiw1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_egyex")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o73c6")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ldeem")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
