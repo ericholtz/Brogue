@@ -56,7 +56,7 @@ func takeTurn(turnsTaken: int):
 	print("Current turn: ",turnCounter);
 	can_move = false
 	#apply over-time effects, increment timers, whatever is appropriate here
-	print("Ending player turn")
+	print("Ending player turn\n")
 	took_turns.emit(1)
 	await enemyTurn()
 	can_move = true
@@ -67,33 +67,34 @@ func enemyTurn():
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for i in range(enemies.size()):
 		var enemy = enemies[i]
-		print("Enemy [", i, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
+		print("Enemy [", i,"|",enemy.name, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
 		await enemy.take_turn()
-	print("Ending enemy turn")
+	print("Ending enemy turn\n")
 
 #combat method, this can be changed for balance
 func combat(player, enemy):
 	var playerName = player.player_name
 	var enemyName = enemy.name
+	print("\nInitiating combat between ",playerName," and ",enemyName)
 	#take combatant strength - opponent defense as damage, floor to 1. Enemies can do 0 damage to player.
-	var playerDamage = max(player.strength - enemy.defense, 1)
-	var enemyDamage = enemy.strength - player.defense
+	var playerDamage = max(player.attack - enemy.defense, 1)
+	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
 	#I don't love that this doesn't use signals both ways but I wrote it and it works
 	enemy.health -= playerDamage
-	print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.")
+	print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	damage_player_signal.emit(enemyDamage)
 	if enemyDamage >= 1:
-		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.\n")
 	else:
-		print(enemyName," missed ",playerName,"!")
+		print(enemyName," missed ",playerName,"!\n")
 	
 	#if enemy dies, call free
 	if enemy.health <= 0:
-		print(enemyName," defeated!")
+		print(enemyName," defeated!\n")
 		enemy.queue_free()
 	
 	#if player dies, game over. Need Gabe's game over screen called here.
 	if player.health <= 0:
-		print(playerName," died!")
+		print(playerName," died!\n")
 		pass

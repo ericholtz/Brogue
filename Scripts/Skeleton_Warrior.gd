@@ -13,9 +13,9 @@ var player = null
 var gold = 5
 
 #Monsters States
-var Health = 10
-var Str = 1
-var Def = 2
+var health = 10
+var strength = 1
+var defense = 2
 var Movement_Speed = 1
 
 var tileSize = 16
