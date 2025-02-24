@@ -38,7 +38,7 @@ func update_stats():
 	lvl_label.text = str(player.level)
 	xp_label.text = str(player.currentXP)
 	var xpNeeded = player.XPtoNext - player.currentXP
-	xp_to_next_label = str(xpNeeded)
+	xp_to_next_label.text = str(xpNeeded)
 	update_inventory()
 
 func update_inventory():
