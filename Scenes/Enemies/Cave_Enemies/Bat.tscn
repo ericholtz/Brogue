@@ -1,9 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://cox5mbxj51dgo"]
 
-[ext_resource type="Script" path="res://Scripts/bat.gd" id="1_eiiw1"]
+[ext_resource type="Script" path="res://Scripts/Monster_Scripts/bat.gd" id="1_eiiw1"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_n0lap"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egyex"]
+size = Vector2(16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ltkm2"]
 atlas = ExtResource("2_n0lap")

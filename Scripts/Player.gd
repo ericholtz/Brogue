@@ -16,7 +16,7 @@ var moving = false #keeps us from glitching out movement
 var inventory : Array[String] = []
 @export var gold = 0
 
-var baseStrength = 1
+var baseStrength = 2
 var baseDefense = 1
 
 var player_name = ""
