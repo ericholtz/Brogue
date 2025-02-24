@@ -13,10 +13,11 @@ var player = null
 var gold = 10
 
 #Monsters States
-var Health = 10
-var Str = 3
-var Def = 1
+var health = 10
+var strength = 3
+var defense = 1
 var Movement_Speed = 2
+var xp = 20
 
 var tileSize = 16
 
@@ -29,6 +30,7 @@ var inputs = {"Up": Vector2.UP,
 func _ready():
 	# position and animation
 	add_to_group("enemies")
+	name = "Bat"
 	Animations.play("")
 
 func take_turn():

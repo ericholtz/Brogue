@@ -13,10 +13,11 @@ var player = null
 var gold = 5
 
 #Monsters States
-var Health = 10
-var Str = 1
-var Def = 2
+var health = 10
+var strength = 1
+var defense = 2
 var Movement_Speed = 1
+var xp = 10
 
 var tileSize = 16
 
@@ -29,6 +30,7 @@ var inputs = {"Up": Vector2.UP,
 func _ready():
 	# position and animation
 	add_to_group("enemies")
+	name = "Skeleton"
 	Animations.play("")
 
 func take_turn():
@@ -55,7 +57,14 @@ func move(dir) -> bool:
 	
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
-	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+	if Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+		var collider = Ray.get_collider()
+		if collider.is_in_group("Player"):
+				GameMaster.combat(collider, self)
+				return false
+		else:
+				return false
+	else:
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 		tween.tween_property(self, "position", position + dir * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
@@ -64,8 +73,6 @@ func move(dir) -> bool:
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 		return true #flag for movement happening
-	return false #no movement, no delay
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
