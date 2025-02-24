@@ -131,11 +131,20 @@ func add_xp(amount: int):
 func gain_level():
 	while currentXP >= XPtoNext:
 		print("+++++Gained a level!+++++")
+		animate_level_up()
 		currentXP -= XPtoNext
 		level += 1
 		XPtoNext = 10 * (level ** 2)
 		strength += 1
 		defense += 1
+
+func animate_level_up():
+	var originColor = self.modulate
+	var animSpeed = 0.1
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "modulate", Color.GOLD, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 func end_game():
 	GameMaster.can_move = false
