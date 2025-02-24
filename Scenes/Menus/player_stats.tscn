@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dngn0i1cn5aip"]
+[gd_scene load_steps=2 format=3 uid="uid://bulhxywvpoddg"]
 
 [ext_resource type="Script" path="res://Scripts/player_stats.gd" id="1_f5bc8"]
 
@@ -31,18 +31,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 columns = 2
 
-[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="Level" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Attack:"
+text = "Level:"
 
-[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="LevelVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Def" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XP" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
-text = "Defense:"
+text = "Current XP:"
 
-[node name="DefVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XPval" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "XP Required to level up:"
+
+[node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
 [node name="Health" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
@@ -50,6 +57,34 @@ layout_mode = 2
 text = "Health:"
 
 [node name="HealthVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="BaseStr" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Base Strength:"
+
+[node name="BaseStrVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="BaseDef" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Base Defense:"
+
+[node name="BaseDefVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Weapon Attack:"
+
+[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Armor" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Armor:"
+
+[node name="ArmorVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
 [node name="Inventory" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]

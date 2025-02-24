@@ -1,16 +1,16 @@
 extends Node2D
 
-var defense : int
+var armor : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var itemName = get_parent().get_child(0).name
 	match itemName:
 		"LeatherArmor":
-			defense = 1
+			armor = 1
 		"ChainArmor":
-			defense = 2
+			armor = 2
 		_:
-			defense = 0
-	print(itemName, "'s defense = ", defense)
+			armor = 0
+	print(itemName, "'s armor = ", armor)
 	

@@ -18,11 +18,13 @@ var Movement_Speed = 2
 var xp = 10
 var gold = 3
 
+
 var tileSize = 16
 
 func _ready():
 	# position and animation
 	add_to_group("enemies")
+	name = "Bat"
 	Animations.play("")
 
 func take_turn():
@@ -41,8 +43,6 @@ func take_turn():
 			try_move = vec_to_cardinal(direction)
 		else:
 			return #skip Turn
-	#if try_move == Vector2.ZERO:  # Skip if no movement is needed
-		#return
 	if await move(try_move):
 		await get_tree().process_frame
 

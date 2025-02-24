@@ -6,27 +6,37 @@ extends CharacterBody2D
 @onready var Ray = $RayCast2D
 @onready var collision = $CollisionShape2D
 
+#debug flags
 var noclip_enabled = false
 var godmode_enabled = false
 
-var animationSpeed = 18 #tweening speed
-var moving = false #keeps us from glitching out movement
-
+#inventory and gold
 @onready var inventoryNode : Node2D = $"Inventory"
 var inventory : Array[String] = []
 @export var gold = 0
+enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
 
-var baseStrength = 2
-var baseDefense = 1
-
+#base player stats to be affected by levels/potions
 var player_name = ""
 var health = 10
-var strength = baseStrength
-var defense = baseDefense
+var level = 1
+var currentXP = 0
+var XPtoNext = 10
+var XPNeeded = XPtoNext - currentXP
+var strength = 1
+var defense = 1
 
+#variable player stats to be affected by equipment
+var attack = strength
+var armor = defense
+
+#movement related variables
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
-var moveDelay = 0.1  #movement delay in seconds
+var moveDelay = 0.15  #movement delay in seconds
+var animationSpeed = 18 #tweening speed
+var moving = false #keeps us from glitching out movement
+
 #dict map of input strings to directional vectors
 var inputs = {"Up": Vector2.UP,
 			"Left": Vector2.LEFT,
@@ -34,15 +44,15 @@ var inputs = {"Up": Vector2.UP,
 			"Down": Vector2.DOWN,
 			"Space": Vector2.ZERO}
 
-enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
-
+#run as soon as the player enters the scene
 func _ready():
-	# position and animation
+	#set position and start animation
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	PlayerAnim.play("Idle")
+	add_to_group("Player")
 	
-	# connect to gained_gold and gained_item signals
+	#connect to signals
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())
 	GameMaster.gained_item.connect(_on_item_gain.bind())
 	GameMaster.set_name.connect(_on_name_recieved.bind())
@@ -52,7 +62,6 @@ func _ready():
 
 #Called every frame to handle continuous input
 func _process(delta):
-	
 	var hasMoved = false
 	#if we're already tweening movement, don't move again
 	if not GameMaster.can_move or moving:
@@ -68,42 +77,37 @@ func _process(delta):
 	if Input.is_action_pressed("Right"):
 		PlayerAnim.flip_h = false
 	
-	#if input is JUST pressed, bypass movement delay and move immediately
+	#process input, both presses and holds
 	for dir in inputs.keys():
-		if Input.is_action_just_pressed(dir) and not hasMoved:
+		#if button is just pressed OR if timer has elapsed and button is held
+		if (Input.is_action_just_pressed(dir) or (moveTimer <= 0 and Input.is_action_pressed(dir))) and not hasMoved:
 			if await move(dir):
 				GameMaster.takeTurn(1)
 			#reset movement timer on succesful move
 			moveTimer = moveDelay
 			hasMoved = true
 			return
-			
-	#if movement timer has elapsed and key is held, loop turns
-	if moveTimer <= 0:
-		for dir in inputs.keys():
-			if Input.is_action_pressed(dir) and not hasMoved:
-				if await move(dir):
-					GameMaster.takeTurn(1)
-				#set movement timer to automove delay in this case
-				moveTimer = moveDelay
-				hasMoved = true
-				return
 
 func move(dir) -> bool:
-	
 	if noclip_enabled:
 		# Move freely without collision checks
 		position += inputs[dir] * tileSize
 		moveTimer = moveDelay
 		return true
 
-	#set ray to move direction +16 pixels
+	#set ray to move direction +16 pixels, update immediately
 	Ray.target_position = inputs[dir] * tileSize
-	#update instantly
 	Ray.force_raycast_update()
 	
-	#if ray is colliding with a wall, we can't move there
-	if !Ray.is_colliding():
+	#check if ray is colliding with wall/enemy
+	#return true for valid turn, false for invalid turn
+	#if collider is an enemy, initiate combat via GameMaster
+	if Ray.is_colliding():
+		var collider = Ray.get_collider()
+		if collider.is_in_group("enemies"):
+			GameMaster.combat(self, collider)
+			return true
+	else:
 		#create a new Tween object to handle smooth movement
 		var tween = create_tween()
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -118,6 +122,29 @@ func move(dir) -> bool:
 		return true
 	moveTimer = moveDelay
 	return false
+
+func add_xp(amount: int):
+	currentXP += amount
+	if currentXP >= XPtoNext:
+		gain_level()
+
+func gain_level():
+	while currentXP >= XPtoNext:
+		print("+++++Gained a level!+++++")
+		animate_level_up()
+		currentXP -= XPtoNext
+		level += 1
+		XPtoNext = 10 * (level ** 2)
+		strength += 1
+		defense += 1
+
+func animate_level_up():
+	var originColor = self.modulate
+	var animSpeed = 0.1
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "modulate", Color.GOLD, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 func end_game():
 	GameMaster.can_move = false
@@ -137,17 +164,17 @@ func _on_item_gain(itemRoot : Area2D):
 	# add to inventory
 	if itemName not in inventory:
 		inventory.append(itemName)
-		itemRoot.reparent(inventoryNode)
+		itemRoot.call_deferred("reparent", inventoryNode)
 		itemRoot.visible = false
 		print("Added ", itemName, " to inventory. Current inventory is:")
 		print(inventory)
 		
 		if (item.type == EntityType.MELEE_WEAPON):
-			strength = baseStrength + itemRoot.find_child("MeleeWeaponStats").attack
-			print("Now wielding ", itemName, ". strength = ", strength)
+			attack = strength + itemRoot.find_child("MeleeWeaponStats").attack
+			print("Now wielding ", itemName, ". attack = ", attack)
 		if (item.type == EntityType.ARMOR):
-			defense = baseDefense + itemRoot.find_child("ArmorStats").defense
-			print("Now wearing ", itemName, ". defense = ", defense)
+			armor = defense + itemRoot.find_child("ArmorStats").armor
+			print("Now wearing ", itemName, ". armor = ", armor)
 	else:
 		print("Already have one ", itemName, ", cannot pick up more")
 
@@ -164,12 +191,12 @@ func _on_damage_received(amount: int):
 		health -= amount
 		if health <= 0:
 			end_game()
-	print("Player took ", amount, " damage. New health:", health)
+	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
 	if health < 15:
 		health += amount
-	print("Player healed ", amount, " points. New health:", health)
+	#print("Player healed ", amount, " points. New health:", health)
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
