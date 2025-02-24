@@ -31,8 +31,6 @@ func _ready():
 	# position and animation
 	add_to_group("enemies")
 	name = "Skeleton"
-	position = position.snapped(Vector2.ONE * tileSize)
-	position += Vector2.ONE * tileSize/2
 	Animations.play("")
 
 func take_turn():
