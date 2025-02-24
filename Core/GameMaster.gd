@@ -87,7 +87,11 @@ func combat(player, enemy):
 	print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
 	if playerRoll <= playerHitChance:
 		enemy.health -= playerDamage
+		can_move = false
+		var attackTween = animate_attack(player, enemy)
+		await attackTween.finished
 		print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
+		can_move = true
 	else:
 		print(playerName," missed ",enemyName,"!\n")
 	
@@ -96,7 +100,11 @@ func combat(player, enemy):
 	print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
 	if enemyRoll <= enemyHitChance:
 		damage_player_signal.emit(enemyDamage)
+		can_move = false
+		var attackTween = animate_attack(enemy, player)
+		await attackTween.finished
 		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.\n")
+		can_move = true
 	else:
 		print(enemyName," missed ",playerName,"!\n")
 	
@@ -108,7 +116,6 @@ func combat(player, enemy):
 	#if player dies, game over. Need Gabe's game over screen called here.
 	if player.health <= 0:
 		print(playerName," died!\n")
-		pass
 
 #calculate chance to hit based on difference between attack and armor
 func calculate_hit_chance(attack, defense):
@@ -125,3 +132,23 @@ func calculate_hit_chance(attack, defense):
 	penalty = clamp(penalty, 0.0, baseHit - minHit)
 	
 	return baseHit - penalty
+
+func animate_attack(attacker, target) -> Tween:
+	var distance = -8.0
+	var animSpeed = 0.1
+	var originPos = attacker.position
+	var originColor = attacker.modulate
+	var direction = (attacker.position - target.position).normalized()
+	var offset = direction * distance
+	
+	#make an animation tween to do a couple things
+	var tween = get_tree().create_tween()
+	
+	#firstly, we bounce the player off the enemy's tile
+	tween.tween_property(attacker, "position", originPos + offset, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(attacker, "position", originPos, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	#then, we flash the attacked party red by modulating
+	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+	return tween
