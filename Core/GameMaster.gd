@@ -12,6 +12,10 @@ signal heal_player_signal(amount: int)
 # Turn on/off debug statments
 var DEBUG_MAP = false
 
+#For monsters
+var DEBUG_RANDMOVE = false
+
+#Dont Change Look at readme!
 var DISABLE_FOG = false
 
 # seeds

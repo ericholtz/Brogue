@@ -12,19 +12,16 @@ var player = null
 #I dont use this! But When doing item it might be nice
 var gold = 10
 
+
 #Monsters States
-var Health =20
+var Health = 20
 var Str = 8
 var Def = 0
 var Movement_Speed = 2
 
-var tileSize = 16
 
-#Just for testing
-var inputs = {"Up": Vector2.UP,
-			"Left": Vector2.LEFT,
-			"Right": Vector2.RIGHT,
-			"Down": Vector2.DOWN}
+
+var tileSize = 16
 
 func _ready():
 	# position and animation
@@ -38,21 +35,21 @@ func take_turn():
 	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-	if try_move == Vector2.ZERO:  # Skip if no movement is needed
-		return
+	else :
+		if GameMaster.DEBUG_RANDMOVE == true:
+			#move rand
+			var y = randi_range(-1, 1)
+			var x = randi_range(-1,1)
+			var direction = Vector2(x,y)
+			try_move = vec_to_cardinal(direction)
+		else:
+			return #Skip turn
 	if await move(try_move):
 		await get_tree().process_frame
 
 
 
 func move(dir) -> bool:
-	
-	#var min_val = 1
-	#var max_val = 4
-	#var rng = RandomNumberGenerator.new()
-	#var ran_num = rng.randi_range(min_val, max_val)
-	#var dir = str(ran_num)
-	
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
 	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
