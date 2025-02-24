@@ -51,6 +51,7 @@ extends Node
 	load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
 	]
 	
+
 @onready var Ice_enemies : Array[PackedScene] = [
 
 	]
