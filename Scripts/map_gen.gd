@@ -39,16 +39,16 @@ extends Node
 	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn"),
 	
 	#Temp Will go into Bosses loader
-	load("res://Scenes/Enemies/Boss/Dragon.tscn"),
+	#load("res://Scenes/Enemies/Boss/Dragon.tscn"),
 	
 	#Temp will go into Ice_enemies loader
-	load("res://Scenes/Enemies/Ice_Enemies/Polar_Bear.tscn"),
-	load("res://Scenes/Enemies/Ice_Enemies/Enraged_Polar_Bear.tscn"),
-	load("res://Scenes/Enemies/Ice_Enemies/Skeleton_Ice_Mage.tscn"),
-	load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Polar_Bear.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Enraged_Polar_Bear.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Skeleton_Ice_Mage.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn"),
 	
 	#Temp will go into rare
-	load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
+	#load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
 	]
 	
 

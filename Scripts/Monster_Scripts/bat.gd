@@ -9,14 +9,14 @@ var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
 
-#I dont use this! But When doing item it might be nice
-var gold = 10
 
 #Monsters States
-var Health = 3
-var Str = 3
-var Def = 0
+var health = 3
+var strength = 3
+var defense = 0
 var Movement_Speed = 2
+var xp = 10
+var gold = 3
 
 var tileSize = 16
 

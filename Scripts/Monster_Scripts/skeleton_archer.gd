@@ -9,14 +9,15 @@ var animationSpeed = 18 #Used what player was to match
 var moving = false
 var player = null
 
-#Droped stuff
-var gold = 15
-
 #Monsters States
-var Health = 3
-var Str = 2
-var Def = 1
+var health = 3
+var strength = 2
+var defense = 1
 var Movement_Speed = 1
+var xp = 15
+var gold = 5
+
+
 
 var tileSize = 16
 
