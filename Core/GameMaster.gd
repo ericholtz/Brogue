@@ -75,16 +75,27 @@ func enemyTurn():
 func combat(player, enemy):
 	var playerName = player.player_name
 	var enemyName = enemy.name
-	print("\nInitiating combat between ",playerName," and ",enemyName)
+	print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
+	
 	#take combatant strength - opponent defense as damage, floor to 1. Enemies can do 0 damage to player.
 	var playerDamage = max(player.attack - enemy.defense, 1)
 	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
-	#I don't love that this doesn't use signals both ways but I wrote it and it works
-	enemy.health -= playerDamage
-	print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
-	damage_player_signal.emit(enemyDamage)
-	if enemyDamage >= 1:
+	#roll for player's chance to hit
+	var playerHitChance = calculate_hit_chance(player.attack, enemy.defense)
+	var playerRoll = randf()
+	print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
+	if playerRoll <= playerHitChance:
+		enemy.health -= playerDamage
+		print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
+	else:
+		print(playerName," missed ",enemyName,"!\n")
+	
+	var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
+	var enemyRoll = randf()
+	print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
+	if enemyRoll <= enemyHitChance:
+		damage_player_signal.emit(enemyDamage)
 		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.\n")
 	else:
 		print(enemyName," missed ",playerName,"!\n")
@@ -98,3 +109,19 @@ func combat(player, enemy):
 	if player.health <= 0:
 		print(playerName," died!\n")
 		pass
+
+#calculate chance to hit based on difference between attack and armor
+func calculate_hit_chance(attack, defense):
+	var baseHit = 0.90
+	var minHit = 0.40
+	
+	var diff = attack - defense
+	
+	#penalty is applied if diff < 0
+	#for example, if the player has 3 defense vs a skeleton with 1 attack
+	#diff = -2, penalty = 0.20, chance to hit = 0.75
+	var penalty = 0.10 * max(-diff,0)
+	#clamp penalty to minHit value so there's always a chance to hit something
+	penalty = clamp(penalty, 0.0, baseHit - minHit)
+	
+	return baseHit - penalty
