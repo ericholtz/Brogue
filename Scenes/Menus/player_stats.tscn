@@ -31,6 +31,27 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 columns = 2
 
+[node name="Level" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Level:"
+
+[node name="LevelVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="XP" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Current XP:"
+
+[node name="XPval" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "XP Required to level up:"
+
+[node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
 [node name="Health" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Health:"

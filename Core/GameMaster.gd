@@ -103,14 +103,16 @@ func combat(player, enemy):
 		can_move = false
 		var attackTween = animate_attack(enemy, player)
 		await attackTween.finished
-		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.\n")
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 		can_move = true
 	else:
-		print(enemyName," missed ",playerName,"!\n")
+		print(enemyName," missed ",playerName,"!")
 	
 	#if enemy dies, call free
 	if enemy.health <= 0:
-		print(enemyName," defeated!\n")
+		print(enemyName," defeated!")
+		player.add_xp(enemy.xp)
+		print(playerName," gained <",enemy.xp,"> xp!")
 		enemy.queue_free()
 	
 	#if player dies, game over. Need Gabe's game over screen called here.

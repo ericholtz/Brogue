@@ -20,7 +20,9 @@ enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
 var player_name = ""
 var health = 10
 var level = 1
-var xp = 0
+var currentXP = 0
+var XPtoNext = 10
+var XPNeeded = XPtoNext - currentXP
 var strength = 1
 var defense = 1
 
@@ -120,6 +122,20 @@ func move(dir) -> bool:
 		return true
 	moveTimer = moveDelay
 	return false
+
+func add_xp(amount: int):
+	currentXP += amount
+	if currentXP >= XPtoNext:
+		gain_level()
+
+func gain_level():
+	while currentXP >= XPtoNext:
+		print("+++++Gained a level!+++++")
+		currentXP -= XPtoNext
+		level += 1
+		XPtoNext = 10 * (level ** 2)
+		strength += 1
+		defense += 1
 
 func end_game():
 	GameMaster.can_move = false

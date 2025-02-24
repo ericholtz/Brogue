@@ -17,6 +17,7 @@ var health = 10
 var strength = 1
 var defense = 2
 var Movement_Speed = 1
+var xp = 10
 
 var tileSize = 16
 

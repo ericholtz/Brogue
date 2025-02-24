@@ -7,6 +7,9 @@ extends CanvasLayer
 @onready var attack_label = $PanelContainer/VBoxContainer/GridContainer/AtkVal
 @onready var armor_label = $PanelContainer/VBoxContainer/GridContainer/ArmorVal
 @onready var health_label = $PanelContainer/VBoxContainer/GridContainer/HealthVal
+@onready var xp_label = $PanelContainer/VBoxContainer/GridContainer/XPval
+@onready var xp_to_next_label = $PanelContainer/VBoxContainer/GridContainer/XPtoNextVal
+@onready var lvl_label = $PanelContainer/VBoxContainer/GridContainer/LevelVal
 @onready var inventory_list = $PanelContainer/VBoxContainer/Inventory/ItemList
 @onready var close_button = $PanelContainer/VBoxContainer/Close
 
@@ -32,6 +35,10 @@ func update_stats():
 	base_def_label.text = str(player.defense)
 	attack_label.text = str(player.attack)
 	armor_label.text = str(player.armor)
+	lvl_label.text = str(player.level)
+	xp_label.text = str(player.currentXP)
+	var xpNeeded = player.XPtoNext - player.currentXP
+	xp_to_next_label = str(xpNeeded)
 	update_inventory()
 
 func update_inventory():
