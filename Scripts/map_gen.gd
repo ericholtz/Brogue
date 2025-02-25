@@ -32,9 +32,36 @@ extends Node
 	load("res://Scenes/Items/Misc/MetalKey.tscn")
 	]
 
-@onready var enemies : Array[PackedScene] = [
-	load("res://Scenes/Enemies/SkeletonWarrior.tscn"),
-	load("res://Scenes/Enemies/Bat.tscn")
+@onready var Cave_enemies : Array[PackedScene] = [
+	#These will stay
+	load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn"),
+	load("res://Scenes/Enemies/Cave_Enemies/Bat.tscn"),
+	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn"),
+	
+	#Temp Will go into Bosses loader
+	#load("res://Scenes/Enemies/Boss/Dragon.tscn"),
+	
+	#Temp will go into Ice_enemies loader
+	#load("res://Scenes/Enemies/Ice_Enemies/Polar_Bear.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Enraged_Polar_Bear.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Skeleton_Ice_Mage.tscn"),
+	#load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn"),
+	
+	#Temp will go into rare
+	#load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
+	]
+	
+
+@onready var Ice_enemies : Array[PackedScene] = [
+
+	]
+
+@onready var Boss : Array[PackedScene] = [
+
+	]
+
+@onready var Rare_ice_enemies : Array[PackedScene] = [
+
 	]
 
 
@@ -354,7 +381,7 @@ func adjust_first_room() -> void:
 func spawn_room_content(room: Node) -> void:
 	# Spawn enemies
 	if GameMaster.DEBUG_MAP: print("Spawning: Enemies")
-	spawn_entities(room, enemies, enemy_spawn_chance, max_enemies_per_room)
+	spawn_entities(room, Cave_enemies, enemy_spawn_chance, max_enemies_per_room)
 	# Spawn gold
 	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
 	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
@@ -424,7 +451,7 @@ func add_exit_to_last_room() -> void:
 
 # command line spawn
 func force_spawn(player_pos : Vector2, entity : String, option : int):
-	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "enemy" : enemies, "gold" : gold}
+	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "enemy" : Cave_enemies, "gold" : gold}
 	var thing = spawn_options[entity][option].instantiate()
 	if thing:
 		var cur_room = vec_map[((player_pos) / 272).floor()]

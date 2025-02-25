@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://donw87dgw3pr0"]
+
+[ext_resource type="Script" path="res://Scripts/Monster_Scripts/skeleton_ice_mage.gd" id="1_mj24s"]
+[ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_8m5q1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_73rsq"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcm6y"]
+atlas = ExtResource("2_8m5q1")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfuws"]
+atlas = ExtResource("2_8m5q1")
+region = Rect2(96, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6qpv"]
+atlas = ExtResource("2_8m5q1")
+region = Rect2(112, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tthcn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcm6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfuws")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6qpv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0qj7o"]
+size = Vector2(112, 112)
+
+[node name="SkeletonIceMage" type="CharacterBody2D"]
+script = ExtResource("1_mj24s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_73rsq")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tthcn")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_0qj7o")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
