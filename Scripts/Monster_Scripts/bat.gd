@@ -4,7 +4,6 @@ extends CharacterBody2D
 @onready var Ray = $RayCast2D
 
 var entity_name = "Bat"
-var entity_type = "enemy"
 
 var animationSpeed = 18 #Used what player was
 var moving = false
