@@ -9,12 +9,14 @@ extends Node2D
 
 var room_name = "Large Horizontal"
 var Generation
+var spawned_entity
 
 var start_idx = -3
 var total_width = 34
 var total_height = 17
 
 func _ready():
+	spawned_entity = {"monster" : [], "item" : []}
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
 	

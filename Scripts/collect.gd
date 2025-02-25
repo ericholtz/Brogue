@@ -1,6 +1,7 @@
 extends Area2D
 
-var entity_name = "gold"
+var entity_name = "item"
+var entity_type = "item"
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.name == "Player":
