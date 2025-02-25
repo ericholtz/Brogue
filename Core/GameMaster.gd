@@ -27,7 +27,7 @@ var user_seed
 var can_move = false
 var animSpeed = 0.1
 
-enum EntityType {GOLD, ITEM}
+enum EntityType {GOLD, ITEM, ENEMY}
 enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
 enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
 

@@ -405,10 +405,11 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
 			var entity = entity_pool.pick_random().instantiate()
 			var check_pos = get_random_position_in_room(room)
-			if room.spawned_entity[entity.entity_type].has(check_pos):
+			var type = GameMaster.EntityType.keys()[entity.entityType]
+			if room.spawned_entity[type].has(check_pos):
 				return
 			else:
-				room.spawned_entity[entity.entity_type].append(check_pos)
+				room.spawned_entity[type].append(check_pos)
 			entity.position = check_pos
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
