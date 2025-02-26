@@ -121,9 +121,12 @@ func move(dir) -> bool:
 	#create a new Tween object to handle smooth movement
 	var tween = create_tween()
 	#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
-	tween.tween_property(self, "position", position + inputs[dir] * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
+	var target_pos = (position + inputs[dir] * tileSize).snapped(Vector2.ONE * tileSize/2)  # Snap target
+	tween.tween_property(self, "position", target_pos, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
 	#set this flag to true until tween is finished to disallow multiple moves at once
 	await tween.finished
+	#just snap back to tile position
+	position = position.snapped(Vector2.ONE * tileSize/2)
 	#emit a movement signal here, after the player succesfully moves
 	emit_signal("input_event")
 	return true

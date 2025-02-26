@@ -155,9 +155,11 @@ func calculate_hit_chance(attack, defense):
 	return baseHit - penalty
 
 func animate_attack(attacker, target) -> Tween:
+	if not is_instance_valid(attacker) or not is_instance_valid(target):
+		return get_tree().create_tween()
 	var distance = -8.0
 	var animSpeed = 0.1
-	var originPos = attacker.position
+	var originPos = attacker.position.snapped(Vector2.ONE * -distance)
 	var originColor = attacker.modulate
 	var direction = (attacker.position - target.position).normalized()
 	var offset = direction * distance
@@ -169,7 +171,11 @@ func animate_attack(attacker, target) -> Tween:
 	tween.tween_property(attacker, "position", originPos + offset, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(attacker, "position", originPos, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	#then, we flash the attacked party red by modulating
-	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	
+	if is_instance_valid(target):
+		tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func():
+		if is_instance_valid(attacker):
+			attacker.position = originPos.snapped(Vector2.ONE * -distance)
+	)
 	return tween
