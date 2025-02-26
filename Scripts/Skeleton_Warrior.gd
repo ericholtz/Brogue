@@ -9,16 +9,23 @@ var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
 
+#I dont use this! But When doing item it might be nice
+var gold = 5
+
 #Monsters States
-var health = 5
+var health = 10
 var strength = 1
 var defense = 2
 var Movement_Speed = 1
-var xp = 5
-var gold = 3
-
+var xp = 10
 
 var tileSize = 16
+
+#Just for testing
+var inputs = {"Up": Vector2.UP,
+			"Left": Vector2.LEFT,
+			"Right": Vector2.RIGHT,
+			"Down": Vector2.DOWN}
 
 func _ready():
 	# position and animation
@@ -33,24 +40,31 @@ func take_turn():
 	var try_move = Vector2.ZERO
 	if player:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
-	else :
-		if GameMaster.DEBUG_RANDMOVE == true:
-			#move rand
-			var y = randi_range(-1, 1)
-			var x = randi_range(-1,1)
-			var direction = Vector2(x,y)
-			try_move = vec_to_cardinal(direction)
-		else:
-			return #Skip turn
+	if try_move == Vector2.ZERO:  # Skip if no movement is needed
+		return
 	if await move(try_move):
 		await get_tree().process_frame
 
 
 
 func move(dir) -> bool:
+	
+	#var min_val = 1
+	#var max_val = 4
+	#var rng = RandomNumberGenerator.new()
+	#var ran_num = rng.randi_range(min_val, max_val)
+	#var dir = str(ran_num)
+	
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
-	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+	if Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
+		var collider = Ray.get_collider()
+		if collider.is_in_group("Player"):
+				GameMaster.combat(collider, self)
+				return false
+		else:
+				return false
+	else:
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 		tween.tween_property(self, "position", position + dir * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
@@ -59,7 +73,6 @@ func move(dir) -> bool:
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 		return true #flag for movement happening
-	return false #no movement, no delay
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
