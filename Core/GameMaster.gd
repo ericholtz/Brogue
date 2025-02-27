@@ -114,6 +114,8 @@ func combat(player, enemy):
 			if DEBUG_COMBATLOGS:
 				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	else:
+		var missTween = animate_miss(player)
+		await missTween.finished
 		if DEBUG_COMBATLOGS:
 			print(playerName," missed ",enemyName,"!\n")
 	
@@ -137,6 +139,8 @@ func combat(player, enemy):
 			if DEBUG_COMBATLOGS:
 				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 		else:
+			var missTween = animate_miss(enemy)
+			await missTween.finished
 			if DEBUG_COMBATLOGS:
 				print(enemyName," missed ",playerName,"!")
 	
@@ -188,11 +192,26 @@ func animate_attack(attacker, target) -> Tween:
 	tween.tween_property(attacker, "position", originPos + offset, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(attacker, "position", originPos, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	#then, we flash the attacked party red by modulating
-	if is_instance_valid(target):
-		tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
-		if is_instance_valid(attacker):
 			attacker.position = originPos.snapped(Vector2.ONE * -distance)
+	)
+	return tween
+
+func animate_miss(attacker) -> Tween:
+	if not is_instance_valid(attacker):
+		return get_tree().create_tween()
+	var animSpeed = 0.1
+	var offset = 4.0
+	var originPos = attacker.position
+	
+	var tween = get_tree().create_tween()
+	
+	for n in range (2):
+		tween.tween_property(attacker, "position", originPos + Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(attacker, "position", originPos - Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(func():
+		attacker.position = originPos.snapped(Vector2.ONE * -8)
 	)
 	return tween
