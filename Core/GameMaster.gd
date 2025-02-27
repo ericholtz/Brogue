@@ -12,6 +12,9 @@ signal heal_player_signal(amount: int)
 # Turn on/off debug statments
 var DEBUG_MAP = false
 
+#toggle for verbose combat logs
+var DEBUG_COMBATLOGS = false
+
 #For monsters
 var DEBUG_RANDMOVE = false
 
@@ -36,11 +39,13 @@ func collectEntity(entity: Area2D):
 			gained_item.emit(entity)
 
 func damage_player(amount: int):
-	print("Damaging player for "+str(amount)+" points.")
+	if DEBUG_COMBATLOGS:
+		print("Damaging player for "+str(amount)+" points.")
 	damage_player_signal.emit(amount)
 
 func heal_player(amount: int):
-	print("Healing player for "+str(amount)+" points.")
+	if DEBUG_COMBATLOGS:
+		print("Healing player for "+str(amount)+" points.")
 	heal_player_signal.emit(amount)
 
 
@@ -57,7 +62,8 @@ func takeTurn(turnsTaken: int):
 		return
 	
 	turnCounter += turnsTaken
-	print("Current turn: ",turnCounter);
+	if DEBUG_COMBATLOGS:
+		print("Current turn: ",turnCounter);
 	can_move = false
 	
 	#apply over-time effects, increment timers, whatever is appropriate here
@@ -69,14 +75,16 @@ func takeTurn(turnsTaken: int):
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
-	print("Starting enemy turn")
+	if DEBUG_COMBATLOGS:
+		print("Starting enemy turn")
 	var enemies = get_tree().get_nodes_in_group("enemies")
-	for enemy in enemies:
-		if not is_instance_valid(enemy):
-			continue  # Skip if enemy has been freed.
-		print("Enemy [", enemy.name, "] at position ", enemy.position)
+	for i in range(enemies.size()):
+		var enemy = enemies[i]
+		if DEBUG_COMBATLOGS == true:
+			print("Enemy [", i,"|",enemy.name, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
 		await enemy.take_turn()
-	print("Ending enemy turn\n")
+	if DEBUG_COMBATLOGS:
+		print("Ending enemy turn\n")
 
 #combat method, this can be changed for balance
 func combat(player, enemy):
@@ -90,20 +98,24 @@ func combat(player, enemy):
 	var playerDamage = max(player.attack - enemy.defense, 1)
 	var enemyDamage = max(enemy.strength - player.armor, 0)
 	
-	print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
 	#roll for player's chance to hit
 	var playerHitChance = calculate_hit_chance(player.attack, enemy.defense)
 	var playerRoll = randf()
-	print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
+	if DEBUG_COMBATLOGS:
+		print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
 	if playerRoll <= playerHitChance:
 		#THIS SHOULD BE A SIGNAL
 		enemy.health -= playerDamage
 		var attackTween = animate_attack(player, enemy)
 		await attackTween.finished
 		if is_instance_valid(enemy):
-			print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
+			if DEBUG_COMBATLOGS:
+				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	else:
-		print(playerName," missed ",enemyName,"!\n")
+		if DEBUG_COMBATLOGS:
+			print(playerName," missed ",enemyName,"!\n")
 	
 	#after player attacks, check if enemy is dead
 	var enemyDefeated
@@ -116,25 +128,30 @@ func combat(player, enemy):
 	if not enemyDefeated:
 		var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
 		var enemyRoll = randf()
-		print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
+		if DEBUG_COMBATLOGS:
+			print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
 		if enemyRoll <= enemyHitChance:
 			damage_player_signal.emit(enemyDamage)
 			var attackTween = animate_attack(enemy, player)
 			await attackTween.finished
-			print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+			if DEBUG_COMBATLOGS:
+				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 		else:
-			print(enemyName," missed ",playerName,"!")
+			if DEBUG_COMBATLOGS:
+				print(enemyName," missed ",playerName,"!")
 	
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
-		print(enemyName," defeated!")
+		if DEBUG_COMBATLOGS:
+			print(enemyName," defeated!")
 		player.add_xp(enemyXP)
-		print(playerName," gained <",enemyXP,"> xp!")
+		if DEBUG_COMBATLOGS:
+			print(playerName," gained <",enemyXP,"> xp!")
 		if is_instance_valid(enemy):
 			enemy.queue_free()
 	
 	#if player dies, game over. Need Gabe's game over screen called here.
-	if player.health <= 0:
+	if player.health <= 0 && DEBUG_COMBATLOGS:
 		print(playerName," died!\n")
 	
 	await get_tree().process_frame
