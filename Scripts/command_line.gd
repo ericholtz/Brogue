@@ -72,7 +72,7 @@ func process_command(command, option = "", num = ""):
 			var cur_room = ($"../Player".global_position) / 272
 			print(cur_room)
 			print(cur_room.floor())
-		"combatlogs":
+		"logs":
 			GameMaster.DEBUG_COMBATLOGS = !GameMaster.DEBUG_COMBATLOGS
 			if GameMaster.DEBUG_COMBATLOGS == true:
 				command_history.append("Verbose combat logs enabled.")
