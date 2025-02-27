@@ -27,6 +27,7 @@ var user_seed
 
 var turnCounter = 0
 var can_move = false
+var animSpeed = 0.1
 
 enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
 
@@ -146,6 +147,8 @@ func combat(player, enemy):
 	
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
+		var deathTween = animate_death(enemy)
+		await deathTween.finished
 		if DEBUG_COMBATLOGS:
 			print(enemyName," defeated!")
 		player.add_xp(enemyXP)
@@ -154,9 +157,12 @@ func combat(player, enemy):
 		if is_instance_valid(enemy):
 			enemy.queue_free()
 	
-	#if player dies, game over. Need Gabe's game over screen called here.
-	if player.health <= 0 && DEBUG_COMBATLOGS:
-		print(playerName," died!\n")
+	#if player dies, game over.
+	if player.health <= 0:
+		var deathTween = animate_death(player)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
 	
 	await get_tree().process_frame
 	can_move = true;
@@ -179,7 +185,6 @@ func animate_attack(attacker, target) -> Tween:
 	if not is_instance_valid(attacker) or not is_instance_valid(target):
 		return get_tree().create_tween()
 	var distance = -8.0
-	var animSpeed = 0.1
 	var originPos = attacker.position.snapped(Vector2.ONE * -distance)
 	var originColor = attacker.modulate
 	var direction = (attacker.position - target.position).normalized()
@@ -202,7 +207,6 @@ func animate_attack(attacker, target) -> Tween:
 func animate_miss(attacker) -> Tween:
 	if not is_instance_valid(attacker):
 		return get_tree().create_tween()
-	var animSpeed = 0.1
 	var offset = 4.0
 	var originPos = attacker.position
 	
@@ -214,4 +218,15 @@ func animate_miss(attacker) -> Tween:
 	tween.tween_callback(func():
 		attacker.position = originPos.snapped(Vector2.ONE * -8)
 	)
+	return tween
+
+func animate_death(target) -> Tween:
+	if not is_instance_valid(target):
+		return get_tree().create_tween()
+		
+	var tween = get_tree().create_tween()
+	
+	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(target, "scale", Vector2(), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
 	return tween
