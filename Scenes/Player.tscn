@@ -1,7 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=12 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
+[ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="2_tdieg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
+atlas = ExtResource("2_tdieg")
+region = Rect2(80, 352, 16, 16)
+
+[sub_resource type="Curve" id="Curve_on12k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_3ff0n"]
+offsets = PackedFloat32Array(0.06, 0.246667, 0.526667, 0.746667, 1)
+colors = PackedColorArray(0.329412, 1, 0, 1, 0.902941, 1, 0, 1, 0.425, 1, 0, 1, 0.786631, 1, 0, 1, 0.329412, 1, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("2_qilt3")
@@ -43,6 +56,26 @@ size = Vector2(16, 16)
 [node name="Player" type="CharacterBody2D"]
 z_index = 2
 script = ExtResource("1_2lqgk")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = 2
+emitting = false
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+texture = SubResource("AtlasTexture_2lx3f")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 16.0
+angular_velocity_min = -8.0
+angular_velocity_max = 8.0
+orbit_velocity_min = 0.15
+orbit_velocity_max = 0.15
+scale_amount_curve = SubResource("Curve_on12k")
+color_ramp = SubResource("Gradient_3ff0n")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2

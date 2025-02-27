@@ -149,6 +149,8 @@ func gain_level():
 func animate_level_up():
 	var originColor = self.modulate
 	var animSpeed = 0.1
+
+	$CPUParticles2D.emitting = true
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "modulate", Color.GOLD, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
