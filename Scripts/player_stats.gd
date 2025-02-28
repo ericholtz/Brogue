@@ -61,6 +61,6 @@ func _on_close_pressed():
 
 func _on_use_pressed(useButton : BaseButton):
 	var index = useButton.get_index()
-	await player.use(index)
+	player.use(index)
 	update_stats()
 	
