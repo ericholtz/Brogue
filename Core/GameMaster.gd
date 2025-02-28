@@ -1,7 +1,5 @@
 extends Node
 
-#var rng : RandomNumberGenerator
-
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
@@ -10,13 +8,13 @@ signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 
 # Turn on/off debug statments
-var DEBUG_MAP = false
+@export var DEBUG_MAP = false
 
 #toggle for verbose combat logs
-var DEBUG_COMBATLOGS = false
+@export var DEBUG_COMBATLOGS = false
 
 #For monsters
-var DEBUG_RANDMOVE = false
+@export var DEBUG_RANDMOVE = false
 
 #Dont Change Look at readme!
 var DISABLE_FOG = false
@@ -25,18 +23,19 @@ var DISABLE_FOG = false
 var current_seed
 var user_seed
 
-var turnCounter = 0
+@export var turnCounter = 0
 var can_move = false
 var animSpeed = 0.1
 
-enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
+enum EntityType {GOLD, ITEM}
+enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
+enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
 
-func collectEntity(entity: Area2D):
-	var entityType = entity.get_child(0).type
-	match entityType:
+func collect_entity(entity: Area2D):
+	match entity.entityType:
 		EntityType.GOLD:
-			gained_gold.emit(entity.find_child("GoldStats").gold_worth)
-		_:
+			gained_gold.emit(entity.gold_worth)
+		EntityType.ITEM:
 			gained_item.emit(entity)
 
 func damage_player(amount: int):
