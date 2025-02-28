@@ -21,6 +21,7 @@ extends CharacterBody2D
 #base player stats to be affected by levels/potions
 @export var player_name = ""
 @export var health = 10
+@export var MAX_HEALTH = 15
 @export var level = 1
 @export var currentXP = 0
 var XPtoNext = 10
@@ -147,6 +148,8 @@ func gain_level():
 		XPtoNext = 10 * (level ** 2)
 		strength += 1
 		defense += 1
+		attack += 1
+		armor += 1
 
 func animate_level_up():
 	var originColor = self.modulate
@@ -182,7 +185,7 @@ func _on_item_gain(item : Area2D):
 	# increase existing stackable item count
 	elif (index != -1 and item.stackable):
 		var existingItem = inventoryNode.get_child(index)
-		existingItem.itemCount += 1
+		existingItem.count += 1
 		item.queue_free()
 		if (DEBUG_ITEM):
 			print("Increased stack count of ", existingItem.entityName, " to ", existingItem.itemCount, ". Current inventory is:")
@@ -204,9 +207,46 @@ func _on_damage_received(amount: int):
 	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
-	if health < 15:
-		health += amount
+	if health < MAX_HEALTH:
+		health = min(MAX_HEALTH, health+amount)
 	#print("Player healed ", amount, " points. New health:", health)
+
+func use(itemIndex: int):
+	# apply item effect
+	var item = inventoryNode.get_child(itemIndex)
+	match item.itemType:
+		GameMaster.ItemType.MELEE_WEAPON:
+			attack = strength + item.attack
+		GameMaster.ItemType.ARMOR:
+			armor = defense + item.armor
+		GameMaster.ItemType.POTION:
+			use_potion(item)
+		GameMaster.ItemType.MISC:
+			use_misc(item)
+			
+	# decrement count if stackable - remove if ran out
+	if (item.stackable):
+		item.count -= 1
+		if (item.count == 0):
+			inventory.erase(item.entityName)
+			item.free()
+
+func use_potion(potion : Area2D):
+	match potion.effect:
+		GameMaster.PotionEffect.HEALING:
+			var healAmount = ceil(float(MAX_HEALTH)/4)
+			GameMaster.heal_player_signal.emit(healAmount)
+		GameMaster.PotionEffect.SPEED:
+			print("Speed potions are unimplemented")
+		GameMaster.PotionEffect.POISON:
+			print("Poison potions are unimplemented")
+		GameMaster.PotionEffect.PSYCHADELIC:
+			print("Psychadelic potions are unimplemented")
+		GameMaster.PotionEffect.INVISIBILITY:
+			visible = !visible
+
+func use_misc(_misc : Area2D):
+	print("Misc item functionalities are unimplemented")
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
