@@ -12,6 +12,9 @@ signal heal_player_signal(amount: int)
 # Turn on/off debug statments
 var DEBUG_MAP = false
 
+#toggle for verbose combat logs
+var DEBUG_COMBATLOGS = false
+
 #For monsters
 var DEBUG_RANDMOVE = false
 
@@ -24,6 +27,7 @@ var user_seed
 
 var turnCounter = 0
 var can_move = false
+var animSpeed = 0.1
 
 enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
 
@@ -36,11 +40,13 @@ func collectEntity(entity: Area2D):
 			gained_item.emit(entity)
 
 func damage_player(amount: int):
-	print("Damaging player for "+str(amount)+" points.")
+	if DEBUG_COMBATLOGS:
+		print("Damaging player for "+str(amount)+" points.")
 	damage_player_signal.emit(amount)
 
 func heal_player(amount: int):
-	print("Healing player for "+str(amount)+" points.")
+	if DEBUG_COMBATLOGS:
+		print("Healing player for "+str(amount)+" points.")
 	heal_player_signal.emit(amount)
 
 
@@ -52,97 +58,134 @@ func setname(player_name: String):
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
 func takeTurn(turnsTaken: int):
-	#var player = get_tree().get_first_node_in_group("player")
+	#if can_move flag is false, do nothing
 	if not can_move:
 		return
-	print("Starting player turn")
+	
 	turnCounter += turnsTaken
-	print("Current turn: ",turnCounter);
+	if DEBUG_COMBATLOGS:
+		print("Current turn: ",turnCounter);
 	can_move = false
+	
 	#apply over-time effects, increment timers, whatever is appropriate here
-	print("Ending player turn\n")
-	took_turns.emit(1)
+	
+	took_turns.emit(1) #this just sends a signal to the ui turn counter
 	await enemyTurn()
+	await get_tree().process_frame
 	can_move = true
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
-	print("Starting enemy turn")
+	if DEBUG_COMBATLOGS:
+		print("Starting enemy turn")
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for i in range(enemies.size()):
 		var enemy = enemies[i]
-		print("Enemy [", i,"|",enemy.name, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
+		if DEBUG_COMBATLOGS == true:
+			print("Enemy [", i,"|",enemy.name, "] at position ", enemy.position, " moving in direction ", enemy.vec_to_cardinal(enemy.position.direction_to(enemy.player.position)) if enemy.player else Vector2.ZERO)
 		await enemy.take_turn()
-	print("Ending enemy turn\n")
+	if DEBUG_COMBATLOGS:
+		print("Ending enemy turn\n")
 
 #combat method, this can be changed for balance
 func combat(player, enemy):
+	#lock player
+	can_move = false
+	#grab some information about combatants
 	var playerName = player.player_name
 	var enemyName = enemy.name
-	print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
-	
-	#take combatant strength - opponent defense as damage, floor to 1. Enemies can do 0 damage to player.
+	var enemyXP = enemy.xp
+	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 1)
+	var enemyDamage = max(enemy.strength - player.armor, 0)
 	
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
 	#roll for player's chance to hit
 	var playerHitChance = calculate_hit_chance(player.attack, enemy.defense)
 	var playerRoll = randf()
-	print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
+	if DEBUG_COMBATLOGS:
+		print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
 	if playerRoll <= playerHitChance:
+		#THIS SHOULD BE A SIGNAL
 		enemy.health -= playerDamage
-		can_move = false
 		var attackTween = animate_attack(player, enemy)
 		await attackTween.finished
-		print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
-		can_move = true
+		if is_instance_valid(enemy):
+			if DEBUG_COMBATLOGS:
+				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	else:
-		print(playerName," missed ",enemyName,"!\n")
+		var missTween = animate_miss(player)
+		await missTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," missed ",enemyName,"!\n")
 	
-	var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
-	var enemyRoll = randf()
-	print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
-	if enemyRoll <= enemyHitChance:
-		damage_player_signal.emit(enemyDamage)
-		can_move = false
-		var attackTween = animate_attack(enemy, player)
-		await attackTween.finished
-		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
-		can_move = true
+	#after player attacks, check if enemy is dead
+	var enemyDefeated
+	if is_instance_valid(enemy):
+		enemyDefeated = enemy.health <= 0
 	else:
-		print(enemyName," missed ",playerName,"!")
+		enemyDefeated = true
 	
-	#if enemy dies, call free
-	if enemy.health <= 0:
-		print(enemyName," defeated!")
-		player.add_xp(enemy.xp)
-		print(playerName," gained <",enemy.xp,"> xp!")
-		enemy.queue_free()
+	#if it's alive, roll combat
+	if not enemyDefeated:
+		var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
+		var enemyRoll = randf()
+		if DEBUG_COMBATLOGS:
+			print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
+		if enemyRoll <= enemyHitChance:
+			damage_player_signal.emit(enemyDamage)
+			var attackTween = animate_attack(enemy, player)
+			await attackTween.finished
+			if DEBUG_COMBATLOGS:
+				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+		else:
+			var missTween = animate_miss(enemy)
+			await missTween.finished
+			if DEBUG_COMBATLOGS:
+				print(enemyName," missed ",playerName,"!")
 	
-	#if player dies, game over. Need Gabe's game over screen called here.
+	#if enemy dies, call free and give player xp
+	if enemyDefeated:
+		var deathTween = animate_death(enemy)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(enemyName," defeated!")
+		player.add_xp(enemyXP)
+		if DEBUG_COMBATLOGS:
+			print(playerName," gained <",enemyXP,"> xp!")
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	
+	#if player dies, game over.
 	if player.health <= 0:
-		print(playerName," died!\n")
+		var deathTween = animate_death(player)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
+	
+	await get_tree().process_frame
+	can_move = true;
 
 #calculate chance to hit based on difference between attack and armor
 func calculate_hit_chance(attack, defense):
 	var baseHit = 0.90
 	var minHit = 0.40
-	
 	var diff = attack - defense
-	
 	#penalty is applied if diff < 0
 	#for example, if the player has 3 defense vs a skeleton with 1 attack
-	#diff = -2, penalty = 0.20, chance to hit = 0.75
+	#diff = -2, penalty = 0.20, chance to hit = 0.70
 	var penalty = 0.10 * max(-diff,0)
 	#clamp penalty to minHit value so there's always a chance to hit something
 	penalty = clamp(penalty, 0.0, baseHit - minHit)
-	
+	#returns a value from 0.4-0.9, the player must roll below that to hit.
 	return baseHit - penalty
 
 func animate_attack(attacker, target) -> Tween:
+	if not is_instance_valid(attacker) or not is_instance_valid(target):
+		return get_tree().create_tween()
 	var distance = -8.0
-	var animSpeed = 0.1
-	var originPos = attacker.position
+	var originPos = attacker.position.snapped(Vector2.ONE * -distance)
 	var originColor = attacker.modulate
 	var direction = (attacker.position - target.position).normalized()
 	var offset = direction * distance
@@ -156,5 +199,34 @@ func animate_attack(attacker, target) -> Tween:
 	#then, we flash the attacked party red by modulating
 	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func():
+			attacker.position = originPos.snapped(Vector2.ONE * -distance)
+	)
+	return tween
+
+func animate_miss(attacker) -> Tween:
+	if not is_instance_valid(attacker):
+		return get_tree().create_tween()
+	var offset = 4.0
+	var originPos = attacker.position
+	
+	var tween = get_tree().create_tween()
+	
+	for n in range (2):
+		tween.tween_property(attacker, "position", originPos + Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(attacker, "position", originPos - Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(func():
+		attacker.position = originPos.snapped(Vector2.ONE * -8)
+	)
+	return tween
+
+func animate_death(target) -> Tween:
+	if not is_instance_valid(target):
+		return get_tree().create_tween()
+		
+	var tween = get_tree().create_tween()
+	
+	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(target, "scale", Vector2(), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	return tween
