@@ -169,7 +169,6 @@ func _on_gold_gain(gold_worth: int):
 	print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
 
 func _on_item_gain(item : Area2D):
-	print("Got here")
 	var index = inventory.find(item.entityName)
 	# add unique new item
 	if (index == -1):
