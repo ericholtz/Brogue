@@ -11,7 +11,7 @@ var player = null
 
 #Monsters States
 var health = 3
-var strength = 2
+var strength = 3
 var defense = 1
 var Movement_Speed = 1
 var xp = 15
