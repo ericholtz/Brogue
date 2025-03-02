@@ -17,7 +17,7 @@ extends CanvasLayer
 
 func _ready():
 	update_stats()
-	close_button.connect("pressed", Callable(self, "_on_close_pressed"))
+	close_button.connect("pressed", _on_close_pressed)
 	visible = false # Start hidden
 
 func _input(event):
@@ -45,12 +45,22 @@ func update_inventory():
 	for child in inventory_list.get_children():
 		child.queue_free()
 	
-	for item in player.inventory:
-		var item_label = Label.new()
-		item_label.text = "- %s" % item
-		inventory_list.add_child(item_label)
+	for item in player.inventoryNode.get_children():
+		var use_button = Button.new()
+		if (item.stackable):
+			use_button.text = "Use %s (Currently have x%d)" % [item.entityName, item.count]
+		else:
+			use_button.text = "Use %s" % item.entityName
+		use_button.pressed.connect(_on_use_pressed.bind(use_button))
+		inventory_list.add_child(use_button)
 
 func _on_close_pressed():
 	visible = false
 	GameMaster.can_move = true
+	
+
+func _on_use_pressed(useButton : BaseButton):
+	var index = useButton.get_index()
+	player.use(index)
+	update_stats()
 	

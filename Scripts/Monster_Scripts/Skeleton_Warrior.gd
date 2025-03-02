@@ -31,7 +31,7 @@ func take_turn():
 		return
 	
 	var try_move = Vector2.ZERO
-	if player:
+	if player and player.visible:
 		try_move = vec_to_cardinal(position.direction_to(player.position))
 	else :
 		if GameMaster.DEBUG_RANDMOVE == true:

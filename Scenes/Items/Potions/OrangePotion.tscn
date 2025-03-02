@@ -1,18 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://ck8s6j8dgp0ti"]
+[gd_scene load_steps=4 format=3 uid="uid://ck8s6j8dgp0ti"]
 
-[ext_resource type="Script" path="res://Scripts/collect.gd" id="1_cmpd5"]
-[ext_resource type="Script" path="res://Scripts/entity_type.gd" id="2_irvqn"]
+[ext_resource type="Script" path="res://Scripts/potion.gd" id="1_e8ufb"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_v3jnr"]
-[ext_resource type="Script" path="res://Scripts/potion_stats.gd" id="4_7q4w1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
-script = ExtResource("1_cmpd5")
-
-[node name="OrangePotion" type="Node2D" parent="."]
-script = ExtResource("2_irvqn")
+script = ExtResource("1_e8ufb")
+effect = 1
+itemType = 3
+stackable = true
+entityName = "OrangePotion"
+entityType = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_v3jnr")
@@ -21,8 +21,5 @@ region_rect = Rect2(32, 16, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xgu2b")
-
-[node name="PotionStats" type="Node2D" parent="."]
-script = ExtResource("4_7q4w1")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
