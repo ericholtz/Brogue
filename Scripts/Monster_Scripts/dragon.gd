@@ -27,21 +27,21 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	
-	var try_move = Vector2.ZERO
-	if player:
-		try_move = vec_to_cardinal(position.direction_to(player.position))
-	else :
-		if GameMaster.DEBUG_RANDMOVE == true:
-			#move rand
-			var y = randi_range(-1, 1)
-			var x = randi_range(-1,1)
-			var direction = Vector2(x,y)
-			try_move = vec_to_cardinal(direction)
-		else:
-			return #Skip turn
-	if await move(try_move):
-		await get_tree().process_frame
+	for temp in Movement_Speed:
+		var try_move = Vector2.ZERO
+		if player:
+			try_move = vec_to_cardinal(position.direction_to(player.position))
+		else :
+			if GameMaster.DEBUG_RANDMOVE == true:
+				#move rand
+				var y = randi_range(-1, 1)
+				var x = randi_range(-1,1)
+				var direction = Vector2(x,y)
+				try_move = vec_to_cardinal(direction)
+			else:
+				return #Skip turn
+		if await move(try_move):
+			await get_tree().process_frame
 
 
 
