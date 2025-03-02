@@ -7,24 +7,27 @@ extends CharacterBody2D
 @onready var collision = $CollisionShape2D
 
 #debug flags
-var noclip_enabled = false
-var godmode_enabled = false
+@export var noclip_enabled = false
+@export var godmode_enabled = false
 
 #inventory and gold
-@onready var inventoryNode : Node2D = $"Inventory"
-var inventory : Array[String] = []
+@onready var inventoryNode : Node2D = $Inventory
+@export var inventory : Array[String] = []
 @export var gold = 0
-enum EntityType {GOLD, MELEE_WEAPON, ARMOR, POTION, MISC}
+
+# Turn on/off item debug statments
+@export var DEBUG_ITEM = false
 
 #base player stats to be affected by levels/potions
-var player_name = ""
-var health = 10
-var level = 1
-var currentXP = 0
+@export var player_name = ""
+@export var health = 10
+@export var MAX_HEALTH = 15
+@export var level = 1
+@export var currentXP = 0
 var XPtoNext = 10
 var XPNeeded = XPtoNext - currentXP
-var strength = 1
-var defense = 1
+@export var strength = 1
+@export var defense = 1
 
 #variable player stats to be affected by equipment
 var attack = strength
@@ -33,13 +36,13 @@ var armor = defense
 #movement related variables
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
-var moveDelay = 0.15  #movement delay in seconds
-var animationSpeed = 18 #tweening speed
+@export var moveDelay = 0.15  #movement delay in seconds
+@export var animationSpeed = 18 #tweening speed
 
 #this controls movement and combat flow.
 #TRUE if the player is locked into an action. Moving/in combat/looting/whatever
 #FALSE if the player is between turns, before input.
-var moving = false
+@export var moving = false
 
 
 #dict map of input strings to directional vectors
@@ -145,6 +148,8 @@ func gain_level():
 		XPtoNext = 10 * (level ** 2)
 		strength += 1
 		defense += 1
+		attack += 1
+		armor += 1
 
 func animate_level_up():
 	var originColor = self.modulate
@@ -166,27 +171,25 @@ func _on_gold_gain(gold_worth: int):
 	gold += gold_worth
 	print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
 
-func _on_item_gain(itemRoot : Area2D):
-	# get item info
-	var item = itemRoot.get_child(0)
-	var itemName = item.name
-	
-	# add to inventory
-	if itemName not in inventory:
-		inventory.append(itemName)
-		itemRoot.call_deferred("reparent", inventoryNode)
-		itemRoot.visible = false
-		print("Added ", itemName, " to inventory. Current inventory is:")
-		print(inventory)
-		
-		if (item.type == EntityType.MELEE_WEAPON):
-			attack = strength + itemRoot.find_child("MeleeWeaponStats").attack
-			print("Now wielding ", itemName, ". attack = ", attack)
-		if (item.type == EntityType.ARMOR):
-			armor = defense + itemRoot.find_child("ArmorStats").armor
-			print("Now wearing ", itemName, ". armor = ", armor)
-	else:
-		print("Already have one ", itemName, ", cannot pick up more")
+func _on_item_gain(item : Area2D):
+	var index = inventory.find(item.entityName)
+	# add unique new item
+	if (index == -1):
+		inventory.append(item.entityName)
+		item.canPickup = false
+		item.call_deferred("reparent", inventoryNode)
+		item.visible = false
+		if (DEBUG_ITEM):
+			print("Added ", item.entityName, " to inventory. Current inventory is:")
+			print(inventory)
+	# increase existing stackable item count
+	elif (index != -1 and item.stackable):
+		var existingItem = inventoryNode.get_child(index)
+		existingItem.count += 1
+		item.queue_free()
+		if (DEBUG_ITEM):
+			print("Increased stack count of ", existingItem.entityName, " to ", existingItem.itemCount, ". Current inventory is:")
+			print(inventory)
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
@@ -204,9 +207,46 @@ func _on_damage_received(amount: int):
 	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
-	if health < 15:
-		health += amount
+	if health < MAX_HEALTH:
+		health = min(MAX_HEALTH, health+amount)
 	#print("Player healed ", amount, " points. New health:", health)
+
+func use(itemIndex: int):
+	# apply item effect
+	var item = inventoryNode.get_child(itemIndex)
+	match item.itemType:
+		GameMaster.ItemType.MELEE_WEAPON:
+			attack = strength + item.attack
+		GameMaster.ItemType.ARMOR:
+			armor = defense + item.armor
+		GameMaster.ItemType.POTION:
+			use_potion(item)
+		GameMaster.ItemType.MISC:
+			use_misc(item)
+			
+	# decrement count if stackable - remove if ran out
+	if (item.stackable):
+		item.count -= 1
+		if (item.count == 0):
+			inventory.erase(item.entityName)
+			item.free()
+
+func use_potion(potion : Area2D):
+	match potion.effect:
+		GameMaster.PotionEffect.HEALING:
+			var healAmount = ceil(float(MAX_HEALTH)/4)
+			GameMaster.heal_player_signal.emit(healAmount)
+		GameMaster.PotionEffect.SPEED:
+			print("Speed potions are unimplemented")
+		GameMaster.PotionEffect.POISON:
+			print("Poison potions are unimplemented")
+		GameMaster.PotionEffect.PSYCHADELIC:
+			print("Psychadelic potions are unimplemented")
+		GameMaster.PotionEffect.INVISIBILITY:
+			visible = !visible
+
+func use_misc(_misc : Area2D):
+	print("Misc item functionalities are unimplemented")
 
 func no_clip():
 	noclip_enabled = !noclip_enabled

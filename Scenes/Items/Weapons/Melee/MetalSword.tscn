@@ -1,18 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://coy1jt32ret6c"]
+[gd_scene load_steps=4 format=3 uid="uid://coy1jt32ret6c"]
 
-[ext_resource type="Script" path="res://Scripts/collect.gd" id="1_jhka6"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_5v1di"]
-[ext_resource type="Script" path="res://Scripts/entity_type.gd" id="2_g4j2v"]
-[ext_resource type="Script" path="res://Scripts/melee_weapon_stats.gd" id="4_wwtxr"]
+[ext_resource type="Script" path="res://Scripts/melee_weapon.gd" id="4_wwtxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
-script = ExtResource("1_jhka6")
-
-[node name="MetalSword" type="Node2D" parent="."]
-script = ExtResource("2_g4j2v")
+script = ExtResource("4_wwtxr")
+attack = 4
+entityName = "MetalSword"
+entityType = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_5v1di")
@@ -21,8 +19,5 @@ region_rect = Rect2(112, 48, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xgu2b")
-
-[node name="MeleeWeaponStats" type="Node2D" parent="."]
-script = ExtResource("4_wwtxr")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
