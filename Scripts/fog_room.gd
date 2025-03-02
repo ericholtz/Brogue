@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var player: Node2D  = $"/root/World/Player"
-@export var reveal_radius: int = 3  # Radius of revealed area
+@export var reveal_radius: int = 4  # Radius of revealed area
 @onready var fog_tilemap = $Fog
 
 
@@ -37,7 +37,7 @@ func fill_fog():
 func reveal_area(playerposition):
 	var tile_pos = fog_tilemap.local_to_map(fog_tilemap.to_local(playerposition))
 	
-	for x in range(-reveal_radius, reveal_radius + 1):
-		for y in range(-reveal_radius, reveal_radius + 1):
+	for x in range(-reveal_radius , reveal_radius +1):
+		for y in range(-reveal_radius, reveal_radius +1):
 			var fog_tile = tile_pos + Vector2i(x, y)
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
