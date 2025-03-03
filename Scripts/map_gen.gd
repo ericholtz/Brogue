@@ -407,6 +407,7 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			var check_pos = get_random_position_in_room(room)
 			var type = GameMaster.EntityType.keys()[entity.entityType]
 			if room.spawned_entity[type].has(check_pos):
+				entity.queue_free()
 				return
 			else:
 				room.spawned_entity[type].append(check_pos)
