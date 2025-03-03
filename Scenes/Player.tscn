@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=14 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
@@ -15,6 +15,14 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_3ff0n"]
 offsets = PackedFloat32Array(0.06, 0.246667, 0.526667, 0.746667, 1)
 colors = PackedColorArray(0.329412, 1, 0, 1, 0.902941, 1, 0, 1, 0.425, 1, 0, 1, 0.786631, 1, 0, 1, 0.329412, 1, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1eje"]
+atlas = ExtResource("2_tdieg")
+region = Rect2(16, 224, 16, 16)
+
+[sub_resource type="Curve" id="Curve_c7geg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.679775, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("2_qilt3")
@@ -57,7 +65,7 @@ size = Vector2(16, 16)
 z_index = 2
 script = ExtResource("1_2lqgk")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="HealParticles" type="CPUParticles2D" parent="."]
 z_index = 2
 emitting = false
 one_shot = true
@@ -75,6 +83,29 @@ orbit_velocity_max = 0.15
 scale_amount_curve = SubResource("Curve_on12k")
 color_ramp = SubResource("Gradient_3ff0n")
 hue_variation_min = 1.0
+hue_variation_max = 1.0
+
+[node name="LVLParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 3.0
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+texture = SubResource("AtlasTexture_u1eje")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 16.0
+initial_velocity_max = 24.0
+orbit_velocity_min = 0.4
+orbit_velocity_max = 0.5
+linear_accel_min = 5.0
+linear_accel_max = 5.0
+scale_amount_min = 0.2
+scale_amount_max = 0.3
+scale_amount_curve = SubResource("Curve_c7geg")
+color = Color(1, 1, 0, 1)
+hue_variation_min = -1.0
 hue_variation_max = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

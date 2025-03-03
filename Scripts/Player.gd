@@ -21,7 +21,7 @@ extends CharacterBody2D
 #base player stats to be affected by levels/potions
 @export var player_name = ""
 @export var health = 10
-@export var MAX_HEALTH = 15
+@export var MAX_HEALTH = 10
 @export var level = 1
 @export var currentXP = 0
 var XPtoNext = 10
@@ -146,16 +146,17 @@ func gain_level():
 		currentXP -= XPtoNext
 		level += 1
 		XPtoNext = 10 * (level ** 2)
+		MAX_HEALTH += 5
+		health = MAX_HEALTH
+		GameMaster.heal_player(0)
 		strength += 1
 		defense += 1
-		attack += 1
-		armor += 1
 
 func animate_level_up():
 	var originColor = self.modulate
 	var animSpeed = 0.1
 
-	$CPUParticles2D.emitting = true
+	$LVLParticles.emitting = true
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "modulate", Color.GOLD, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -208,6 +209,7 @@ func _on_damage_received(amount: int):
 
 func _on_heal_received(amount: int):
 	if health < MAX_HEALTH:
+		$HealParticles.emitting = true
 		health = min(MAX_HEALTH, health+amount)
 	#print("Player healed ", amount, " points. New health:", health)
 
