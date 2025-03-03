@@ -145,6 +145,12 @@ func _ready() -> void:
 			room_grid[Vector2(x, y)] = null
 			vec_map[Vector2(x,y)] = null
 	generate(0)
+	await get_tree().process_frame
+	# move player to start position maybe need await for new tree before moving player
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -178,11 +184,6 @@ func generate(cur_level : int) -> void:
 	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
 	
-	# move player to start position maybe need await for new tree before moving player
-	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
-	if GameMaster.DEBUG_MAP: 
-		print("First room position (grid):", first_room_pos)
-		print("Player global position:", $"../Player".global_position)
 
 # populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
@@ -513,4 +514,10 @@ func regenerate_map() -> void:
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
 	generate(level)
+	await get_tree().process_frame
+	# move player to start position maybe need await for new tree before moving player
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 	GameMaster.can_move = true
