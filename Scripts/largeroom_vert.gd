@@ -10,8 +10,8 @@ extends Node2D
 var room_name = "Large Vertical"
 var Generation
 var spawned_entity
-
 var fog = false
+
 
 var start_idx = -3
 var total_width = 17

@@ -18,9 +18,7 @@ var total_width = 17
 var total_height = 17
 
 func _ready():
-
 	spawned_entity = {"ENEMY" : [], "ITEM" : [], "GOLD" : []}
-
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
 	
