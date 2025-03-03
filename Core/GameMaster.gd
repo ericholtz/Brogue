@@ -96,7 +96,7 @@ func combat(player, enemy):
 	var enemyXP = enemy.xp
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 0)
+	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
 	if DEBUG_COMBATLOGS:
 		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
@@ -170,11 +170,11 @@ func combat(player, enemy):
 func calculate_hit_chance(attack, defense):
 	var baseHit = 0.90
 	var minHit = 0.40
-	var diff = attack - defense
-	#penalty is applied if diff < 0
+	var diff = defense - attack
+	#penalty is applied if diff > 0
 	#for example, if the player has 3 defense vs a skeleton with 1 attack
-	#diff = -2, penalty = 0.20, chance to hit = 0.70
-	var penalty = 0.10 * max(-diff,0)
+	#diff = 2, penalty = 0.20, chance to hit = 0.70
+	var penalty = 0.10 * diff
 	#clamp penalty to minHit value so there's always a chance to hit something
 	penalty = clamp(penalty, 0.0, baseHit - minHit)
 	#returns a value from 0.4-0.9, the player must roll below that to hit.
