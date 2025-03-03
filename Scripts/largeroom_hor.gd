@@ -1,25 +1,30 @@
 extends Node2D
 
 @onready var player: Node2D  = $"/root/World/Player"# Drag your player node here
-@export var reveal_radius: int = 3  # Radius of revealed area
+@export var reveal_radius: int = 4  # Radius of revealed area
 @onready var fog_tilemap = $Fog
 
-@export var inside_width : int
-@export var inside_height : int
+@export var inside_width : int = 26
+@export var inside_height : int = 9
 
 var room_name = "Large Horizontal"
 var Generation
+var spawned_entity
+var fog = false
+
 
 var start_idx = -3
 var total_width = 34
 var total_height = 17
 
 func _ready():
+	spawned_entity = {"ENEMY" : [], "ITEM" : [], "GOLD" : []}
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
 	
 func _process(_delta):
-	$Fog.visible = !GameMaster.DISABLE_FOG
+	if !fog:
+		$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
  #Covers the entire map with fog tiles
@@ -78,3 +83,9 @@ func west():
 func gold():
 	$Gold.visible = true
 	
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		$Fog.visible = false
+		fog = true

@@ -145,6 +145,12 @@ func _ready() -> void:
 			room_grid[Vector2(x, y)] = null
 			vec_map[Vector2(x,y)] = null
 	generate(0)
+	await get_tree().process_frame
+	# move player to start position maybe need await for new tree before moving player
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -178,11 +184,6 @@ func generate(cur_level : int) -> void:
 	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
 	
-	# move player to start position maybe need await for new tree before moving player
-	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
-	if GameMaster.DEBUG_MAP: 
-		print("First room position (grid):", first_room_pos)
-		print("Player global position:", $"../Player".global_position)
 
 # populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
@@ -403,25 +404,27 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 	if randf() < spawn_chance:
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
 			var entity = entity_pool.pick_random().instantiate()
-			entity.position = get_random_position_in_room(room)
+			var check_pos = get_random_position_in_room(room)
+			var type = GameMaster.EntityType.keys()[entity.entityType]
+			if room.spawned_entity[type].has(check_pos):
+				entity.queue_free()
+				return
+			else:
+				room.spawned_entity[type].append(check_pos)
+			entity.position = check_pos
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
+			
 			if GameMaster.DEBUG_MAP: print(entity.position)
 			if is_position_valid_for_item(entity.position, room):
 				$"../map_gen".call_deferred("add_child", entity)
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
-	if room.room_name == "Large Verticle":
-		pass
-	
-	if room.room_name == "Large Horizontal":
-		pass
-	
 	# Assuming a room size of 272x272
 	return Vector2(
-		(randf() * 144) + room.position.x + 16, 
-		(randf() * 144) + room.position.y + 16
+		(randf() * room.inside_width * 16) + room.position.x + 16, 
+		(randf() * room.inside_height * 16) + room.position.y + 16
 	)
 
 # validate the item will land within the room
@@ -513,4 +516,10 @@ func regenerate_map() -> void:
 			map[y].append(false)
 			room_grid[Vector2(x, y)] = null
 	generate(level)
+	await get_tree().process_frame
+	# move player to start position maybe need await for new tree before moving player
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	if GameMaster.DEBUG_MAP: 
+		print("First room position (grid):", first_room_pos)
+		print("Player global position:", $"../Player".global_position)
 	GameMaster.can_move = true
