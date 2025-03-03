@@ -4,7 +4,11 @@ extends CharacterBody2D
 @onready var Ray = $RayCast2D
 
 var entity_name = "Skeleton Warrior"
+<<<<<<< HEAD
 var entity_type = "enemy"
+=======
+var entity_type = "monster"
+>>>>>>> 24ac61a9f96ea6733f95b7f8554f12fc3134e483
 
 var animationSpeed = 18 #Used what player was
 var moving = false
