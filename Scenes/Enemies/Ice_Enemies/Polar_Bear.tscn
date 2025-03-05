@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://eo7bi3n24cqu"]
 
-[ext_resource type="Script" path="res://Scripts/Monster_Scripts/polar_bear.gd" id="1_x32d8"]
+[ext_resource type="Script" uid="uid://b2aelto8jrd6m" path="res://Scripts/Monster_Scripts/polar_bear.gd" id="1_x32d8"]
 [ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_rpfky"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bookx"]

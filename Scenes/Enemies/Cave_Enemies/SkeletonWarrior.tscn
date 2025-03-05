@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://deftm55xr1r1g"]
 
-[ext_resource type="Script" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_v1fiw"]
+[ext_resource type="Script" uid="uid://1puer8wca45x" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_v1fiw"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_tg3yn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3i2wy"]

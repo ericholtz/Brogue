@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b43tl1lc40w2l"]
 
-[ext_resource type="Script" path="res://Scripts/misc_item.gd" id="1_poft5"]
+[ext_resource type="Script" uid="uid://6dk0eb0xcv0v" path="res://Scripts/misc_item.gd" id="1_poft5"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_yxnwx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
