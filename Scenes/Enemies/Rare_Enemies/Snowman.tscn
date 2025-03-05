@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cf326ierkpeiq"]
 
-[ext_resource type="Script" path="res://Scripts/Monster_Scripts/snowman.gd" id="1_oda54"]
+[ext_resource type="Script" uid="uid://xhdaa1e1qhhh" path="res://Scripts/Monster_Scripts/snowman.gd" id="1_oda54"]
 [ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_8m2nk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hjc6m"]

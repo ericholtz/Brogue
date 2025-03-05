@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bsqomfwhhboj0"]
 
-[ext_resource type="Script" path="res://Scripts/Monster_Scripts/ice_serpent.gd" id="1_3vatd"]
+[ext_resource type="Script" uid="uid://cswcmmup724j" path="res://Scripts/Monster_Scripts/ice_serpent.gd" id="1_3vatd"]
 [ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_uwemv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_km6ya"]

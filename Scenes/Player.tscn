@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dbx8ypfrhdjsj"]
 
-[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_2lqgk"]
+[ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="2_tdieg"]
 

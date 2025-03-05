@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://cqqguphmvsvh8"]
 
-[ext_resource type="Script" path="res://Scripts/World.gd" id="1_mmcn7"]
-[ext_resource type="Script" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
+[ext_resource type="Script" uid="uid://b5smv047xrv02" path="res://Scripts/World.gd" id="1_mmcn7"]
+[ext_resource type="Script" uid="uid://c4ecd23w2wg8n" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="4_ug0ho"]
-[ext_resource type="Script" path="res://Core/UIManager.gd" id="5_7qe8y"]
+[ext_resource type="Script" uid="uid://g3y6r3nexe24" path="res://Core/UIManager.gd" id="5_7qe8y"]
 [ext_resource type="Texture2D" uid="uid://d11658lsp446r" path="res://Textures/Tilemaps/UI/Banners.png" id="5_ffptd"]
-[ext_resource type="Script" path="res://Scripts/heal_test.gd" id="5_gyu86"]
+[ext_resource type="Script" uid="uid://c178rh5h2diqj" path="res://Scripts/heal_test.gd" id="5_gyu86"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="6_3lq2y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3j6l"]

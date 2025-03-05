@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://djtye3tp4e48i"]
 
-[ext_resource type="Script" path="res://Scripts/game_over.gd" id="1_08yff"]
+[ext_resource type="Script" uid="uid://ddflf7xibxt8b" path="res://Scripts/game_over.gd" id="1_08yff"]
 
 [sub_resource type="SystemFont" id="SystemFont_vjdim"]
 subpixel_positioning = 0
