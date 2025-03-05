@@ -68,10 +68,10 @@ script = ExtResource("1_2lqgk")
 [node name="HealParticles" type="CPUParticles2D" parent="."]
 z_index = 2
 emitting = false
+texture = SubResource("AtlasTexture_2lx3f")
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
-texture = SubResource("AtlasTexture_2lx3f")
 spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 8.0
@@ -88,11 +88,11 @@ hue_variation_max = 1.0
 [node name="LVLParticles" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 32
+texture = SubResource("AtlasTexture_u1eje")
 lifetime = 3.0
 one_shot = true
 speed_scale = 3.0
 explosiveness = 1.0
-texture = SubResource("AtlasTexture_u1eje")
 spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 16.0

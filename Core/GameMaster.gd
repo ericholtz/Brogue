@@ -91,7 +91,7 @@ func combat(player, enemy):
 	#lock player
 	can_move = false
 	#grab some information about combatants
-	var playerName = player.player_name
+	var playerName = player.entity_name
 	var enemyName = enemy.name
 	var enemyXP = enemy.xp
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.

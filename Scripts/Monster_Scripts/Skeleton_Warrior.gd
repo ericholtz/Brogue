@@ -51,6 +51,14 @@ func take_turn():
 func move(dir) -> bool:
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
+	if Ray.is_colliding():
+		print("enemy facing wall or player")
+		var collider = Ray.get_collider()
+		print(collider)
+		if collider.is_in_group("Player"):
+			print("attacking player")
+			#GameMaster.combat(self, collider)
+			#this breaks, fix it later
 	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -60,6 +68,7 @@ func move(dir) -> bool:
 		moving = false
 		emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 		return true #flag for movement happening
+
 	return false #no movement, no delay
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

@@ -19,7 +19,7 @@ extends CharacterBody2D
 @export var DEBUG_ITEM = false
 
 #base player stats to be affected by levels/potions
-@export var player_name = ""
+@export var entity_name = ""
 @export var health = 10
 @export var MAX_HEALTH = 10
 @export var level = 1
@@ -193,7 +193,7 @@ func _on_item_gain(item : Area2D):
 			print(inventory)
 
 func _on_name_recieved(p_name: String):
-	player_name = p_name
+	entity_name = p_name
 	var stat_node = preload("res://Scenes/Menus/player_stats.tscn").instantiate()
 	$"..".add_child(stat_node)
 	

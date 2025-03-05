@@ -28,7 +28,7 @@ func _input(event):
 		update_inventory()
 
 func update_stats():
-	name_label.text = "Name: " + player.player_name
+	name_label.text = "Name: " + player.entity_name
 	seed_label.text = "Seed: " + str(GameMaster.current_seed)
 	health_label.text = str(player.health)
 	base_str_label.text = str(player.strength)
