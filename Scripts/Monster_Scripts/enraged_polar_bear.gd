@@ -50,7 +50,7 @@ func take_turn():
 
 
 func move(dir) -> bool:
-	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
+	Ray.target_position = dir * tileSize     #set ray to move direction +16 pixels
 	Ray.force_raycast_update()
 	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var tween = create_tween() #create a new Tween object to handle smooth movement
