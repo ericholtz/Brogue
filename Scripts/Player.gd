@@ -118,7 +118,7 @@ func move(dir) -> bool:
 		var collider = Ray.get_collider()
 		if collider.is_in_group("enemies"):
 			if Input.is_action_just_pressed(dir):
-				await GameMaster.combat(self, collider)
+				await GameMaster.melee_attack(self, collider)
 				return true
 		return false
 	#create a new Tween object to handle smooth movement

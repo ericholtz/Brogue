@@ -87,92 +87,95 @@ func enemyTurn():
 		print("Ending enemy turn\n")
 
 #combat method, this can be changed for balance
-func combat(player, enemy):
+func melee_attack(attacker, defender):
 	#lock player
 	can_move = false
 	#grab some information about combatants
-	var playerName = player.entity_name
-	var enemyName = enemy.name
-	var enemyXP = enemy.xp
-	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
-	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 1)
+	var attacker_name = attacker.entity_name
+	var defender_name = defender.entity_name
+	var enemy_xp
+	if defender.is_in_group("enemies"):
+		enemy_xp = defender.xp
+	
+	#take combatant attack - opponent armor as damage, floor player to 1 and enemies to 0 damage to favor player some.
+	var attacker_damage = max(attacker.attack - defender.armor, 1)
+	var defender_damage = max(defender.attack - attacker.armor, 1)
 	
 	if DEBUG_COMBATLOGS:
-		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
+		print("-----Initiating combat between ",attacker_name," and ",defender_name,"!-----")
 	#roll for player's chance to hit
-	var playerHitChance = calculate_hit_chance(player.attack, enemy.defense)
-	var playerRoll = randf()
+	var attacker_hit_chance = calculate_hit_chance(attacker.attack, defender.armor)
+	var attacker_roll = randf()
 	if DEBUG_COMBATLOGS:
-		print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
-	if playerRoll <= playerHitChance:
-		#THIS SHOULD BE A SIGNAL
-		enemy.health -= playerDamage
-		var attackTween = animate_attack(player, enemy)
-		await attackTween.finished
-		if is_instance_valid(enemy):
+		print(attacker_name," needs less than <",attacker_hit_chance,"> to hit, rolled a <",snapped(attacker_roll,0.01),">.")
+	if attacker_roll <= attacker_hit_chance:
+		defender.health -= attacker_damage
+		var attack_tween = animate_attack(attacker, defender)
+		await attack_tween.finished
+		if is_instance_valid(defender):
 			if DEBUG_COMBATLOGS:
-				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
+				print(attacker_name," dealt ",attacker_damage," damage to ",defender_name,". ",defender_name," has ",defender.health," health left.\n")
 	else:
-		var missTween = animate_miss(player)
-		await missTween.finished
+		var miss_tween = animate_miss(attacker)
+		await miss_tween.finished
 		if DEBUG_COMBATLOGS:
-			print(playerName," missed ",enemyName,"!\n")
+			print(attacker_name," missed ",defender_name,"!\n")
 	
 	#after player attacks, check if enemy is dead
-	var enemyDefeated
-	if is_instance_valid(enemy):
-		enemyDefeated = enemy.health <= 0
+	var defender_defeated
+	if is_instance_valid(defender):
+		defender_defeated = defender.health <= 0
 	else:
-		enemyDefeated = true
+		defender_defeated = true
 	
 	#if it's alive, roll combat
-	if not enemyDefeated:
-		var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
-		var enemyRoll = randf()
+	if not defender_defeated:
+		var defender_hit_chance = calculate_hit_chance(defender.attack,attacker.armor)
+		var defender_roll = randf()
 		if DEBUG_COMBATLOGS:
-			print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
-		if enemyRoll <= enemyHitChance:
-			damage_player_signal.emit(enemyDamage)
-			var attackTween = animate_attack(enemy, player)
-			await attackTween.finished
+			print(defender_name," needs less than <",defender_hit_chance,"> to hit, rolled a <",snapped(defender_roll,0.01),">.")
+		if defender_roll <= defender_hit_chance:
+			attacker.health -= defender_damage
+			var attack_tween = animate_attack(defender, attacker)
+			await attack_tween.finished
 			if DEBUG_COMBATLOGS:
-				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+				print(defender_name," dealt ",defender_damage," damage to ",attacker_name,". ",attacker_name," has ",attacker.health," health left.")
 		else:
-			var missTween = animate_miss(enemy)
-			await missTween.finished
+			var miss_tween = animate_miss(defender)
+			await miss_tween.finished
 			if DEBUG_COMBATLOGS:
-				print(enemyName," missed ",playerName,"!")
+				print(defender_name," missed ",attacker_name,"!")
 	
 	#if enemy dies, call free and give player xp
-	if enemyDefeated:
-		var deathTween = animate_death(enemy)
-		await deathTween.finished
+	if defender_defeated:
+		var death_tween = animate_death(defender)
+		await death_tween.finished
 		if DEBUG_COMBATLOGS:
-			print(enemyName," defeated!")
-		player.add_xp(enemyXP)
-		if DEBUG_COMBATLOGS:
-			print(playerName," gained <",enemyXP,"> xp!")
-		if is_instance_valid(enemy):
-			enemy.queue_free()
+			print(defender_name," defeated!")
+		if is_instance_valid(attacker) && attacker.is_in_group("player"):
+			attacker.add_xp(enemy_xp)
+			if DEBUG_COMBATLOGS:
+				print(attacker_name," gained <",enemy_xp,"> xp!")
+		if is_instance_valid(defender) && defender.is_in_group("enemies"):
+			defender.queue_free()
 	
 	#if player dies, game over.
-	if player.health <= 0:
-		var deathTween = animate_death(player)
-		await deathTween.finished
+	if attacker.health <= 0:
+		var death_tween = animate_death(attacker)
+		await death_tween.finished
 		if DEBUG_COMBATLOGS:
-			print(playerName," died!\n")
+			print(attacker_name," died!\n")
 	
 	await get_tree().process_frame
 	can_move = true;
 
 #calculate chance to hit based on difference between attack and armor
-func calculate_hit_chance(attack, defense):
+func calculate_hit_chance(attack, armor):
 	var baseHit = 0.90
 	var minHit = 0.40
-	var diff = defense - attack
+	var diff = armor - attack
 	#penalty is applied if diff > 0
-	#for example, if the player has 3 defense vs a skeleton with 1 attack
+	#for example, if the player has 3 armor vs a skeleton with 1 attack
 	#diff = 2, penalty = 0.20, chance to hit = 0.70
 	var penalty = 0.10 * diff
 	#clamp penalty to minHit value so there's always a chance to hit something

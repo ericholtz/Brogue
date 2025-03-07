@@ -12,8 +12,8 @@ var player = null
 
 #Monsters States
 var health = 50
-var strength = 3
-var defense = 2
+var attack = 3
+var armor = 2
 var Movement_Speed = 2
 var xp = 100
 var gold = 50
@@ -49,6 +49,10 @@ func take_turn():
 func move(dir) -> bool:
 	Ray.target_position = dir * tileSize	#set ray to move direction +16 pixels
 	Ray.force_raycast_update()
+	if Ray.is_colliding():
+		var collider = Ray.get_collider()
+		if collider.is_in_group("Player"):
+			GameMaster.melee_attack(self, collider)
 	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var tween = create_tween() #create a new Tween object to handle smooth movement
 		#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
