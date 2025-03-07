@@ -54,7 +54,7 @@ func move(dir) -> bool:
 	Ray.force_raycast_update()
 	if Ray.is_colliding():
 		var collider = Ray.get_collider()
-		if collider.is_in_group("Player"):
+		if collider.is_in_group("player"):
 			GameMaster.melee_attack(self, collider)
 	if !Ray.is_colliding(): #if ray is colliding with a wall, we can't move there
 		var tween = create_tween() #create a new Tween object to handle smooth movement

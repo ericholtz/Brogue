@@ -58,7 +58,7 @@ func _ready():
 	position = position.snapped(Vector2.ONE * tileSize)
 	position += Vector2.ONE * tileSize/2
 	PlayerAnim.play("Idle")
-	add_to_group("Player")
+	add_to_group("player")
 	
 	#connect to signals
 	GameMaster.gained_gold.connect(_on_gold_gain.bind())

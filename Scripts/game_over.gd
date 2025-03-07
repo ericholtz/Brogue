@@ -6,10 +6,10 @@ extends CanvasLayer
 @onready var player = $"../Player"
 
 func _ready():
-	if player.player_name.to_lower() == "eric":
+	if player.entity_name.to_lower() == "eric":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "LOSER"
-	if player.player_name.to_lower() == "silas":
+	if player.entity_name.to_lower() == "silas":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "LOSRE"
 	play_again_btn.connect("pressed", Callable(self, "_on_play_again"))

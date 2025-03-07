@@ -48,7 +48,6 @@ func heal_player(amount: int):
 		print("Healing player for "+str(amount)+" points.")
 	heal_player_signal.emit(amount)
 
-
 func setname(player_name: String):
 	if player_name:
 		can_move = true
@@ -109,7 +108,10 @@ func melee_attack(attacker, defender):
 	if DEBUG_COMBATLOGS:
 		print(attacker_name," needs less than <",attacker_hit_chance,"> to hit, rolled a <",snapped(attacker_roll,0.01),">.")
 	if attacker_roll <= attacker_hit_chance:
-		defender.health -= attacker_damage
+		if defender.is_in_group("player"):
+			damage_player_signal.emit(attacker_damage)
+		else:
+			defender.health -= attacker_damage
 		var attack_tween = animate_attack(attacker, defender)
 		await attack_tween.finished
 		if is_instance_valid(defender):
@@ -135,7 +137,10 @@ func melee_attack(attacker, defender):
 		if DEBUG_COMBATLOGS:
 			print(defender_name," needs less than <",defender_hit_chance,"> to hit, rolled a <",snapped(defender_roll,0.01),">.")
 		if defender_roll <= defender_hit_chance:
-			attacker.health -= defender_damage
+			if attacker.is_in_group("player"):
+				damage_player_signal.emit(defender_damage)
+			else:
+				attacker.health -= defender_damage
 			var attack_tween = animate_attack(defender, attacker)
 			await attack_tween.finished
 			if DEBUG_COMBATLOGS:
