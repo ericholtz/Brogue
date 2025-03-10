@@ -175,7 +175,7 @@ func calculate_hit_chance(attack, defense):
 	#for example, if the player has 3 defense vs a skeleton with 1 attack
 	#diff = -2, penalty = 0.20, chance to hit = 0.70
 	var penalty = 0.10 * max(-diff,0)
-	#clamp penalty to minHit value so there's always a chance to hit something
+	#clamp penalty to minHit value so there's always a chance to hit something. penalty range is between 0.0 - 0.5.
 	penalty = clamp(penalty, 0.0, baseHit - minHit)
 	#returns a value from 0.4-0.9, the player must roll below that to hit.
 	return baseHit - penalty
