@@ -79,7 +79,7 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.x = 0
 		else:
 			res.y = 0
-	
+
 	return res
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
