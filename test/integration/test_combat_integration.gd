@@ -4,23 +4,32 @@ extends GutTest
 
 #load the relevant scripts and make holders
 var GameMaster = load("res://Core/GameMaster.gd")
+var Player = load("res://Scenes/Player.tscn")
+var Enemy = load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn")
+
 var gm = null
-var Player = load("res://Scripts/Player.gd")
 var player = null
-var Enemy = load("res://Scripts/Monster_Scripts/Skeleton_Warrior.gd")
 var enemy = null
 
 #before each test, instantiate new gm/player/enemy and add to scene tree
 func before_each():
 	gm = GameMaster.new()
-	player = Player.new()
-	enemy = Enemy.new()
+	player = Player.instantiate()
+	enemy = Enemy.instantiate()
 	
 	add_child(gm)
 	add_child(player)
 	add_child(enemy)
 
 func after_each():
-	autofree(gm)
-	autofree(player)
-	autofree(enemy)
+	gm.queue_free()
+	player.queue_free()
+	enemy.queue_free()
+
+func test_combat_damage():
+	player.attack = 5
+	enemy.defense = 2
+	var expected_damage = 3
+	gm.combat(player, enemy)
+	await get_tree().create_timer(0.7).timeout
+	assert_eq(enemy.health, 2, "Skeleton should take 3 damage and have 2 health remaining")

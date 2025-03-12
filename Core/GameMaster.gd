@@ -201,7 +201,8 @@ func animate_attack(attacker, target) -> Tween:
 	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
-			attacker.position = originPos.snapped(Vector2.ONE * -distance)
+		if is_instance_valid(attacker):
+			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -distance))
 	)
 	return tween
 
@@ -217,7 +218,8 @@ func animate_miss(attacker) -> Tween:
 		tween.tween_property(attacker, "position", originPos + Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(attacker, "position", originPos - Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
-		attacker.position = originPos.snapped(Vector2.ONE * -8)
+		if is_instance_valid(attacker):
+			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -8))
 	)
 	return tween
 
