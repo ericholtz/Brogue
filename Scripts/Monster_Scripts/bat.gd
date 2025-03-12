@@ -6,6 +6,7 @@ extends CharacterBody2D
 var entity_name = "Bat"
 var entityType: GameMaster.EntityType
 
+
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null

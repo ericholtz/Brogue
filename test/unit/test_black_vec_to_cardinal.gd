@@ -1,7 +1,5 @@
 extends GutTest
-
 # black box unit test #
-
 var bat_script = load("res://Scripts/Monster_Scripts/bat.gd")
 var bat = null
 
