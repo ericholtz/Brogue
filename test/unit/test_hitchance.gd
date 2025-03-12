@@ -16,28 +16,37 @@ func after_each():
 
 #tests begin here
 func test_even():
-	assert_eq(_obj.calculate_hit_chance(1,1), 0.9)
+	var hc = _obj.calculate_hit_chance(1,1)
+	assert_eq(hc, 0.9, "Expected 0.9, got <"+str(hc)+">")
 
 func test_more_atk():
-	assert_eq(_obj.calculate_hit_chance(1,0), 0.9)
+	var hc = _obj.calculate_hit_chance(1,0)
+	assert_eq(hc, 0.9, "Expected 0.9, got <"+str(hc)+">")
 
 func test_more_def():
-	assert_eq(_obj.calculate_hit_chance(0,1), 0.8)
+	var hc = _obj.calculate_hit_chance(0,1)
+	assert_eq(hc, 0.8, "Expected 0.8, got <"+str(hc)+">")
 
 func test_negative_attack():
-	assert_eq(_obj.calculate_hit_chance(-1,1), 0.7)
+	var hc = _obj.calculate_hit_chance(-1,1)
+	assert_eq(hc, 0.7, "Expected 0.7, got <"+str(hc)+">")
 
 func test_negative_defense():
-	assert_eq(_obj.calculate_hit_chance(1,-1), 0.9)
+	var hc = _obj.calculate_hit_chance(1,-1)
+	assert_eq(hc, 0.9, "Expected 0.9, got <"+str(hc)+">")
 
 func test_significant_attack():
-	assert_eq(_obj.calculate_hit_chance(5,0), 0.9)
+	var hc = _obj.calculate_hit_chance(5,0)
+	assert_eq(hc, 0.9, "Expected 0.9, got <"+str(hc)+">")
 
 func test_significant_defense():
-	assert_eq(_obj.calculate_hit_chance(0,5), 0.4)
+	var hc = _obj.calculate_hit_chance(0,5)
+	assert_eq(hc, 0.4, "Expected 0.4, got <"+str(hc)+">")
 
 func test_negative_significant_attack():
-	assert_eq(_obj.calculate_hit_chance(-5,5), 0.4)
+	var hc = _obj.calculate_hit_chance(-5,5)
+	assert_eq(hc, 0.4, "Expected 0.4, got <"+str(hc)+">")
 
 func test_negative_significant_defense():
-	assert_eq(_obj.calculate_hit_chance(5,-5), 0.9)
+	var hc = _obj.calculate_hit_chance(5,-5)
+	assert_eq(hc, 0.9, "Expected 0.9, got <"+str(hc)+">")
