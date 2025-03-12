@@ -1,6 +1,13 @@
 extends GutTest
-
 # white box unit test #
+
+# The tests here cover 
+	# Being called when actively moving. 
+	# Testing when random moving is disabled and enabled.
+	# When the 2D area is exited or entered by the player.
+#The test that were not covered
+	# If the move was blocked by Collision or if the move was not blocked.
+
 var bat_script = load("res://Scripts/Monster_Scripts/bat.gd")
 var bat = null
 
@@ -18,7 +25,6 @@ func before_each():
 	bat.animationSpeed = 18
 	bat.Movement_Speed = 2
 	bat.player = null
-
 
 func after_each():
 	# Clean up each time
