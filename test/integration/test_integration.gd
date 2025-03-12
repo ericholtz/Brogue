@@ -1,5 +1,5 @@
 extends GutTest
-
+# Integration test #
 var bat_scene = load("res://Scenes/Enemies/Cave_Enemies/Bat.tscn")
 var map_gen_script = load("res://Scripts/map_gen.gd")
 
@@ -8,7 +8,6 @@ var map_gen = null
 
 func before_each():
 	# Initialize
-	#map_gen = map_gen_script.new()
 	bat = bat_scene.instantiate()
 	add_child(bat)
 
@@ -18,46 +17,46 @@ func after_each():
 		autofree(bat)
 	autofree(map_gen)
 
-func test_bat_spawns_on_map():
-	# Ensure the bat spawns correctly on the map
+func test_bat_spawns():
+	# Simulate: spawns correctly
 	var spawn_position = Vector2(100, 100)
 	bat.position = spawn_position
-	# Check if the bat is in the correct position
-	assert_eq(bat.position, spawn_position, "Bat should spawn at the correct position on the map")
+	# Check if correct position
+	assert_eq(bat.position, spawn_position, "Expected Return: Spawn at map 100, 100")
 
-func test_bat_movement_within_room():
-	# Simulate the bat moving within a room
+func test_bat_movement():
+	# Simulate: moving within room
 	var initial_position = bat.position
-	var move_direction = Vector2(1, 0)  # Move right
-	# Call the bat's move function
+	var move_direction = Vector2(1, 0)
+	# move 
 	await bat.move(move_direction)
-	# Check if the bat moved correctly
-	assert_almost_eq(bat.position.x, initial_position.x + 16, 0.1, "Bat should move 16 pixels to the right")
-	assert_almost_eq(bat.position.y, initial_position.y, 0.1, "Bat should not move vertically")
+	# Test if moved correctly
+	assert_almost_eq(bat.position.x, initial_position.x + 16, 0.1, "Expected Return: Move 16 right")
+	assert_almost_eq(bat.position.y, initial_position.y, 0.1, "Expected Return: Should not move vertically")
 
 func test_bat_player_detection():
-	# Simulate the bat detecting the player
+	# Simulate: detecting the player
 	var player = Node2D.new()
 	player.name = "Player"
 	add_child(player)
 	player.position = Vector2(50, 50)
-	# Trigger the bat's area detection
+	# Trigger area detection
 	bat._on_area_2d_body_entered(player)
-	# Check if the bat detected the player
-	assert_eq(bat.player, player, "Bat should detect the player when they enter the area")
-	# Clean up the player instance
+	# Test if detected player
+	assert_eq(bat.player, player, "Expected Return: Detect player on entering area")
+	# Clean up
 	autofree(player)
 
-func test_bat_player_lost():
-	# Simulate the bat losing sight of the player
+func test_bat_player_detection_lost():
+	# Simulate: losing sight of the player
 	var player = Node2D.new()
 	player.name = "Player"
 	add_child(player)
 	player.position = Vector2(50, 50)
-	# Trigger the bat's area detection and then exit
+	# Trigger area detection
 	bat._on_area_2d_body_entered(player)
 	bat._on_area_2d_body_exited(player)
-	# Check if the bat lost the player
-	assert_null(bat.player, "Bat should lose the player when they exit the area")
-	# Clean up the player instance
+	# Test if lost player
+	assert_null(bat.player, "Expected Return: Lose player on exit area")
+	# Clean up
 	autofree(player)
