@@ -21,15 +21,17 @@ func before_each():
 	add_child(player)
 	add_child(enemy)
 
+#after each test, free everything
 func after_each():
 	gm.queue_free()
 	player.queue_free()
 	enemy.queue_free()
 
+#test for combat to calculate the right numbers
 func test_combat_damage():
 	player.attack = 5
 	enemy.defense = 2
 	var expected_damage = 3
 	gm.combat(player, enemy)
 	await get_tree().create_timer(0.7).timeout
-	assert_eq(enemy.health, 2, "Skeleton should take 3 damage and have 2 health remaining")
+	assert_eq(enemy.health, 2)
