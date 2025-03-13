@@ -29,7 +29,7 @@ var animSpeed = 0.1
 
 enum EntityType {GOLD, ITEM, ENEMY}
 enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
-enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
+enum PotionEffect {HEALING, SPEED, POISON, PSYCHEDELIC, INVISIBILITY}
 
 func collect_entity(entity: Area2D):
 	if !entity:
