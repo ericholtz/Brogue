@@ -8,19 +8,19 @@ extends Node
 	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
-@onready var melee_weapons: Array[PackedScene] = [
+@onready var melee_weapons : Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn")
 	]
 
-@onready var armor: Array[PackedScene] = [
+@onready var armor : Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
 	load("res://Scenes/Items/Armor/ChainArmor.tscn")
 	]
 
-@onready var potions: Array[PackedScene] = [
+@onready var potions : Array[PackedScene] = [
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
@@ -28,41 +28,35 @@ extends Node
 	load("res://Scenes/Items/Potions/RedPotion.tscn")
 	]
 
-@onready var misc: Array[PackedScene] = [
+@onready var misc : Array[PackedScene] = [
 	load("res://Scenes/Items/Misc/MetalKey.tscn")
 	]
 
+	##-----(Enemy Types)-----##
 @onready var Cave_enemies : Array[PackedScene] = [
-	#These will stay
 	load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn"),
 	load("res://Scenes/Enemies/Cave_Enemies/Bat.tscn"),
-	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn"),
-	
-	#Temp Will go into Bosses loader
-	#load("res://Scenes/Enemies/Boss/Dragon.tscn"),
-	
-	#Temp will go into Ice_enemies loader
-	#load("res://Scenes/Enemies/Ice_Enemies/Polar_Bear.tscn"),
-	#load("res://Scenes/Enemies/Ice_Enemies/Enraged_Polar_Bear.tscn"),
-	#load("res://Scenes/Enemies/Ice_Enemies/Skeleton_Ice_Mage.tscn"),
-	#load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn"),
-	
-	#Temp will go into rare
-	#load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
+	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn")
 	]
 	
+@onready var Big_ice_enemies : Array[PackedScene] = [
+	load("res://Scenes/Enemies/Ice_Enemies/Polar_Bear.tscn"),
+	load("res://Scenes/Enemies/Ice_Enemies/Enraged_Polar_Bear.tscn")
+	]
 
 @onready var Ice_enemies : Array[PackedScene] = [
-
+	load("res://Scenes/Enemies/Ice_Enemies/Skeleton_Ice_Mage.tscn"),
+	load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn")
 	]
 
 @onready var Boss : Array[PackedScene] = [
-
+	load("res://Scenes/Enemies/Boss/Dragon.tscn")
 	]
 
 @onready var Rare_ice_enemies : Array[PackedScene] = [
-
+	load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
 	]
+	##-----(Enemy Types)-----##
 
 
 @onready var gold : Array[PackedScene] = [
@@ -90,8 +84,20 @@ var vec_map
 # Base values for scaling
 const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
-const BASE_ENEMY_SPAWN_CHANCE = 0.1
-const BASE_MAX_ENEMIES = 10
+
+##-----(Base Enemy Spawn Chance)-----##
+const BASE_CAVE_ENEMY_SPAWN_CHANCE = 0.1
+const BASE_RARE_ENEMY_SPAWN_CHANCE = 0.01
+const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.05
+const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.05
+const BASE_BOSS_ENEMY_SPAWN_CHANCE = 1
+const BASE_ICE_MAX_ENEMIES = 5
+const BASE_CAVE_MAX_ENEMIES = 10
+const BASE_BOSS_MAX_ENEMIES = 1
+const BASE_RARE_ICE_MAX_ENEMIES = 1
+const BASE_ICE_BIG_ENEMIES = 5
+##-----(Base Enemy Spawn Chance)-----##
+
 const BASE_MAX_GOLD = 2
 const BASE_MAX_MELEE_WEAPONS = 1
 const BASE_MAX_ARMOR = 1
@@ -105,7 +111,14 @@ const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
-@export var enemy_spawn_chance : float = 0.9
+##-----(Enemy Spawn Chance)-----##
+@export var cave_enemy_spawn_chance : float = 0.9
+@export var rare_ice_enemy_spawn_chance : float = 0.01
+@export var ice_enemy_spawn_chance : float = 0.45
+@export var big_ice_enemy_spawn_chance : float = 0.45
+@export var boss_enemy_spawn_chance : float = 1.0
+##-----(Enemy Spawn Chance)-----##
+
 @export var gold_spawn_chance : float = 0.2
 @export var melee_weapon_spawn_chance : float = 0.1
 @export var armor_spawn_chance : float = 0.1
@@ -114,7 +127,14 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var heart_spawn_chance : float
 
 # max per room
-@export var max_enemies_per_room : int = 2
+##-----(Max Enemies Per Room)-----##
+@export var max_cave_enemies_per_room : int = 2
+@export var max_boss_enemies_per_room : int = 1
+@export var max_ice_enemies_per_room : int = 1
+@export var max_big_ice_enemies_per_room : int = 1
+@export var max_rare_ice_enemies_per_room : int = 1
+##-----(Max Enemies Per Room)-----##
+
 @export var max_hearts_per_room : int
 @export var max_gold_per_room : int = 2
 @export var max_melee_weapons_per_room : int = 1
@@ -380,9 +400,29 @@ func adjust_first_room() -> void:
 
 # spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
-	# Spawn enemies
-	if GameMaster.DEBUG_MAP: print("Spawning: Enemies")
-	spawn_entities(room, Cave_enemies, enemy_spawn_chance, max_enemies_per_room)
+	##-----(Spawn Enemies)-----##
+	# Spawn Cave enemies
+	if level == 1:
+		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
+		spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
+		
+	if level == 2:
+		# Spawn Ice enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
+		spawn_entities(room, Ice_enemies, ice_enemy_spawn_chance, max_ice_enemies_per_room)
+		# Spawn Big enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Big: Enemies")
+		spawn_entities(room, Big_ice_enemies, big_ice_enemy_spawn_chance, max_big_ice_enemies_per_room)
+			# Spawn Rare enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
+		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
+	
+	if level == 3:
+		# Spawn Boss enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
+		spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
+	##-----(Spawn Enemies)-----##
+	
 	# Spawn gold
 	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
 	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
@@ -400,7 +440,7 @@ func spawn_room_content(room: Node) -> void:
 	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
 
 # spawn one entity based off room, instantiated node, and chance and max constants about the node
-func spawn_entities(room: Node, entity_pool: Array[PackedScene], spawn_chance: float, max_per_room: int) -> void:
+func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance : float, max_per_room : int) -> void:
 	if randf() < spawn_chance:
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
 			var entity = entity_pool.pick_random().instantiate()
@@ -501,7 +541,14 @@ func regenerate_map() -> void:
 	rooms_to_generate = BASE_ROOMS + (level * ROOMS_GROWTH_RATE)
 	
 	# Scale spawn rates but cap them at 1.0 (100%)
-	enemy_spawn_chance = min(BASE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	##-----(Scaleing Spawn Chances)-----##
+	cave_enemy_spawn_chance = min(BASE_CAVE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	ice_enemy_spawn_chance = min(BASE_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	rare_ice_enemy_spawn_chance = min(BASE_RARE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	boss_enemy_spawn_chance = min(BASE_BOSS_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	big_ice_enemy_spawn_chance = min(BASE_BIG_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	##-----(Scaleing Spawn Chances)-----##
+	
 	gold_spawn_chance = min(gold_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	melee_weapon_spawn_chance = min(melee_weapon_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	armor_spawn_chance = min(armor_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
@@ -509,7 +556,14 @@ func regenerate_map() -> void:
 	misc_spawn_chance = min(misc_spawn_chance + (level * SPAWN_RATE_INCREMENT), 1.0)
 	
 	# Increase enemy capacity per room
-	max_enemies_per_room = BASE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	##-----(Scaleing Max Enemies)-----##
+	max_cave_enemies_per_room = BASE_CAVE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_ice_enemies_per_room = BASE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_rare_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	#max_boss_enemies_per_room = BASE_BOSS_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_big_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	##-----(Scaleing Max Enemies)-----##
+	
 	max_gold_per_room = BASE_MAX_GOLD + (level * ENEMY_GROWTH_RATE)
 	max_melee_weapons_per_room = BASE_MAX_MELEE_WEAPONS + (level * ENEMY_GROWTH_RATE)
 	max_armor_per_room = BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE)
