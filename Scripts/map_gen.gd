@@ -481,7 +481,7 @@ func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
 	return abs(start_pos.x - target_pos.x) + abs(start_pos.y - target_pos.y)
 
 # insert exit door at farthest room location
-func add_exit_to_last_room() -> void:
+func add_exit_to_last_room():
 	if last_room:
 		var exit = load("res://Scenes/Rooms/exit_door.tscn").instantiate()
 		exit.z_index = 9
@@ -489,27 +489,42 @@ func add_exit_to_last_room() -> void:
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
 		if GameMaster.DEBUG_MAP: print(exit.position)
-		if is_position_valid_for_item(exit.position, last_room):
-			$"../map_gen".call_deferred("add_child", exit)
+		$"../map_gen".call_deferred("add_child", exit)
+		return true
+	else:
+		return false
 
 # command line spawn
 func force_spawn(player_pos : Vector2, entity : String, option : int):
 	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "Cave-enemy" : Cave_enemies, "Big-Ice-enemy" : Big_ice_enemies, "Ice-enemy" : Ice_enemies, "Rare-Ice-enemy" : Rare_ice_enemies, "Boss-enemy" : Boss, "gold" : gold}
-	var thing = spawn_options[entity][option].instantiate()
-	if thing:
-		var cur_room = vec_map[((player_pos) / 272).floor()]
-		if cur_room.room_name == "hallway":
-			$"../CommandLine".command_history.append("cant spawn inside " + cur_room.room_name)
-			return
-		thing.position = get_random_position_in_room(cur_room)
-		thing.position.x = floor(thing.position.x / 16) * 16 + 8
-		thing.position.y = floor(thing.position.y / 16) * 16 + 8
-		if GameMaster.DEBUG_MAP: print(thing.position)
-		if is_position_valid_for_item(thing.position, cur_room):
-			$"../map_gen".call_deferred("add_child", thing)
-			$"../CommandLine".command_history.append("Succesfully spawned " + thing.get_child(0).name)
+	if spawn_options.keys().has(entity):
+		print("passed entity exists")
+		if spawn_options[entity].size() > option and option >= 0:
+			print("valid option")
+			var cur_room = vec_map[((player_pos) / 272).floor()]
+			if cur_room.room_name == "hallway":
+				$"../CommandLine".command_history.append("cant spawn inside " + cur_room.room_name)
+				return false
+			var thing = spawn_options[entity][option].instantiate()
+			print("instantiated thing")
+			thing.position = get_random_position_in_room(cur_room)
+			thing.position.x = floor(thing.position.x / 16) * 16 + 8
+			thing.position.y = floor(thing.position.y / 16) * 16 + 8
+			if GameMaster.DEBUG_MAP: print(thing.position)
+			if is_position_valid_for_item(thing.position, cur_room):
+				$"../map_gen".call_deferred("add_child", thing)
+				$"../CommandLine".command_history.append("Succesfully spawned " + thing.get_child(0).name)
+				print("spawned item")
+				return true
+		else:
+			$"../CommandLine".command_history.append("no option found for entity request")
+			print("no option found for entity request")
+			return false
 	else:
-		$"../CommandLine".command_history.append("Spawning thing failed")
+		$"../CommandLine".command_history.append("Entity requested does not exist")
+		print("Entity requested does not exist")
+		return false
+	return false
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
