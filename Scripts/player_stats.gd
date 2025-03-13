@@ -43,7 +43,7 @@ func update_stats():
 
 func update_inventory():
 	for child in inventory_list.get_children():
-		child.free()
+		child.queue_free()
 	
 	for item in player.inventory_node.get_children():
 		var use_button = Button.new()
