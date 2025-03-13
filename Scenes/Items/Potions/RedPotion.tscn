@@ -8,10 +8,10 @@ size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_50g1o")
-itemType = 3
+item_type = 3
 stackable = true
-entityName = "RedPotion"
-entityType = 1
+entity_name = "RedPotion"
+entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_kqjj3")

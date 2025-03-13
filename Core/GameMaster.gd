@@ -34,7 +34,7 @@ enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
 func collect_entity(entity: Area2D):
 	if !entity:
 		return
-	match entity.entityType:
+	match entity.entity_type:
 		EntityType.GOLD:
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:

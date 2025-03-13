@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var Ray = $RayCast2D
 
 var entity_name = "Skeleton Ice Mage"
-var entityType: GameMaster.EntityType
+var entity_type: GameMaster.EntityType
 
 var animationSpeed = 18 #Used what player was
 var moving = false
