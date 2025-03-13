@@ -9,8 +9,8 @@ size = Vector2(14, 14)
 [node name="Area2D" type="Area2D"]
 script = ExtResource("4_q3u2o")
 attack = 2
-entityName = "MetalHammer"
-entityType = 1
+entity_name = "MetalHammer"
+entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_8oufd")

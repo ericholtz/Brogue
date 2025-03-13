@@ -43,14 +43,14 @@ func update_stats():
 
 func update_inventory():
 	for child in inventory_list.get_children():
-		child.queue_free()
+		child.free()
 	
-	for item in player.inventoryNode.get_children():
+	for item in player.inventory_node.get_children():
 		var use_button = Button.new()
 		if (item.stackable):
-			use_button.text = "Use %s (Currently have x%d)" % [item.entityName, item.count]
+			use_button.text = "Use %s (Currently have x%d)" % [item.entity_name, item.count]
 		else:
-			use_button.text = "Use %s" % item.entityName
+			use_button.text = "Use %s" % item.entity_name
 		use_button.pressed.connect(_on_use_pressed.bind(use_button))
 		inventory_list.add_child(use_button)
 
