@@ -32,6 +32,8 @@ enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
 enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
 
 func collect_entity(entity: Area2D):
+	if !entity:
+		return
 	match entity.entityType:
 		EntityType.GOLD:
 			gained_gold.emit(entity.gold_worth)
@@ -175,7 +177,7 @@ func calculate_hit_chance(attack, defense):
 	#for example, if the player has 3 defense vs a skeleton with 1 attack
 	#diff = -2, penalty = 0.20, chance to hit = 0.70
 	var penalty = 0.10 * max(-diff,0)
-	#clamp penalty to minHit value so there's always a chance to hit something
+	#clamp penalty to minHit value so there's always a chance to hit something. penalty range is between 0.0 - 0.5.
 	penalty = clamp(penalty, 0.0, baseHit - minHit)
 	#returns a value from 0.4-0.9, the player must roll below that to hit.
 	return baseHit - penalty
@@ -199,7 +201,8 @@ func animate_attack(attacker, target) -> Tween:
 	tween.tween_property(target, "modulate", Color.RED, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
-			attacker.position = originPos.snapped(Vector2.ONE * -distance)
+		if is_instance_valid(attacker):
+			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -distance))
 	)
 	return tween
 
@@ -215,7 +218,8 @@ func animate_miss(attacker) -> Tween:
 		tween.tween_property(attacker, "position", originPos + Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(attacker, "position", originPos - Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
-		attacker.position = originPos.snapped(Vector2.ONE * -8)
+		if is_instance_valid(attacker):
+			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -8))
 	)
 	return tween
 
