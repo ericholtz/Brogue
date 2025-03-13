@@ -28,7 +28,7 @@ func after_each():
 	enemy.queue_free()
 
 #test for combat to calculate the right numbers
-func test_combat_damage():
+func test_combat_round():
 	#run combat, wait for tweens to finish with hard timer
 	gm.combat(player, enemy)
 	await get_tree().create_timer(0.7).timeout
