@@ -6,6 +6,7 @@ extends CharacterBody2D
 var entity_name = "Bat"
 var entityType: GameMaster.EntityType
 
+
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
@@ -79,7 +80,7 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.x = 0
 		else:
 			res.y = 0
-	
+
 	return res
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
