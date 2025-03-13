@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var godmode_enabled = false
 
 #inventory and gold
-@onready var inventoryNode : Node2D = $Inventory
+@onready var inventory_node : Node2D = $Inventory
 @export var inventory : Array[String] = []
 @export var gold = 0
 
@@ -172,23 +172,25 @@ func _on_gold_gain(gold_worth: int):
 	print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
 
 func _on_item_gain(item : Area2D):
-	var index = inventory.find(item.entityName)
+	var index = inventory.find(item.entity_name)
 	# add unique new item
 	if (index == -1):
-		inventory.append(item.entityName)
-		item.canPickup = false
-		item.call_deferred("reparent", inventoryNode)
+		await get_tree().process_frame
+		item.can_pickup = false
+		item.reparent(inventory_node)
+		#await item.call_deferred("reparent", inventory_node)
+		inventory.append(item.entity_name)
 		item.visible = false
 		if (DEBUG_ITEM):
-			print("Added ", item.entityName, " to inventory. Current inventory is:")
+			print("Added ", item.entity_name, " to inventory. Current inventory is:")
 			print(inventory)
 	# increase existing stackable item count
 	elif (index != -1 and item.stackable):
-		var existingItem = inventoryNode.get_child(index)
-		existingItem.count += 1
+		var existing_item = inventory_node.get_child(index)
+		existing_item.count += 1
 		item.queue_free()
 		if (DEBUG_ITEM):
-			print("Increased stack count of ", existingItem.entityName, " to ", existingItem.itemCount, ". Current inventory is:")
+			print("Increased stack count of ", existing_item.entity_name, " to ", existing_item.count, ". Current inventory is:")
 			print(inventory)
 
 func _on_name_recieved(p_name: String):
@@ -211,10 +213,14 @@ func _on_heal_received(amount: int):
 		health = min(MAX_HEALTH, health+amount)
 	#print("Player healed ", amount, " points. New health:", health)
 
-func use(itemIndex: int):
+func use(item_index: int):
+	# check bounds
+	if item_index < 0 or item_index >= inventory_node.get_child_count():
+		return
+	
 	# apply item effect
-	var item = inventoryNode.get_child(itemIndex)
-	match item.itemType:
+	var item = inventory_node.get_child(item_index)
+	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			attack = strength + item.attack
 		GameMaster.ItemType.ARMOR:
@@ -228,14 +234,14 @@ func use(itemIndex: int):
 	if (item.stackable):
 		item.count -= 1
 		if (item.count == 0):
-			inventory.erase(item.entityName)
+			inventory.erase(item.entity_name)
 			item.free()
 
 func use_potion(potion : Area2D):
 	match potion.effect:
 		GameMaster.PotionEffect.HEALING:
-			var healAmount = ceil(float(MAX_HEALTH)/4)
-			GameMaster.heal_player_signal.emit(healAmount)
+			var heal_amount = ceil(float(MAX_HEALTH)/4)
+			GameMaster.heal_player_signal.emit(heal_amount)
 		GameMaster.PotionEffect.SPEED:
 			print("Speed potions are unimplemented")
 		GameMaster.PotionEffect.POISON:
