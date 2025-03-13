@@ -33,6 +33,14 @@ var XPNeeded = XPtoNext - currentXP
 var attack = strength
 var armor = defense
 
+# status effects
+## potion effects
+var is_invisible = false
+var is_psychedelic = false
+
+## enemy effects
+var is_frozen = false # doesn't do anything, just an example - remove if needed
+
 #movement related variables
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
@@ -246,7 +254,7 @@ func use_potion(potion : Area2D):
 			print("Speed potions are unimplemented")
 		GameMaster.PotionEffect.POISON:
 			print("Poison potions are unimplemented")
-		GameMaster.PotionEffect.PSYCHADELIC:
+		GameMaster.PotionEffect.PSYCHEDELIC:
 			print("Psychadelic potions are unimplemented")
 		GameMaster.PotionEffect.INVISIBILITY:
 			visible = !visible
