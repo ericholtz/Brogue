@@ -47,6 +47,7 @@ shape = SubResource("RectangleShape2D_gxpjg")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_hn6gm")
 
 [node name="Area2D" type="Area2D" parent="."]
