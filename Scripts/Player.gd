@@ -37,8 +37,10 @@ var armor = defense
 ## potion effects
 var is_invisible = false
 var is_psychedelic = false
+var is_poisoned = false
 const INVISIBILITY_LENGTH = 20
-const PSYCHEDELIC_LENGTH = 20
+const PSYCHEDELIC_LENGTH = 30
+const POISON_LENGTH = 10
 
 ## enemy effects
 var is_frozen = false # doesn't do anything, just an example - remove if needed
@@ -260,7 +262,7 @@ func use_potion(potion : Area2D):
 		GameMaster.PotionEffect.SPEED:
 			print("Speed potions are unimplemented")
 		GameMaster.PotionEffect.POISON:
-			print("Poison potions are unimplemented")
+			use_poison_potion()
 		GameMaster.PotionEffect.PSYCHEDELIC:
 			use_psychedelic_potion()
 		GameMaster.PotionEffect.INVISIBILITY:
@@ -280,6 +282,12 @@ func use_invisibility_potion():
 func use_psychedelic_potion():
 	is_psychedelic = true
 	PlayerAnim.flip_v = true
+	GameMaster.start_status_effect(GameMaster.StatusEffect.PSYCHEDELIC, PSYCHEDELIC_LENGTH)
+	$Camera2D.find_child('ScreenEffects').find_child('Invert').visible = true
+
+func use_poison_potion():
+	is_poisoned = true
+	GameMaster.start_status_effect(GameMaster.StatusEffect.POISONED, POISON_LENGTH)
 
 func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 	match effect:
@@ -287,6 +295,8 @@ func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 			remove_invisibility()
 		GameMaster.StatusEffect.PSYCHEDELIC:
 			remove_psychedelic()
+		GameMaster.StatusEffect.POISONED:
+			remove_poison()
 
 func remove_invisibility():
 	is_invisible = false
@@ -295,6 +305,10 @@ func remove_invisibility():
 func remove_psychedelic():
 	is_psychedelic = false
 	PlayerAnim.flip_v = false
+	$Camera2D.find_child('ScreenEffects').find_child('Invert').visible = false
+
+func remove_poison():
+	is_poisoned = false
 
 func use_misc(_misc : Area2D):
 	print("Misc item functionalities are unimplemented")
