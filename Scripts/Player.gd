@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var PlayerAnim = $AnimatedSprite2D
 @onready var Ray = $RayCast2D
 @onready var collision = $CollisionShape2D
+@onready var Camera = $Camera2D
 
 #debug flags
 @export var noclip_enabled = false
@@ -245,17 +246,21 @@ func use(item_index: int):
 			armor = defense + item.armor
 		GameMaster.ItemType.POTION:
 			use_potion(item)
+		GameMaster.ItemType.SCROLL:
+			use_scroll(item)
 		GameMaster.ItemType.MISC:
 			use_misc(item)
 			
-	# decrement count if stackable - remove if ran out
-	if (item.stackable):
+	# decrement count if stackable and consumable
+	if item.stackable and item.consumable:
 		item.count -= 1
-		if (item.count == 0):
-			inventory.erase(item.entity_name)
-			item.free()
 
-func use_potion(potion : Area2D):
+	# - remove if ran out of that consumable type
+	if item.consumable and item.count == 0:
+		inventory.erase(item.entity_name)
+		item.free()
+
+func use_potion(potion: Area2D):
 	match potion.effect:
 		GameMaster.PotionEffect.HEALING:
 			use_healing_potion()
@@ -283,7 +288,7 @@ func use_psychedelic_potion():
 	is_psychedelic = true
 	PlayerAnim.flip_v = true
 	GameMaster.start_status_effect(GameMaster.StatusEffect.PSYCHEDELIC, PSYCHEDELIC_LENGTH)
-	$Camera2D.find_child('ScreenEffects').find_child('Invert').visible = true
+	Camera.find_child('ScreenEffects').find_child('Invert').visible = true
 
 func use_poison_potion():
 	is_poisoned = true
@@ -305,13 +310,25 @@ func remove_invisibility():
 func remove_psychedelic():
 	is_psychedelic = false
 	PlayerAnim.flip_v = false
-	$Camera2D.find_child('ScreenEffects').find_child('Invert').visible = false
+	Camera.find_child('ScreenEffects').find_child('Invert').visible = false
 
 func remove_poison():
 	is_poisoned = false
 
-func use_misc(_misc : Area2D):
-	print("Misc item functionalities are unimplemented")
+func use_scroll(scroll: Area2D):
+	pass
+	# match scroll.effect:
+
+func use_misc(misc: Area2D):
+	print('using misc')
+	match misc.misc_type:
+		GameMaster.MiscType.MAP:
+			use_map()
+
+func use_map():
+	print('using map')
+	Camera.zoom = Vector2(2, 2)
+	GameMaster.DISABLE_FOG = true
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
