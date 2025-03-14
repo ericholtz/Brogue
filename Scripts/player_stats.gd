@@ -59,7 +59,7 @@ func _on_close_pressed():
 	GameMaster.can_move = true
 	
 
-func _on_use_pressed(useButton : BaseButton):
+func _on_use_pressed(useButton: BaseButton):
 	var index = useButton.get_index()
 	player.use(index)
 	update_stats()
