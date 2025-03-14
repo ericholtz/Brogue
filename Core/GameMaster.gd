@@ -39,6 +39,7 @@ enum ItemType {
 	RANGED_WEAPON,
 	ARMOR,
 	POTION,
+	SCROLL,
 	MISC,
 	}
 enum PotionEffect {
@@ -47,6 +48,10 @@ enum PotionEffect {
 	POISON,
 	PSYCHEDELIC,
 	INVISIBILITY,
+	}
+enum MiscType {
+	KEY,
+	MAP,
 	}
 
 enum StatusEffect {
