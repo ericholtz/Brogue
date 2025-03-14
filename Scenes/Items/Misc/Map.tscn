@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c06n00w2g6hf4"]
+
+[ext_resource type="Script" uid="uid://6dk0eb0xcv0v" path="res://Scripts/misc_item.gd" id="1_6dk22"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_6icen"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
+size = Vector2(14, 14)
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_6dk22")
+misc_type = 1
+item_type = 5
+entity_name = "Map"
+entity_type = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6icen")
+region_enabled = true
+region_rect = Rect2(160, 208, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xgu2b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
