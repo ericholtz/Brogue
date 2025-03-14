@@ -98,8 +98,8 @@ func apply_health_diff():
 	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
 		damage_amount += 1
 	
-	# passive regen every 10 turns
-	if turnCounter % 10 == 0:
+	# passive regen every 20 turns
+	if turnCounter % 20 == 0:
 		heal_amount += 1
 
 	# apply difference of healing and damage to not redundantly do both
