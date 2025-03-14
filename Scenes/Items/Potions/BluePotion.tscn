@@ -11,6 +11,7 @@ script = ExtResource("1_lkjy5")
 effect = 4
 item_type = 3
 stackable = true
+consumable = true
 entity_name = "BluePotion"
 entity_type = 1
 

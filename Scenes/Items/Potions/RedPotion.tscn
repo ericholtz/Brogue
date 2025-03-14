@@ -10,6 +10,7 @@ size = Vector2(14, 14)
 script = ExtResource("1_50g1o")
 item_type = 3
 stackable = true
+consumable = true
 entity_name = "RedPotion"
 entity_type = 1
 
