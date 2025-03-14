@@ -12,12 +12,12 @@ extends Node
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
-	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn")
+	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
 	]
 
 @onready var armor : Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
-	load("res://Scenes/Items/Armor/ChainArmor.tscn")
+	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
 	]
 
 @onready var potions : Array[PackedScene] = [
@@ -25,11 +25,12 @@ extends Node
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
 	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
-	load("res://Scenes/Items/Potions/RedPotion.tscn")
+	load("res://Scenes/Items/Potions/RedPotion.tscn"),
 	]
 
 @onready var misc : Array[PackedScene] = [
-	load("res://Scenes/Items/Misc/MetalKey.tscn")
+	load("res://Scenes/Items/Misc/MetalKey.tscn"),
+	load("res://Scenes/Items/Misc/Map.tscn"),
 	]
 
 	##-----(Enemy Types)-----##
