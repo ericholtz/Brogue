@@ -52,6 +52,7 @@ enum PotionEffect {
 enum StatusEffect {
 	INVISIBLE,
 	PSYCHEDELIC,
+	POISONED,
 	}
 
 var status_effects = []
@@ -88,6 +89,27 @@ func start_status_effect(effect: StatusEffect, duration: int):
 	if status_effects[effect] < duration:
 		status_effects[effect] = duration
 
+# apply status effect damage, passive regen, etc.
+func apply_health_diff():
+	var heal_amount = 0
+	var damage_amount = 0
+	
+	# 1 tick of poison damage every other turn
+	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
+		damage_amount += 1
+	
+	# passive regen every 10 turns
+	if turnCounter % 10 == 0:
+		heal_amount += 1
+
+	# apply difference of healing and damage to not redundantly do both
+	var diff = heal_amount - damage_amount
+	if diff > 0:
+		heal_player(diff)
+	else:
+		damage_player(0-diff)
+
+
 func decrement_status_effect_duration():
 	for i in range(0, status_effects.size()):
 		if status_effects[i] == 0:
@@ -109,6 +131,7 @@ func takeTurn(turnsTaken: int):
 	can_move = false
 	
 	#apply over-time effects, increment timers, whatever is appropriate here
+	apply_health_diff()
 	decrement_status_effect_duration()
 	
 	took_turns.emit(1) #this just sends a signal to the ui turn counter
