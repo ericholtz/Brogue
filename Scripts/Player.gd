@@ -251,14 +251,12 @@ func use(item_index: int):
 		GameMaster.ItemType.MISC:
 			use_misc(item)
 			
-	# decrement count if stackable and consumable
-	if item.stackable and item.consumable:
+	# decrement count if consumable - if 0, remove from inventory
+	if item.consumable:
 		item.count -= 1
-
-	# - remove if ran out of that consumable type
-	if item.consumable and item.count == 0:
-		inventory.erase(item.entity_name)
-		item.free()
+		if item.count == 0:
+			inventory.erase(item.entity_name)
+			item.free()
 
 func use_potion(potion: Area2D):
 	match potion.effect:
@@ -320,15 +318,17 @@ func use_scroll(scroll: Area2D):
 	# match scroll.effect:
 
 func use_misc(misc: Area2D):
-	print('using misc')
 	match misc.misc_type:
 		GameMaster.MiscType.MAP:
-			use_map()
+			use_map(misc)
 
-func use_map():
-	print('using map')
-	Camera.zoom = Vector2(2, 2)
-	GameMaster.DISABLE_FOG = true
+func use_map(map: Area2D):
+	var current_level = $"../map_gen".level
+	if map.map_level == current_level:
+		Camera.zoom = Vector2(2, 2)
+		GameMaster.DISABLE_FOG = true
+	else:
+		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
