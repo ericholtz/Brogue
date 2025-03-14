@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=19 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="2_tdieg"]
 [ext_resource type="Texture2D" uid="uid://cnrhr7328bg3j" path="res://Textures/Tilemaps/custom/Hero-Invisible.png" id="4_dewec"]
+[ext_resource type="Shader" uid="uid://7hlalx4wngds" path="res://Scenes/invert_colors.gdshader" id="5_5ixxa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
 atlas = ExtResource("2_tdieg")
@@ -83,6 +84,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_17cu6"]
 size = Vector2(16, 16)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nn08x"]
+shader = ExtResource("5_5ixxa")
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 2
 script = ExtResource("1_2lqgk")
@@ -140,6 +144,18 @@ shape = SubResource("RectangleShape2D_17cu6")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0.00147247, -0.0235901)
 zoom = Vector2(3, 3)
+
+[node name="ScreenEffects" type="CanvasLayer" parent="Camera2D"]
+
+[node name="Invert" type="ColorRect" parent="Camera2D/ScreenEffects"]
+visible = false
+material = SubResource("ShaderMaterial_nn08x")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0.00147247, -0.0235901)
