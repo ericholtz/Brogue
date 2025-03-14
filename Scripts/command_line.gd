@@ -23,20 +23,21 @@ func _on_command_entered(command):
 	if words.size() == 0 or words[0] == "":
 		return
 	
-	if words.size() > 3:
-		
+	if words.size() > 4:
 		command_history.append("> " + command)
 		command_history.append("Unknown command: Too many arguments")
-	elif words.size() == 3 and not words[2].is_valid_int():
+
+	elif words.size() == 4 and (not words[2].is_valid_int() or not words[3].is_valid_int()):
 		command_history.append("> " + command)
-		command_history.append("Unknown command: Third argument must be an integer")
+		command_history.append("Unknown command: Third and fourth argument must be integers")
 	
 	else:
 		var cmd = words[0]
 		var option = words[1] if words.size() >= 2 else ""
-		var num = int(words[2]) if words.size() == 3 else -1
+		var num = int(words[2]) if words.size() >= 3 else -1
+		var count = int(words[3]) if words.size() == 4 else 1
 		command_history.append("> " + command)
-		process_command(cmd, option, num)
+		process_command(cmd, option, num, count)
 	update_history()
 	input_field.text = ""
 
@@ -45,10 +46,10 @@ func update_history():
 	for cmd in command_history:
 		history_label.append_text(cmd + "\n")
 
-func process_command(command, option = "", num = ""):
+func process_command(command, option = "", num = "", count = ""):
 	match command:
 		"help":
-			command_history.append("Available commands: help, clear, kill, noclip, godmode, fog, position, spawn <entity> <num>")
+			command_history.append("Available commands: help, clear, kill, noclip, godmode, fog, position, spawn <entity> <num> [count]")
 		"clear":
 			command_history.clear()
 		"kill":
@@ -61,10 +62,11 @@ func process_command(command, option = "", num = ""):
 			$"../Player".god_mode()
 			command_history.append("God mode set: " + str($"../Player".godmode_enabled))
 		"spawn":
-			if option != "":
-				if num != -1:
-					command_history.append("Attempting Spawn of " + option + " in room " + str($"../Player".global_position.floor()))
-					$"../map_gen".force_spawn($"../Player".global_position, option, num)
+			if option == "": return
+			if num == -1: return
+			for i in range(0, count):
+				command_history.append("Attempting Spawn of " + option + " in room " + str($"../Player".global_position.floor()))
+				$"../map_gen".force_spawn($"../Player".global_position, option, num)
 		"fog":
 			GameMaster.DISABLE_FOG = !GameMaster.DISABLE_FOG
 			command_history.append("Dissable Fog " + str(GameMaster.DISABLE_FOG))
