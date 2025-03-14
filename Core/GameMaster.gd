@@ -1,11 +1,13 @@
 extends Node
 
+# signals
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
+signal end_status_effect(effect: StatusEffect)
 
 # Turn on/off debug statments
 @export var DEBUG_MAP = false
@@ -27,9 +29,36 @@ var user_seed
 var can_move = false
 var animSpeed = 0.1
 
-enum EntityType {GOLD, ITEM, ENEMY}
-enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
-enum PotionEffect {HEALING, SPEED, POISON, PSYCHEDELIC, INVISIBILITY}
+enum EntityType {
+	GOLD,
+	ITEM,
+	ENEMY,
+	}
+enum ItemType {
+	MELEE_WEAPON,
+	RANGED_WEAPON,
+	ARMOR,
+	POTION,
+	MISC,
+	}
+enum PotionEffect {
+	HEALING,
+	SPEED,
+	POISON,
+	PSYCHEDELIC,
+	INVISIBILITY,
+	}
+
+enum StatusEffect {
+	INVISIBLE,
+	PSYCHEDELIC,
+	}
+
+var status_effects = []
+
+func _ready() -> void:
+	status_effects.resize(StatusEffect.size())
+	status_effects.fill(0)
 
 func collect_entity(entity: Area2D):
 	if !entity:
@@ -50,11 +79,22 @@ func heal_player(amount: int):
 		print("Healing player for "+str(amount)+" points.")
 	heal_player_signal.emit(amount)
 
-
 func setname(player_name: String):
 	if player_name:
 		can_move = true
 		set_name.emit(player_name)
+
+func start_status_effect(effect: StatusEffect, duration: int):
+	if status_effects[effect] < duration:
+		status_effects[effect] = duration
+
+func decrement_status_effect_duration():
+	for i in range(0, status_effects.size()):
+		if status_effects[i] == 0:
+			continue
+		status_effects[i] -= 1
+		if status_effects[i] == 0:
+			end_status_effect.emit(i)
 
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
@@ -69,6 +109,7 @@ func takeTurn(turnsTaken: int):
 	can_move = false
 	
 	#apply over-time effects, increment timers, whatever is appropriate here
+	decrement_status_effect_duration()
 	
 	took_turns.emit(1) #this just sends a signal to the ui turn counter
 	await enemyTurn()
