@@ -456,6 +456,9 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
 			
+			# do anything specific regarding the spawning of this entity
+			do_specific_entity_checks()
+			
 			if GameMaster.DEBUG_MAP: print(entity.position)
 			if is_position_valid_for_item(entity.position, room):
 				$"../map_gen".call_deferred("add_child", entity)
@@ -476,6 +479,14 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			print("failed to add thing to room")
 			return false
 	return true
+
+func do_specific_entity_checks(entity: Area2D):
+	# add map level if entity is a map item
+	if (entity.entity_type == GameMaster.EntityType.ITEM
+		and entity.item_type == GameMaster.ItemType.MISC
+		and entity.misc_type == GameMaster.MiscType.MAP)
+		entity.map_level = level
+		entity.entity_name = str("Map - level ", level)
 
 # get the distance between first room and target room
 func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
