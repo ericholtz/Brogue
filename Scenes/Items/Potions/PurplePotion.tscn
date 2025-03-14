@@ -11,6 +11,7 @@ script = ExtResource("1_kcgrc")
 effect = 3
 item_type = 3
 stackable = true
+consumable = true
 entity_name = "PurplePotion"
 entity_type = 1
 

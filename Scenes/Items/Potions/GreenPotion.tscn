@@ -11,6 +11,7 @@ script = ExtResource("1_kaqlt")
 effect = 2
 item_type = 3
 stackable = true
+consumable = true
 entity_name = "GreenPotion"
 entity_type = 1
 

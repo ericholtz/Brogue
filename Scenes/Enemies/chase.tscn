@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bahucv0xbiipm"]
 
-[ext_resource type="Script" uid="uid://c8xl5yulj3rml" path="res://Scripts/chase.gd" id="1_eh1du"]
+[ext_resource type="Script" uid="uid://c3w7wq8xnri2i" path="res://Scripts/chase.gd" id="1_eh1du"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_ntlex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2j0l"]

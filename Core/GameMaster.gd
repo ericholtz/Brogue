@@ -1,11 +1,13 @@
 extends Node
 
+# signals
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
+signal end_status_effect_signal(effect: StatusEffect)
 
 # Turn on/off debug statments
 @export var DEBUG_MAP = false
@@ -27,9 +29,42 @@ var user_seed
 var can_move = false
 var animSpeed = 0.1
 
-enum EntityType {GOLD, ITEM, ENEMY}
-enum ItemType {MELEE_WEAPON, RANGED_WEAPON, ARMOR, POTION, MISC}
-enum PotionEffect {HEALING, SPEED, POISON, PSYCHADELIC, INVISIBILITY}
+enum EntityType {
+	GOLD,
+	ITEM,
+	ENEMY,
+	}
+enum ItemType {
+	MELEE_WEAPON,
+	RANGED_WEAPON,
+	ARMOR,
+	POTION,
+	SCROLL,
+	MISC,
+	}
+enum PotionEffect {
+	HEALING,
+	SPEED,
+	POISON,
+	PSYCHEDELIC,
+	INVISIBILITY,
+	}
+enum MiscType {
+	KEY,
+	MAP,
+	}
+
+enum StatusEffect {
+	INVISIBLE,
+	PSYCHEDELIC,
+	POISONED,
+	}
+
+var status_effects = []
+
+func _ready() -> void:
+	status_effects.resize(StatusEffect.size())
+	status_effects.fill(0)
 
 func collect_entity(entity: Area2D):
 	if !entity:
@@ -39,17 +74,6 @@ func collect_entity(entity: Area2D):
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
 			gained_item.emit(entity)
-
-func damage_player(amount: int):
-	if DEBUG_COMBATLOGS:
-		print("Damaging player for "+str(amount)+" points.")
-	damage_player_signal.emit(amount)
-
-func heal_player(amount: int):
-	if DEBUG_COMBATLOGS:
-		print("Healing player for "+str(amount)+" points.")
-	heal_player_signal.emit(amount)
-
 
 func setname(player_name: String):
 	if player_name:
@@ -69,11 +93,95 @@ func takeTurn(turnsTaken: int):
 	can_move = false
 	
 	#apply over-time effects, increment timers, whatever is appropriate here
+	apply_health_diff()
+	apply_effects()
+	
+	decrement_status_effect_duration()
 	
 	took_turns.emit(1) #this just sends a signal to the ui turn counter
 	await enemyTurn()
 	await get_tree().process_frame
 	can_move = true
+
+# apply status effect damage, passive regen, etc.
+func apply_health_diff():
+	var heal_amount = 0
+	var damage_amount = 0
+	
+	# 1 tick of poison damage every other turn
+	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
+		damage_amount += 1
+	
+	# passive regen every 20 turns
+	if turnCounter % 20 == 0:
+		heal_amount += 1
+
+	# apply difference of healing and damage to not redundantly do both
+	var diff = heal_amount - damage_amount
+	if diff > 0:
+		heal_player(diff)
+	else:
+		damage_player(0-diff)
+
+func heal_player(amount: int):
+	if DEBUG_COMBATLOGS:
+		print("Healing player for "+str(amount)+" points.")
+	heal_player_signal.emit(amount)
+
+func damage_player(amount: int):
+	if DEBUG_COMBATLOGS:
+		print("Damaging player for "+str(amount)+" points.")
+	damage_player_signal.emit(amount)
+
+func start_status_effect(effect: StatusEffect, duration: int):
+	if status_effects[effect] < duration:
+		status_effects[effect] = duration
+	match effect:
+		StatusEffect.PSYCHEDELIC:
+			start_psychedelic()
+
+func start_psychedelic():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var AnimatedSprite
+	for i in range(enemies.size()):
+		AnimatedSprite = enemies[i].find_child("AnimatedSprite2D")
+		AnimatedSprite.animation = &"Random"
+		AnimatedSprite.stop()
+	cycle_psychedelic()
+
+func apply_effects():
+	if status_effects[StatusEffect.PSYCHEDELIC] != 0:
+		cycle_psychedelic()
+
+func cycle_psychedelic():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	var AnimatedSprite
+	var frame_count
+	for i in range(enemies.size()):
+		AnimatedSprite = enemies[i].find_child("AnimatedSprite2D")
+		frame_count = AnimatedSprite.sprite_frames.get_frame_count("Random")
+		AnimatedSprite.frame = randi() % frame_count
+
+func decrement_status_effect_duration():
+	for i in range(0, status_effects.size()):
+		if status_effects[i] == 0:
+			continue
+		status_effects[i] -= 1
+		if status_effects[i] == 0:
+			end_status_effect_signal.emit(i)
+			end_status_effect(i)
+
+func end_status_effect(effect: int):
+	match effect:
+		StatusEffect.PSYCHEDELIC:
+			end_psychedelic()
+
+func end_psychedelic():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	for i in range(enemies.size()):
+		var AnimatedSprite = enemies[i].find_child("AnimatedSprite2D")
+		AnimatedSprite.animation = &"default"
+		AnimatedSprite.play()
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():

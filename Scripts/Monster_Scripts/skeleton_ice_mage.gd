@@ -31,7 +31,7 @@ func take_turn():
 	
 	for temp in Movement_Speed:
 		var try_move = Vector2.ZERO
-		if player:
+		if player and !player.is_invisible:
 			try_move = vec_to_cardinal(position.direction_to(player.position))
 		else :
 			if GameMaster.DEBUG_RANDMOVE == true:

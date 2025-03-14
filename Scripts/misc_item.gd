@@ -1,3 +1,3 @@
 extends "item.gd"
 
-@export var opens : String
+@export var misc_type: GameMaster.MiscType

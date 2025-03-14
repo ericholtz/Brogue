@@ -8,9 +8,7 @@ size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_poft5")
-opens = "something"
 item_type = 4
-stackable = true
 entity_name = "MetalKey"
 entity_type = 1
 

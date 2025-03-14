@@ -11,6 +11,7 @@ script = ExtResource("1_e8ufb")
 effect = 1
 item_type = 3
 stackable = true
+consumable = true
 entity_name = "OrangePotion"
 entity_type = 1
 

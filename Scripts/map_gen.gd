@@ -12,12 +12,12 @@ extends Node
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
-	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn")
+	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
 	]
 
 @onready var armor : Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
-	load("res://Scenes/Items/Armor/ChainArmor.tscn")
+	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
 	]
 
 @onready var potions : Array[PackedScene] = [
@@ -25,11 +25,12 @@ extends Node
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
 	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
-	load("res://Scenes/Items/Potions/RedPotion.tscn")
+	load("res://Scenes/Items/Potions/RedPotion.tscn"),
 	]
 
 @onready var misc : Array[PackedScene] = [
-	load("res://Scenes/Items/Misc/MetalKey.tscn")
+	load("res://Scenes/Items/Misc/MetalKey.tscn"),
+	load("res://Scenes/Items/Misc/Map.tscn"),
 	]
 
 	##-----(Enemy Types)-----##
@@ -455,9 +456,12 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			entity.position.x = floor(entity.position.x / 16) * 16 + 8
 			entity.position.y = floor(entity.position.y / 16) * 16 + 8
 			
+			# do anything specific regarding the spawning of this entity
+			do_specific_entity_checks(entity)
+			
 			if GameMaster.DEBUG_MAP: print(entity.position)
 			if is_position_valid_for_item(entity.position, room):
-				$"../map_gen".call_deferred("add_child", entity)
+				call_deferred("add_child", entity)
 
 # get random location in each given room
 func get_random_position_in_room(room : Node) -> Vector2:
@@ -475,6 +479,14 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			print("failed to add thing to room")
 			return false
 	return true
+
+func do_specific_entity_checks(entity: Node2D):
+	# add map level if entity is a map item
+	if (entity.entity_type == GameMaster.EntityType.ITEM
+		and entity.item_type == GameMaster.ItemType.MISC
+		and entity.misc_type == GameMaster.MiscType.MAP):
+		entity.map_level = level
+		entity.entity_name = str("Map - level ", level)
 
 # get the distance between first room and target room
 func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
@@ -510,6 +522,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 			thing.position = get_random_position_in_room(cur_room)
 			thing.position.x = floor(thing.position.x / 16) * 16 + 8
 			thing.position.y = floor(thing.position.y / 16) * 16 + 8
+			do_specific_entity_checks(thing)
 			if GameMaster.DEBUG_MAP: print(thing.position)
 			if is_position_valid_for_item(thing.position, cur_room):
 				$"../map_gen".call_deferred("add_child", thing)
