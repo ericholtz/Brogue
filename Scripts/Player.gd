@@ -37,6 +37,8 @@ var armor = defense
 ## potion effects
 var is_invisible = false
 var is_psychedelic = false
+const INVISIBILITY_LENGTH = 20
+const PSYCHEDELIC_LENGTH = 20
 
 ## enemy effects
 var is_frozen = false # doesn't do anything, just an example - remove if needed
@@ -74,6 +76,7 @@ func _ready():
 	GameMaster.set_name.connect(_on_name_recieved.bind())
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
+	GameMaster.end_status_effect.connect(_on_remove_status_effect.bind())
 	
 
 #Called every frame to handle continuous input
@@ -88,9 +91,9 @@ func _process(delta):
 	
 	#flip sprite based on input direction
 	if Input.is_action_pressed("Left"):
-		PlayerAnim.flip_h = true
+		PlayerAnim.flip_h = !is_psychedelic
 	if Input.is_action_pressed("Right"):
-		PlayerAnim.flip_h = false
+		PlayerAnim.flip_h = is_psychedelic
 	
 	#process input, both presses and holds
 	for dir in inputs.keys():
@@ -106,6 +109,8 @@ func _process(delta):
 			moving = false
 			moveTimer = moveDelay
 			return
+	
+	# TODO: add organize_inventory() function to organize the ivnentory and reunite orphaned stackables
 
 #function to try a move, returns TRUE on succesfull move and FALSE on invalid
 func move(dir) -> bool:
@@ -163,11 +168,14 @@ func animate_level_up():
 	var originColor = self.modulate
 	var animSpeed = 0.1
 
-	$CPUParticles2D.emitting = true
+	$LevelUpParticles2D.emitting = true
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "modulate", Color.GOLD, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func animate_become_invisible():
+	$BecomeInvisibleParticles2D.emitting = true
 
 func end_game():
 	GameMaster.can_move = false
@@ -248,16 +256,45 @@ func use(item_index: int):
 func use_potion(potion : Area2D):
 	match potion.effect:
 		GameMaster.PotionEffect.HEALING:
-			var heal_amount = ceil(float(MAX_HEALTH)/4)
-			GameMaster.heal_player_signal.emit(heal_amount)
+			use_healing_potion()
 		GameMaster.PotionEffect.SPEED:
 			print("Speed potions are unimplemented")
 		GameMaster.PotionEffect.POISON:
 			print("Poison potions are unimplemented")
 		GameMaster.PotionEffect.PSYCHEDELIC:
-			print("Psychadelic potions are unimplemented")
+			use_psychedelic_potion()
 		GameMaster.PotionEffect.INVISIBILITY:
-			visible = !visible
+			use_invisibility_potion()
+
+func use_healing_potion():
+	var heal_amount = ceil(float(MAX_HEALTH)/4)
+	GameMaster.heal_player_signal.emit(heal_amount)
+
+func use_invisibility_potion():
+	is_invisible = true
+	PlayerAnim.play("Invisible")
+	GameMaster.start_status_effect(GameMaster.StatusEffect.INVISIBLE, INVISIBILITY_LENGTH)
+	animate_become_invisible()
+	#TODO: add duration scaling
+
+func use_psychedelic_potion():
+	is_psychedelic = true
+	PlayerAnim.flip_v = true
+
+func _on_remove_status_effect(effect: GameMaster.StatusEffect):
+	match effect:
+		GameMaster.StatusEffect.INVISIBLE:
+			remove_invisibility()
+		GameMaster.StatusEffect.PSYCHEDELIC:
+			remove_psychedelic()
+
+func remove_invisibility():
+	is_invisible = false
+	PlayerAnim.play("Idle")
+
+func remove_psychedelic():
+	is_psychedelic = false
+	PlayerAnim.flip_v = false
 
 func use_misc(_misc : Area2D):
 	print("Misc item functionalities are unimplemented")
