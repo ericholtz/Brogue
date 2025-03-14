@@ -40,7 +40,7 @@ var is_invisible = false
 var is_psychedelic = false
 var is_poisoned = false
 const INVISIBILITY_LENGTH = 20
-const PSYCHEDELIC_LENGTH = 30
+const PSYCHEDELIC_LENGTH = 40
 const POISON_LENGTH = 10
 
 ## enemy effects
@@ -79,7 +79,7 @@ func _ready():
 	GameMaster.set_name.connect(_on_name_recieved.bind())
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
-	GameMaster.end_status_effect.connect(_on_remove_status_effect.bind())
+	GameMaster.end_status_effect_signal.connect(_on_remove_status_effect.bind())
 	
 
 #Called every frame to handle continuous input
@@ -215,7 +215,7 @@ func _on_item_gain(item : Area2D):
 func _on_name_recieved(p_name: String):
 	player_name = p_name
 	var stat_node = preload("res://Scenes/Menus/player_stats.tscn").instantiate()
-	$"..".add_child(stat_node)
+	get_parent().add_child(stat_node)
 	
 func _on_damage_received(amount: int):
 	if godmode_enabled:
@@ -313,7 +313,7 @@ func remove_psychedelic():
 func remove_poison():
 	is_poisoned = false
 
-func use_scroll(scroll: Area2D):
+func use_scroll(_scroll: Area2D):
 	pass
 	# match scroll.effect:
 
