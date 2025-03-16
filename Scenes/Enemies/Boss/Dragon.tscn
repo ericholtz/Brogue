@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhv8ctsep28qo"]
+[gd_scene load_steps=15 format=3 uid="uid://bhv8ctsep28qo"]
 
 [ext_resource type="Script" uid="uid://b4pggoxnc5vyc" path="res://Scripts/Monster_Scripts/dragon.gd" id="1_ow0un"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_8y5xr"]
@@ -38,6 +38,24 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylv64"]
 size = Vector2(112, 112)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7sdv0"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvlvo"]
+size = Vector2(16, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdvx"]
+size = Vector2(16, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3oj0"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kxhli"]
+size = Vector2(48, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32r36"]
+size = Vector2(80, 16)
+
 [node name="Dragon" type="CharacterBody2D"]
 script = ExtResource("1_ow0un")
 
@@ -55,6 +73,74 @@ sprite_frames = SubResource("SpriteFrames_fgmqm")
 
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_ylv64")
+
+[node name="BreathAttackRight" type="Area2D" parent="."]
+
+[node name="Close" type="CollisionShape2D" parent="BreathAttackRight"]
+position = Vector2(32, 0)
+shape = SubResource("RectangleShape2D_7sdv0")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="Medium" type="CollisionShape2D" parent="BreathAttackRight"]
+position = Vector2(48, 0)
+shape = SubResource("RectangleShape2D_xvlvo")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="Far" type="CollisionShape2D" parent="BreathAttackRight"]
+position = Vector2(64, 0)
+shape = SubResource("RectangleShape2D_4gdvx")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="BreathAttackLeft" type="Area2D" parent="."]
+
+[node name="Close" type="CollisionShape2D" parent="BreathAttackLeft"]
+position = Vector2(-32, 0)
+shape = SubResource("RectangleShape2D_7sdv0")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="Medium" type="CollisionShape2D" parent="BreathAttackLeft"]
+position = Vector2(-48, 0)
+shape = SubResource("RectangleShape2D_xvlvo")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="Far" type="CollisionShape2D" parent="BreathAttackLeft"]
+position = Vector2(-64, 0)
+shape = SubResource("RectangleShape2D_4gdvx")
+debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="BreathAttackTop" type="Area2D" parent="."]
+
+[node name="Close" type="CollisionShape2D" parent="BreathAttackTop"]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_k3oj0")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="Medium" type="CollisionShape2D" parent="BreathAttackTop"]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_kxhli")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="Far" type="CollisionShape2D" parent="BreathAttackTop"]
+position = Vector2(0, -64)
+shape = SubResource("RectangleShape2D_32r36")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="BreathAttackBottom" type="Area2D" parent="."]
+
+[node name="Close" type="CollisionShape2D" parent="BreathAttackBottom"]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_k3oj0")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="Medium" type="CollisionShape2D" parent="BreathAttackBottom"]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_kxhli")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="Far" type="CollisionShape2D" parent="BreathAttackBottom"]
+position = Vector2(0, 64)
+shape = SubResource("RectangleShape2D_32r36")
+debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
