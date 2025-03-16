@@ -80,7 +80,7 @@ func move(dir) -> bool:
 		RayBottomLeft.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayBottomLeft.force_raycast_update()
 		
-		if !RayBottomRight.is_colliding() or !RayBottomLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
+		if !RayBottomRight.is_colliding() and !RayBottomLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
 			var tween = create_tween() #create a new Tween object to handle smooth movement
 			#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 			tween.tween_property(self, "position", position + dir * tileSize, 1.0/animationSpeed).set_trans(Tween.TRANS_SINE)
