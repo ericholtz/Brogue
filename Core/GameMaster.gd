@@ -19,7 +19,7 @@ signal end_status_effect_signal(effect: StatusEffect)
 @export var DEBUG_RANDMOVE = false
 
 #Dont Change Look at readme!
-var DISABLE_FOG = true
+var DISABLE_FOG = false
 
 # seeds
 var current_seed
