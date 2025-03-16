@@ -41,7 +41,7 @@ size = Vector2(112, 112)
 [node name="EnragedPolarBear" type="CharacterBody2D"]
 script = ExtResource("1_o4p1i")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_h5dsk")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
@@ -51,10 +51,10 @@ position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_psavf")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PlayerVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_8od0r")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]

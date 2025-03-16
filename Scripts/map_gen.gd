@@ -34,7 +34,7 @@ extends Node
 
 	##-----(Enemy Types)-----##
 @onready var Cave_enemies : Array[PackedScene] = [
-	load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn"),
+	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Warrior.tscn"),
 	load("res://Scenes/Enemies/Cave_Enemies/Bat.tscn"),
 	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn")
 	]

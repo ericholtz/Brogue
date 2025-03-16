@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://biwsx852qolr2"]
+[gd_scene load_steps=11 format=3 uid="uid://biwsx852qolr2"]
 
 [ext_resource type="Script" uid="uid://dwoqka0lcxkma" path="res://Scripts/Monster_Scripts/skeleton_archer.gd" id="1_gxfdy"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_yyeom"]
@@ -38,10 +38,16 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aolbw"]
 size = Vector2(112, 112)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ntqp"]
+size = Vector2(112, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sr4es"]
+size = Vector2(16, 112)
+
 [node name="SkeletonArcher" type="CharacterBody2D"]
 script = ExtResource("1_gxfdy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_gxpjg")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
@@ -49,10 +55,20 @@ shape = SubResource("RectangleShape2D_gxpjg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hn6gm")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PlayerVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_aolbw")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="Horizontal" type="CollisionShape2D" parent="AttackVision"]
+shape = SubResource("RectangleShape2D_2ntqp")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
+
+[node name="Vertical" type="CollisionShape2D" parent="AttackVision"]
+shape = SubResource("RectangleShape2D_sr4es")
+debug_color = Color(0.672113, 0.50817, 0, 0.42)
+
+[connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]

@@ -41,7 +41,7 @@ size = Vector2(112, 112)
 [node name="Bat" type="CharacterBody2D"]
 script = ExtResource("1_eiiw1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_egyex")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
@@ -49,10 +49,10 @@ shape = SubResource("RectangleShape2D_egyex")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_o73c6")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PlayerVision" type="Area2D" parent="."]
 
-[node name="VisionBox" type="CollisionShape2D" parent="Area2D"]
+[node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_ldeem")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
