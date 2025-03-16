@@ -257,19 +257,21 @@ size = Vector2(142, 142)
 [node name="SkeletonIceMage" type="CharacterBody2D"]
 script = ExtResource("1_mj24s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_73rsq")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 16)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_tthcn")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="AttackVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="AttackRange" type="CollisionShape2D" parent="AttackVision"]
 shape = SubResource("RectangleShape2D_0qj7o")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_area_2d_body_exited"]

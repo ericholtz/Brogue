@@ -35,7 +35,7 @@ extends Node
 
 	##-----(Enemy Types)-----##
 @onready var Cave_enemies : Array[PackedScene] = [
-	load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn"),
+	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Warrior.tscn"),
 	load("res://Scenes/Enemies/Cave_Enemies/Bat.tscn"),
 	load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Archer.tscn")
 	]
@@ -446,6 +446,10 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
 			var entity = entity_pool.pick_random().instantiate()
 			var check_pos = get_random_position_in_room(room)
+			if entity_pool == Big_ice_enemies:
+				check_pos = get_random_position_in_room(room) - Vector2(-8, -8)
+			if entity_pool == Boss:
+				check_pos = get_random_position_in_room(room) - Vector2(-16, -16)
 			var type = GameMaster.EntityType.keys()[entity.entity_type]
 			if room.spawned_entity[type].has(check_pos):
 				entity.queue_free()
@@ -453,8 +457,15 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			else:
 				room.spawned_entity[type].append(check_pos)
 			entity.position = check_pos
-			entity.position.x = floor(entity.position.x / 16) * 16 + 8
-			entity.position.y = floor(entity.position.y / 16) * 16 + 8
+			if entity_pool == Big_ice_enemies:
+				entity.position.x = floor(entity.position.x / 16) * 16
+				entity.position.y = floor(entity.position.y / 16) * 16
+			elif entity_pool == Boss:
+				entity.position.x = floor(entity.position.x / 16) * 16 - 8
+				entity.position.y = floor(entity.position.y / 16) * 16 - 8
+			else:
+				entity.position.x = floor(entity.position.x / 16) * 16 + 8
+				entity.position.y = floor(entity.position.y / 16) * 16 + 8
 			
 			# do anything specific regarding the spawning of this entity
 			do_specific_entity_checks(entity)
@@ -469,6 +480,22 @@ func get_random_position_in_room(room : Node) -> Vector2:
 	return Vector2(
 		(randf() * room.inside_width * 16) + room.position.x + 16, 
 		(randf() * room.inside_height * 16) + room.position.y + 16
+	)
+
+# get random location in each given room
+func get_random_position_in_room_big_enemies(room : Node) -> Vector2:
+	# Assuming a room size of 272x272
+	return Vector2(
+		(randf() * room.inside_width * 16) + room.position.x + 8, 
+		(randf() * room.inside_height * 16) + room.position.y + 8
+	)
+
+# get random location in each given room
+func get_random_position_in_room_boss(room : Node) -> Vector2:
+	# Assuming a room size of 272x272
+	return Vector2(
+		(randf() * room.inside_width * 16) + room.position.x, 
+		(randf() * room.inside_height * 16) + room.position.y
 	)
 
 # validate the item will land within the room
@@ -519,10 +546,21 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 				return false
 			var thing = spawn_options[entity][option].instantiate()
 			print("instantiated thing")
-			thing.position = get_random_position_in_room(cur_room)
-			thing.position.x = floor(thing.position.x / 16) * 16 + 8
-			thing.position.y = floor(thing.position.y / 16) * 16 + 8
-			do_specific_entity_checks(thing)
+			if entity == "Big-Ice-enemy":
+				thing.position = get_random_position_in_room_big_enemies(cur_room)
+				thing.position.x = floor(thing.position.x / 16) * 16 
+				thing.position.y = floor(thing.position.y / 16) * 16 
+				do_specific_entity_checks(thing)
+			elif entity == "Boss":
+				thing.position = get_random_position_in_room_boss(cur_room)
+				thing.position.x = floor(thing.position.x / 16) * 16 - 8
+				thing.position.y = floor(thing.position.y / 16) * 16 - 8
+				do_specific_entity_checks(thing)
+			else:
+				thing.position = get_random_position_in_room(cur_room)
+				thing.position.x = floor(thing.position.x / 16) * 16 + 8
+				thing.position.y = floor(thing.position.y / 16) * 16 + 8
+				do_specific_entity_checks(thing)
 			if GameMaster.DEBUG_MAP: print(thing.position)
 			if is_position_valid_for_item(thing.position, cur_room):
 				$"../map_gen".call_deferred("add_child", thing)

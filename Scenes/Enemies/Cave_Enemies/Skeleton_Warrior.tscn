@@ -1,8 +1,8 @@
 [gd_scene load_steps=40 format=3 uid="uid://deftm55xr1r1g"]
 
-[ext_resource type="Script" uid="uid://1puer8wca45x" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_v1fiw"]
+[ext_resource type="Script" uid="uid://1puer8wca45x" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_i33lv"]
 [ext_resource type="Texture2D" uid="uid://cmovrewkh3kvv" path="res://Textures/Tilemaps/custom/Monsters-Random.png" id="2_n21h6"]
-[ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_tg3yn"]
+[ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_g886w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3i2wy"]
 size = Vector2(16, 16)
@@ -128,15 +128,15 @@ atlas = ExtResource("2_n21h6")
 region = Rect2(144, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tu2eh"]
-atlas = ExtResource("2_tg3yn")
+atlas = ExtResource("2_g886w")
 region = Rect2(80, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_186ra"]
-atlas = ExtResource("2_tg3yn")
+atlas = ExtResource("2_g886w")
 region = Rect2(96, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d3rds"]
-atlas = ExtResource("2_tg3yn")
+atlas = ExtResource("2_g886w")
 region = Rect2(112, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qw51r"]
@@ -255,22 +255,23 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n24i7"]
 size = Vector2(80, 80)
 
-[node name="Skeleton Warrior" type="CharacterBody2D"]
-script = ExtResource("1_v1fiw")
+[node name="Skeleton_Warrior" type="CharacterBody2D"]
+script = ExtResource("1_i33lv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3i2wy")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 16)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_qw51r")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PlayerVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_n24i7")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
