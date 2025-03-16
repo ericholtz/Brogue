@@ -44,7 +44,35 @@ script = ExtResource("1_o4p1i")
 [node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_h5dsk")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayTopRight" type="RayCast2D" parent="."]
+position = Vector2(8, -8)
+target_position = Vector2(0, -50)
+
+[node name="RayTopLeft" type="RayCast2D" parent="."]
+position = Vector2(-8, -8)
+target_position = Vector2(0, -50)
+
+[node name="RayBottomRight" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="RayBottomLeft" type="RayCast2D" parent="."]
+position = Vector2(-8, 8)
+
+[node name="RayRightTop" type="RayCast2D" parent="."]
+position = Vector2(8, -8)
+target_position = Vector2(50, 0)
+
+[node name="RayRightBottom" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(50, 0)
+
+[node name="RayLeftTop" type="RayCast2D" parent="."]
+position = Vector2(-8, -8)
+target_position = Vector2(-50, 0)
+
+[node name="RayLeftBottom" type="RayCast2D" parent="."]
+position = Vector2(-8, 8)
+target_position = Vector2(-50, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(4.76837e-07, 4.76837e-07)
