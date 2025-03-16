@@ -58,25 +58,13 @@ func take_turn():
 
 
 func move(dir) -> bool:
-	# Update Rays
-	RayTopRight.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayTopRight.force_raycast_update()
-	RayTopLeft.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayTopLeft.force_raycast_update()
-	RayBottomRight.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayBottomRight.force_raycast_update()
-	RayBottomLeft.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayBottomLeft.force_raycast_update()
-	RayRightTop.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayRightTop.force_raycast_update()
-	RayRightBottom.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayRightBottom.force_raycast_update()
-	RayLeftTop.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayLeftTop.force_raycast_update()
-	RayLeftBottom.target_position = dir * tileSize	#set ray to move direction +16 pixels
-	RayLeftBottom.force_raycast_update()
-	
-	if dir == "Vector2.UP":
+	if dir == Vector2.UP:
+		# Update Rays Top
+		RayTopRight.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayTopRight.force_raycast_update()
+		RayTopLeft.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayTopLeft.force_raycast_update()
+		
 		if !RayTopRight.is_colliding() and !RayTopLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
 			var tween = create_tween() #create a new Tween object to handle smooth movement
 			#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -87,7 +75,13 @@ func move(dir) -> bool:
 			emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 			return true #flag for movement happening
 		return false #no movement, no delay
-	elif dir == "Vector2.DOWN":
+	elif dir == Vector2.DOWN:
+		# Ray Bottom Update
+		RayBottomRight.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayBottomRight.force_raycast_update()
+		RayBottomLeft.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayBottomLeft.force_raycast_update()
+		
 		if !RayBottomRight.is_colliding() or !RayBottomLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
 			var tween = create_tween() #create a new Tween object to handle smooth movement
 			#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -98,7 +92,13 @@ func move(dir) -> bool:
 			emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 			return true #flag for movement happening
 		return false #no movement, no delay
-	elif dir == "Vector2.RIGHT":
+	elif dir == Vector2.RIGHT:
+		#Ray Right Update
+		RayRightTop.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayRightTop.force_raycast_update()
+		RayRightBottom.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayRightBottom.force_raycast_update()
+		
 		if !RayRightTop.is_colliding() and !RayRightBottom.is_colliding(): #if ray is colliding with a wall, we can't move there
 			var tween = create_tween() #create a new Tween object to handle smooth movement
 			#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -109,7 +109,13 @@ func move(dir) -> bool:
 			emit_signal("input_event") #emit a movement signal here, after the player succesfully moves
 			return true #flag for movement happening
 		return false #no movement, no delay
-	elif dir == "Vector2.LEFT":
+	elif dir == Vector2.LEFT:
+		# Ray Update Left
+		RayLeftTop.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayLeftTop.force_raycast_update()
+		RayLeftBottom.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayLeftBottom.force_raycast_update()
+		
 		if !RayLeftTop.is_colliding() and !RayLeftBottom.is_colliding(): #if ray is colliding with a wall, we can't move there
 			var tween = create_tween() #create a new Tween object to handle smooth movement
 			#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
