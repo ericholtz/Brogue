@@ -45,6 +45,7 @@ script = ExtResource("1_mj24s")
 shape = SubResource("RectangleShape2D_73rsq")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 16)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tthcn")

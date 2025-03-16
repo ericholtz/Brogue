@@ -46,33 +46,35 @@ shape = SubResource("RectangleShape2D_h5dsk")
 
 [node name="RayTopRight" type="RayCast2D" parent="."]
 position = Vector2(8, -8)
-target_position = Vector2(0, -50)
+target_position = Vector2(0, -16)
 
 [node name="RayTopLeft" type="RayCast2D" parent="."]
 position = Vector2(-8, -8)
-target_position = Vector2(0, -50)
+target_position = Vector2(0, -16)
 
 [node name="RayBottomRight" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
+target_position = Vector2(0, 16)
 
 [node name="RayBottomLeft" type="RayCast2D" parent="."]
 position = Vector2(-8, 8)
+target_position = Vector2(0, 16)
 
 [node name="RayRightTop" type="RayCast2D" parent="."]
 position = Vector2(8, -8)
-target_position = Vector2(50, 0)
+target_position = Vector2(16, 0)
 
 [node name="RayRightBottom" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
-target_position = Vector2(50, 0)
+target_position = Vector2(16, 0)
 
 [node name="RayLeftTop" type="RayCast2D" parent="."]
 position = Vector2(-8, -8)
-target_position = Vector2(-50, 0)
+target_position = Vector2(-16, 0)
 
 [node name="RayLeftBottom" type="RayCast2D" parent="."]
 position = Vector2(-8, 8)
-target_position = Vector2(-50, 0)
+target_position = Vector2(-16, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(4.76837e-07, 4.76837e-07)

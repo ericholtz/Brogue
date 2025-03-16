@@ -17,7 +17,7 @@ signal heal_player_signal(amount: int)
 @export var DEBUG_RANDMOVE = false
 
 #Dont Change Look at readme!
-var DISABLE_FOG = true #false
+var DISABLE_FOG = false
 
 # seeds
 var current_seed

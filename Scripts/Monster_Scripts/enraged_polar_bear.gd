@@ -60,9 +60,9 @@ func take_turn():
 func move(dir) -> bool:
 	if dir == Vector2.UP:
 		# Update Rays Top
-		RayTopRight.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayTopRight.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayTopRight.force_raycast_update()
-		RayTopLeft.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayTopLeft.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayTopLeft.force_raycast_update()
 		
 		if !RayTopRight.is_colliding() and !RayTopLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
@@ -77,9 +77,9 @@ func move(dir) -> bool:
 		return false #no movement, no delay
 	elif dir == Vector2.DOWN:
 		# Ray Bottom Update
-		RayBottomRight.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayBottomRight.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayBottomRight.force_raycast_update()
-		RayBottomLeft.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayBottomLeft.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayBottomLeft.force_raycast_update()
 		
 		if !RayBottomRight.is_colliding() or !RayBottomLeft.is_colliding(): #if ray is colliding with a wall, we can't move there
@@ -94,9 +94,9 @@ func move(dir) -> bool:
 		return false #no movement, no delay
 	elif dir == Vector2.RIGHT:
 		#Ray Right Update
-		RayRightTop.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayRightTop.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayRightTop.force_raycast_update()
-		RayRightBottom.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayRightBottom.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayRightBottom.force_raycast_update()
 		
 		if !RayRightTop.is_colliding() and !RayRightBottom.is_colliding(): #if ray is colliding with a wall, we can't move there
@@ -111,9 +111,9 @@ func move(dir) -> bool:
 		return false #no movement, no delay
 	elif dir == Vector2.LEFT:
 		# Ray Update Left
-		RayLeftTop.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayLeftTop.target_position = dir *  tileSize # set ray to move direction +16 pixels
 		RayLeftTop.force_raycast_update()
-		RayLeftBottom.target_position = dir * (2 * tileSize)	#set ray to move direction +16 pixels
+		RayLeftBottom.target_position = dir * tileSize # set ray to move direction +16 pixels
 		RayLeftBottom.force_raycast_update()
 		
 		if !RayLeftTop.is_colliding() and !RayLeftBottom.is_colliding(): #if ray is colliding with a wall, we can't move there
