@@ -1,4 +1,3 @@
-
 [gd_scene load_steps=42 format=3 uid="uid://biwsx852qolr2"]
 
 [ext_resource type="Script" uid="uid://dwoqka0lcxkma" path="res://Scripts/Monster_Scripts/skeleton_archer.gd" id="1_gxfdy"]

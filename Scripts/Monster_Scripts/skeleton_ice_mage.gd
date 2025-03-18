@@ -14,7 +14,7 @@ var player = null
 var health = 5
 var strength = 5
 var defense = 1
-var Movement_Speed = 0
+var Movement_Speed = 1 # Only used for random movement, should not chase ever.
 var xp = 20
 var gold = 15
 
@@ -28,20 +28,18 @@ func _ready():
 func take_turn():
 	if moving:
 		return
+		
+	var try_move = Vector2.ZERO
 	
 	for temp in Movement_Speed:
-		var try_move = Vector2.ZERO
-		if player and !player.is_invisible:
-			try_move = vec_to_cardinal(position.direction_to(player.position))
-		else :
-			if GameMaster.DEBUG_RANDMOVE == true:
-				#move rand
-				var y = randi_range(-1, 1)
-				var x = randi_range(-1,1)
-				var direction = Vector2(x,y)
-				try_move = vec_to_cardinal(direction)
-			else:
-				return #Skip turn
+		if GameMaster.DEBUG_RANDMOVE == true:
+			#move rand
+			var y = randi_range(-1, 1)
+			var x = randi_range(-1,1)
+			var direction = Vector2(x,y)
+			try_move = vec_to_cardinal(direction)
+		else:
+			return #Skip turn
 		if await move(try_move):
 			await get_tree().process_frame
 
