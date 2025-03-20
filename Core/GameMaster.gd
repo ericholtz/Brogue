@@ -206,7 +206,7 @@ func combat(player, enemy):
 	var enemyXP = enemy.xp
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 0)
+	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
 	if DEBUG_COMBATLOGS:
 		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
@@ -310,7 +310,7 @@ func animate_attack(attacker, target) -> Tween:
 	tween.tween_property(target, "modulate", originColor, animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
 		if is_instance_valid(attacker):
-			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -distance))
+			attacker.set_deferred("position", originPos.snapped(Vector2.ONE * -distance))
 	)
 	return tween
 
@@ -327,7 +327,7 @@ func animate_miss(attacker) -> Tween:
 		tween.tween_property(attacker, "position", originPos - Vector2(offset, 0), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_callback(func():
 		if is_instance_valid(attacker):
-			attacker.call_deferred("position", originPos.snapped(Vector2.ONE * -8))
+			attacker.set_deferred("position", originPos.snapped(Vector2.ONE * -8))
 	)
 	return tween
 

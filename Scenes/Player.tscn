@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=23 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
@@ -6,20 +6,37 @@
 [ext_resource type="Texture2D" uid="uid://cnrhr7328bg3j" path="res://Textures/Tilemaps/custom/Hero-Invisible.png" id="4_dewec"]
 [ext_resource type="Shader" uid="uid://7hlalx4wngds" path="res://Shaders/invert_colors.gdshader" id="5_5ixxa"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhhdu"]
 atlas = ExtResource("2_tdieg")
-region = Rect2(16, 64, 16, 16)
+region = Rect2(16, 224, 16, 16)
+
+[sub_resource type="Curve" id="Curve_megsn"]
+_data = [Vector2(0, 0.595506), 0.0, 0.0, 0, 0, Vector2(0.522727, 0.370787), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_yoq75"]
+offsets = PackedFloat32Array(0.0133333, 0.18, 0.4, 0.606667, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.932013, 0.794745, 0, 1, 1, 1, 1, 1, 0.933333, 0.796078, 0, 1, 1, 1, 1, 1, 0.933333, 0.796078, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksbbd"]
+atlas = ExtResource("2_tdieg")
+region = Rect2(80, 352, 16, 16)
 
 [sub_resource type="Curve" id="Curve_on12k"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0.775281), 0.0, 0.0, 0, 0, Vector2(0.619318, 0.573034), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Gradient" id="Gradient_3ff0n"]
 offsets = PackedFloat32Array(0.06, 0.246667, 0.526667, 0.746667, 1)
 colors = PackedColorArray(0.329412, 1, 0, 1, 0.902941, 1, 0, 1, 0.425, 1, 0, 1, 0.786631, 1, 0, 1, 0.329412, 1, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
+atlas = ExtResource("2_tdieg")
+region = Rect2(16, 64, 16, 16)
+
 [sub_resource type="Gradient" id="Gradient_dewec"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.526667, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.552956, 0.552956, 0.552956, 1, 0, 0, 0, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("2_qilt3")
@@ -92,9 +109,32 @@ z_index = 2
 script = ExtResource("1_2lqgk")
 
 [node name="LevelUpParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = SubResource("AtlasTexture_bhhdu")
+lifetime = 1.5
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+emission_shape = 2
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 32.0
+initial_velocity_max = 40.0
+angular_velocity_min = 32.0
+angular_velocity_max = 40.0
+orbit_velocity_min = 0.5
+orbit_velocity_max = 0.75
+scale_amount_curve = SubResource("Curve_megsn")
+color_ramp = SubResource("Gradient_yoq75")
+
+[node name="HealParticles2D" type="CPUParticles2D" parent="."]
 z_index = 2
 emitting = false
-texture = SubResource("AtlasTexture_2lx3f")
+amount = 16
+texture = SubResource("AtlasTexture_ksbbd")
+lifetime = 0.9
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
@@ -114,18 +154,17 @@ hue_variation_max = 1.0
 [node name="BecomeInvisibleParticles2D" type="CPUParticles2D" parent="."]
 z_index = 2
 emitting = false
+amount = 24
 texture = SubResource("AtlasTexture_2lx3f")
+lifetime = 1.75
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
+lifetime_randomness = 0.5
 spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 8.0
 initial_velocity_max = 16.0
-angular_velocity_min = -8.0
-angular_velocity_max = 8.0
-orbit_velocity_min = 0.15
-orbit_velocity_max = 0.15
 scale_amount_curve = SubResource("Curve_on12k")
 color_ramp = SubResource("Gradient_dewec")
 hue_variation_min = 1.0
