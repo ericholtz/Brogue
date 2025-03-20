@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cf326ierkpeiq"]
+[gd_scene load_steps=39 format=3 uid="uid://cf326ierkpeiq"]
 
 [ext_resource type="Script" uid="uid://xhdaa1e1qhhh" path="res://Scripts/Monster_Scripts/snowman.gd" id="1_oda54"]
 [ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_8m2nk"]
@@ -251,9 +251,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3uqrk"]
-size = Vector2(48, 48)
-
 [node name="Snowman" type="CharacterBody2D"]
 script = ExtResource("1_oda54")
 
@@ -266,11 +263,3 @@ target_position = Vector2(0, 16)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_qsfik")
-
-[node name="PlayerVision" type="Area2D" parent="."]
-
-[node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
-shape = SubResource("RectangleShape2D_3uqrk")
-
-[connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]

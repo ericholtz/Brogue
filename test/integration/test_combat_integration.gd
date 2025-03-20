@@ -5,7 +5,7 @@ extends GutTest
 #load the relevant scripts and make holders
 var GameMaster = load("res://Core/GameMaster.gd")
 var Player = load("res://Scenes/Player.tscn")
-var Enemy = load("res://Scenes/Enemies/Cave_Enemies/SkeletonWarrior.tscn")
+var Enemy = load("res://Scenes/Enemies/Cave_Enemies/Skeleton_Warrior.tscn")
 
 var gm = null
 var player = null

@@ -1,8 +1,8 @@
 [gd_scene load_steps=40 format=3 uid="uid://deftm55xr1r1g"]
 
 [ext_resource type="Script" uid="uid://1puer8wca45x" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_i33lv"]
-[ext_resource type="Texture2D" uid="uid://cmovrewkh3kvv" path="res://Textures/Tilemaps/custom/Monsters-Random.png" id="2_n21h6"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_g886w"]
+[ext_resource type="Texture2D" uid="uid://cmovrewkh3kvv" path="res://Textures/Tilemaps/custom/Monsters-Random.png" id="2_n21h6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3i2wy"]
 size = Vector2(16, 16)
