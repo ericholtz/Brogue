@@ -66,6 +66,8 @@ extends Node
 	load("res://Scenes/Gold/LargeGold.tscn")
 	]
 
+@onready var exit_scene : Array[PackedScene] = [load("res://Scenes/Rooms/exit_door.tscn")]
+
 var level : int = 1
 
 # variables for map
@@ -445,11 +447,13 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 	if randf() < spawn_chance:
 		for i in range(randi() % max_per_room + 1):  # Random number of gold
 			var entity = entity_pool.pick_random().instantiate()
-			var check_pos = get_random_position_in_room(room)
+			var check_pos = Vector2.ZERO
 			if entity_pool == Big_ice_enemies:
-				check_pos = get_random_position_in_room(room) - Vector2(-8, -8)
-			if entity_pool == Boss:
-				check_pos = get_random_position_in_room(room) - Vector2(-16, -16)
+				check_pos = get_random_position_in_room_big_enemies(room)
+			elif entity_pool == Boss:
+				check_pos = get_random_position_in_room_boss(room)
+			else:
+				check_pos = get_random_position_in_room(room)
 			var type = GameMaster.EntityType.keys()[entity.entity_type]
 			if room.spawned_entity[type].has(check_pos):
 				entity.queue_free()
@@ -457,15 +461,8 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 			else:
 				room.spawned_entity[type].append(check_pos)
 			entity.position = check_pos
-			if entity_pool == Big_ice_enemies:
-				entity.position.x = floor(entity.position.x / 16) * 16
-				entity.position.y = floor(entity.position.y / 16) * 16
-			elif entity_pool == Boss:
-				entity.position.x = floor(entity.position.x / 16) * 16 - 8
-				entity.position.y = floor(entity.position.y / 16) * 16 - 8
-			else:
-				entity.position.x = floor(entity.position.x / 16) * 16 + 8
-				entity.position.y = floor(entity.position.y / 16) * 16 + 8
+			entity.position.x = floor(entity.position.x / 16) * 16 + 8
+			entity.position.y = floor(entity.position.y / 16) * 16 + 8
 			
 			# do anything specific regarding the spawning of this entity
 			do_specific_entity_checks(entity)
@@ -486,16 +483,16 @@ func get_random_position_in_room(room : Node) -> Vector2:
 func get_random_position_in_room_big_enemies(room : Node) -> Vector2:
 	# Assuming a room size of 272x272
 	return Vector2(
-		(randf() * room.inside_width * 16) + room.position.x + 8, 
-		(randf() * room.inside_height * 16) + room.position.y + 8
+		(randf() * (room.inside_width - 2) * 16) + room.position.x + 16, 
+		(randf() * (room.inside_height - 2) * 16) + room.position.y + 16
 	)
 
 # get random location in each given room
 func get_random_position_in_room_boss(room : Node) -> Vector2:
 	# Assuming a room size of 272x272
 	return Vector2(
-		(randf() * room.inside_width * 16) + room.position.x, 
-		(randf() * room.inside_height * 16) + room.position.y
+		(randf() * (room.inside_width - 3) * 16) + room.position.x + 16, 
+		(randf() * (room.inside_height - 3) * 16) + room.position.y + 16
 	)
 
 # validate the item will land within the room
@@ -522,8 +519,7 @@ func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
 # insert exit door at farthest room location
 func add_exit_to_last_room():
 	if last_room:
-		var exit = load("res://Scenes/Rooms/exit_door.tscn").instantiate()
-		exit.z_index = 9
+		var exit = exit_scene[0].instantiate()
 		exit.position = get_random_position_in_room(last_room)
 		exit.position.x = floor(exit.position.x / 16) * 16 + 8
 		exit.position.y = floor(exit.position.y / 16) * 16 + 8
@@ -535,7 +531,7 @@ func add_exit_to_last_room():
 
 # command line spawn
 func force_spawn(player_pos : Vector2, entity : String, option : int):
-	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "Cave-enemy" : Cave_enemies, "Big-Ice-enemy" : Big_ice_enemies, "Ice-enemy" : Ice_enemies, "Rare-Ice-enemy" : Rare_ice_enemies, "Boss-enemy" : Boss, "gold" : gold}
+	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "Cave-enemy" : Cave_enemies, "Big-Ice-enemy" : Big_ice_enemies, "Ice-enemy" : Ice_enemies, "Rare-Ice-enemy" : Rare_ice_enemies, "Boss-enemy" : Boss, "gold" : gold, "exit" : exit_scene}
 	if spawn_options.keys().has(entity):
 		print("passed entity exists")
 		if spawn_options[entity].size() > option and option >= 0:
@@ -560,7 +556,8 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 				thing.position = get_random_position_in_room(cur_room)
 				thing.position.x = floor(thing.position.x / 16) * 16 + 8
 				thing.position.y = floor(thing.position.y / 16) * 16 + 8
-				do_specific_entity_checks(thing)
+				if entity != "exit":
+					do_specific_entity_checks(thing)
 			if GameMaster.DEBUG_MAP: print(thing.position)
 			if is_position_valid_for_item(thing.position, cur_room):
 				$"../map_gen".call_deferred("add_child", thing)
