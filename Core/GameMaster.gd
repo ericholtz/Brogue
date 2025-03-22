@@ -33,6 +33,7 @@ enum EntityType {
 	GOLD,
 	ITEM,
 	ENEMY,
+	ROOM,
 	}
 enum ItemType {
 	MELEE_WEAPON,
