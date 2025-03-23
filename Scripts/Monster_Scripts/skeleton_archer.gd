@@ -100,11 +100,13 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 
 func _on_attack_vision_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
+		player = body
 		can_attack = true
 		print("Player Entered Attack Area.")
 
 
 func _on_attack_vision_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
+		player = body
 		can_attack = false
 		print("Player Exited Attack Area.")
