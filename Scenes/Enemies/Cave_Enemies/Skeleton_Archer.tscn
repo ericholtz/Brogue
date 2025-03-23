@@ -290,3 +290,5 @@ debug_color = Color(0.672113, 0.50817, 0, 0.42)
 
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]
