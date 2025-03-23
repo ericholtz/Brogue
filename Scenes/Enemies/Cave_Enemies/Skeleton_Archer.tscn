@@ -281,22 +281,22 @@ shape = SubResource("RectangleShape2D_aolbw")
 [node name="AttackVision" type="Area2D" parent="."]
 
 [node name="Horizontal-Right" type="CollisionShape2D" parent="AttackVision"]
-position = Vector2(47, 0)
+position = Vector2(48, 0)
 shape = SubResource("RectangleShape2D_2ntqp")
 debug_color = Color(0.670588, 0.509804, 0, 0.419608)
 
 [node name="Vertical-Bottom" type="CollisionShape2D" parent="AttackVision"]
-position = Vector2(0, 47)
+position = Vector2(0, 48)
 shape = SubResource("RectangleShape2D_sr4es")
 debug_color = Color(0.672113, 0.50817, 0, 0.42)
 
 [node name="Horizontal-Left" type="CollisionShape2D" parent="AttackVision"]
-position = Vector2(-47, 0)
+position = Vector2(-48, 0)
 shape = SubResource("RectangleShape2D_2ntqp")
 debug_color = Color(0.670588, 0.509804, 0, 0.419608)
 
 [node name="Vertical-Top" type="CollisionShape2D" parent="AttackVision"]
-position = Vector2(0, -47)
+position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_sr4es")
 debug_color = Color(0.672113, 0.50817, 0, 0.42)
 
