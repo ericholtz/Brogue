@@ -29,20 +29,21 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-		
-	var try_move = Vector2.ZERO
-	
-	for temp in Movement_Speed:
-		if GameMaster.DEBUG_RANDMOVE == true:
-			#move rand
-			var y = randi_range(-1, 1)
-			var x = randi_range(-1,1)
-			var direction = Vector2(x,y)
-			try_move = vec_to_cardinal(direction)
-		else:
-			return #Skip turn
-		if await move(try_move):
-			await get_tree().process_frame
+	if can_attack == true:
+		await GameMaster.combat(player, self)
+	else:
+		var try_move = Vector2.ZERO
+		for temp in Movement_Speed:
+			if GameMaster.DEBUG_RANDMOVE == true:
+				#move rand
+				var y = randi_range(-1, 1)
+				var x = randi_range(-1,1)
+				var direction = Vector2(x,y)
+				try_move = vec_to_cardinal(direction)
+			else:
+				return #Skip turn
+			if await move(try_move):
+				await get_tree().process_frame
 
 
 
