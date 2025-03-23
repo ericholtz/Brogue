@@ -30,7 +30,7 @@ func take_turn():
 	if moving:
 		return
 	if can_attack == true:
-		await GameMaster.combat(player, self)
+		await GameMaster.ranged_enemy_combat(player, self)
 	else:
 		var try_move = Vector2.ZERO
 		for temp in Movement_Speed:
