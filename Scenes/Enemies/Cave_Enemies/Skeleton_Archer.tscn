@@ -255,10 +255,10 @@ animations = [{
 size = Vector2(111, 111)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2ntqp"]
-size = Vector2(112, 16)
+size = Vector2(111, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sr4es"]
-size = Vector2(16, 112)
+size = Vector2(15, 111)
 
 [node name="SkeletonArcher" type="CharacterBody2D"]
 script = ExtResource("1_gxfdy")

@@ -39,22 +39,22 @@ animations = [{
 size = Vector2(111, 111)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7sdv0"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvlvo"]
-size = Vector2(16, 48)
+size = Vector2(15, 47)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdvx"]
-size = Vector2(16, 80)
+size = Vector2(15, 79)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k3oj0"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kxhli"]
-size = Vector2(48, 16)
+size = Vector2(47, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32r36"]
-size = Vector2(80, 16)
+size = Vector2(79, 15)
 
 [node name="Dragon" type="CharacterBody2D"]
 script = ExtResource("1_ow0un")
