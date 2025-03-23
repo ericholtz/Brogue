@@ -252,7 +252,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8od0r"]
-size = Vector2(128, 128)
+size = Vector2(127, 127)
 
 [node name="EnragedPolarBear" type="CharacterBody2D"]
 script = ExtResource("1_o4p1i")

@@ -252,7 +252,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qj7o"]
-size = Vector2(142, 142)
+size = Vector2(141, 141)
 
 [node name="SkeletonIceMage" type="CharacterBody2D"]
 script = ExtResource("1_mj24s")

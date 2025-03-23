@@ -252,7 +252,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3dgak"]
-size = Vector2(80, 80)
+size = Vector2(79, 79)
 
 [node name="IceSerpent" type="CharacterBody2D"]
 script = ExtResource("1_3vatd")
