@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=4 uid="uid://cxey53ihqghhi"]
 
-[ext_resource type="Script" uid="uid://crq02aj6cogte" path="res://Scripts/room.gd" id="1_8m40j"]
+[ext_resource type="Script" uid="uid://crq02aj6cogte" path="res://Scripts/Room/room.gd" id="1_8m40j"]
 [ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="1_xk5t1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5js5s"]

@@ -253,6 +253,7 @@ animations = [{
 
 [node name="Snowman" type="CharacterBody2D"]
 script = ExtResource("1_oda54")
+entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_hjc6m")

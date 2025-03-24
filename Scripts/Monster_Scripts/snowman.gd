@@ -4,7 +4,8 @@ extends CharacterBody2D
 @onready var Ray = $RayCast2D
 
 var entity_name = "Snowman"
-var entity_type: GameMaster.EntityType
+var entity_size = Vector2i(1,1)
+@export var entity_type: GameMaster.EntityType
 
 var animationSpeed = 18 #Used what player was
 var moving = false

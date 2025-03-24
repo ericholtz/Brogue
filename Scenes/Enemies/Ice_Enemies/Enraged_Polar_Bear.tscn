@@ -256,6 +256,7 @@ size = Vector2(128, 128)
 
 [node name="EnragedPolarBear" type="CharacterBody2D"]
 script = ExtResource("1_o4p1i")
+entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_h5dsk")

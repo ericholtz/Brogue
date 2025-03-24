@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b2lb57xxecfp6"]
 
-[ext_resource type="Script" uid="uid://ualwgelohp0p" path="res://Scripts/fog_room.gd" id="1_mt15t"]
+[ext_resource type="Script" uid="uid://ualwgelohp0p" path="res://Scripts/Room/fog_room.gd" id="1_mt15t"]
 [ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="2_wi6b3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eoeq3"]

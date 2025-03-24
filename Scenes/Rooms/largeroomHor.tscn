@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=4 uid="uid://bri01vl2vm1du"]
 
-[ext_resource type="Script" uid="uid://comsvqfveqagj" path="res://Scripts/largeroom_hor.gd" id="1_w1e0c"]
+[ext_resource type="Script" uid="uid://comsvqfveqagj" path="res://Scripts/Room/largeroom_hor.gd" id="1_w1e0c"]
 [ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="1_yhyyq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ogthx"]

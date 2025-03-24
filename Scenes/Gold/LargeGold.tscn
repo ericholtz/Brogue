@@ -9,7 +9,6 @@ size = Vector2(14, 14)
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_x7414")
 gold_worth = 10
-entityName = "LargeGold"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_hkoud")

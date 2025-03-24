@@ -256,6 +256,7 @@ size = Vector2(80, 80)
 
 [node name="IceSerpent" type="CharacterBody2D"]
 script = ExtResource("1_3vatd")
+entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_km6ya")

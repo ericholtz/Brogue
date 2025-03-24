@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=4 uid="uid://b2dn64k660shq"]
 
 [ext_resource type="Texture2D" uid="uid://dbm6cx18ttn0w" path="res://Textures/Tilemaps/DungeonCave/Cave.png" id="1_gw14x"]
-[ext_resource type="Script" uid="uid://c6hj08f6lsn2e" path="res://Scripts/largeroom_vert.gd" id="1_pkrqg"]
+[ext_resource type="Script" uid="uid://c6hj08f6lsn2e" path="res://Scripts/Room/largeroom_vert.gd" id="1_pkrqg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c6v5i"]
 texture = ExtResource("1_gw14x")

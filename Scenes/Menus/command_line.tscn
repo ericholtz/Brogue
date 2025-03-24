@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cq0t43wohebij"]
 
-[ext_resource type="Script" uid="uid://b50ou028hwyfu" path="res://Scripts/command_line.gd" id="1_ua53i"]
+[ext_resource type="Script" uid="uid://b50ou028hwyfu" path="res://Scripts/UI/command_line.gd" id="1_ua53i"]
 
 [node name="CommandLine" type="CanvasLayer"]
 script = ExtResource("1_ua53i")

@@ -262,6 +262,7 @@ size = Vector2(16, 112)
 
 [node name="SkeletonArcher" type="CharacterBody2D"]
 script = ExtResource("1_gxfdy")
+entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_gxpjg")
