@@ -277,6 +277,45 @@ func combat(player, enemy):
 	await get_tree().process_frame
 	can_move = true;
 
+#combat method for ranged enemys
+func ranged_enemy_combat(player, enemy):
+	#lock player
+	can_move = false
+	#grab some information about combatants
+	var playerName = player.player_name
+	var enemyName = enemy.name
+	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
+	var enemyDamage = max(enemy.strength - player.armor, 1)
+	
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
+	
+	#Roll combat
+	var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
+	var enemyRoll = randf()
+	if DEBUG_COMBATLOGS:
+		print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
+	if enemyRoll <= enemyHitChance:
+		damage_player_signal.emit(enemyDamage)
+		var attackTween = animate_attack(enemy, player)
+		await attackTween.finished
+		if DEBUG_COMBATLOGS:
+			print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	else:
+		var missTween = animate_miss(enemy)
+		await missTween.finished
+		if DEBUG_COMBATLOGS:
+			print(enemyName," missed ",playerName,"!")
+	
+	#if player dies, game over.
+	if player.health <= 0:
+		var deathTween = animate_death(player)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
+	await get_tree().process_frame
+	can_move = true;
+
 #calculate chance to hit based on difference between attack and armor
 func calculate_hit_chance(attack, defense):
 	var baseHit = 0.90

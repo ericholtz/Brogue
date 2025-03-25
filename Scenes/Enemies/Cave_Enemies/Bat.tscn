@@ -252,7 +252,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldeem"]
-size = Vector2(112, 112)
+size = Vector2(111, 111)
 
 [node name="Bat" type="CharacterBody2D"]
 script = ExtResource("1_eiiw1")

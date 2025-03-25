@@ -253,7 +253,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n24i7"]
-size = Vector2(80, 80)
+size = Vector2(79, 79)
 
 [node name="Skeleton_Warrior" type="CharacterBody2D"]
 script = ExtResource("1_i33lv")

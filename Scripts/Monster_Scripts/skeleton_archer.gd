@@ -9,6 +9,7 @@ var entity_type: GameMaster.EntityType
 var animationSpeed = 18 #Used what player was to match
 var moving = false
 var player = null
+var can_attack = false
 
 #Monsters States
 var health = 3
@@ -30,22 +31,24 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	
-	for temp in Movement_Speed:
-		var try_move = Vector2.ZERO
-		if player and !player.is_invisible:
-			try_move = vec_to_cardinal(position.direction_to(player.position))
-		else :
-			if GameMaster.DEBUG_RANDMOVE == true:
-				#move rand
-				var y = randi_range(-1, 1)
-				var x = randi_range(-1,1)
-				var direction = Vector2(x,y)
-				try_move = vec_to_cardinal(direction)
-			else:
-				return #Skip turn
-		if await move(try_move):
-			await get_tree().process_frame
+	if can_attack == true:
+		await GameMaster.ranged_enemy_combat(player, self)
+	else:
+		for temp in Movement_Speed:
+			var try_move = Vector2.ZERO
+			if player and !player.is_invisible:
+				try_move = vec_to_cardinal(position.direction_to(player.position))
+			else :
+				if GameMaster.DEBUG_RANDMOVE == true:
+					#move rand
+					var y = randi_range(-1, 1)
+					var x = randi_range(-1,1)
+					var direction = Vector2(x,y)
+					try_move = vec_to_cardinal(direction)
+				else:
+					return #Skip turn
+			if await move(try_move):
+				await get_tree().process_frame
 
 
 
@@ -67,13 +70,13 @@ func move(dir) -> bool:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		print("player in area")
+		print("Player Entered Area.")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
-		print("player exited area")
+		print("Player Exited Area.")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
@@ -93,3 +96,17 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.y = 0
 	
 	return res
+
+
+func _on_attack_vision_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		player = body
+		can_attack = true
+		print("Player Entered Attack Area.")
+
+
+func _on_attack_vision_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		player = body
+		can_attack = false
+		print("Player Exited Attack Area.")

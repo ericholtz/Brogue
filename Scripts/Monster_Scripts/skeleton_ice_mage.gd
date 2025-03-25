@@ -9,6 +9,7 @@ var entity_type: GameMaster.EntityType
 var animationSpeed = 18 #Used what player was
 var moving = false
 var player = null
+var can_attack = false
 
 #Monsters States
 var health = 5
@@ -28,20 +29,21 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-		
-	var try_move = Vector2.ZERO
-	
-	for temp in Movement_Speed:
-		if GameMaster.DEBUG_RANDMOVE == true:
-			#move rand
-			var y = randi_range(-1, 1)
-			var x = randi_range(-1,1)
-			var direction = Vector2(x,y)
-			try_move = vec_to_cardinal(direction)
-		else:
-			return #Skip turn
-		if await move(try_move):
-			await get_tree().process_frame
+	if can_attack == true:
+		await GameMaster.ranged_enemy_combat(player, self)
+	else:
+		var try_move = Vector2.ZERO
+		for temp in Movement_Speed:
+			if GameMaster.DEBUG_RANDMOVE == true:
+				#move rand
+				var y = randi_range(-1, 1)
+				var x = randi_range(-1,1)
+				var direction = Vector2(x,y)
+				try_move = vec_to_cardinal(direction)
+			else:
+				return #Skip turn
+			if await move(try_move):
+				await get_tree().process_frame
 
 
 
@@ -63,13 +65,15 @@ func move(dir) -> bool:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		print("player in area")
+		can_attack = true
+		print("Player Entered Attack Area.")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
-		print("player exited area")
+		can_attack = false
+		print("Player Exited Attack Area.")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

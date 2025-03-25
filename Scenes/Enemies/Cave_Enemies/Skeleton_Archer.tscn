@@ -252,13 +252,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aolbw"]
-size = Vector2(112, 112)
+size = Vector2(111, 111)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2ntqp"]
-size = Vector2(112, 16)
+size = Vector2(47, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sr4es"]
-size = Vector2(16, 112)
+size = Vector2(15, 47)
 
 [node name="SkeletonArcher" type="CharacterBody2D"]
 script = ExtResource("1_gxfdy")
@@ -280,13 +280,27 @@ shape = SubResource("RectangleShape2D_aolbw")
 
 [node name="AttackVision" type="Area2D" parent="."]
 
-[node name="Horizontal" type="CollisionShape2D" parent="AttackVision"]
+[node name="Horizontal-Right" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(48, 0)
 shape = SubResource("RectangleShape2D_2ntqp")
 debug_color = Color(0.670588, 0.509804, 0, 0.419608)
 
-[node name="Vertical" type="CollisionShape2D" parent="AttackVision"]
+[node name="Vertical-Bottom" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_sr4es")
+debug_color = Color(0.672113, 0.50817, 0, 0.42)
+
+[node name="Horizontal-Left" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(-48, 0)
+shape = SubResource("RectangleShape2D_2ntqp")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
+
+[node name="Vertical-Top" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_sr4es")
 debug_color = Color(0.672113, 0.50817, 0, 0.42)
 
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]

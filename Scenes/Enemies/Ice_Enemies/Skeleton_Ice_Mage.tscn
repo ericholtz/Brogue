@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://donw87dgw3pr0"]
+[gd_scene load_steps=41 format=3 uid="uid://donw87dgw3pr0"]
 
 [ext_resource type="Script" uid="uid://dkubbrpqmyqgm" path="res://Scripts/Monster_Scripts/skeleton_ice_mage.gd" id="1_mj24s"]
 [ext_resource type="Texture2D" uid="uid://cmovrewkh3kvv" path="res://Textures/Tilemaps/custom/Monsters-Random.png" id="2_3k8na"]
@@ -252,7 +252,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qj7o"]
-size = Vector2(142, 142)
+size = Vector2(47, 143)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3k8na"]
+size = Vector2(47, 47)
 
 [node name="SkeletonIceMage" type="CharacterBody2D"]
 script = ExtResource("1_mj24s")
@@ -269,8 +272,24 @@ sprite_frames = SubResource("SpriteFrames_tthcn")
 
 [node name="AttackVision" type="Area2D" parent="."]
 
-[node name="AttackRange" type="CollisionShape2D" parent="AttackVision"]
+[node name="AttackRange-Left" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(-48, 0)
 shape = SubResource("RectangleShape2D_0qj7o")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
+
+[node name="AttackRange-Right" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(48, 0)
+shape = SubResource("RectangleShape2D_0qj7o")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
+
+[node name="AttackRange-Bottom" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_3k8na")
+debug_color = Color(0.670588, 0.509804, 0, 0.419608)
+
+[node name="AttackRange-Top" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_3k8na")
 debug_color = Color(0.670588, 0.509804, 0, 0.419608)
 
 [connection signal="body_entered" from="AttackVision" to="." method="_on_area_2d_body_entered"]
