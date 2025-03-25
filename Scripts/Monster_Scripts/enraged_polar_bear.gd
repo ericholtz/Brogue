@@ -12,7 +12,8 @@ extends CharacterBody2D
 @onready var RayLeftBottom = $RayLeftBottom
 
 var entity_name = "Enraged Polar Bear"
-var entity_type: GameMaster.EntityType
+var entity_size = Vector2i(2,2)
+@export var entity_type: GameMaster.EntityType
 
 var animationSpeed = 18 #Used what player was
 var moving = false

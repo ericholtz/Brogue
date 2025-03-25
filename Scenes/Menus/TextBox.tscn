@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dn6d13c6fbyo"]
 
 [ext_resource type="StyleBox" uid="uid://bf7dg57ysvnqc" path="res://Shaders/Styles/Textbox.tres" id="1_hchbw"]
-[ext_resource type="Script" uid="uid://kktfxm0555ov" path="res://Scripts/text_box.gd" id="1_rdtkp"]
+[ext_resource type="Script" uid="uid://kktfxm0555ov" path="res://Scripts/UI/text_box.gd" id="1_rdtkp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvkv0"]
 font_size = 34
