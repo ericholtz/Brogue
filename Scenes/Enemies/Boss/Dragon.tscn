@@ -61,67 +61,70 @@ script = ExtResource("1_ow0un")
 entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(24, 24)
 shape = SubResource("RectangleShape2D_otsct")
 
 [node name="RayTopRight" type="RayCast2D" parent="."]
-position = Vector2(16, -16)
+position = Vector2(40, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayTopMiddle" type="RayCast2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(24, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayTopLeft" type="RayCast2D" parent="."]
-position = Vector2(-16, -16)
+position = Vector2(8, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayBottomRight" type="RayCast2D" parent="."]
-position = Vector2(16, 16)
+position = Vector2(40, 40)
 target_position = Vector2(0, 16)
 
 [node name="RayBottomMiddle" type="RayCast2D" parent="."]
-position = Vector2(0, 16)
+position = Vector2(24, 40)
 target_position = Vector2(0, 16)
 
 [node name="RayBottomLeft" type="RayCast2D" parent="."]
-position = Vector2(-16, 16)
+position = Vector2(8, 40)
 target_position = Vector2(0, 16)
 
 [node name="RayRightTop" type="RayCast2D" parent="."]
-position = Vector2(16, -16)
+position = Vector2(40, 8)
 target_position = Vector2(16, 0)
 
 [node name="RayRightMiddle" type="RayCast2D" parent="."]
-position = Vector2(16, 0)
+position = Vector2(40, 24)
 target_position = Vector2(16, 0)
 
 [node name="RayRightBottom" type="RayCast2D" parent="."]
-position = Vector2(16, 16)
+position = Vector2(40, 40)
 target_position = Vector2(16, 0)
 
 [node name="RayLeftTop" type="RayCast2D" parent="."]
-position = Vector2(-16, -16)
+position = Vector2(8, 8)
 target_position = Vector2(-16, 0)
 
 [node name="RayLeftMiddle" type="RayCast2D" parent="."]
-position = Vector2(-16, 0)
+position = Vector2(8, 24)
 target_position = Vector2(-16, 0)
 
 [node name="RayLeftBottom" type="RayCast2D" parent="."]
-position = Vector2(-16, 16)
+position = Vector2(8, 40)
 target_position = Vector2(-16, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1.43051e-06, -1.43051e-06)
+position = Vector2(24, 24)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_fgmqm")
 
 [node name="PlayerVision" type="Area2D" parent="."]
+position = Vector2(24, 24)
 
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_ylv64")
 
 [node name="BreathAttackRight" type="Area2D" parent="."]
+position = Vector2(24, 24)
 
 [node name="Close" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(32, 0)
@@ -139,6 +142,7 @@ shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="BreathAttackLeft" type="Area2D" parent="."]
+position = Vector2(24, 24)
 
 [node name="Close" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-32, 0)
@@ -156,6 +160,7 @@ shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="BreathAttackTop" type="Area2D" parent="."]
+position = Vector2(24, 24)
 
 [node name="Close" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -32)
@@ -173,6 +178,7 @@ shape = SubResource("RectangleShape2D_32r36")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="BreathAttackBottom" type="Area2D" parent="."]
+position = Vector2(24, 24)
 
 [node name="Close" type="CollisionShape2D" parent="BreathAttackBottom"]
 position = Vector2(0, 32)

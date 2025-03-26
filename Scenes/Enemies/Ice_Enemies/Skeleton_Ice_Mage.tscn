@@ -262,16 +262,20 @@ script = ExtResource("1_mj24s")
 entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_73rsq")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
 target_position = Vector2(0, 16)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
+position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_tthcn")
 
 [node name="AttackVision" type="Area2D" parent="."]
+position = Vector2(8, 8)
 
 [node name="AttackRange-Left" type="CollisionShape2D" parent="AttackVision"]
 position = Vector2(-48, 0)
