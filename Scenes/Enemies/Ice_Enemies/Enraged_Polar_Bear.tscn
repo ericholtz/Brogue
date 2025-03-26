@@ -259,47 +259,49 @@ script = ExtResource("1_o4p1i")
 entity_type = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_h5dsk")
 
 [node name="RayTopRight" type="RayCast2D" parent="."]
-position = Vector2(8, -8)
+position = Vector2(24, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayTopLeft" type="RayCast2D" parent="."]
-position = Vector2(-8, -8)
+position = Vector2(8, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayBottomRight" type="RayCast2D" parent="."]
-position = Vector2(8, 8)
+position = Vector2(24, 24)
 target_position = Vector2(0, 16)
 
 [node name="RayBottomLeft" type="RayCast2D" parent="."]
-position = Vector2(-8, 8)
+position = Vector2(8, 24)
 target_position = Vector2(0, 16)
 
 [node name="RayRightTop" type="RayCast2D" parent="."]
-position = Vector2(8, -8)
+position = Vector2(24, 8)
 target_position = Vector2(16, 0)
 
 [node name="RayRightBottom" type="RayCast2D" parent="."]
-position = Vector2(8, 8)
+position = Vector2(24, 24)
 target_position = Vector2(16, 0)
 
 [node name="RayLeftTop" type="RayCast2D" parent="."]
-position = Vector2(-8, -8)
+position = Vector2(8, 8)
 target_position = Vector2(-16, 0)
 
 [node name="RayLeftBottom" type="RayCast2D" parent="."]
-position = Vector2(-8, 8)
+position = Vector2(8, 24)
 target_position = Vector2(-16, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
-position = Vector2(4.76837e-07, 4.76837e-07)
+position = Vector2(16, 16)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_psavf")
 
 [node name="PlayerVision" type="Area2D" parent="."]
+position = Vector2(16, 16)
 
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_8od0r")
