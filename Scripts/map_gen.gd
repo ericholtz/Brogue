@@ -170,7 +170,7 @@ func _ready() -> void:
 	generate(0)
 	await get_tree().process_frame
 	# move player to start position maybe need await for new tree before moving player
-	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(80, 80)
 	if GameMaster.DEBUG_MAP: 
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
@@ -466,9 +466,6 @@ func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance 
 					room.spawned_entity[type].append(vect)
 			entity.position = check_pos
 			
-			# do anything specific regarding the spawning of this entity
-			do_specific_entity_checks(entity)
-			
 			if GameMaster.DEBUG_MAP: print(entity.position)
 			if is_position_valid_for_item(entity.position, room):
 				call_deferred("add_child", entity)
@@ -490,14 +487,6 @@ func is_position_valid_for_item(position: Vector2, room: Node) -> bool:
 			return false
 	return true
 
-func do_specific_entity_checks(entity: Node2D):
-	# add map level if entity is a map item
-	if (entity.entity_type == GameMaster.EntityType.ITEM
-		and entity.item_type == GameMaster.ItemType.MISC
-		and entity.misc_type == GameMaster.MiscType.MAP):
-		entity.map_level = level
-		entity.entity_name = str("Map - level ", level)
-
 # get the distance between first room and target room
 func get_distance(start_pos : Vector2, target_pos : Vector2) -> int:
 	return abs(start_pos.x - target_pos.x) + abs(start_pos.y - target_pos.y)
@@ -507,8 +496,8 @@ func add_exit_to_last_room():
 	if last_room:
 		var exit = exit_scene[0].instantiate()
 		exit.position = get_random_position_in_room(last_room, exit.entity_size)
-		exit.position.x = floor(exit.position.x / 16) * 16 + 8
-		exit.position.y = floor(exit.position.y / 16) * 16 + 8
+		exit.position.x = floor(exit.position.x / 16) * 16
+		exit.position.y = floor(exit.position.y / 16) * 16
 		if GameMaster.DEBUG_MAP: print(exit.position)
 		$"../map_gen".call_deferred("add_child", exit)
 		return true
@@ -528,8 +517,6 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 			thing.position = get_random_position_in_room(cur_room, thing.entity_size)
 			thing.position.x = floor(thing.position.x / 16) * 16
 			thing.position.y = floor(thing.position.y / 16) * 16
-			if entity != "exit":
-				do_specific_entity_checks(thing)
 			if GameMaster.DEBUG_MAP: print(thing.position)
 			if is_position_valid_for_item(thing.position, cur_room):
 				$"../map_gen".call_deferred("add_child", thing)
@@ -606,7 +593,7 @@ func regenerate_map() -> void:
 	generate(level)
 	await get_tree().process_frame
 	# move player to start position maybe need await for new tree before moving player
-	$"../Player".global_position = (first_room_pos * (272)) + Vector2(88, 88)
+	$"../Player".global_position = (first_room_pos * (272)) + Vector2(80, 80)
 	if GameMaster.DEBUG_MAP: 
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
