@@ -109,6 +109,7 @@ z_index = 2
 script = ExtResource("1_2lqgk")
 
 [node name="LevelUpParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(7.99853, 8.02359)
 emitting = false
 amount = 32
 texture = SubResource("AtlasTexture_bhhdu")
@@ -131,6 +132,7 @@ color_ramp = SubResource("Gradient_yoq75")
 
 [node name="HealParticles2D" type="CPUParticles2D" parent="."]
 z_index = 2
+position = Vector2(7.99853, 8.02359)
 emitting = false
 amount = 16
 texture = SubResource("AtlasTexture_ksbbd")
@@ -153,6 +155,7 @@ hue_variation_max = 1.0
 
 [node name="BecomeInvisibleParticles2D" type="CPUParticles2D" parent="."]
 z_index = 2
+position = Vector2(7.99853, 8.02359)
 emitting = false
 amount = 24
 texture = SubResource("AtlasTexture_2lx3f")
@@ -172,16 +175,16 @@ hue_variation_max = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
-position = Vector2(0.00147247, -0.0235901)
+position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_5dfc8")
 animation = &"Invisible"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.00147247, -0.0235901)
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_17cu6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0.00147247, -0.0235901)
+position = Vector2(8, 8)
 zoom = Vector2(3, 3)
 
 [node name="ScreenEffects" type="CanvasLayer" parent="Camera2D"]
@@ -197,7 +200,8 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(0.00147247, -0.0235901)
+position = Vector2(8, 8)
 target_position = Vector2(0, 16)
 
 [node name="Inventory" type="Node2D" parent="."]
+position = Vector2(7.99853, 8.02359)
