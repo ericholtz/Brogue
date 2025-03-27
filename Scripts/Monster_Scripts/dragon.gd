@@ -17,6 +17,7 @@ extends CharacterBody2D
 @onready var RayLeftBottom = $RayLeftBottom
 
 var entity_name = "Dragon"
+var entity_size = Vector2i(3, 3)
 @export var entity_type: GameMaster.EntityType
 
 var animationSpeed = 18 #Used what player was
