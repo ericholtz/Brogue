@@ -11,11 +11,13 @@ script = ExtResource("1_x7414")
 gold_worth = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
 texture = ExtResource("3_hkoud")
 region_enabled = true
 region_rect = Rect2(64, 128, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_5i2ws")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

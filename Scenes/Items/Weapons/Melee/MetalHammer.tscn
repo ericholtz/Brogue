@@ -13,11 +13,13 @@ entity_name = "MetalHammer"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
 texture = ExtResource("2_8oufd")
 region_enabled = true
 region_rect = Rect2(48, 48, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_xgu2b")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
