@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dy55a1cshubie"]
 
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_8oufd"]
-[ext_resource type="Script" uid="uid://da3c85r8xuan" path="res://Scripts/melee_weapon.gd" id="4_q3u2o"]
+[ext_resource type="Script" uid="uid://da3c85r8xuan" path="res://Scripts/Items/melee_weapon.gd" id="4_q3u2o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)

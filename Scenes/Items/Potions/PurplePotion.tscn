@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cfg2d6hxyck30"]
 
-[ext_resource type="Script" uid="uid://dyn7llrw6wns6" path="res://Scripts/potion.gd" id="1_kcgrc"]
+[ext_resource type="Script" uid="uid://dyn7llrw6wns6" path="res://Scripts/Items/potion.gd" id="1_kcgrc"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_vifte"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
