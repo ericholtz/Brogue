@@ -2,7 +2,7 @@ extends CanvasLayer
 
 @onready var text_box_container = $TextBoxContainer
 
-@onready var p_name = $TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
+@onready var p_name = $TextBoxContainer/MarginContainer/VBoxContainer/LineEdit
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

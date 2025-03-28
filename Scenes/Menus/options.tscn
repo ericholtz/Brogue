@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=3 uid="uid://hbjlsgxe16ad"]
+
+[ext_resource type="Script" uid="uid://bjb25wp3qu0gk" path="res://Scripts/UI/options.gd" id="1_emxk7"]
+[ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="1_sk06h"]
+[ext_resource type="Texture2D" uid="uid://orogf78rjm6l" path="res://Textures/UI/tutorialblock.png" id="1_sow1w"]
+[ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="2_8ogrm"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_sow1w"]
+[ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="3_sow1w"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="4_emxk7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_emxk7"]
+font = ExtResource("2_sow1w")
+font_size = 32
+outline_size = 12
+outline_color = Color(0.269795, 0.0972464, 0.126628, 1)
+shadow_size = 16
+shadow_color = Color(0, 0, 0, 0.458824)
+
+[node name="Options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_emxk7")
+
+[node name="BGColor" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.133333, 0.12549, 0.203922, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_sow1w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 544.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/TextureRect/VBoxContainer"]
+layout_mode = 2
+text = "~Controls~"
+label_settings = SubResource("LabelSettings_emxk7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/TextureRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("2_sow1w")
+bbcode_enabled = true
+text = "
+
+
+[b]Movement[/b]
+K / W / ↑		-		Move up
+J / S / ↓		 -		Move Down
+H / A / ←		-		Move Left
+L / D / →		-		Move Right
+SPACE			-		Stand Still
+TAB / ESC		-		Pause
+
+
+
+[b]Combat[/b]
+* Moving into an enemy attacks them. Beware of retaliation.
+* To equip items, open your inventory and select them.
+
+
+
+[b]Potions[/b]
+* To quaff a potion, open your inventory and select it.
+* Potions will have a different effect on each run. Be careful that you're actually drinking a health potion and not deadly poison."
+horizontal_alignment = 1
+
+[node name="Back" type="TextureButton" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_sk06h")
+texture_pressed = ExtResource("2_8ogrm")
+texture_hover = ExtResource("3_sow1w")
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/Back"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -32.0
+offset_right = 55.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+label_settings = ExtResource("4_emxk7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

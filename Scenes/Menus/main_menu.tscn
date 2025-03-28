@@ -1,38 +1,134 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2uvl67s1w37y"]
+[gd_scene load_steps=9 format=3 uid="uid://b2uvl67s1w37y"]
 
 [ext_resource type="Script" uid="uid://ch6y4nt0nrmno" path="res://Scripts/UI/menu.gd" id="1_qi72p"]
+[ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_aur2u"]
+[ext_resource type="Texture2D" uid="uid://p1lb1xjgfjqp" path="res://Textures/UI/BrogueLogo.png" id="2_chkef"]
+[ext_resource type="Shader" uid="uid://2b5v3giepfu2" path="res://Shaders/wavytext.gshader.gdshader" id="2_neey8"]
+[ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="3_5wi6m"]
+[ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="4_chkef"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="7_neey8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4fgt5"]
+shader = ExtResource("2_neey8")
+shader_parameter/height = 0.01
+shader_parameter/frequency = 15.0
+shader_parameter/speed = 2.0
 
 [node name="Menu" type="Control"]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qi72p")
+
+[node name="BGColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.133333, 0.12549, 0.203922, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="BrogueLogo" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+material = SubResource("ShaderMaterial_4fgt5")
+layout_mode = 2
+texture = ExtResource("2_chkef")
+stretch_mode = 5
+
+[node name="StartButton" type="TextureButton" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_aur2u")
+texture_pressed = ExtResource("3_5wi6m")
+texture_hover = ExtResource("4_chkef")
+stretch_mode = 5
+
+[node name="StartLabel" type="Label" parent="CenterContainer/VBoxContainer/StartButton"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -72.5
+offset_top = -32.0
+offset_right = 72.5
+offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_qi72p")
+text = "Start!"
+label_settings = ExtResource("7_neey8")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="OptionButton" type="TextureButton" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_aur2u")
+texture_pressed = ExtResource("3_5wi6m")
+texture_hover = ExtResource("4_chkef")
+stretch_mode = 5
+
+[node name="OptionsButton" type="Label" parent="CenterContainer/VBoxContainer/OptionButton"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -101.0
-offset_right = 70.0
-grow_vertical = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -32.0
+offset_right = 95.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Controls"
+label_settings = ExtResource("7_neey8")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
+[node name="QuitButton" type="TextureButton" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Start"
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_aur2u")
+texture_pressed = ExtResource("3_5wi6m")
+texture_hover = ExtResource("4_chkef")
+stretch_mode = 5
 
-[node name="OptionButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Options"
-
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
+[node name="QuitLabel" type="Label" parent="CenterContainer/VBoxContainer/QuitButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -32.0
+offset_right = 50.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Quit"
+label_settings = ExtResource("7_neey8")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

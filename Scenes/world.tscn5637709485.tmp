@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cqqguphmvsvh8"]
+[gd_scene load_steps=15 format=3 uid="uid://cqqguphmvsvh8"]
 
 [ext_resource type="Script" uid="uid://b5smv047xrv02" path="res://Scripts/World.gd" id="1_mmcn7"]
 [ext_resource type="Script" uid="uid://c4ecd23w2wg8n" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://c178rh5h2diqj" path="res://Scripts/heal_test.gd" id="5_gyu86"]
 [ext_resource type="Texture2D" uid="uid://dnthda512tlc3" path="res://Textures/UI/Healthbarfull.png" id="6_0fj1v"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="6_3lq2y"]
-[ext_resource type="Texture2D" uid="uid://dnv57eosd2d6a" path="res://Textures/Tilemaps/UI/Inputs.png" id="8_0fj1v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3j6l"]
 atlas = ExtResource("6_3lq2y")
@@ -29,7 +28,7 @@ region = Rect2(336, 160, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_iofbg"]
 font = ExtResource("4_ug0ho")
-font_size = 24
+font_size = 64
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 16
@@ -38,46 +37,6 @@ shadow_color = Color(0, 0, 0, 0.458824)
 [sub_resource type="AtlasTexture" id="AtlasTexture_v2u6k"]
 atlas = ExtResource("5_ffptd")
 region = Rect2(128, 51, 96, 27)
-
-[sub_resource type="LabelSettings" id="LabelSettings_5v1tr"]
-font = ExtResource("4_ug0ho")
-font_size = 64
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 16
-shadow_color = Color(0, 0, 0, 0.458824)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ikia7"]
-atlas = ExtResource("8_0fj1v")
-region = Rect2(16, 16, 48, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7yui6"]
-atlas = ExtResource("8_0fj1v")
-region = Rect2(80, 16, 48, 32)
-
-[sub_resource type="LabelSettings" id="LabelSettings_c5t2i"]
-font = ExtResource("4_ug0ho")
-font_size = 32
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 8
-shadow_color = Color(0, 0, 0, 0.458824)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e0ngr"]
-atlas = ExtResource("8_0fj1v")
-region = Rect2(16, 16, 48, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kn0ld"]
-atlas = ExtResource("8_0fj1v")
-region = Rect2(80, 16, 48, 32)
-
-[sub_resource type="LabelSettings" id="LabelSettings_0fj1v"]
-font = ExtResource("4_ug0ho")
-font_size = 32
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 8
-shadow_color = Color(0, 0, 0, 0.458824)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_mmcn7")
@@ -109,23 +68,19 @@ offset_bottom = 216.0
 texture = SubResource("AtlasTexture_ykt21")
 
 [node name="HealthDisplay" type="Label" parent="UIManager"]
-visible = false
-z_index = 1
-offset_left = 200.0
-offset_top = 152.0
+offset_left = 120.0
+offset_top = 136.0
 offset_right = 264.0
-offset_bottom = 184.0
+offset_bottom = 200.0
 text = "10/10"
 label_settings = SubResource("LabelSettings_iofbg")
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HealthBar" type="TextureProgressBar" parent="UIManager"]
-offset_left = 104.0
-offset_top = 136.0
-offset_right = 360.0
-offset_bottom = 200.0
-value = 100.0
+offset_left = 24.0
+offset_top = 232.0
+offset_right = 216.0
+offset_bottom = 280.0
 nine_patch_stretch = true
 texture_under = ExtResource("5_5v1tr")
 texture_progress = ExtResource("6_0fj1v")
@@ -144,47 +99,22 @@ offset_top = 41.0
 offset_right = 1516.0
 offset_bottom = 99.0
 text = "Turn <0>"
-label_settings = SubResource("LabelSettings_5v1tr")
+label_settings = SubResource("LabelSettings_iofbg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DmgTest" type="TextureButton" parent="UIManager"]
-offset_left = 248.0
-offset_top = 216.0
-offset_right = 344.0
-offset_bottom = 280.0
-texture_normal = SubResource("AtlasTexture_ikia7")
-texture_pressed = SubResource("AtlasTexture_7yui6")
-stretch_mode = 4
+[node name="DmgTest" type="Button" parent="UIManager"]
+offset_left = 232.0
+offset_top = 184.0
+offset_right = 312.0
+offset_bottom = 216.0
+text = "Damage"
 script = ExtResource("4_oe7tn")
 
-[node name="DmgLabel" type="Label" parent="UIManager/DmgTest"]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 26.0
-text = "Damage"
-label_settings = SubResource("LabelSettings_c5t2i")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HealTest" type="TextureButton" parent="UIManager"]
-offset_left = 120.0
-offset_top = 216.0
-offset_right = 216.0
-offset_bottom = 280.0
-texture_normal = SubResource("AtlasTexture_e0ngr")
-texture_pressed = SubResource("AtlasTexture_kn0ld")
-stretch_mode = 4
-script = ExtResource("5_gyu86")
-
-[node name="HealLabel" type="Label" parent="UIManager/HealTest"]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 32.0
+[node name="HealTest" type="Button" parent="UIManager"]
+offset_left = 232.0
+offset_top = 136.0
+offset_right = 312.0
+offset_bottom = 168.0
 text = "Heal"
-label_settings = SubResource("LabelSettings_0fj1v")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[connection signal="mouse_entered" from="UIManager/HealthBar" to="UIManager" method="_on_health_bar_mouse_entered"]
-[connection signal="mouse_exited" from="UIManager/HealthBar" to="UIManager" method="_on_health_bar_mouse_exited"]
+script = ExtResource("5_gyu86")

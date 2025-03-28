@@ -1,27 +1,28 @@
 extends CanvasLayer
 
-@onready var name_label = $PanelContainer/VBoxContainer/Name
-@onready var seed_label = $PanelContainer/VBoxContainer/Seed
-@onready var base_str_label = $PanelContainer/VBoxContainer/GridContainer/BaseStrVal
-@onready var base_def_label = $PanelContainer/VBoxContainer/GridContainer/BaseDefVal
-@onready var attack_label = $PanelContainer/VBoxContainer/GridContainer/AtkVal
-@onready var armor_label = $PanelContainer/VBoxContainer/GridContainer/ArmorVal
-@onready var health_label = $PanelContainer/VBoxContainer/GridContainer/HealthVal
-@onready var xp_label = $PanelContainer/VBoxContainer/GridContainer/XPval
-@onready var xp_to_next_label = $PanelContainer/VBoxContainer/GridContainer/XPtoNextVal
-@onready var lvl_label = $PanelContainer/VBoxContainer/GridContainer/LevelVal
+@onready var name_label = $PanelContainer/VBoxContainer/NameBox/Name
+@onready var seed_label = $PanelContainer/VBoxContainer/SeedBox/Seed
+@onready var base_str_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
+@onready var base_def_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
+@onready var attack_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
+@onready var armor_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
+@onready var health_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
+@onready var xp_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPval
+@onready var xp_to_next_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
+@onready var lvl_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
 @onready var inventory_list = $PanelContainer/VBoxContainer/Inventory/ItemList
-@onready var close_button = $PanelContainer/VBoxContainer/Close
+@onready var resume_button = $PanelContainer/VBoxContainer/HBoxContainer/Resume
+@onready var quit_button = $PanelContainer/VBoxContainer/HBoxContainer/Quit
 
 @onready var player = $"../Player"
 
 func _ready():
 	update_stats()
-	close_button.connect("pressed", _on_close_pressed)
+	resume_button.connect("pressed", _on_close_pressed)
 	visible = false # Start hidden
 
 func _input(event):
-	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
+	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
 		visible = !visible
 		GameMaster.can_move = !GameMaster.can_move
 		update_stats()
@@ -57,10 +58,11 @@ func update_inventory():
 func _on_close_pressed():
 	visible = false
 	GameMaster.can_move = true
-	
 
 func _on_use_pressed(useButton: BaseButton):
 	var index = useButton.get_index()
 	player.use(index)
 	update_stats()
-	
+
+func _on_quit_pressed():
+	get_tree().change_scene_to_file("res://Scenes/Menus/main_menu.tscn")

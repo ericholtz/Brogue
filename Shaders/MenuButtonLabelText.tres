@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://m06gs858ywop"]
+
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="1_0cj34"]
+
+[resource]
+font = ExtResource("1_0cj34")
+font_size = 80
+outline_size = 12
+outline_color = Color(0.337255, 0.129412, 0.164706, 1)

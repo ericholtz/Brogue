@@ -19,12 +19,22 @@ func _update_gold_text():
 #ditto the above for health
 func update_health_display(_adjust_health):
 	call_deferred("_update_health_text")
+	call_deferred("_update_health_bar")
 
 func _update_health_text():
-	$HealthDisplay.text = str($"../Player".health)
+	$HealthDisplay.text = str($"../Player".health, "/", $"../Player".MAX_HEALTH)
+
+func _update_health_bar():
+	$HealthBar.value = ($"../Player".health / float($"../Player".MAX_HEALTH)) * $HealthBar.max_value
 
 func update_turn_counter(_turns):
 	call_deferred("_update_turns_text")
 
 func _update_turns_text():
 	$TurnCounter.text = "Turn <" + str(GameMaster.turnCounter) + ">"
+
+func _on_health_bar_mouse_entered():
+	$HealthDisplay.visible = true
+
+func _on_health_bar_mouse_exited():
+	$HealthDisplay.visible = false
