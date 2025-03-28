@@ -547,7 +547,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 	return false
 
 func place_entity_in_random_room(entity: Node2D):
-	var room = vec_map.values().filter(func(value): return value != null).pick_random()
+	var room = vec_map.values().filter(func(value): return value != null and value.room_name != "hallway").pick_random()
 	# entity.position = Vector2i(0, 0)
 	entity.position = get_random_position_in_room(room, entity.entity_size)
 	entity.position.x = floor(entity.position.x / 16) * 16
