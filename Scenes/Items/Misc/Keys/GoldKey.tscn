@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dql15r0bc46ne"]
+
+[ext_resource type="Script" uid="uid://6dk0eb0xcv0v" path="res://Scripts/Items/misc_item.gd" id="1_c25uy"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_5tm28"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
+size = Vector2(14, 14)
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_c25uy")
+item_type = 5
+entity_name = "GoldKey"
+entity_type = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
+texture = ExtResource("2_5tm28")
+region_enabled = true
+region_rect = Rect2(32, 160, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_xgu2b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
