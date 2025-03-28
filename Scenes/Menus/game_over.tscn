@@ -1,6 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://djtye3tp4e48i"]
+[gd_scene load_steps=12 format=3 uid="uid://djtye3tp4e48i"]
 
 [ext_resource type="Script" uid="uid://ddflf7xibxt8b" path="res://Scripts/UI/game_over.gd" id="1_08yff"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_5b2x3"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="2_h1yjp"]
+[ext_resource type="Shader" uid="uid://hnsr617qy3kt" path="res://Shaders/bouncytext.gdshader" id="2_m4ckg"]
+[ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_prjnw"]
+[ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="3_h1yjp"]
+[ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="4_5b2x3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c1sox"]
+shader = ExtResource("2_m4ckg")
+shader_parameter/height = 2.5
+shader_parameter/speed = 5.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_m4ckg"]
+font = ExtResource("2_5b2x3")
+font_size = 160
+outline_size = 16
+outline_color = Color(0.337255, 0.129412, 0.164706, 1)
+shadow_size = 32
+shadow_color = Color(0, 0, 0, 0.458824)
+shadow_offset = Vector2(1, 5)
 
 [sub_resource type="SystemFont" id="SystemFont_vjdim"]
 subpixel_positioning = 0
@@ -22,31 +42,91 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -48.0
-offset_top = -64.0
-offset_right = 48.0
-offset_bottom = 64.0
+offset_left = -142.5
+offset_top = -230.0
+offset_right = 142.5
+offset_bottom = 230.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_c1sox")
 layout_mode = 2
-text = "Game Over"
-label_settings = SubResource("LabelSettings_qgwkb")
-horizontal_alignment = 1
+text = "Game Over!"
+label_settings = SubResource("LabelSettings_m4ckg")
 uppercase = true
 
-[node name="PlayAgain" type="Button" parent="VBoxContainer"]
+[node name="PlayAgain" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
-text = "Play Again"
+texture_normal = ExtResource("2_prjnw")
+texture_pressed = ExtResource("3_h1yjp")
+texture_hover = ExtResource("4_5b2x3")
+stretch_mode = 5
 
-[node name="MainMenu" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Main Menu"
+[node name="PlayAgainLabel" type="Label" parent="VBoxContainer/PlayAgain"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.5
+offset_top = -32.0
+offset_right = 82.5
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Again?"
+label_settings = ExtResource("2_h1yjp")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="MainMenu" type="TextureButton" parent="VBoxContainer"]
 layout_mode = 2
+texture_normal = ExtResource("2_prjnw")
+texture_pressed = ExtResource("3_h1yjp")
+texture_hover = ExtResource("4_5b2x3")
+stretch_mode = 5
+
+[node name="MainMenuLabel" type="Label" parent="VBoxContainer/MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Menu"
+label_settings = ExtResource("2_h1yjp")
+
+[node name="Quit" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_prjnw")
+texture_pressed = ExtResource("3_h1yjp")
+texture_hover = ExtResource("4_5b2x3")
+stretch_mode = 5
+
+[node name="QuitLabel" type="Label" parent="VBoxContainer/Quit"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "Quit"
+label_settings = ExtResource("2_h1yjp")
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 visible = false

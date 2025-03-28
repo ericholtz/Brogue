@@ -8,5 +8,5 @@ void fragment() {
     float wave = sin(UV.x * frequency + TIME * speed) * height;
     vec2 new_uv = UV + vec2(0.0, wave);
     
-    COLOR = texture(TEXTURE, new_uv);
+    COLOR = texture(TEXTURE, new_uv) * COLOR;
 }

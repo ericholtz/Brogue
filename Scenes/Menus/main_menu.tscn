@@ -1,36 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://b2uvl67s1w37y"]
+[gd_scene load_steps=9 format=3 uid="uid://b2uvl67s1w37y"]
 
 [ext_resource type="Script" uid="uid://ch6y4nt0nrmno" path="res://Scripts/UI/menu.gd" id="1_qi72p"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_aur2u"]
 [ext_resource type="Texture2D" uid="uid://p1lb1xjgfjqp" path="res://Textures/UI/BrogueLogo.png" id="2_chkef"]
 [ext_resource type="Shader" uid="uid://2b5v3giepfu2" path="res://Shaders/wavytext.gshader.gdshader" id="2_neey8"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="3_5wi6m"]
-[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="3_penys"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="4_chkef"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="7_neey8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4fgt5"]
 shader = ExtResource("2_neey8")
 shader_parameter/height = 0.01
 shader_parameter/frequency = 15.0
 shader_parameter/speed = 2.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_aur2u"]
-font = ExtResource("3_penys")
-font_size = 80
-outline_size = 12
-outline_color = Color(0.337255, 0.129412, 0.164706, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_penys"]
-font = ExtResource("3_penys")
-font_size = 80
-outline_size = 12
-outline_color = Color(0.337255, 0.129412, 0.164706, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_5wi6m"]
-font = ExtResource("3_penys")
-font_size = 80
-outline_size = 12
-outline_color = Color(0.337255, 0.129412, 0.164706, 1)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -91,7 +73,7 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Start!"
-label_settings = SubResource("LabelSettings_aur2u")
+label_settings = ExtResource("7_neey8")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -117,7 +99,7 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Options"
-label_settings = SubResource("LabelSettings_penys")
+label_settings = ExtResource("7_neey8")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -143,7 +125,7 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Quit"
-label_settings = SubResource("LabelSettings_5wi6m")
+label_settings = ExtResource("7_neey8")
 horizontal_alignment = 1
 vertical_alignment = 1
 
