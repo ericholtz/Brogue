@@ -49,7 +49,31 @@ func update_history():
 func process_command(command, option = "", num = "", count = ""):
 	match command:
 		"help":
-			command_history.append("Available commands: help, clear, kill, noclip, godmode, fog, position, spawn <entity> <num> [count]")
+			command_history.append("======================= AVAILABLE COMMANDS =======================")
+			command_history.append("  help - show available commands")
+			command_history.append("  clear - clear console scrollback")
+			command_history.append("  kill - kill player")
+			command_history.append("  noclip - toggle player collision")
+			command_history.append("  godmode - toggle player damage")
+			command_history.append("  fog - toggle fog")
+			command_history.append("  postion - print player position")
+			command_history.append("  logs - show logs")
+			command_history.append("  spawn <entity group> <index> [count] - spawn a number of entities")
+			command_history.append("    entity groups:")
+			command_history.append("      melee_weapon")
+			command_history.append("      armor")
+			command_history.append("      potion")
+			command_history.append("      misc")
+			command_history.append("      cave_enemy")
+			command_history.append("      ice_enemy")
+			command_history.append("      big_ice_enemy")
+			command_history.append("      rare_ice_enemy")
+			command_history.append("      boss_enemy")
+			command_history.append("      gold")
+			command_history.append("      exit")
+			command_history.append("  nextlevel <count> - immediately descend <count> levels forward")
+			command_history.append("==================================================================")
+			command_history.append("")
 		"clear":
 			command_history.clear()
 		"kill":
@@ -61,15 +85,9 @@ func process_command(command, option = "", num = "", count = ""):
 		"godmode":
 			$"../Player".god_mode()
 			command_history.append("God mode set: " + str($"../Player".godmode_enabled))
-		"spawn":
-			if option == "": return
-			if num == -1: return
-			for i in range(0, count):
-				command_history.append("Attempting Spawn of " + option + " in room " + str($"../Player".global_position.floor()))
-				$"../map_gen".force_spawn($"../Player".global_position, option, num)
 		"fog":
 			GameMaster.DISABLE_FOG = !GameMaster.DISABLE_FOG
-			command_history.append("Dissable Fog " + str(GameMaster.DISABLE_FOG))
+			command_history.append("Disable Fog " + str(GameMaster.DISABLE_FOG))
 		"position":
 			var cur_room = ($"../Player".global_position) / 272
 			print(cur_room)
@@ -80,5 +98,15 @@ func process_command(command, option = "", num = "", count = ""):
 				command_history.append("Verbose combat logs enabled.")
 			else:
 				command_history.append("Verbose combat logs disabled.")
+		"spawn":
+			if option == "": return
+			if num == -1: return
+			for i in range(0, count):
+				command_history.append("Attempting Spawn of " + option + " in room " + str($"../Player".global_position.floor()))
+				$"../map_gen".force_spawn($"../Player".global_position, option, num)
+		"nextlevel":
+			option = int(option) if option != "" else 1
+			for i in range(0, option):
+				$"../map_gen".regenerate_map()
 		_:
 			command_history.append("Unknown command: " + command)
