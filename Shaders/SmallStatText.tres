@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://b7ok81b7mfcff"]
+
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="1_nofty"]
+
+[resource]
+font = ExtResource("1_nofty")
+font_size = 32

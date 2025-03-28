@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bulhxywvpoddg"]
+[gd_scene load_steps=10 format=3 uid="uid://bulhxywvpoddg"]
 
 [ext_resource type="Script" uid="uid://uang0iebkgho" path="res://Scripts/UI/player_stats.gd" id="1_f5bc8"]
+[ext_resource type="Texture2D" uid="uid://banlbymmswxbe" path="res://Textures/UI/statbanner.png" id="2_8x3ga"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="3_fk0kh"]
+[ext_resource type="Texture2D" uid="uid://gojr2701yji1" path="res://Textures/UI/statblock.png" id="4_emiye"]
+[ext_resource type="LabelSettings" uid="uid://b7ok81b7mfcff" path="res://Shaders/SmallStatText.tres" id="5_um3tq"]
+[ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="6_r7ppi"]
+[ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="7_gle4s"]
+[ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="8_8bck2"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="9_cffa4"]
 
 [node name="PlayerStats" type="CanvasLayer"]
 script = ExtResource("1_f5bc8")
@@ -15,77 +23,145 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="NameBox" type="TextureRect" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+texture = ExtResource("2_8x3ga")
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/NameBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -11.5
+offset_right = 800.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_fk0kh")
+theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Seed" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="SeedBox" type="TextureRect" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+texture = ExtResource("2_8x3ga")
+stretch_mode = 5
+
+[node name="Seed" type="Label" parent="PanelContainer/VBoxContainer/SeedBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -11.5
+offset_right = 800.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_fk0kh")
+theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+[node name="StatsBox" type="TextureRect" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+texture = ExtResource("4_emiye")
+stretch_mode = 5
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/StatsBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.5
+offset_top = -106.0
+offset_right = 94.5
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 columns = 2
 
-[node name="Level" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="Level" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Level:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="LevelVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="LevelVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="XP" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XP" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Current XP:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="XPval" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XPval" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
-text = "XP Required to level up:"
+text = "XP to LVL UP:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="Health" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="Health" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Health:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="HealthVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="HealthVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="BaseStr" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="BaseStr" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Base Strength:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="BaseStrVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="BaseStrVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="BaseDef" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="BaseDef" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Base Defense:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="BaseDefVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="BaseDefVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Weapon Attack:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
-[node name="Armor" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="Armor" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Armor:"
+label_settings = ExtResource("5_um3tq")
 
-[node name="ArmorVal" type="Label" parent="PanelContainer/VBoxContainer/GridContainer"]
+[node name="ArmorVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
+label_settings = ExtResource("5_um3tq")
 
 [node name="Inventory" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -94,6 +170,60 @@ size_flags_vertical = 3
 [node name="ItemList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory"]
 layout_mode = 2
 
-[node name="Close" type="Button" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Close"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 64
+
+[node name="Resume" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("6_r7ppi")
+texture_pressed = ExtResource("7_gle4s")
+texture_hover = ExtResource("8_8bck2")
+
+[node name="ResumeLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Resume"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -32.0
+offset_right = 95.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+label_settings = ExtResource("9_cffa4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Quit" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("6_r7ppi")
+texture_pressed = ExtResource("7_gle4s")
+texture_hover = ExtResource("8_8bck2")
+
+[node name="QuitLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Quit"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+label_settings = ExtResource("9_cffa4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
