@@ -46,6 +46,9 @@ const POISON_LENGTH = 10
 ## enemy effects
 var is_frozen = false # doesn't do anything, just an example - remove if needed
 
+## other player effects
+var is_standing_on_exit = false
+
 #movement related variables
 var tileSize = 16
 var moveTimer = 0.0  #timer used to count down movement delay
@@ -324,6 +327,8 @@ func use_misc(misc: Area2D):
 	match misc.misc_type:
 		GameMaster.MiscType.MAP:
 			use_map(misc)
+		GameMaster.MiscType.KEY:
+			use_key(misc)
 
 func use_map(map: Area2D):
 	var current_level = $"../map_gen".level
@@ -332,6 +337,16 @@ func use_map(map: Area2D):
 		GameMaster.DISABLE_FOG = true
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
+
+func use_key(key: Area2D):
+	if is_standing_on_exit:
+		# call function to start new level
+		get_node("/root/World/map_gen").regenerate_map()
+		# consume key
+		inventory.erase(key.entity_name)
+		key.queue_free()
+	else:
+		print("Cannot use key now.")
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
