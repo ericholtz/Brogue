@@ -1,6 +1,7 @@
 extends Node
 
-@onready var room_scene : Array[PackedScene] = [
+# rooms
+@onready var room_scene: Array[PackedScene] = [
 	load("res://Scenes/Rooms/fog_room.tscn"),
 	load("res://Scenes/Rooms/room.tscn"),
 	load("res://Scenes/Rooms/hallway.tscn"),
@@ -8,19 +9,20 @@ extends Node
 	load("res://Scenes/Rooms/largeroomVert.tscn")
 	]
 
-@onready var melee_weapons : Array[PackedScene] = [
+# items
+@onready var melee_weapons: Array[PackedScene] = [
 	load("res://Scenes/Items/Weapons/Melee/GoldSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalSword.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalHammer.tscn"),
 	load("res://Scenes/Items/Weapons/Melee/MetalBattleaxe.tscn"),
 	]
 
-@onready var armor : Array[PackedScene] = [
+@onready var armor: Array[PackedScene] = [
 	load("res://Scenes/Items/Armor/LeatherArmor.tscn"),
 	load("res://Scenes/Items/Armor/ChainArmor.tscn"),
 	]
 
-@onready var potions : Array[PackedScene] = [
+@onready var potions: Array[PackedScene] = [
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
 	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
@@ -28,9 +30,13 @@ extends Node
 	load("res://Scenes/Items/Potions/RedPotion.tscn"),
 	]
 
-@onready var misc : Array[PackedScene] = [
-	load("res://Scenes/Items/Misc/MetalKey.tscn"),
+@onready var misc: Array[PackedScene] = [
 	load("res://Scenes/Items/Misc/Map.tscn"),
+	]
+
+@onready var keys: Array[PackedScene] = [
+	load("res://Scenes/Items/Misc/Keys/MetalKey.tscn"),
+	load("res://Scenes/Items/Misc/Keys/GoldKey.tscn"),
 	]
 
 	##-----(Enemy Types)-----##
@@ -60,7 +66,7 @@ extends Node
 	##-----(Enemy Types)-----##
 
 
-@onready var gold : Array[PackedScene] = [
+@onready var gold: Array[PackedScene] = [
 	load("res://Scenes/Gold/SmallGold.tscn"),
 	load("res://Scenes/Gold/MediumGold.tscn"),
 	load("res://Scenes/Gold/LargeGold.tscn")
@@ -177,7 +183,7 @@ func _ready() -> void:
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
-	for child in $"../map_gen".get_children():
+	for child in get_children():
 		child.queue_free()
 	await get_tree().process_frame
 
@@ -206,7 +212,8 @@ func generate(cur_level : int) -> void:
 	instantiate_rooms()
 	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
-	
+	# add key in a random room
+	place_entity_in_random_room(keys.pick_random().instantiate())
 
 # populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
@@ -367,7 +374,7 @@ func instantiate_rooms() -> void:
 			# create dictionary to get room node back when needed
 			vec_map[Vector2(x,y)] = room
 			# add room to the world map
-			$"../map_gen".add_child(room)
+			add_child(room)
 			
 			# dont spawn content if its a hallway
 			if room.room_name == "hallway":
@@ -378,11 +385,6 @@ func instantiate_rooms() -> void:
 				spawn_room_content(room)
 			
 	get_tree().create_timer(1)
-	calculate_key_and_exit()
-
-
-func calculate_key_and_exit() -> void:
-	pass
 
 # add fog to all empty rooms to make it look nice
 func create_fog_room(x : int, y : int):
@@ -390,7 +392,7 @@ func create_fog_room(x : int, y : int):
 		return
 	var room = room_scene[0].instantiate()
 	room.position = Vector2(x, y) * 272
-	$"../map_gen".add_child(room)
+	add_child(room)
 
 # adjust the first room position if it does not spawn
 func adjust_first_room() -> void:
@@ -499,14 +501,26 @@ func add_exit_to_last_room():
 		exit.position.x = floor(exit.position.x / 16) * 16
 		exit.position.y = floor(exit.position.y / 16) * 16
 		if GameMaster.DEBUG_MAP: print(exit.position)
-		$"../map_gen".call_deferred("add_child", exit)
+		call_deferred("add_child", exit)
 		return true
 	else:
 		return false
 
 # command line spawn
 func force_spawn(player_pos : Vector2, entity : String, option : int):
-	var spawn_options = {"melee_weapon" : melee_weapons, "armor" : armor, "potion" : potions, "misc" : misc, "Cave-enemy" : Cave_enemies, "Big-Ice-enemy" : Big_ice_enemies, "Ice-enemy" : Ice_enemies, "Rare-Ice-enemy" : Rare_ice_enemies, "Boss-enemy" : Boss, "gold" : gold, "exit" : exit_scene}
+	var spawn_options = {
+		"melee_weapon": melee_weapons,
+		"armor": armor,
+		"potion": potions,
+		"misc": misc,
+		"cave_enemy": Cave_enemies,
+		"big_ice_enemy": Big_ice_enemies,
+		"ice_enemy": Ice_enemies,
+		"rare_ice_enemy": Rare_ice_enemies,
+		"boss_enemy": Boss,
+		"gold": gold,
+		"exit": exit_scene
+		}
 	if spawn_options.keys().has(entity):
 		if spawn_options[entity].size() > option and option >= 0:
 			var cur_room = vec_map[((player_pos) / 272).floor()]
@@ -519,7 +533,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 			thing.position.y = floor(thing.position.y / 16) * 16
 			if GameMaster.DEBUG_MAP: print(thing.position)
 			if is_position_valid_for_item(thing.position, cur_room):
-				$"../map_gen".call_deferred("add_child", thing)
+				call_deferred("add_child", thing)
 				$"../CommandLine".command_history.append("Succesfully spawned " + thing.get_child(0).name)
 				return true
 		else:
@@ -532,11 +546,23 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		return false
 	return false
 
+func place_entity_in_random_room(entity: Node2D):
+	var room = vec_map.values().filter(func(value): return value != null).pick_random()
+	# entity.position = Vector2i(0, 0)
+	entity.position = get_random_position_in_room(room, entity.entity_size)
+	entity.position.x = floor(entity.position.x / 16) * 16
+	entity.position.y = floor(entity.position.y / 16) * 16
+	call_deferred("add_child", entity)
+
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
 	GameMaster.can_move = false
 	# clear all children under map
 	clear_map()
+	# reset zoom and fog from possible map use
+	GameMaster.DISABLE_FOG = false
+	$"../Player".find_child("Camera2D").zoom = Vector2(3, 3)
+	
 	await get_tree().process_frame
 	
 	level += 1
