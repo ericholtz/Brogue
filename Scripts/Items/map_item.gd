@@ -7,4 +7,3 @@ func _ready():
 	var current_level = get_parent().level
 	map_level = current_level
 	entity_name = str("Map - level ", current_level)
-
