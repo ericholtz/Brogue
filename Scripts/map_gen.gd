@@ -409,20 +409,19 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn Cave enemies
 	if level == 1:
 		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
-		#spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
-		spawn_entities(room, Big_ice_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
+		spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
 		
 	if level == 2:
 		# Spawn Ice enemies
 		spawn_entities(room, Big_ice_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
-		#if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
-		#spawn_entities(room, Ice_enemies, ice_enemy_spawn_chance, max_ice_enemies_per_room)
-		## Spawn Big enemies
-		#if GameMaster.DEBUG_MAP: print("Spawning Big: Enemies")
-		#spawn_entities(room, Big_ice_enemies, big_ice_enemy_spawn_chance, max_big_ice_enemies_per_room)
-			## Spawn Rare enemies
-		#if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
-		#spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
+		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
+		spawn_entities(room, Ice_enemies, ice_enemy_spawn_chance, max_ice_enemies_per_room)
+		# Spawn Big enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Big: Enemies")
+		spawn_entities(room, Big_ice_enemies, big_ice_enemy_spawn_chance, max_big_ice_enemies_per_room)
+		# Spawn Rare enemies
+		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
+		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
 	
 	if level == 3:
 		# Spawn Boss enemies
