@@ -550,7 +550,7 @@ tile_set = SubResource("TileSet_id54f")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(88, 88)
+position = Vector2(104, 216)
 shape = SubResource("RectangleShape2D_d4xp7")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
