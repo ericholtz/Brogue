@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn6d13c6fbyo"]
+[gd_scene load_steps=7 format=3 uid="uid://dn6d13c6fbyo"]
 
-[ext_resource type="StyleBox" uid="uid://bf7dg57ysvnqc" path="res://Shaders/Styles/Textbox.tres" id="1_hchbw"]
 [ext_resource type="Script" uid="uid://kktfxm0555ov" path="res://Scripts/UI/text_box.gd" id="1_rdtkp"]
+[ext_resource type="Texture2D" uid="uid://b2ou4l0u4cjyx" path="res://Textures/UI/namebanner.png" id="2_s6gd4"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="3_ewqks"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="4_1kkfl"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_qvkv0"]
-font_size = 34
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s6gd4"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_w13fk"]
-font_size = 64
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ewqks"]
 
 [node name="TextBox" type="CanvasLayer"]
 script = ExtResource("1_rdtkp")
@@ -24,9 +24,10 @@ offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="TextBoxContainer"]
+[node name="Panel" type="TextureRect" parent="TextBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_hchbw")
+texture = ExtResource("2_s6gd4")
+stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="TextBoxContainer"]
 layout_direction = 1
@@ -36,47 +37,28 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Panel" type="Panel" parent="TextBoxContainer/MarginContainer"]
-layout_mode = 2
-
 [node name="VBoxContainer" type="VBoxContainer" parent="TextBoxContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="Label" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "What is your Name?"
-label_settings = SubResource("LabelSettings_qvkv0")
+label_settings = ExtResource("3_ewqks")
 horizontal_alignment = 1
 vertical_alignment = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxContainer/MarginContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="TextBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="Start" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_1kkfl")
 theme_override_font_sizes/font_size = 64
-text = "*"
-vertical_alignment = 1
-
-[node name="LineEdit" type="LineEdit" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxTexture_s6gd4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_ewqks")
 placeholder_text = "Insert Name Here"
 alignment = 1
-max_length = 14
+max_length = 28
 expand_to_text_length = true
 
-[node name="End" type="Label" parent="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-text = "*"
-label_settings = SubResource("LabelSettings_w13fk")
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[connection signal="text_submitted" from="TextBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="TextBoxContainer/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
