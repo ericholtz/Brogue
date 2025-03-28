@@ -109,7 +109,7 @@ func _process(delta):
 	for dir in inputs.keys():
 		#if button is just pressed OR if timer has elapsed and button is held
 		if Input.is_action_just_pressed(dir) or (moveTimer <= 0 and Input.is_action_pressed(dir)):
-			if moving:
+			if moving or movement_speed == 0:
 				return
 			moving = true
 			#await everything before we can move again
