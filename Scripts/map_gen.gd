@@ -23,11 +23,11 @@ extends Node
 	]
 
 @onready var potions: Array[PackedScene] = [
-	load("res://Scenes/Items/Potions/BluePotion.tscn"),
-	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
-	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
-	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
 	load("res://Scenes/Items/Potions/RedPotion.tscn"),
+	load("res://Scenes/Items/Potions/OrangePotion.tscn"),
+	load("res://Scenes/Items/Potions/GreenPotion.tscn"),
+	load("res://Scenes/Items/Potions/PurplePotion.tscn"),
+	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	]
 
 @onready var misc: Array[PackedScene] = [

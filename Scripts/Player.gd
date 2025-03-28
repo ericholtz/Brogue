@@ -29,6 +29,8 @@ var XPtoNext = 10
 var XPNeeded = XPtoNext - currentXP
 @export var strength = 1
 @export var defense = 1
+@export var movement_speed = 1
+@export var moves_left = 1
 
 #variable player stats to be affected by equipment
 var attack = strength
@@ -39,9 +41,11 @@ var armor = defense
 var is_invisible = false
 var is_psychedelic = false
 var is_poisoned = false
+var is_speedy = false
 const INVISIBILITY_LENGTH = 20
 const PSYCHEDELIC_LENGTH = 40
 const POISON_LENGTH = 10
+const SPEED_LENGTH = 20
 
 ## enemy effects
 var is_frozen = false # doesn't do anything, just an example - remove if needed
@@ -109,22 +113,27 @@ func _process(delta):
 				return
 			moving = true
 			#await everything before we can move again
-			if await move(dir):
-				await GameMaster.takeTurn(1)
+			if await move(dir) == 2:
+				moves_left = 0
 			#reset movement timer on succesful move
 			moving = false
 			moveTimer = moveDelay
-			return
+	
+			if moves_left > 0:
+				moves_left -= 1
+			if moves_left == 0:
+				moves_left = movement_speed
+				await GameMaster.takeTurn(1)
 	
 	# TODO: add organize_inventory() function to organize the ivnentory and reunite orphaned stackables
 
-#function to try a move, returns TRUE on succesfull move and FALSE on invalid
-func move(dir) -> bool:
+# function to try a move, returns 0 on invalid movement, 1 on valid movement, and 2 on attack
+func move(dir) -> int:
 	if noclip_enabled:
 		# Move freely without collision checks
 		position += inputs[dir] * tileSize
 		moveTimer = moveDelay
-		return true
+		return 1
 
 	#set ray to move direction +16 pixels, update immediately
 	Ray.target_position = inputs[dir] * tileSize
@@ -138,8 +147,8 @@ func move(dir) -> bool:
 		if collider.is_in_group("enemies"):
 			if Input.is_action_just_pressed(dir):
 				await GameMaster.combat(self, collider)
-				return true
-		return false
+				return 2
+		return 0
 	#create a new Tween object to handle smooth movement
 	var tween = create_tween()
 	#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -151,7 +160,7 @@ func move(dir) -> bool:
 	position = position.snapped(Vector2.ONE * tileSize/2)
 	#emit a movement signal here, after the player succesfully moves
 	emit_signal("input_event")
-	return true
+	return 1
 
 func add_xp(amount: int):
 	currentXP += amount
@@ -269,7 +278,7 @@ func use_potion(potion: Area2D):
 		GameMaster.PotionEffect.HEALING:
 			use_healing_potion()
 		GameMaster.PotionEffect.SPEED:
-			print("Speed potions are unimplemented")
+			use_speed_potion()
 		GameMaster.PotionEffect.POISON:
 			use_poison_potion()
 		GameMaster.PotionEffect.PSYCHEDELIC:
@@ -281,12 +290,15 @@ func use_healing_potion():
 	var heal_amount = ceil(float(MAX_HEALTH)/4)
 	GameMaster.heal_player_signal.emit(heal_amount)
 
-func use_invisibility_potion():
-	is_invisible = true
-	PlayerAnim.play("Invisible")
-	GameMaster.start_status_effect(GameMaster.StatusEffect.INVISIBLE, INVISIBILITY_LENGTH)
-	animate_become_invisible()
-	#TODO: add duration scaling
+func use_speed_potion():
+	if not is_speedy:
+		is_speedy = true
+		add_speed(1)
+	GameMaster.start_status_effect(GameMaster.StatusEffect.SPEEDY, SPEED_LENGTH)
+
+func use_poison_potion():
+	is_poisoned = true
+	GameMaster.start_status_effect(GameMaster.StatusEffect.POISONED, POISON_LENGTH)
 
 func use_psychedelic_potion():
 	is_psychedelic = true
@@ -294,30 +306,39 @@ func use_psychedelic_potion():
 	GameMaster.start_status_effect(GameMaster.StatusEffect.PSYCHEDELIC, PSYCHEDELIC_LENGTH)
 	Camera.find_child('ScreenEffects').find_child('Invert').visible = true
 
-func use_poison_potion():
-	is_poisoned = true
-	GameMaster.start_status_effect(GameMaster.StatusEffect.POISONED, POISON_LENGTH)
+func use_invisibility_potion():
+	is_invisible = true
+	PlayerAnim.play("Invisible")
+	GameMaster.start_status_effect(GameMaster.StatusEffect.INVISIBLE, INVISIBILITY_LENGTH)
+	animate_become_invisible()
+	#TODO: add duration scaling
 
 func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 	match effect:
-		GameMaster.StatusEffect.INVISIBLE:
-			remove_invisibility()
-		GameMaster.StatusEffect.PSYCHEDELIC:
-			remove_psychedelic()
+		GameMaster.StatusEffect.SPEEDY:
+			remove_speed_effect()
 		GameMaster.StatusEffect.POISONED:
-			remove_poison()
+			remove_poison_effect()
+		GameMaster.StatusEffect.PSYCHEDELIC:
+			remove_psychedelic_effect()
+		GameMaster.StatusEffect.INVISIBLE:
+			remove_invisibility_effect()
 
-func remove_invisibility():
-	is_invisible = false
-	PlayerAnim.play("Idle")
+func remove_speed_effect():
+	is_speedy = false
+	remove_speed(1)
 
-func remove_psychedelic():
+func remove_poison_effect():
+	is_poisoned = false
+
+func remove_psychedelic_effect():
 	is_psychedelic = false
 	PlayerAnim.flip_v = false
 	Camera.find_child('ScreenEffects').find_child('Invert').visible = false
 
-func remove_poison():
-	is_poisoned = false
+func remove_invisibility_effect():
+	is_invisible = false
+	PlayerAnim.play("Idle")
 
 func use_scroll(_scroll: Area2D):
 	pass
@@ -347,6 +368,14 @@ func use_key(key: Area2D):
 		key.queue_free()
 	else:
 		print("Cannot use key now.")
+
+func add_speed(speed: int):
+	movement_speed += speed
+	moves_left += speed
+
+func remove_speed(speed: int):
+	movement_speed -= speed
+	moves_left -= speed
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
