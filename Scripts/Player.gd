@@ -34,25 +34,29 @@ var XPNeeded = XPtoNext - currentXP
 @export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
-var attack = strength
-var armor = defense
+@export var attack = strength
+@export var armor = defense
 
 # status effects
 ## potion effects
-var is_invisible = false
-var is_psychedelic = false
-var is_poisoned = false
-var is_speedy = false
+@export var is_invisible = false
+@export var is_psychedelic = false
+@export var is_poisoned = false
+@export var is_speedy = false
 const INVISIBILITY_LENGTH = 20
 const PSYCHEDELIC_LENGTH = 40
 const POISON_LENGTH = 10
 const SPEED_LENGTH = 20
+## scroll effects
+@export var is_stat_boosted = false
+const STAT_BOOST_LENGTH = 15
+@export var stats_before_stat_boost = []
 
 ## enemy effects
-var is_frozen = false # doesn't do anything, just an example - remove if needed
+@export var is_frozen = false # doesn't do anything, just an example - remove if needed
 
 ## other player effects
-var is_standing_on_exit = false
+@export var is_standing_on_exit = false
 
 #movement related variables
 var tileSize = 16
@@ -299,6 +303,7 @@ func use_speed_potion():
 
 func use_poison_potion():
 	is_poisoned = true
+	PlayerAnim.play("Poisoned")
 	GameMaster.start_status_effect(GameMaster.StatusEffect.POISONED, POISON_LENGTH)
 
 func use_psychedelic_potion():
@@ -324,6 +329,8 @@ func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 			remove_psychedelic_effect()
 		GameMaster.StatusEffect.INVISIBLE:
 			remove_invisibility_effect()
+		GameMaster.StatusEffect.STAT_BOOSTED:
+			remove_stat_boost()
 
 func remove_speed_effect():
 	is_speedy = false
@@ -331,6 +338,7 @@ func remove_speed_effect():
 
 func remove_poison_effect():
 	is_poisoned = false
+	PlayerAnim.play("Idle")
 
 func remove_psychedelic_effect():
 	is_psychedelic = false
@@ -341,16 +349,44 @@ func remove_invisibility_effect():
 	is_invisible = false
 	PlayerAnim.play("Idle")
 
+func remove_stat_boost():
+	attack = stats_before_stat_boost[0]
+	armor = stats_before_stat_boost[1]
+	is_stat_boosted = false
+	PlayerAnim.play("Idle")
+
 func use_scroll(scroll: Area2D):
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
-			$"../map_gen".place_entity_in_random_room(self)
+			random_tp()
 		GameMaster.ScrollEffect.BLIND:
 			print("blinding scrolls are unimplemented")
 		GameMaster.ScrollEffect.IDENTIFY:
 			print("identify scrolls are unimplemented")
 		GameMaster.ScrollEffect.GOLD_RUSH:
-			print("gold rush scrolls are unimplemented")
+			use_gold_rush_scroll()
+		GameMaster.ScrollEffect.STAT_BOOST:
+			use_stat_boost_scroll()
+
+func random_tp():
+	$"../map_gen".place_entity_in_random_room(self)
+
+func use_gold_rush_scroll():
+	for i in range(0, randi_range(6, 9)):
+		$"../map_gen".force_spawn(position, "gold", 0)
+	for i in range(0, randi_range(3, 5)):
+		$"../map_gen".force_spawn(position, "gold", 1)
+	for i in range(0, randi_range(2, 4)):
+		$"../map_gen".force_spawn(position, "gold", 2)
+
+func use_stat_boost_scroll():
+	if not is_stat_boosted:
+		is_stat_boosted = true
+		stats_before_stat_boost = [attack, armor]
+		attack = int(ceil(1.3 * attack))
+		armor = int(ceil(1.3 * armor))
+	PlayerAnim.play("StatBoosted")
+	GameMaster.start_status_effect(GameMaster.StatusEffect.STAT_BOOSTED, INVISIBILITY_LENGTH)
 
 func use_misc(misc: Area2D):
 	match misc.misc_type:

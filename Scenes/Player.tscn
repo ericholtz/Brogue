@@ -1,10 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=31 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="2_tdieg"]
 [ext_resource type="Texture2D" uid="uid://cnrhr7328bg3j" path="res://Textures/Tilemaps/custom/Hero-Invisible.png" id="4_dewec"]
 [ext_resource type="Shader" uid="uid://7hlalx4wngds" path="res://Shaders/invert_colors.gdshader" id="5_5ixxa"]
+[ext_resource type="Texture2D" uid="uid://j2uot8ig0ji0" path="res://Textures/Tilemaps/custom/Hero-Poisoned.png" id="5_52ee3"]
+[ext_resource type="Texture2D" uid="uid://bvvmu07fdmyqh" path="res://Textures/Tilemaps/custom/Hero-Stat-Boost.png" id="6_bhhdu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhhdu"]
 atlas = ExtResource("2_tdieg")
@@ -62,6 +64,30 @@ region = Rect2(16, 0, 16, 16)
 atlas = ExtResource("4_dewec")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_megsn"]
+atlas = ExtResource("5_52ee3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoq75"]
+atlas = ExtResource("5_52ee3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glx4g"]
+atlas = ExtResource("5_52ee3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_miouo"]
+atlas = ExtResource("6_bhhdu")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3h8g"]
+atlas = ExtResource("6_bhhdu")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e7my"]
+atlas = ExtResource("6_bhhdu")
+region = Rect2(32, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_5dfc8"]
 animations = [{
 "frames": [],
@@ -96,6 +122,34 @@ animations = [{
 "loop": true,
 "name": &"Invisible",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_megsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoq75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glx4g")
+}],
+"loop": true,
+"name": &"Poisoned",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_miouo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3h8g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1e7my")
+}],
+"loop": true,
+"name": &"StatBoosted",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_17cu6"]
@@ -177,7 +231,7 @@ hue_variation_max = 1.0
 z_index = 2
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_5dfc8")
-animation = &"Invisible"
+animation = &"StatBoosted"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)

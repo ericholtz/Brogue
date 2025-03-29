@@ -58,6 +58,7 @@ enum ScrollEffect {
 	BLIND,
 	IDENTIFY,
 	GOLD_RUSH,
+	STAT_BOOST,
 	}
 enum MiscType {
 	KEY,
@@ -69,6 +70,7 @@ enum StatusEffect {
 	POISONED,
 	PSYCHEDELIC,
 	INVISIBLE,
+	STAT_BOOSTED,
 	}
 
 var status_effects = []
