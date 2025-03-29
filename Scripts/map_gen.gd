@@ -219,7 +219,9 @@ func generate(cur_level : int) -> void:
 	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
 	# add key in a random room
-	place_entity_in_random_room(keys.pick_random().instantiate())
+	var key = keys.pick_random().instantiate()
+	place_entity_in_random_room(key)
+	call_deferred("add_child", key)
 
 # populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
@@ -562,7 +564,6 @@ func place_entity_in_random_room(entity: Node2D):
 	entity.position = get_random_position_in_room(room, entity.entity_size)
 	entity.position.x = floor(entity.position.x / 16) * 16
 	entity.position.y = floor(entity.position.y / 16) * 16
-	call_deferred("add_child", entity)
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:

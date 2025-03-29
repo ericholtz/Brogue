@@ -55,7 +55,7 @@ enum PotionEffect {
 	}
 enum ScrollEffect {
 	RANDOM_TP,
-	DARKNESS,
+	BLIND,
 	IDENTIFY,
 	GOLD_RUSH,
 	}

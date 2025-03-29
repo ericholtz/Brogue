@@ -31,6 +31,7 @@ var XPNeeded = XPtoNext - currentXP
 @export var defense = 1
 @export var movement_speed = 1
 @export var moves_left = 1
+@export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
 var attack = strength
@@ -340,9 +341,16 @@ func remove_invisibility_effect():
 	is_invisible = false
 	PlayerAnim.play("Idle")
 
-func use_scroll(_scroll: Area2D):
-	pass
-	# match scroll.effect:
+func use_scroll(scroll: Area2D):
+	match scroll.effect:
+		GameMaster.ScrollEffect.RANDOM_TP:
+			$"../map_gen".place_entity_in_random_room(self)
+		GameMaster.ScrollEffect.BLIND:
+			print("blinding scrolls are unimplemented")
+		GameMaster.ScrollEffect.IDENTIFY:
+			print("identify scrolls are unimplemented")
+		GameMaster.ScrollEffect.GOLD_RUSH:
+			print("gold rush scrolls are unimplemented")
 
 func use_misc(misc: Area2D):
 	match misc.misc_type:
