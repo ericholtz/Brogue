@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://35uteo6jxcw1"]
 
-[ext_resource type="Script" uid="uid://dixer6piuoc3t" path="res://Scripts/gold.gd" id="1_x7414"]
+[ext_resource type="Script" uid="uid://dixer6piuoc3t" path="res://Scripts/Items/gold.gd" id="1_x7414"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="3_hkoud"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5i2ws"]
@@ -11,11 +11,13 @@ script = ExtResource("1_x7414")
 gold_worth = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
 texture = ExtResource("3_hkoud")
 region_enabled = true
 region_rect = Rect2(64, 128, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_5i2ws")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

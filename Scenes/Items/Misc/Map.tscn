@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c06n00w2g6hf4"]
 
-[ext_resource type="Script" uid="uid://c2qey75bvvuk3" path="res://Scripts/map_item.gd" id="1_6dk22"]
+[ext_resource type="Script" uid="uid://c2qey75bvvuk3" path="res://Scripts/Items/map_item.gd" id="1_6dk22"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_6icen"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
@@ -15,11 +15,13 @@ entity_name = "Map"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 8)
 texture = ExtResource("2_6icen")
 region_enabled = true
 region_rect = Rect2(160, 208, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_xgu2b")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

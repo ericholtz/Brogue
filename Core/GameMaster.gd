@@ -56,16 +56,21 @@ enum MiscType {
 	}
 
 enum StatusEffect {
-	INVISIBLE,
-	PSYCHEDELIC,
+	SPEEDY,
 	POISONED,
+	PSYCHEDELIC,
+	INVISIBLE,
 	}
 
 var status_effects = []
+var potion_types = {}
+var potion_types_readable = {}
 
 func _ready() -> void:
 	status_effects.resize(StatusEffect.size())
 	status_effects.fill(0)
+	# decide potion randomizations
+	decide_potions()
 
 func collect_entity(entity: Area2D):
 	if !entity:
@@ -80,6 +85,26 @@ func setname(player_name: String):
 	if player_name:
 		can_move = true
 		set_name.emit(player_name)
+
+func decide_potions():
+	var rng = RandomNumberGenerator.new()
+	var potion_names = ["RedPotion", "OrangePotion", "GreenPotion", "PurplePotion", "BluePotion"]
+	var healing_weights = [6, 1, 1, 1, 1]
+	var speed_weights = [1, 3, 1, 1, 1]
+	var poison_weights = [1, 1, 4, 1, 1]
+	var psychedelic_weights = [1, 1, 1, 2, 1]
+	var invisibility_weights = [1, 1, 1, 1, 1]
+	var weights = [healing_weights, speed_weights, poison_weights, psychedelic_weights, invisibility_weights]
+	
+	for i in potion_names.size():
+		var potion_name = potion_names[i]
+		var potion_index = rng.rand_weighted(weights[i])
+		potion_types[potion_name] = PotionEffect.values()[potion_index]
+		potion_types_readable[potion_name] = PotionEffect.keys()[potion_index]
+		for j in range(i, potion_names.size()):
+			weights[j][potion_index] = 0
+	
+	print(potion_types_readable)
 
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
@@ -175,9 +200,9 @@ func decrement_status_effect_duration():
 func end_status_effect(effect: int):
 	match effect:
 		StatusEffect.PSYCHEDELIC:
-			end_psychedelic()
+			end_psychedelic_effect()
 
-func end_psychedelic():
+func end_psychedelic_effect():
 	var enemies = get_tree().get_nodes_in_group("enemies")
 	for i in range(enemies.size()):
 		var AnimatedSprite = enemies[i].find_child("AnimatedSprite2D")
