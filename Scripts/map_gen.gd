@@ -30,6 +30,10 @@ extends Node
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	]
 
+@onready var scrolls: Array[PackedScene] = [
+	load("res://Scenes/Items/Scrolls/Scroll.tscn"),
+	]
+
 @onready var misc: Array[PackedScene] = [
 	load("res://Scenes/Items/Misc/Map.tscn"),
 	]
@@ -132,6 +136,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var melee_weapon_spawn_chance : float = 0.1
 @export var armor_spawn_chance : float = 0.1
 @export var potion_spawn_chance : float = 0.1
+@export var scroll_spawn_chance : float = 0.1
 @export var misc_spawn_chance : float = 0.1
 @export var heart_spawn_chance : float
 
@@ -149,6 +154,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var max_melee_weapons_per_room : int = 1
 @export var max_armor_per_room : int = 1
 @export var max_potions_per_room : int = 1
+@export var max_scrolls_per_room : int = 1
 @export var max_misc_per_room : int = 1
 
 func _ready() -> void:
@@ -441,6 +447,9 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn potions
 	if GameMaster.DEBUG_MAP: print("Spawning: Potions")
 	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
+	# Spawn scrolls
+	if GameMaster.DEBUG_MAP: print("Spawning: Scrolls")
+	spawn_entities(room, scrolls, scroll_spawn_chance, max_scrolls_per_room)
 	# Spawn misc
 	if GameMaster.DEBUG_MAP: print("Spawning: Misc")
 	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
@@ -511,7 +520,9 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"melee_weapon": melee_weapons,
 		"armor": armor,
 		"potion": potions,
+		"scroll": scrolls,
 		"misc": misc,
+		"key" : keys,
 		"cave_enemy": Cave_enemies,
 		"big_ice_enemy": Big_ice_enemies,
 		"ice_enemy": Ice_enemies,
