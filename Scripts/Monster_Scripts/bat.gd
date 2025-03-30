@@ -5,13 +5,14 @@ extends CharacterBody2D
 
 var entity_name = "Bat"
 var entity_size = Vector2i(1,1)
+
 @export var entity_type: GameMaster.EntityType
 
-
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
-
+var tileSize = 16
 
 #Monsters States
 var health = 3
@@ -20,13 +21,15 @@ var defense = 0
 var Movement_Speed = 2
 var xp = 10
 
-var tileSize = 16
-
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	name = "Bat"
 	Animations.play("")
+	var Level = 1
+	health = 1 + Level
+	strength = (3 * Level) - 1
+	defense = 0
 
 func take_turn():
 	if moving:

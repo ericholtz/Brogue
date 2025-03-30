@@ -15,12 +15,11 @@ var entity_name = "Enraged Polar Bear"
 var entity_size = Vector2i(2,2)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
-
-
-
+var tileSize = 16
 
 #Monsters States
 var health = 20
@@ -29,12 +28,14 @@ var defense = 0
 var Movement_Speed = 2
 var xp = 30
 
-var tileSize = 16
-
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = 2
+	health = 6 * Level
+	strength = 2 * Level
+	defense = 0
 
 func take_turn():
 	if moving:

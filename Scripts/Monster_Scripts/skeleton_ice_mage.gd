@@ -7,10 +7,12 @@ var entity_name = "Skeleton Ice Mage"
 var entity_size = Vector2i(1,1)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
 var can_attack = false
+var tileSize = 16
 
 #Monsters States
 var health = 5
@@ -19,12 +21,14 @@ var defense = 1
 var Movement_Speed = 1 # Only used for random movement, should not chase ever.
 var xp = 20
 
-var tileSize = 16
-
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = 2
+	health = 1 + Level
+	strength = Level - 2
+	defense = Level - 3 
 
 func take_turn():
 	if moving:

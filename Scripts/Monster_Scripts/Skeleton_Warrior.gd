@@ -7,9 +7,11 @@ var entity_name = "Skeleton Warrior"
 var entity_size = Vector2i(1,1)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
+var tileSize = 16
 
 #Monsters States
 var health = 5
@@ -18,13 +20,15 @@ var defense = 2
 var Movement_Speed = 1
 var xp = 5
 
-var tileSize = 16
-
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	name = "Skeleton"
 	Animations.play("")
+	var Level = 1
+	health = 4 + (2 * Level)
+	strength = 1 + Level
+	defense = (2 * Level) 
 
 func take_turn():
 	if moving:

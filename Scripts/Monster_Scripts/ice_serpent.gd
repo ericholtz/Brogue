@@ -7,11 +7,11 @@ var entity_name = "Ice Serpent"
 var entity_size = Vector2i(1,1)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
-
-
+var tileSize = 16
 
 #Monsters States
 var health = 10
@@ -20,13 +20,14 @@ var defense = 4
 var Movement_Speed = 2
 var xp = 10
 
-var tileSize = 16
-
-
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = 2
+	health = 2 * Level
+	strength = Level
+	defense = Level
 
 func take_turn():
 	if moving:

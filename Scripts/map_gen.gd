@@ -74,7 +74,7 @@ extends Node
 
 @onready var exit_scene : Array[PackedScene] = [load("res://Scenes/Rooms/exit_door.tscn")]
 
-var level : int = 1
+@export var level : int = 1
 
 # variables for map
 var map_width : int = 7
