@@ -19,8 +19,6 @@ var strength = 3
 var defense = 0
 var Movement_Speed = 2
 var xp = 10
-var gold = 3
-
 
 var tileSize = 16
 

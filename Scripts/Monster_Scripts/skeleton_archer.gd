@@ -11,7 +11,6 @@ var animationSpeed = 18 #Used what player was to match
 var moving = false
 var player_move = null
 var player_attack = null
-var can_attack = false
 
 #Monsters States
 var health = 3
@@ -19,9 +18,6 @@ var strength = 3
 var defense = 1
 var Movement_Speed = 1
 var xp = 15
-var gold = 5
-
-
 
 var tileSize = 16
 
@@ -33,7 +29,7 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	if can_attack == true:
+	if player_attack != null:
 		await GameMaster.ranged_enemy_combat(player_attack, self)
 	else:
 		for temp in Movement_Speed:
@@ -103,12 +99,10 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 func _on_attack_vision_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player_attack = body
-		can_attack = true
 		print("Player Entered Attack Area.")
 
 
 func _on_attack_vision_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player_attack = null
-		can_attack = false
 		print("Player Exited Attack Area.")

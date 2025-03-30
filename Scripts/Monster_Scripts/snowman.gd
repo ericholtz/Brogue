@@ -15,9 +15,7 @@ var player = null
 var health = 5
 var strength = 1
 var defense = 25
-var Movement_Speed = 0 # Only used for var decloration, never used.
-var xp = 1
-var gold = 0
+var xp = 100
 
 var tileSize = 16
 

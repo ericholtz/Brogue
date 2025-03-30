@@ -18,7 +18,6 @@ var strength = 5
 var defense = 1
 var Movement_Speed = 1 # Only used for random movement, should not chase ever.
 var xp = 20
-var gold = 15
 
 var tileSize = 16
 

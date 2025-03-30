@@ -26,11 +26,10 @@ var player = null
 
 #Monsters States
 var health = 50
-var strength = 3
-var defense = 2
-var Movement_Speed = 2
+var strength = 5
+var defense = 3
+var Movement_Speed = 1
 var xp = 100
-var gold = 50
 
 var tileSize = 16
 
