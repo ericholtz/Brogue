@@ -18,6 +18,9 @@ signal end_status_effect_signal(effect: StatusEffect)
 #For monsters
 @export var DEBUG_RANDMOVE = false
 
+#For monsters
+@export var DEBUG_ENEMY_PRINTS = false
+
 #Dont Change Look at readme!
 var DISABLE_FOG = false
 

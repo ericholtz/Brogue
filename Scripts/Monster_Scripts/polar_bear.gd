@@ -133,13 +133,15 @@ func move(dir) -> bool:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		print("player in area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player in area")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
-		print("player exited area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

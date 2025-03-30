@@ -70,14 +70,16 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
 		can_attack = true
-		print("Player Entered Attack Area.")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Attack Area.")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
 		can_attack = false
-		print("Player Exited Attack Area.")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Attack Area.")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
