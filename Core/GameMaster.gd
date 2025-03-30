@@ -82,11 +82,31 @@ var scroll_names = {}
 var scroll_sprite_regions = {}
 
 func _ready() -> void:
-	status_effects.resize(StatusEffect.size())
-	status_effects.fill(0)
+	init_vars()
 	# decide item randomizations
 	decide_potions()
 	decide_scrolls()
+
+func init_vars():
+	status_effects.resize(StatusEffect.size())
+	status_effects.fill(0)
+	
+	DEBUG_MAP = false
+	DEBUG_COMBATLOGS = false
+	DEBUG_RANDMOVE = false
+	DISABLE_FOG = false
+	
+	turnCounter = 0
+	can_move = false
+	animSpeed = 0.1
+	
+	status_effects = []
+
+	potion_types = {}
+	potion_types_str = {}
+
+	scroll_names = {}
+	scroll_sprite_regions = {}
 
 func collect_entity(entity: Area2D):
 	if !entity:
