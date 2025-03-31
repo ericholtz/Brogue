@@ -26,9 +26,9 @@ func _ready():
 	add_to_group("enemies")
 	name = "Bat"
 	Animations.play("")
-	var Level = 1
-	health = 1 + Level
-	strength = (3 * Level) - 1
+	var Level = get_parent().level
+	health = 2 + Level
+	strength = (3 * Level) + 2
 	defense = 0
 
 func take_turn():

@@ -23,10 +23,10 @@ func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
-	var Level = 2
+	var Level = get_parent().level
 	health = Level
 	strength = 1
-	defense = (10 * Level) 
+	defense = (15 * Level) 
 
 func take_turn():
 	return # Here for future
