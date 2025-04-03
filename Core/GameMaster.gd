@@ -225,7 +225,7 @@ func end_psychedelic_effect():
 
 func decide_potions():
 	var rng = RandomNumberGenerator.new()
-	var potion_names = ["RedPotion", "OrangePotion", "GreenPotion", "PurplePotion", "BluePotion"]
+	var potion_names = ["Red Potion", "Orange Potion", "Green Potion", "Purple Potion", "Blue Potion"]
 	var healing_weights = [6, 1, 1, 1, 1]
 	var speed_weights = [1, 3, 1, 1, 1]
 	var poison_weights = [1, 1, 4, 1, 1]
