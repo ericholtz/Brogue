@@ -12,7 +12,7 @@ effect = 2
 item_type = 3
 stackable = true
 consumable = true
-entity_name = "GreenPotion"
+entity_name = "Green Potion"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

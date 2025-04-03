@@ -11,6 +11,7 @@ script = ExtResource("1_d5fmn")
 item_type = 4
 stackable = true
 consumable = true
+entity_name = "Scroll"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

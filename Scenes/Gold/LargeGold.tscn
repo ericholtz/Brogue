@@ -9,6 +9,7 @@ size = Vector2(14, 14)
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_x7414")
 gold_worth = 10
+entity_name = "Large Gold"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 8)

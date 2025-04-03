@@ -11,7 +11,7 @@ script = ExtResource("1_50g1o")
 item_type = 3
 stackable = true
 consumable = true
-entity_name = "RedPotion"
+entity_name = "Red Potion"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
