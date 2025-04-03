@@ -12,8 +12,9 @@ extends CharacterBody2D
 @export var godmode_enabled = false
 
 #inventory and gold
-@onready var inventory_node : Node2D = $Inventory
-@export var inventory : Array[String] = []
+@onready var inventory_node: Node2D = $Inventory
+@export var inventory: Array[String] = []
+@export var known_items = {}
 @export var gold = 0
 
 # Turn on/off item debug statments
@@ -259,6 +260,7 @@ func use(item_index: int):
 	
 	# apply item effect
 	var item = inventory_node.get_child(item_index)
+	know(item)
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			attack = strength + item.attack
@@ -420,6 +422,47 @@ func add_speed(speed: int):
 func remove_speed(speed: int):
 	movement_speed -= speed
 	moves_left -= speed
+
+func know(item: Area2D):
+	match item.item_type:
+		GameMaster.ItemType.MELEE_WEAPON:
+			known_items[item.entity_name] = "+%s %s" % [item.attack, item.entity_name]
+		GameMaster.ItemType.ARMOR:
+			known_items[item.entity_name] = "+%s %s" % [item.armor, item.entity_name]
+		GameMaster.ItemType.POTION:
+			if item.entity_name not in known_items:
+				match item.effect:
+					GameMaster.PotionEffect.HEALING:
+						known_items[item.entity_name] = "Healing Potion"
+					GameMaster.PotionEffect.SPEED:
+						known_items[item.entity_name] = "Speed Potion"
+					GameMaster.PotionEffect.POISON:
+						known_items[item.entity_name] = "Poison Potion"
+					GameMaster.PotionEffect.PSYCHEDELIC:
+						known_items[item.entity_name] = "Psychedelic Potion"
+					GameMaster.PotionEffect.INVISIBILITY:
+						known_items[item.entity_name] = "Invisibility Potion"
+		GameMaster.ItemType.SCROLL:
+			if item.entity_name not in known_items:
+				match item.effect:
+					GameMaster.ScrollEffect.RANDOM_TP:
+						known_items[item.entity_name] = "Scroll of Teleportation"
+					GameMaster.ScrollEffect.BLIND:
+						known_items[item.entity_name] = "Scroll of Darkness"
+					GameMaster.ScrollEffect.IDENTIFY:
+						known_items[item.entity_name] = "Scroll of Identify"
+					GameMaster.ScrollEffect.GOLD_RUSH:
+						known_items[item.entity_name] = "Scroll of Wealth"
+					GameMaster.ScrollEffect.STAT_BOOST:
+						known_items[item.entity_name] = "Scroll of Power"
+		_:
+			return
+
+func known(item_name: String) -> String:
+	if item_name in known_items:
+		return known_items[item_name]
+	else:
+		return item_name
 
 func no_clip():
 	noclip_enabled = !noclip_enabled
