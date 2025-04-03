@@ -33,7 +33,7 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	if can_attack == true:
+	if can_attack == true and not player.is_invisible:
 		await GameMaster.ranged_enemy_combat(player, self)
 	else:
 		var try_move = Vector2.ZERO
