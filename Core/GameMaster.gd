@@ -99,8 +99,6 @@ func init_vars():
 	turnCounter = 0
 	can_move = false
 	animSpeed = 0.1
-	
-	status_effects = []
 
 	potion_types = {}
 	potion_types_str = {}
