@@ -1,7 +1,8 @@
 extends CanvasLayer
 
 @onready var name_label = $PanelContainer/VBoxContainer/NameBox/Name
-@onready var seed_label = $PanelContainer/VBoxContainer/SeedBox/Seed
+@onready var seed_label = $PanelContainer/VBoxContainer/SeedControls/SeedBox/Seed
+@onready var seed_copy = $PanelContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
 @onready var base_str_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
 @onready var base_def_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
 @onready var attack_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
@@ -20,7 +21,8 @@ extends CanvasLayer
 
 func _ready():
 	update_stats()
-	resume_button.connect("pressed", _on_close_pressed)
+	resume_button.pressed.connect(_on_close_pressed)
+	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
 	identify_button_list.visible = false
 
@@ -67,6 +69,9 @@ func update_inventory():
 func _on_close_pressed():
 	visible = false
 	GameMaster.can_move = true
+
+func _on_copy_pressed():
+	DisplayServer.clipboard_set(str(GameMaster.current_seed))
 
 func enable_identify():
 	identify_button_list.visible = true

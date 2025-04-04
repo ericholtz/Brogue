@@ -486,6 +486,10 @@ func identify(item_index: int):
 		_:
 			return
 
+func identify_all():
+	for i in range(0, inventory.size()):
+		identify(i)
+
 func known(item_name: String) -> String:
 	if item_name in known_items:
 		return known_items[item_name]
