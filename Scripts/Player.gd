@@ -258,9 +258,9 @@ func use(item_index: int):
 	if item_index < 0 or item_index >= inventory_node.get_child_count():
 		return
 	
+	identify(item_index)
 	# apply item effect
 	var item = inventory_node.get_child(item_index)
-	know(item)
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			attack = strength + item.attack
@@ -364,7 +364,7 @@ func use_scroll(scroll: Area2D):
 		GameMaster.ScrollEffect.BLIND:
 			print("blinding scrolls are unimplemented")
 		GameMaster.ScrollEffect.IDENTIFY:
-			print("identify scrolls are unimplemented")
+			use_identify_scroll()
 		GameMaster.ScrollEffect.GOLD_RUSH:
 			use_gold_rush_scroll()
 		GameMaster.ScrollEffect.STAT_BOOST:
@@ -372,6 +372,9 @@ func use_scroll(scroll: Area2D):
 
 func random_tp():
 	$"../map_gen".place_entity_in_random_room(self)
+
+func use_identify_scroll():
+	$"../PlayerStats".enable_identify()
 
 func use_gold_rush_scroll():
 	for i in range(0, randi_range(6, 9)):
@@ -423,7 +426,8 @@ func remove_speed(speed: int):
 	movement_speed -= speed
 	moves_left -= speed
 
-func know(item: Area2D):
+func identify(item_index: int):
+	var item = inventory_node.get_child(item_index)
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			known_items[item.entity_name] = "+%s %s" % [item.attack, item.entity_name]
