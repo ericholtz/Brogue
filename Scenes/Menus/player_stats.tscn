@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://banlbymmswxbe" path="res://Textures/UI/statbanner.png" id="2_8x3ga"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="3_fk0kh"]
 [ext_resource type="Texture2D" uid="uid://gojr2701yji1" path="res://Textures/UI/statblock.png" id="4_emiye"]
-[ext_resource type="LabelSettings" uid="uid://b7ok81b7mfcff" path="res://Shaders/SmallStatText.tres" id="5_um3tq"]
+[ext_resource type="LabelSettings" path="res://Shaders/SmallStatText.tres" id="5_um3tq"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="6_r7ppi"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="7_gle4s"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="8_8bck2"]
-[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="9_cffa4"]
+[ext_resource type="LabelSettings" path="res://Shaders/MenuButtonLabelText.tres" id="9_cffa4"]
 
 [node name="PlayerStats" type="CanvasLayer"]
 script = ExtResource("1_f5bc8")
@@ -167,7 +167,13 @@ label_settings = ExtResource("5_um3tq")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory"]
+[node name="ItemList" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Inventory"]
+layout_mode = 2
+
+[node name="UseButtons" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory/ItemList"]
+layout_mode = 2
+
+[node name="IdentifyButtons" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory/ItemList"]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
