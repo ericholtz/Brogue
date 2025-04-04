@@ -572,7 +572,8 @@ func regenerate_map() -> void:
 	clear_map()
 	# reset zoom and fog from possible map use
 	GameMaster.DISABLE_FOG = false
-	$"../Player".find_child("Camera2D").zoom = Vector2(3, 3)
+	$"../Player".zoom(3)
+	$"../Player".base_zoom = 3
 	
 	await get_tree().process_frame
 	

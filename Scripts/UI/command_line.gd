@@ -74,6 +74,8 @@ func process_command(command, option = "", num = "", count = ""):
 			command_history.append("      gold            0-2")
 			command_history.append("      exit            0")
 			command_history.append("  nextlevel <count> - immediately descend <count> levels forward")
+			command_history.append("  zoom <level> - change the camera zoom level to <level>")
+			command_history.append("  zoom_raw <value> - set the zoom level to the exact raw <value>")
 			command_history.append("==================================================================")
 			command_history.append("")
 		"clear":
@@ -110,5 +112,16 @@ func process_command(command, option = "", num = "", count = ""):
 			option = int(option) if option != "" else 1
 			for i in range(0, option):
 				$"../map_gen".regenerate_map()
+			command_history.append("Moved forward " + option + " levels")
+		"zoom":
+			if option == "": return
+			option = float(option)
+			$"../Player".zoom(option)
+			command_history.append("Set zoom level to " + str(option))
+		"zoom_raw":
+			if option == "": return
+			option = float(option)
+			$"../Player".zoom(option)
+			command_history.append("Set zoom value to " + str(option))
 		_:
 			command_history.append("Unknown command: " + command)

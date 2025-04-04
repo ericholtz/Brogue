@@ -32,6 +32,7 @@ var XPNeeded = XPtoNext - currentXP
 @export var defense = 1
 @export var movement_speed = 1
 @export var moves_left = 1
+@export var base_zoom = 3
 @export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
@@ -44,16 +45,18 @@ var XPNeeded = XPtoNext - currentXP
 @export var is_psychedelic = false
 @export var is_poisoned = false
 @export var is_speedy = false
+@export var is_blind = false
 const INVISIBILITY_LENGTH = 20
 const PSYCHEDELIC_LENGTH = 40
 const POISON_LENGTH = 10
 const SPEED_LENGTH = 20
+const BLIND_LENGTH = 40
 ## scroll effects
 @export var is_stat_boosted = false
 const STAT_BOOST_LENGTH = 15
 @export var stats_before_stat_boost = []
 
-## enemy effects
+## effects from enemies
 @export var is_frozen = false # doesn't do anything, just an example - remove if needed
 
 ## other player effects
@@ -338,6 +341,8 @@ func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 			remove_invisibility_effect()
 		GameMaster.StatusEffect.STAT_BOOSTED:
 			remove_stat_boost()
+		GameMaster.StatusEffect.BLIND:
+			remove_blind()
 
 func remove_speed_effect():
 	is_speedy = false
@@ -362,12 +367,17 @@ func remove_stat_boost():
 	is_stat_boosted = false
 	PlayerAnim.play("Idle")
 
+func remove_blind():
+	zoom(base_zoom)
+	is_blind = false
+	Camera.find_child('ScreenEffects').find_child('Darken').visible = false
+
 func use_scroll(scroll: Area2D):
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
 			random_tp()
 		GameMaster.ScrollEffect.BLIND:
-			print("blinding scrolls are unimplemented")
+			use_blind_scroll()
 		GameMaster.ScrollEffect.IDENTIFY:
 			use_identify_scroll()
 		GameMaster.ScrollEffect.GOLD_RUSH:
@@ -377,6 +387,12 @@ func use_scroll(scroll: Area2D):
 
 func random_tp():
 	$"../map_gen".place_entity_in_random_room(self)
+
+func use_blind_scroll():
+	zoom(1)
+	is_blind = true
+	GameMaster.start_status_effect(GameMaster.StatusEffect.BLIND, BLIND_LENGTH)
+	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
 
 func use_identify_scroll():
 	$"../PlayerStats".enable_identify()
@@ -411,7 +427,8 @@ func use_misc(misc: Area2D) -> bool:
 func use_map(map: Area2D):
 	var current_level = $"../map_gen".level
 	if map.map_level == current_level:
-		Camera.zoom = Vector2(2, 2)
+		base_zoom += 1
+		zoom(base_zoom)
 		GameMaster.DISABLE_FOG = true
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
@@ -474,6 +491,21 @@ func known(item_name: String) -> String:
 		return known_items[item_name]
 	else:
 		return item_name
+
+func zoom(zoom_level: int):
+	var zoom_levels = [
+		Vector2(17, 17),
+		Vector2(11.2, 11.2),
+		Vector2(3, 3),
+		Vector2(2, 2),
+		Vector2(1, 1),
+	]
+	if zoom_level > zoom_levels.size():
+		zoom_level = 5
+	Camera.zoom = zoom_levels[zoom_level - 1]
+
+func zoom_raw(zoom_level: float):
+	Camera.zoom = Vector2(zoom_level, zoom_level)
 
 func no_clip():
 	noclip_enabled = !noclip_enabled

@@ -71,6 +71,7 @@ enum StatusEffect {
 	PSYCHEDELIC,
 	INVISIBLE,
 	STAT_BOOSTED,
+	BLIND,
 	}
 
 var status_effects = []
