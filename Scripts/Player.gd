@@ -215,6 +215,7 @@ func _on_gold_gain(gold_worth: int):
 
 func _on_item_gain(item : Area2D):
 	var index = inventory.find(item.entity_name)
+	print(index)
 	# add unique new item
 	if (index == -1):
 		await get_tree().process_frame
@@ -433,7 +434,7 @@ func use_map(map: Area2D):
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
-func use_key(key: Area2D) -> bool:
+func use_key(_key: Area2D) -> bool:
 	if is_standing_on_exit:
 		# call function to start new level
 		get_node("/root/World/map_gen").regenerate_map()
@@ -497,7 +498,17 @@ func known(item_name: String) -> String:
 		return item_name
 
 func drop(item_index: int):
-	pass
+	var item = inventory_node.get_child(item_index)
+	if item.count != 1:
+		item.count -= 1
+		inventory.remove_at(item_index)
+		item = item.duplicate()
+		item.count = 1
+	item.can_pickup = false
+	item.visible = true
+	inventory_node.remove_child(item)
+	$"../map_gen".add_child(item)
+	item.position = position
 
 func zoom(zoom_level: int):
 	var zoom_levels = [
