@@ -531,8 +531,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"rare_ice_enemy": Rare_ice_enemies,
 		"boss_enemy": Boss,
 		"gold": gold,
-		"exit": exit_scene,
-		"keys": keys
+		"exit": exit_scene
 		}
 	if spawn_options.keys().has(entity):
 		if spawn_options[entity].size() > option and option >= 0:
