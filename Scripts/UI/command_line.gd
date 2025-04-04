@@ -74,7 +74,7 @@ func process_command(command, option = "", num = "", count = ""):
 			command_history.append("      gold            0-2")
 			command_history.append("      exit            0")
 			command_history.append("  nextlevel <count> - immediately descend <count> levels forward")
-			command_history.append("  zoom <level> - change the camera zoom level to <level>")
+			command_history.append("  zoom <level> - change the camera zoom level to <level> (1-5)")
 			command_history.append("  zoom_raw <value> - set the zoom level to the exact raw <value>")
 			command_history.append("==================================================================")
 			command_history.append("")
