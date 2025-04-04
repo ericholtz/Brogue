@@ -385,7 +385,10 @@ func combat(player, enemy):
 			print(playerName," gained <",enemyXP,"> xp!")
 		if is_instance_valid(enemy):
 			enemy.queue_free()
-	
+			if enemy.entity_name == "Dragon":
+				$"../World/map_gen/Boss_Room".add_exit()
+				$"../World/map_gen/Boss_Room".add_key()
+				
 	#if player dies, game over.
 	if player.health <= 0:
 		var deathTween = animate_death(player)

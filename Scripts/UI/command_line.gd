@@ -112,7 +112,7 @@ func process_command(command, option = "", num = "", count = ""):
 			option = int(option) if option != "" else 1
 			for i in range(0, option):
 				$"../map_gen".regenerate_map()
-			command_history.append("Moved forward " + option + " levels")
+			command_history.append("Moved forward " + str(option) + " levels")
 		"zoom":
 			if option == "": return
 			option = float(option)
