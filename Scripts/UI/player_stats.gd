@@ -16,6 +16,8 @@ extends CanvasLayer
 @onready var quit_button = $PanelContainer/VBoxContainer/HBoxContainer/Quit
 
 var identify_visible = false
+var font = load("Textures/Tilemaps/UI/m5x7.ttf")
+const INVENTORY_FONT_SIZE = 32
 
 @onready var player = $"../Player"
 
@@ -70,21 +72,29 @@ func update_inventory():
 			item_label.text = "%s (x%d)" % [item_known_as, item.count]
 		else:
 			item_label.text = "%s" % item_known_as
+		item_label.add_theme_font_override("font", font)
+		item_label.add_theme_font_size_override("font_size", INVENTORY_FONT_SIZE)
 		inventory_list.add_child(item_label)
 		
-		use_button.text = "Use"
+		use_button.text = " Use "
 		use_button.name = "UseButton"
 		use_button.pressed.connect(_on_use_pressed.bind(use_button))
+		use_button.add_theme_font_override("font", font)
+		use_button.add_theme_font_size_override("font_size", INVENTORY_FONT_SIZE)
 		inventory_list.add_child(use_button)
 		
-		drop_button.text = "Drop"
+		drop_button.text = " Drop "
 		drop_button.name = "DropButton"
 		drop_button.pressed.connect(_on_drop_pressed.bind(drop_button))
+		drop_button.add_theme_font_override("font", font)
+		drop_button.add_theme_font_size_override("font_size", INVENTORY_FONT_SIZE)
 		inventory_list.add_child(drop_button)
 		
 		identify_button.visible = identify_visible
-		identify_button.text = "Identify"
+		identify_button.text = " Identify "
 		identify_button.name = "IdentifyButton"
+		identify_button.add_theme_font_override("font", font)
+		identify_button.add_theme_font_size_override("font_size", INVENTORY_FONT_SIZE)
 		identify_button.pressed.connect(_on_identify_pressed.bind(identify_button))
 		inventory_list.add_child(identify_button)
 
