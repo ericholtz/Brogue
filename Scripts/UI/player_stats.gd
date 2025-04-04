@@ -12,10 +12,10 @@ extends CanvasLayer
 @onready var xp_to_next_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
 @onready var lvl_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
 @onready var inventory_list = $PanelContainer/VBoxContainer/Inventory/ItemList
-@onready var use_button_list = $PanelContainer/VBoxContainer/Inventory/ItemList/UseButtons
-@onready var identify_button_list = $PanelContainer/VBoxContainer/Inventory/ItemList/IdentifyButtons
 @onready var resume_button = $PanelContainer/VBoxContainer/HBoxContainer/Resume
 @onready var quit_button = $PanelContainer/VBoxContainer/HBoxContainer/Quit
+
+var identify_visible = false
 
 @onready var player = $"../Player"
 
@@ -24,7 +24,6 @@ func _ready():
 	resume_button.pressed.connect(_on_close_pressed)
 	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
-	identify_button_list.visible = false
 
 func _input(event):
 	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
@@ -48,23 +47,46 @@ func update_stats():
 	update_inventory()
 
 func update_inventory():
-	for column in inventory_list.get_children():
-		for child in column.get_children():
-			child.queue_free()
+	for child in inventory_list.get_children():
+		child.queue_free()
 	
 	for item in player.inventory_node.get_children():
+		var sprite = AtlasTexture.new()
+		var sprite_rect = TextureRect.new()
+		var item_label = Label.new()
 		var use_button = Button.new()
+		var drop_button = Button.new()
 		var identify_button = Button.new()
+		
+		sprite.atlas = item.get_child(0).get_texture()
+		sprite.region = item.get_child(0).region_rect
+		
+		sprite_rect.texture = sprite
+		sprite_rect.set_expand_mode(TextureRect.ExpandMode.EXPAND_FIT_WIDTH)
+		inventory_list.add_child(sprite_rect)
+		
 		var item_known_as = player.known(item.entity_name)
 		if (item.stackable):
-			use_button.text = "Use %s (Currently have x%d)" % [item_known_as, item.count]
+			item_label.text = "%s (x%d)" % [item_known_as, item.count]
 		else:
-			use_button.text = "Use %s" % item_known_as
-		identify_button.text = "Identify %s" % item_known_as
+			item_label.text = "%s" % item_known_as
+		inventory_list.add_child(item_label)
+		
+		use_button.text = "Use"
+		use_button.name = "UseButton"
 		use_button.pressed.connect(_on_use_pressed.bind(use_button))
-		use_button_list.add_child(use_button)
+		inventory_list.add_child(use_button)
+		
+		drop_button.text = "Drop"
+		drop_button.name = "DropButton"
+		drop_button.pressed.connect(_on_drop_pressed.bind(drop_button))
+		inventory_list.add_child(drop_button)
+		
+		identify_button.visible = identify_visible
+		identify_button.text = "Identify"
+		identify_button.name = "IdentifyButton"
 		identify_button.pressed.connect(_on_identify_pressed.bind(identify_button))
-		identify_button_list.add_child(identify_button)
+		inventory_list.add_child(identify_button)
 
 func _on_close_pressed():
 	visible = false
@@ -73,18 +95,28 @@ func _on_close_pressed():
 func _on_copy_pressed():
 	DisplayServer.clipboard_set(str(GameMaster.current_seed))
 
-func enable_identify():
-	identify_button_list.visible = true
+func show_identify():
+	inventory_list.columns = 5
+	identify_visible = true
+
+func hide_identify():
+	inventory_list.columns = 4
+	identify_visible = false
 
 func _on_use_pressed(use_button: BaseButton):
-	var index = use_button.get_index()
+	var index = use_button.get_index() / 5
 	player.use(index)
 	update_stats()
 
+func _on_drop_pressed(drop_button: BaseButton):
+	var index = drop_button.get_index() / 5
+	player.drop(index)
+	update_stats()
+
 func _on_identify_pressed(identify_button: BaseButton):
-	var index = identify_button.get_index()
+	var index = identify_button.get_index() / 5
 	player.identify(index)
-	identify_button_list.visible = false
+	hide_identify()
 	update_stats()
 
 func _on_quit_pressed():

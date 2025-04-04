@@ -181,14 +181,9 @@ label_settings = ExtResource("5_um3tq")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Inventory"]
+[node name="ItemList" type="GridContainer" parent="PanelContainer/VBoxContainer/Inventory"]
 layout_mode = 2
-
-[node name="UseButtons" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory/ItemList"]
-layout_mode = 2
-
-[node name="IdentifyButtons" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Inventory/ItemList"]
-layout_mode = 2
+columns = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

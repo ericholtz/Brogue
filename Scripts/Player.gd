@@ -395,7 +395,7 @@ func use_blind_scroll():
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
 
 func use_identify_scroll():
-	$"../PlayerStats".enable_identify()
+	$"../PlayerStats".show_identify()
 
 func use_gold_rush_scroll():
 	for i in range(0, randi_range(6, 9)):
@@ -495,6 +495,9 @@ func known(item_name: String) -> String:
 		return known_items[item_name]
 	else:
 		return item_name
+
+func drop(item_index: int):
+	pass
 
 func zoom(zoom_level: int):
 	var zoom_levels = [
