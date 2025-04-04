@@ -33,8 +33,8 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	if can_attack == true and not player.is_invisible:
-		await GameMaster.ranged_enemy_combat(player, self)
+	if player_attack != null and not player_attack.is_invisible:
+		await GameMaster.ranged_enemy_combat(player_attack, self)
 	else:
 		for temp in Movement_Speed:
 			var try_move = Vector2.ZERO
