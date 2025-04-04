@@ -16,14 +16,11 @@ var fog = false
 var start_idx = -3
 var total_width = 17
 var total_height = 34
-var disable_fog = false
 
 func _ready():
 	spawned_entity = {"ENEMY" : [], "ITEM" : [], "GOLD" : []}
 	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
-	#if GameMaster.TOGGLE_FOG:
-		#$Fog.visible = false
 	
 func _process(_delta):
 	if !fog:
@@ -50,37 +47,31 @@ func reveal_area(playerposition):
 			fog_tilemap.erase_cell(fog_tile)  # Removes fog from revealed area
 
 func north():
-	#pass
 	$DoorN.visible = true
 	if $WallN:
 		$WallN.queue_free()
 	
 func south():
-	#pass
 	$DoorS.visible = true
 	if $WallS:
 		$WallS.queue_free()
 	
 func easttop():
-	#pass
 	$DoorTopE.visible = true
 	if $WallTopE:
 		$WallTopE.queue_free()
 
 func eastbot():
-	#pass
 	$DoorBotE.visible = true
 	if $WallBotE:
 		$WallBotE.queue_free()
 
 func westtop():
-	#pass
 	$DoorTopW.visible = true
 	if $WallTopW:
 		$WallTopW.queue_free()
 
 func westbot():
-	#pass
 	$DoorBotW.visible = true
 	if $WallBotW:
 		$WallBotW.queue_free()

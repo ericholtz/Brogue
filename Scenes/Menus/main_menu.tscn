@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://ch6y4nt0nrmno" path="res://Scripts/UI/menu.gd" id="1_qi72p"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_aur2u"]
 [ext_resource type="Texture2D" uid="uid://p1lb1xjgfjqp" path="res://Textures/UI/BrogueLogo.png" id="2_chkef"]
-[ext_resource type="Shader" path="res://Shaders/wavytext.gshader.gdshader" id="2_neey8"]
+[ext_resource type="Shader" uid="uid://2b5v3giepfu2" path="res://Shaders/wavytext.gshader.gdshader" id="2_neey8"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="3_5wi6m"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="4_chkef"]
-[ext_resource type="LabelSettings" path="res://Shaders/MenuButtonLabelText.tres" id="7_neey8"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="7_neey8"]
 [ext_resource type="Texture2D" uid="uid://banlbymmswxbe" path="res://Textures/UI/statbanner.png" id="8_j4kqa"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="9_anmaw"]
 

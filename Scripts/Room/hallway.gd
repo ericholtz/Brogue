@@ -125,8 +125,6 @@ func gold():
 	$Gold.visible = true
 	
 
-
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		fog_tilemap.visible = false

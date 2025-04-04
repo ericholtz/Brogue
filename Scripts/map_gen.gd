@@ -60,10 +60,6 @@ extends Node
 	load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn")
 	]
 
-@onready var Boss : Array[PackedScene] = [
-	load("res://Scenes/Enemies/Boss/Dragon.tscn")
-	]
-
 @onready var Rare_ice_enemies : Array[PackedScene] = [
 	load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
 	]
@@ -126,11 +122,12 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
 ##-----(Enemy Spawn Chance)-----##
-@export var cave_enemy_spawn_chance : float = 0.9
-@export var rare_ice_enemy_spawn_chance : float = 0.001
-@export var ice_enemy_spawn_chance : float = 0.5
-@export var big_ice_enemy_spawn_chance : float = 0.5
-@export var boss_enemy_spawn_chance : float = 1.0
+
+@export var cave_enemy_spawn_chance : float = 0.2
+@export var rare_ice_enemy_spawn_chance : float = 0.01
+@export var ice_enemy_spawn_chance : float = 0.1
+@export var big_ice_enemy_spawn_chance : float = 0.2
+
 ##-----(Enemy Spawn Chance)-----##
 
 @export var gold_spawn_chance : float = 0.2
@@ -432,10 +429,6 @@ func spawn_room_content(room: Node) -> void:
 		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
 		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
 	
-	if level == 5:
-		## Spawn Boss enemies
-		if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
-		spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
 	##-----(Spawn Enemies)-----##
 	
 	# Spawn gold
@@ -530,7 +523,6 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"big_ice_enemy": Big_ice_enemies,
 		"ice_enemy": Ice_enemies,
 		"rare_ice_enemy": Rare_ice_enemies,
-		"boss_enemy": Boss,
 		"gold": gold,
 		"exit": exit_scene
 		}
@@ -583,6 +575,7 @@ func regenerate_map() -> void:
 	if level % 5 == 0:
 		var boss_room_node = preload("res://Scenes/Rooms/boss_room.tscn").instantiate()
 		add_child(boss_room_node)
+		GameMaster.can_move = true
 		return
 		
 	
@@ -596,7 +589,7 @@ func regenerate_map() -> void:
 	cave_enemy_spawn_chance = min(BASE_CAVE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	ice_enemy_spawn_chance = min(BASE_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	rare_ice_enemy_spawn_chance = min(BASE_RARE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
-	boss_enemy_spawn_chance = min(BASE_BOSS_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
+	#boss_enemy_spawn_chance = min(BASE_BOSS_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	big_ice_enemy_spawn_chance = min(BASE_BIG_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	##-----(Scaleing Spawn Chances)-----##
 	
