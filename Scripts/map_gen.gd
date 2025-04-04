@@ -419,7 +419,7 @@ func spawn_room_content(room: Node) -> void:
 		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
 		spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
 		
-	if level == 2:
+	if level >= 2:
 		# Spawn Ice enemies
 		spawn_entities(room, Big_ice_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
 		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
@@ -431,10 +431,10 @@ func spawn_room_content(room: Node) -> void:
 		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
 		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
 	
-	if level == 3:
-		# Spawn Boss enemies
-		if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
-		spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
+	#if level == 3:
+		## Spawn Boss enemies
+		#if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
+		#spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
 	##-----(Spawn Enemies)-----##
 	
 	# Spawn gold
@@ -531,7 +531,8 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"rare_ice_enemy": Rare_ice_enemies,
 		"boss_enemy": Boss,
 		"gold": gold,
-		"exit": exit_scene
+		"exit": exit_scene,
+		"keys": keys
 		}
 	if spawn_options.keys().has(entity):
 		if spawn_options[entity].size() > option and option >= 0:
@@ -578,6 +579,11 @@ func regenerate_map() -> void:
 	await get_tree().process_frame
 	
 	level += 1
+	if level % 5 == 0:
+		var boss_room_node = preload("res://Scenes/Rooms/boss_room.tscn").instantiate()
+		add_child(boss_room_node)
+		return
+		
 	
 	map_width = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
 	map_height = BASE_MAP_SIZE + (level * MAP_GROWTH_RATE)
