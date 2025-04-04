@@ -1,7 +1,9 @@
 extends Node2D
 
+var level
+
 func _ready():
-	
+	level = get_parent().level
 	var boss_node = preload("res://Scenes/Enemies/Boss/Dragon.tscn").instantiate()
 	boss_node.position = Vector2(13*16,13*16)
 	add_child(boss_node)
