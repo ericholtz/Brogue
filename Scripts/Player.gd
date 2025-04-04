@@ -430,9 +430,9 @@ func identify(item_index: int):
 	var item = inventory_node.get_child(item_index)
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
-			known_items[item.entity_name] = "+%s %s" % [item.attack, item.entity_name]
+			known_items[item.entity_name] = "+%s Attack %s" % [item.attack, item.entity_name]
 		GameMaster.ItemType.ARMOR:
-			known_items[item.entity_name] = "+%s %s" % [item.armor, item.entity_name]
+			known_items[item.entity_name] = "+%s Armor %s" % [item.armor, item.entity_name]
 		GameMaster.ItemType.POTION:
 			if item.entity_name not in known_items:
 				match item.effect:
