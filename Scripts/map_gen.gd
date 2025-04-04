@@ -30,6 +30,10 @@ extends Node
 	load("res://Scenes/Items/Potions/BluePotion.tscn"),
 	]
 
+@onready var scrolls: Array[PackedScene] = [
+	load("res://Scenes/Items/Scrolls/Scroll.tscn"),
+	]
+
 @onready var misc: Array[PackedScene] = [
 	load("res://Scenes/Items/Misc/Map.tscn"),
 	]
@@ -132,6 +136,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var melee_weapon_spawn_chance : float = 0.1
 @export var armor_spawn_chance : float = 0.1
 @export var potion_spawn_chance : float = 0.1
+@export var scroll_spawn_chance : float = 0.1
 @export var misc_spawn_chance : float = 0.1
 @export var heart_spawn_chance : float
 
@@ -149,6 +154,7 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var max_melee_weapons_per_room : int = 1
 @export var max_armor_per_room : int = 1
 @export var max_potions_per_room : int = 1
+@export var max_scrolls_per_room : int = 1
 @export var max_misc_per_room : int = 1
 
 func _ready() -> void:
@@ -213,7 +219,9 @@ func generate(cur_level : int) -> void:
 	# insert the exit at the farthest room from start
 	add_exit_to_last_room()
 	# add key in a random room
-	place_entity_in_random_room(keys.pick_random().instantiate())
+	var key = keys.pick_random().instantiate()
+	place_entity_in_random_room(key)
+	call_deferred("add_child", key)
 
 # populates an array map for all valid rooms to be generated
 func check_room(x : int, y : int, remaining : int, general_direction : Vector2, first_room : bool = false) -> void:
@@ -441,6 +449,9 @@ func spawn_room_content(room: Node) -> void:
 	# Spawn potions
 	if GameMaster.DEBUG_MAP: print("Spawning: Potions")
 	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
+	# Spawn scrolls
+	if GameMaster.DEBUG_MAP: print("Spawning: Scrolls")
+	spawn_entities(room, scrolls, scroll_spawn_chance, max_scrolls_per_room)
 	# Spawn misc
 	if GameMaster.DEBUG_MAP: print("Spawning: Misc")
 	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
@@ -511,7 +522,9 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"melee_weapon": melee_weapons,
 		"armor": armor,
 		"potion": potions,
+		"scroll": scrolls,
 		"misc": misc,
+		"key" : keys,
 		"cave_enemy": Cave_enemies,
 		"big_ice_enemy": Big_ice_enemies,
 		"ice_enemy": Ice_enemies,
@@ -551,7 +564,6 @@ func place_entity_in_random_room(entity: Node2D):
 	entity.position = get_random_position_in_room(room, entity.entity_size)
 	entity.position.x = floor(entity.position.x / 16) * 16
 	entity.position.y = floor(entity.position.y / 16) * 16
-	call_deferred("add_child", entity)
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
@@ -560,7 +572,8 @@ func regenerate_map() -> void:
 	clear_map()
 	# reset zoom and fog from possible map use
 	GameMaster.DISABLE_FOG = false
-	$"../Player".find_child("Camera2D").zoom = Vector2(3, 3)
+	$"../Player".zoom(3)
+	$"../Player".base_zoom = 3
 	
 	await get_tree().process_frame
 	

@@ -9,7 +9,7 @@ size = Vector2(14, 14)
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_poft5")
 item_type = 5
-entity_name = "MetalKey"
+entity_name = "Metal Key"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

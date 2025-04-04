@@ -10,7 +10,7 @@ size = Vector2(14, 14)
 script = ExtResource("4_d1wsu")
 armor = 1
 item_type = 2
-entity_name = "LeatherArmor"
+entity_name = "Leather Armor"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

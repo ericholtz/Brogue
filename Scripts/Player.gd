@@ -12,8 +12,9 @@ extends CharacterBody2D
 @export var godmode_enabled = false
 
 #inventory and gold
-@onready var inventory_node : Node2D = $Inventory
-@export var inventory : Array[String] = []
+@onready var inventory_node: Node2D = $Inventory
+@export var inventory: Array[String] = []
+@export var known_items = {}
 @export var gold = 0
 
 # Turn on/off item debug statments
@@ -31,27 +32,35 @@ var XPNeeded = XPtoNext - currentXP
 @export var defense = 1
 @export var movement_speed = 1
 @export var moves_left = 1
+@export var base_zoom = 3
+@export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
-var attack = strength
-var armor = defense
+@export var attack = strength
+@export var armor = defense
 
 # status effects
 ## potion effects
-var is_invisible = false
-var is_psychedelic = false
-var is_poisoned = false
-var is_speedy = false
+@export var is_invisible = false
+@export var is_psychedelic = false
+@export var is_poisoned = false
+@export var is_speedy = false
+@export var is_blind = false
 const INVISIBILITY_LENGTH = 20
 const PSYCHEDELIC_LENGTH = 40
 const POISON_LENGTH = 10
 const SPEED_LENGTH = 20
+const BLIND_LENGTH = 40
+## scroll effects
+@export var is_stat_boosted = false
+const STAT_BOOST_LENGTH = 15
+@export var stats_before_stat_boost = []
 
-## enemy effects
-var is_frozen = false # doesn't do anything, just an example - remove if needed
+## effects from enemies
+@export var is_frozen = false # doesn't do anything, just an example - remove if needed
 
 ## other player effects
-var is_standing_on_exit = false
+@export var is_standing_on_exit = false
 
 #movement related variables
 var tileSize = 16
@@ -252,8 +261,10 @@ func use(item_index: int):
 	if item_index < 0 or item_index >= inventory_node.get_child_count():
 		return
 	
+	identify(item_index)
 	# apply item effect
 	var item = inventory_node.get_child(item_index)
+	var key_used = false
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			attack = strength + item.attack
@@ -264,7 +275,7 @@ func use(item_index: int):
 		GameMaster.ItemType.SCROLL:
 			use_scroll(item)
 		GameMaster.ItemType.MISC:
-			use_misc(item)
+			key_used = use_misc(item)
 			
 	# decrement count if consumable - if 0, remove from inventory
 	if item.consumable:
@@ -272,6 +283,10 @@ func use(item_index: int):
 		if item.count == 0:
 			inventory.erase(item.entity_name)
 			item.free()
+	# consume key if needed
+	if key_used:
+		inventory.erase(item.entity_name)
+		item.free()
 
 func use_potion(potion: Area2D):
 	match potion.effect:
@@ -298,6 +313,7 @@ func use_speed_potion():
 
 func use_poison_potion():
 	is_poisoned = true
+	PlayerAnim.play("Poisoned")
 	GameMaster.start_status_effect(GameMaster.StatusEffect.POISONED, POISON_LENGTH)
 
 func use_psychedelic_potion():
@@ -323,6 +339,10 @@ func _on_remove_status_effect(effect: GameMaster.StatusEffect):
 			remove_psychedelic_effect()
 		GameMaster.StatusEffect.INVISIBLE:
 			remove_invisibility_effect()
+		GameMaster.StatusEffect.STAT_BOOSTED:
+			remove_stat_boost()
+		GameMaster.StatusEffect.BLIND:
+			remove_blind()
 
 func remove_speed_effect():
 	is_speedy = false
@@ -330,6 +350,7 @@ func remove_speed_effect():
 
 func remove_poison_effect():
 	is_poisoned = false
+	PlayerAnim.play("Idle")
 
 func remove_psychedelic_effect():
 	is_psychedelic = false
@@ -340,34 +361,86 @@ func remove_invisibility_effect():
 	is_invisible = false
 	PlayerAnim.play("Idle")
 
-func use_scroll(_scroll: Area2D):
-	pass
-	# match scroll.effect:
+func remove_stat_boost():
+	attack = stats_before_stat_boost[0]
+	armor = stats_before_stat_boost[1]
+	is_stat_boosted = false
+	PlayerAnim.play("Idle")
 
-func use_misc(misc: Area2D):
+func remove_blind():
+	zoom(base_zoom)
+	is_blind = false
+	Camera.find_child('ScreenEffects').find_child('Darken').visible = false
+
+func use_scroll(scroll: Area2D):
+	match scroll.effect:
+		GameMaster.ScrollEffect.RANDOM_TP:
+			random_tp()
+		GameMaster.ScrollEffect.BLIND:
+			use_blind_scroll()
+		GameMaster.ScrollEffect.IDENTIFY:
+			use_identify_scroll()
+		GameMaster.ScrollEffect.GOLD_RUSH:
+			use_gold_rush_scroll()
+		GameMaster.ScrollEffect.STAT_BOOST:
+			use_stat_boost_scroll()
+
+func random_tp():
+	$"../map_gen".place_entity_in_random_room(self)
+
+func use_blind_scroll():
+	zoom(1)
+	is_blind = true
+	GameMaster.start_status_effect(GameMaster.StatusEffect.BLIND, BLIND_LENGTH)
+	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
+
+func use_identify_scroll():
+	$"../PlayerStats".enable_identify()
+
+func use_gold_rush_scroll():
+	for i in range(0, randi_range(6, 9)):
+		$"../map_gen".force_spawn(position, "gold", 0)
+	for i in range(0, randi_range(3, 5)):
+		$"../map_gen".force_spawn(position, "gold", 1)
+	for i in range(0, randi_range(2, 4)):
+		$"../map_gen".force_spawn(position, "gold", 2)
+
+func use_stat_boost_scroll():
+	if not is_stat_boosted:
+		is_stat_boosted = true
+		stats_before_stat_boost = [attack, armor]
+		attack = int(ceil(1.3 * attack))
+		armor = int(ceil(1.3 * armor))
+	PlayerAnim.play("StatBoosted")
+	GameMaster.start_status_effect(GameMaster.StatusEffect.STAT_BOOSTED, INVISIBILITY_LENGTH)
+
+func use_misc(misc: Area2D) -> bool:
 	match misc.misc_type:
 		GameMaster.MiscType.MAP:
 			use_map(misc)
+			return false
 		GameMaster.MiscType.KEY:
-			use_key(misc)
+			return use_key(misc)
+		_:
+			return false
 
 func use_map(map: Area2D):
 	var current_level = $"../map_gen".level
 	if map.map_level == current_level:
-		Camera.zoom = Vector2(2, 2)
+		base_zoom += 1
+		zoom(base_zoom)
 		GameMaster.DISABLE_FOG = true
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
-func use_key(key: Area2D):
+func use_key(key: Area2D) -> bool:
 	if is_standing_on_exit:
 		# call function to start new level
 		get_node("/root/World/map_gen").regenerate_map()
-		# consume key
-		inventory.erase(key.entity_name)
-		key.queue_free()
+		return true
 	else:
 		print("Cannot use key now.")
+		return false
 
 func add_speed(speed: int):
 	movement_speed += speed
@@ -376,6 +449,63 @@ func add_speed(speed: int):
 func remove_speed(speed: int):
 	movement_speed -= speed
 	moves_left -= speed
+
+func identify(item_index: int):
+	var item = inventory_node.get_child(item_index)
+	match item.item_type:
+		GameMaster.ItemType.MELEE_WEAPON:
+			known_items[item.entity_name] = "[+%s Attack] %s" % [item.attack, item.entity_name]
+		GameMaster.ItemType.ARMOR:
+			known_items[item.entity_name] = "[+%s Armor] %s" % [item.armor, item.entity_name]
+		GameMaster.ItemType.POTION:
+			if item.entity_name not in known_items:
+				match item.effect:
+					GameMaster.PotionEffect.HEALING:
+						known_items[item.entity_name] = "Healing Potion"
+					GameMaster.PotionEffect.SPEED:
+						known_items[item.entity_name] = "Speed Potion"
+					GameMaster.PotionEffect.POISON:
+						known_items[item.entity_name] = "Poison Potion"
+					GameMaster.PotionEffect.PSYCHEDELIC:
+						known_items[item.entity_name] = "Psychedelic Potion"
+					GameMaster.PotionEffect.INVISIBILITY:
+						known_items[item.entity_name] = "Invisibility Potion"
+		GameMaster.ItemType.SCROLL:
+			if item.entity_name not in known_items:
+				match item.effect:
+					GameMaster.ScrollEffect.RANDOM_TP:
+						known_items[item.entity_name] = "Scroll of Teleportation"
+					GameMaster.ScrollEffect.BLIND:
+						known_items[item.entity_name] = "Scroll of Darkness"
+					GameMaster.ScrollEffect.IDENTIFY:
+						known_items[item.entity_name] = "Scroll of Identify"
+					GameMaster.ScrollEffect.GOLD_RUSH:
+						known_items[item.entity_name] = "Scroll of Wealth"
+					GameMaster.ScrollEffect.STAT_BOOST:
+						known_items[item.entity_name] = "Scroll of Power"
+		_:
+			return
+
+func known(item_name: String) -> String:
+	if item_name in known_items:
+		return known_items[item_name]
+	else:
+		return item_name
+
+func zoom(zoom_level: int):
+	var zoom_levels = [
+		Vector2(17, 17),
+		Vector2(11.2, 11.2),
+		Vector2(3, 3),
+		Vector2(2, 2),
+		Vector2(1, 1),
+	]
+	if zoom_level > zoom_levels.size():
+		zoom_level = 5
+	Camera.zoom = zoom_levels[zoom_level - 1]
+
+func zoom_raw(zoom_level: float):
+	Camera.zoom = Vector2(zoom_level, zoom_level)
 
 func no_clip():
 	noclip_enabled = !noclip_enabled

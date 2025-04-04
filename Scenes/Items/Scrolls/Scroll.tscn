@@ -1,25 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://cf0wqi6u8gm08"]
+[gd_scene load_steps=4 format=3 uid="uid://cmk7m8c1jnyd8"]
 
-[ext_resource type="Script" uid="uid://dyn7llrw6wns6" path="res://Scripts/Items/potion.gd" id="1_kaqlt"]
-[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_47bdd"]
+[ext_resource type="Script" uid="uid://c1e63ndypkfd6" path="res://Scripts/Items/scroll.gd" id="1_d5fmn"]
+[ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_cmg01"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
-script = ExtResource("1_kaqlt")
-effect = 2
-item_type = 3
+script = ExtResource("1_d5fmn")
+item_type = 4
 stackable = true
 consumable = true
-entity_name = "Green Potion"
+entity_name = "Scroll"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 8)
-texture = ExtResource("2_47bdd")
+texture = ExtResource("2_cmg01")
 region_enabled = true
-region_rect = Rect2(64, 16, 16, 16)
+region_rect = Rect2(16, 208, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)

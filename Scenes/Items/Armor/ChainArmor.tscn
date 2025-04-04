@@ -10,7 +10,7 @@ size = Vector2(14, 14)
 script = ExtResource("1_oesvl")
 armor = 2
 item_type = 2
-entity_name = "ChainArmor"
+entity_name = "Chain Armor"
 entity_type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

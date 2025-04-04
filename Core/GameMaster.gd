@@ -53,6 +53,13 @@ enum PotionEffect {
 	PSYCHEDELIC,
 	INVISIBILITY,
 	}
+enum ScrollEffect {
+	RANDOM_TP,
+	BLIND,
+	IDENTIFY,
+	GOLD_RUSH,
+	STAT_BOOST,
+	}
 enum MiscType {
 	KEY,
 	MAP,
@@ -63,17 +70,42 @@ enum StatusEffect {
 	POISONED,
 	PSYCHEDELIC,
 	INVISIBLE,
+	STAT_BOOSTED,
+	BLIND,
 	}
 
 var status_effects = []
+
 var potion_types = {}
-var potion_types_readable = {}
+var potion_types_str = {}
+
+var scroll_names = {}
+var scroll_sprite_regions = {}
 
 func _ready() -> void:
+	init_vars()
+	# decide item randomizations
+	decide_potions()
+	decide_scrolls()
+
+func init_vars():
 	status_effects.resize(StatusEffect.size())
 	status_effects.fill(0)
-	# decide potion randomizations
-	decide_potions()
+	
+	DEBUG_MAP = false
+	DEBUG_COMBATLOGS = false
+	DEBUG_RANDMOVE = false
+	DISABLE_FOG = false
+	
+	turnCounter = 0
+	can_move = false
+	animSpeed = 0.1
+
+	potion_types = {}
+	potion_types_str = {}
+
+	scroll_names = {}
+	scroll_sprite_regions = {}
 
 func collect_entity(entity: Area2D):
 	if !entity:
@@ -88,26 +120,6 @@ func setname(player_name: String):
 	if player_name:
 		can_move = true
 		set_name.emit(player_name)
-
-func decide_potions():
-	var rng = RandomNumberGenerator.new()
-	var potion_names = ["RedPotion", "OrangePotion", "GreenPotion", "PurplePotion", "BluePotion"]
-	var healing_weights = [6, 1, 1, 1, 1]
-	var speed_weights = [1, 3, 1, 1, 1]
-	var poison_weights = [1, 1, 4, 1, 1]
-	var psychedelic_weights = [1, 1, 1, 2, 1]
-	var invisibility_weights = [1, 1, 1, 1, 1]
-	var weights = [healing_weights, speed_weights, poison_weights, psychedelic_weights, invisibility_weights]
-	
-	for i in potion_names.size():
-		var potion_name = potion_names[i]
-		var potion_index = rng.rand_weighted(weights[i])
-		potion_types[potion_name] = PotionEffect.values()[potion_index]
-		potion_types_readable[potion_name] = PotionEffect.keys()[potion_index]
-		for j in range(i, potion_names.size()):
-			weights[j][potion_index] = 0
-	
-	print(potion_types_readable)
 
 #function to take a turn, should basically wait for the player signal then handle all the enemies
 #made it take any value in case we want faster enemies or slower player debuffs
@@ -211,6 +223,54 @@ func end_psychedelic_effect():
 		var AnimatedSprite = enemies[i].find_child("AnimatedSprite2D")
 		AnimatedSprite.animation = &"default"
 		AnimatedSprite.play()
+
+func decide_potions():
+	var rng = RandomNumberGenerator.new()
+	var potion_names = ["Red Potion", "Orange Potion", "Green Potion", "Purple Potion", "Blue Potion"]
+	var healing_weights = [6, 1, 1, 1, 1]
+	var speed_weights = [1, 3, 1, 1, 1]
+	var poison_weights = [1, 1, 4, 1, 1]
+	var psychedelic_weights = [1, 1, 1, 2, 1]
+	var invisibility_weights = [1, 1, 1, 1, 1]
+	var weights = [healing_weights, speed_weights, poison_weights, psychedelic_weights, invisibility_weights]
+	
+	for i in potion_names.size():
+		var potion_name = potion_names[i]
+		var potion_index = rng.rand_weighted(weights[i])
+		potion_types[potion_name] = PotionEffect.values()[potion_index]
+		potion_types_str[potion_name] = PotionEffect.keys()[potion_index]
+		for j in range(i, potion_names.size()):
+			weights[j][potion_index] = 0
+	
+	print(potion_types_str)
+
+func decide_scrolls():
+	var horiz = []
+	for i in range(1, 7):
+		horiz.append(16 * i)
+	
+	for effect in ScrollEffect.values():
+		var name = generate_gibberish_text()
+		while name in scroll_names.values():
+			name = generate_gibberish_text()
+		scroll_names[effect] = name
+		
+		var index = randi_range(0, horiz.size() - 1)
+		scroll_sprite_regions[effect] = Rect2(horiz[index], 208, 16, 16)
+		horiz.pop_at(index)
+
+func generate_gibberish_text():
+	var alphabet = "bcdfghjklmnpqrstvwxz"
+	var full_alphabet = alphabet.split()
+	full_alphabet.append_array(alphabet.to_upper().split())
+	
+	var str = ""
+	for word in range(0, randi_range(3, 5)):
+		for character in range(0, randi_range(2, 7)):
+			str += full_alphabet[randi_range(0, full_alphabet.size()-1)]
+		str += " "
+	
+	return str.left(-1)
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():

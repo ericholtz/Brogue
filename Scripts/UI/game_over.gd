@@ -17,6 +17,7 @@ func _ready():
 	quit_btn.connect("pressed", Callable(self, "_on_quit"))
 
 func _on_play_again():
+	GameMaster._ready()
 	get_tree().reload_current_scene()  # Restart the level
 
 func _on_main_menu():
