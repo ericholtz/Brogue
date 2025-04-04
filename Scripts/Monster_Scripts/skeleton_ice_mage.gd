@@ -7,10 +7,12 @@ var entity_name = "Skeleton Ice Mage"
 var entity_size = Vector2i(1,1)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
 var can_attack = false
+var tileSize = 16
 
 #Monsters States
 var health = 5
@@ -18,14 +20,15 @@ var strength = 5
 var defense = 1
 var Movement_Speed = 1 # Only used for random movement, should not chase ever.
 var xp = 20
-var gold = 15
-
-var tileSize = 16
 
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = get_parent().level
+	health = 3 + Level
+	strength = Level
+	defense = Level - 2
 
 func take_turn():
 	if moving:
@@ -67,14 +70,16 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
 		can_attack = true
-		print("Player Entered Attack Area.")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Attack Area.")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
 		can_attack = false
-		print("Player Exited Attack Area.")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Attack Area.")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

@@ -15,12 +15,11 @@ var entity_name = "Enraged Polar Bear"
 var entity_size = Vector2i(2,2)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
-
-
-
+var tileSize = 16
 
 #Monsters States
 var health = 20
@@ -28,14 +27,15 @@ var strength = 8
 var defense = 0
 var Movement_Speed = 2
 var xp = 30
-var gold = 20
-
-var tileSize = 16
 
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = get_parent().level
+	health = 6 * Level
+	strength = (3 * Level) + 5
+	defense = 0
 
 func take_turn():
 	if moving:
@@ -133,13 +133,15 @@ func move(dir) -> bool:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		print("player in area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player in area")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
-		print("player exited area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

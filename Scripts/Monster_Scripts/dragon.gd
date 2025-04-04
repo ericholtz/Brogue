@@ -20,24 +20,27 @@ var entity_name = "Dragon"
 var entity_size = Vector2i(3, 3)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was
+# Basic Used
+var animationSpeed = 18
 var moving = false
 var player = null
+var tileSize = 16
 
 #Monsters States
 var health = 50
-var strength = 3
-var defense = 2
-var Movement_Speed = 2
+var strength = 5
+var defense = 3
+var Movement_Speed = 1
 var xp = 100
-var gold = 50
-
-var tileSize = 16
 
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = get_parent().level
+	health = (10 * Level)
+	strength = 6 * (Level / 4)
+	defense = Level - 1
 
 func take_turn():
 	if moving:
@@ -143,13 +146,15 @@ func move(dir) -> bool:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
-		print("player in area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player in area")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
-		print("player exited area")
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("player exited area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:

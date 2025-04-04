@@ -263,35 +263,35 @@ position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_bookx")
 
 [node name="RayTopRight" type="RayCast2D" parent="."]
-position = Vector2(24, 0)
+position = Vector2(24, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayTopLeft" type="RayCast2D" parent="."]
-position = Vector2(8, 0)
+position = Vector2(8, 8)
 target_position = Vector2(0, -16)
 
 [node name="RayBottomRight" type="RayCast2D" parent="."]
-position = Vector2(24, 32)
+position = Vector2(24, 24)
 target_position = Vector2(0, 16)
 
 [node name="RayBottomLeft" type="RayCast2D" parent="."]
-position = Vector2(8, 32)
+position = Vector2(8, 24)
 target_position = Vector2(0, 16)
 
 [node name="RayRightTop" type="RayCast2D" parent="."]
-position = Vector2(32, 8)
+position = Vector2(24, 8)
 target_position = Vector2(16, 0)
 
 [node name="RayRightBottom" type="RayCast2D" parent="."]
-position = Vector2(32, 24)
+position = Vector2(24, 24)
 target_position = Vector2(16, 0)
 
 [node name="RayLeftTop" type="RayCast2D" parent="."]
-position = Vector2(0, 8)
+position = Vector2(8, 8)
 target_position = Vector2(-16, 0)
 
 [node name="RayLeftBottom" type="RayCast2D" parent="."]
-position = Vector2(0, 24)
+position = Vector2(8, 24)
 target_position = Vector2(-16, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

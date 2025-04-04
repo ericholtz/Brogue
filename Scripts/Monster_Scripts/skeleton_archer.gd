@@ -7,10 +7,12 @@ var entity_name = "Skeleton Archer"
 var entity_size = Vector2i(1,1)
 @export var entity_type: GameMaster.EntityType
 
-var animationSpeed = 18 #Used what player was to match
+# Basic Used
+var animationSpeed = 18
 var moving = false
-var player = null
-var can_attack = false
+var player_move = null
+var player_attack = null
+var tileSize = 16
 
 #Monsters States
 var health = 3
@@ -18,27 +20,26 @@ var strength = 3
 var defense = 1
 var Movement_Speed = 1
 var xp = 15
-var gold = 5
-
-
-
-var tileSize = 16
 
 func _ready():
 	# position and animation
 	add_to_group("enemies")
 	Animations.play("")
+	var Level = get_parent().level
+	health = 2 + Level
+	strength = 3 + Level
+	defense = Level
 
 func take_turn():
 	if moving:
 		return
-	if can_attack == true:
-		await GameMaster.ranged_enemy_combat(player, self)
+	if player_attack != null:
+		await GameMaster.ranged_enemy_combat(player_attack, self)
 	else:
 		for temp in Movement_Speed:
 			var try_move = Vector2.ZERO
-			if player and !player.is_invisible:
-				try_move = vec_to_cardinal(position.direction_to(player.position))
+			if player_move and !player_move.is_invisible:
+				try_move = vec_to_cardinal(position.direction_to(player_move.position))
 			else :
 				if GameMaster.DEBUG_RANDMOVE == true:
 					#move rand
@@ -70,14 +71,16 @@ func move(dir) -> bool:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		player = body
-		print("Player Entered Area.")
+		player_move = body
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Area.")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
-		player = null
-		print("Player Exited Area.")
+		player_move = null
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Area.")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
@@ -101,13 +104,13 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 
 func _on_attack_vision_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		player = body
-		can_attack = true
-		print("Player Entered Attack Area.")
+		player_attack = body
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Attack Area.")
 
 
 func _on_attack_vision_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
-		player = body
-		can_attack = false
-		print("Player Exited Attack Area.")
+		player_attack = null
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Attack Area.")
