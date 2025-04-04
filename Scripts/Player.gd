@@ -261,6 +261,7 @@ func use(item_index: int):
 	identify(item_index)
 	# apply item effect
 	var item = inventory_node.get_child(item_index)
+	var key_used = false
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
 			attack = strength + item.attack
@@ -271,7 +272,7 @@ func use(item_index: int):
 		GameMaster.ItemType.SCROLL:
 			use_scroll(item)
 		GameMaster.ItemType.MISC:
-			use_misc(item)
+			key_used = use_misc(item)
 			
 	# decrement count if consumable - if 0, remove from inventory
 	if item.consumable:
@@ -279,6 +280,10 @@ func use(item_index: int):
 		if item.count == 0:
 			inventory.erase(item.entity_name)
 			item.free()
+	# consume key if needed
+	if key_used:
+		inventory.erase(item.entity_name)
+		item.free()
 
 func use_potion(potion: Area2D):
 	match potion.effect:
@@ -393,12 +398,15 @@ func use_stat_boost_scroll():
 	PlayerAnim.play("StatBoosted")
 	GameMaster.start_status_effect(GameMaster.StatusEffect.STAT_BOOSTED, INVISIBILITY_LENGTH)
 
-func use_misc(misc: Area2D):
+func use_misc(misc: Area2D) -> bool:
 	match misc.misc_type:
 		GameMaster.MiscType.MAP:
 			use_map(misc)
+			return false
 		GameMaster.MiscType.KEY:
-			use_key(misc)
+			return use_key(misc)
+		_:
+			return false
 
 func use_map(map: Area2D):
 	var current_level = $"../map_gen".level
@@ -408,15 +416,14 @@ func use_map(map: Area2D):
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
-func use_key(key: Area2D):
+func use_key(key: Area2D) -> bool:
 	if is_standing_on_exit:
 		# call function to start new level
 		get_node("/root/World/map_gen").regenerate_map()
-		# consume key
-		inventory.erase(key.entity_name)
-		key.queue_free()
+		return true
 	else:
 		print("Cannot use key now.")
+		return false
 
 func add_speed(speed: int):
 	movement_speed += speed
