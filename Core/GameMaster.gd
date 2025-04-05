@@ -3,6 +3,7 @@ extends Node
 # signals
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
+signal gained_key()
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
@@ -37,6 +38,7 @@ enum EntityType {
 	ITEM,
 	ENEMY,
 	ROOM,
+	KEY,
 	}
 enum ItemType {
 	MELEE_WEAPON,
@@ -61,7 +63,6 @@ enum ScrollEffect {
 	STAT_BOOST,
 	}
 enum MiscType {
-	KEY,
 	MAP,
 	}
 
@@ -115,6 +116,8 @@ func collect_entity(entity: Area2D):
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
 			gained_item.emit(entity)
+		EntityType.KEY:
+			gained_key.emit()
 
 func setname(player_name: String):
 	if player_name:

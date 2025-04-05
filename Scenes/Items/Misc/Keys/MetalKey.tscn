@@ -1,16 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://b43tl1lc40w2l"]
 
-[ext_resource type="Script" uid="uid://6dk0eb0xcv0v" path="res://Scripts/Items/misc_item.gd" id="1_poft5"]
+[ext_resource type="Script" uid="uid://beqtbwmdrymtj" path="res://Scripts/Items/key.gd" id="1_mpp0v"]
 [ext_resource type="Texture2D" uid="uid://cnos8wwxp0kyf" path="res://Textures/Tilemaps/DungeonCave/Items.png" id="2_yxnwx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu2b"]
 size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
-script = ExtResource("1_poft5")
-item_type = 5
+script = ExtResource("1_mpp0v")
 entity_name = "Metal Key"
-entity_type = 1
+entity_type = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 8)

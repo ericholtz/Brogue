@@ -33,6 +33,7 @@ var XPNeeded = XPtoNext - currentXP
 @export var movement_speed = 1
 @export var moves_left = 1
 @export var base_zoom = 3
+@export var has_key = false
 @export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
@@ -420,8 +421,6 @@ func use_misc(misc: Area2D) -> bool:
 		GameMaster.MiscType.MAP:
 			use_map(misc)
 			return false
-		GameMaster.MiscType.KEY:
-			return use_key(misc)
 		_:
 			return false
 
@@ -434,14 +433,14 @@ func use_map(map: Area2D):
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
-func use_key(_key: Area2D) -> bool:
-	if is_standing_on_exit:
-		# call function to start new level
-		get_node("/root/World/map_gen").regenerate_map()
-		return true
-	else:
-		print("Cannot use key now.")
-		return false
+# func use_key(_key: Area2D) -> bool:
+# 	if is_standing_on_exit:
+# 		# call function to start new level
+# 		get_node("/root/World/map_gen").regenerate_map()
+# 		return true
+# 	else:
+# 		print("Cannot use key now.")
+# 		return false
 
 func add_speed(speed: int):
 	movement_speed += speed

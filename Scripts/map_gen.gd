@@ -574,6 +574,7 @@ func regenerate_map() -> void:
 	GameMaster.DISABLE_FOG = false
 	$"../Player".zoom(3)
 	$"../Player".base_zoom = 3
+	$"../Player".has_key = false
 	
 	await get_tree().process_frame
 	
