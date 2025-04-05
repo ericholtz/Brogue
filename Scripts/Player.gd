@@ -501,14 +501,18 @@ func drop(item_index: int):
 	var item = inventory_node.get_child(item_index)
 	if item.count != 1:
 		item.count -= 1
-		inventory.remove_at(item_index)
 		item = item.duplicate()
 		item.count = 1
+	else:
+		inventory.remove_at(item_index)
 	item.can_pickup = false
 	item.visible = true
 	inventory_node.remove_child(item)
 	$"../map_gen".add_child(item)
 	item.position = position
+	await get_tree().process_frame
+	await get_tree().process_frame
+	item.set_deferred("can_pickup", true)
 
 func zoom(zoom_level: int):
 	var zoom_levels = [
