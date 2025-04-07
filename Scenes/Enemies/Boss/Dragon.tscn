@@ -140,7 +140,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesClose" type="Node" parent="BreathAttackRight"]
 
-[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesClose"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesClose"]
 position = Vector2(56, 24)
 emitting = false
 amount = 6
@@ -159,7 +159,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesMedium" type="Node" parent="BreathAttackRight"]
 
-[node name="RightTop" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
+[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
 position = Vector2(72, 8)
 emitting = false
 amount = 6
@@ -171,7 +171,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
 position = Vector2(72, 24)
 emitting = false
 amount = 6
@@ -183,7 +183,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightBottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
 position = Vector2(72, 40)
 emitting = false
 amount = 6
@@ -202,7 +202,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesFar" type="Node" parent="BreathAttackRight"]
 
-[node name="RightTop" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
+[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, -8)
 emitting = false
 amount = 6
@@ -214,7 +214,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightUpMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
+[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 8)
 emitting = false
 amount = 6
@@ -226,7 +226,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 24)
 emitting = false
 amount = 6
@@ -238,7 +238,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightLowerMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
+[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 40)
 emitting = false
 amount = 6
@@ -250,7 +250,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="RightBottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 56)
 emitting = false
 amount = 6
@@ -272,7 +272,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesClose" type="Node" parent="BreathAttackLeft"]
 
-[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesClose"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesClose"]
 position = Vector2(-8, 24)
 emitting = false
 amount = 6
@@ -291,7 +291,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesMedium" type="Node" parent="BreathAttackLeft"]
 
-[node name="LeftTop" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
+[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
 position = Vector2(-24, 8)
 emitting = false
 amount = 6
@@ -303,7 +303,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
 position = Vector2(-24, 24)
 emitting = false
 amount = 6
@@ -315,7 +315,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftBottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
 position = Vector2(-24, 40)
 emitting = false
 amount = 6
@@ -334,7 +334,7 @@ debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
 [node name="FireParticlesFar" type="Node" parent="BreathAttackLeft"]
 
-[node name="LeftTop" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
+[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, -8)
 emitting = false
 amount = 6
@@ -346,7 +346,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftUpMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
+[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 8)
 emitting = false
 amount = 6
@@ -358,7 +358,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 24)
 emitting = false
 amount = 6
@@ -370,7 +370,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftLowerMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
+[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 40)
 emitting = false
 amount = 6
@@ -382,7 +382,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="LeftBottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 56)
 emitting = false
 amount = 6
@@ -404,7 +404,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesClose" type="Node" parent="BreathAttackTop"]
 
-[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesClose"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesClose"]
 position = Vector2(24, -8)
 emitting = false
 amount = 6
@@ -423,7 +423,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesMedium" type="Node" parent="BreathAttackTop"]
 
-[node name="TopLeft" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
+[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
 position = Vector2(8, -24)
 emitting = false
 amount = 6
@@ -435,7 +435,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
 position = Vector2(24, -24)
 emitting = false
 amount = 6
@@ -447,7 +447,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopRight" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
+[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
 position = Vector2(40, -24)
 emitting = false
 amount = 6
@@ -466,7 +466,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesFar" type="Node" parent="BreathAttackTop"]
 
-[node name="TopLeft" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
+[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(-8, -40)
 emitting = false
 amount = 6
@@ -478,7 +478,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopLeftishMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
+[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(8, -40)
 emitting = false
 amount = 6
@@ -490,7 +490,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(24, -40)
 emitting = false
 amount = 6
@@ -502,7 +502,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopRightishMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
+[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(40, -40)
 emitting = false
 amount = 6
@@ -514,7 +514,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="TopRight" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
+[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(56, -40)
 emitting = false
 amount = 6
@@ -536,7 +536,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesClose" type="Node" parent="BreathAttackBottom"]
 
-[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesClose"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesClose"]
 position = Vector2(24, 56)
 emitting = false
 amount = 6
@@ -555,7 +555,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesMedium" type="Node" parent="BreathAttackBottom"]
 
-[node name="BottomLeft" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
+[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
 position = Vector2(8, 72)
 emitting = false
 amount = 6
@@ -567,7 +567,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
 position = Vector2(24, 72)
 emitting = false
 amount = 6
@@ -579,7 +579,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomRight" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
+[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
 position = Vector2(40, 72)
 emitting = false
 amount = 6
@@ -598,7 +598,7 @@ debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
 [node name="FireParticlesFar" type="Node" parent="BreathAttackBottom"]
 
-[node name="BottomLeft" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
+[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
 position = Vector2(-8, 88)
 emitting = false
 amount = 6
@@ -610,7 +610,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomLeftishMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
+[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
 position = Vector2(8, 88)
 emitting = false
 amount = 6
@@ -622,7 +622,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
 position = Vector2(24, 88)
 emitting = false
 amount = 6
@@ -634,7 +634,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomRightishMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
+[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
 position = Vector2(40, 88)
 emitting = false
 amount = 6
@@ -646,7 +646,7 @@ emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 
-[node name="BottomRight" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
+[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
 position = Vector2(56, 88)
 emitting = false
 amount = 6
