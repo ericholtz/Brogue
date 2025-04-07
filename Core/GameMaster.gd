@@ -319,60 +319,6 @@ func combat(player, enemy):
 	
 	#after player attacks, check if enemy is dead
 	var enemyDefeated = not is_instance_valid(enemy) or enemy.health <= 0
-	
-	#if it's alive, roll combat
-	if not enemyDefeated:
-		var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
-		var enemyRoll = randf()
-		if DEBUG_COMBATLOGS:
-			print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
-		if enemyRoll <= enemyHitChance:
-			damage_player_signal.emit(enemyDamage)
-			var attackTween = animate_attack(enemy, player)
-			await attackTween.finished
-			if DEBUG_COMBATLOGS:
-				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
-		else:
-			var missTween = animate_miss(enemy)
-			await missTween.finished
-			if DEBUG_COMBATLOGS:
-				print(enemyName," missed ",playerName,"!")
-	
-	#This is disgusting but it works
-	#Basically I just loop through enemies again, skipping the one we already fought
-	var tileSize = 16
-	for other_enemy in get_tree().get_nodes_in_group("enemies"):
-		# Skip the enemy already processed
-		if other_enemy == enemy:
-			continue
-		# Only allow valid enemies that are still alive
-		if is_instance_valid(other_enemy) and other_enemy.health > 0:
-			# Calculate direction from enemy to player
-			var direction_to_player = (player.position - other_enemy.position).normalized()
-			# Use the enemy's raycast for detection
-			other_enemy.Ray.target_position = direction_to_player * tileSize
-			other_enemy.Ray.force_raycast_update()
-			# Check if the ray hits the player
-			if other_enemy.Ray.is_colliding():
-				var collider = other_enemy.Ray.get_collider()
-				if collider == player:
-					var otherEnemyDamage = max(other_enemy.strength - player.armor, 1)
-					var otherEnemyHitChance = calculate_hit_chance(other_enemy.strength, player.armor)
-					var otherEnemyRoll = randf()
-					if DEBUG_COMBATLOGS:
-						print(other_enemy.name, " needs less than <", otherEnemyHitChance, "> to hit, rolled a <", snapped(otherEnemyRoll, 0.01), ">.")
-					if otherEnemyRoll <= otherEnemyHitChance:
-						damage_player_signal.emit(otherEnemyDamage)
-						var otherAttackTween = animate_attack(other_enemy, player)
-						await otherAttackTween.finished
-						if DEBUG_COMBATLOGS:
-							print(other_enemy.name, " dealt ", otherEnemyDamage, " damage to ", player.player_name, ". ", player.player_name, " has ", player.health, " health left.")
-					else:
-						var otherMissTween = animate_miss(other_enemy)
-						await otherMissTween.finished
-						if DEBUG_COMBATLOGS:
-							print(other_enemy.name, " missed ", player.player_name, "!")
-
 
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:

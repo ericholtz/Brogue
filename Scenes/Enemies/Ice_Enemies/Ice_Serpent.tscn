@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://bsqomfwhhboj0"]
+[gd_scene load_steps=42 format=3 uid="uid://bsqomfwhhboj0"]
 
 [ext_resource type="Script" uid="uid://cswcmmup724j" path="res://Scripts/Monster_Scripts/ice_serpent.gd" id="1_3vatd"]
 [ext_resource type="Texture2D" uid="uid://cmovrewkh3kvv" path="res://Textures/Tilemaps/custom/Monsters-Random.png" id="2_tl8x3"]
@@ -254,6 +254,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3dgak"]
 size = Vector2(79, 79)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tl8x3"]
+size = Vector2(15, 47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpi7i"]
+size = Vector2(47, 15)
+
 [node name="IceSerpent" type="CharacterBody2D"]
 script = ExtResource("1_3vatd")
 entity_type = 2
@@ -277,5 +283,19 @@ position = Vector2(8, 8)
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_3dgak")
 
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_tl8x3")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_fpi7i")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]

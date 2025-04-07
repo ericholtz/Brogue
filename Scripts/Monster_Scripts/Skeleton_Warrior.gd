@@ -11,6 +11,7 @@ var entity_size = Vector2i(1,1)
 var animationSpeed = 18
 var moving = false
 var player = null
+var player_attack = null
 var tileSize = 16
 
 #Monsters States
@@ -33,21 +34,24 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	for temp in Movement_Speed:
-		var try_move = Vector2.ZERO
-		if player and !player.is_invisible:
-			try_move = vec_to_cardinal(position.direction_to(player.position))
-		else :
-			if GameMaster.DEBUG_RANDMOVE == true:
-				#move rand
-				var y = randi_range(-1, 1)
-				var x = randi_range(-1,1)
-				var direction = Vector2(x,y)
-				try_move = vec_to_cardinal(direction)
-			else:
-				return #Skip turn
-		if await move(try_move):
-			await get_tree().process_frame
+	if player_attack != null and not player_attack.is_invisible:
+		await GameMaster.ranged_enemy_combat(player_attack, self)
+	else:
+		for temp in Movement_Speed:
+			var try_move = Vector2.ZERO
+			if player and !player.is_invisible:
+				try_move = vec_to_cardinal(position.direction_to(player.position))
+			else :
+				if GameMaster.DEBUG_RANDMOVE == true:
+					#move rand
+					var y = randi_range(-1, 1)
+					var x = randi_range(-1,1)
+					var direction = Vector2(x,y)
+					try_move = vec_to_cardinal(direction)
+				else:
+					return #Skip turn
+			if await move(try_move):
+				await get_tree().process_frame
 
 
 
@@ -96,3 +100,17 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.y = 0
 	
 	return res
+
+
+func _on_attack_vision_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		player_attack = body
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Attack Area.")
+
+
+func _on_attack_vision_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		player_attack = null
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Attack Area.")

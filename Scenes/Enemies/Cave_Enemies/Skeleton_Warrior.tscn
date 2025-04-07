@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://deftm55xr1r1g"]
+[gd_scene load_steps=42 format=3 uid="uid://deftm55xr1r1g"]
 
 [ext_resource type="Script" uid="uid://1puer8wca45x" path="res://Scripts/Monster_Scripts/Skeleton_Warrior.gd" id="1_i33lv"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_g886w"]
@@ -255,6 +255,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n24i7"]
 size = Vector2(79, 79)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g886w"]
+size = Vector2(15, 47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nqx8l"]
+size = Vector2(47, 15)
+
 [node name="Skeleton_Warrior" type="CharacterBody2D"]
 script = ExtResource("1_i33lv")
 entity_type = 2
@@ -278,5 +284,19 @@ position = Vector2(8, 8)
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_n24i7")
 
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_g886w")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_nqx8l")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]
