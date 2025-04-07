@@ -72,6 +72,7 @@ enum StatusEffect {
 	INVISIBLE,
 	STAT_BOOSTED,
 	BLIND,
+	#BREATHCOOLDOWN,
 	}
 
 var status_effects = []
@@ -372,8 +373,6 @@ func combat(player, enemy):
 						await otherMissTween.finished
 						if DEBUG_COMBATLOGS:
 							print(other_enemy.name, " missed ", player.player_name, "!")
-
-
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
 		var deathTween = animate_death(enemy)
@@ -437,6 +436,7 @@ func ranged_enemy_combat(player, enemy):
 			print(playerName," died!\n")
 	await get_tree().process_frame
 	can_move = true;
+
 
 #calculate chance to hit based on difference between attack and armor
 func calculate_hit_chance(attack, defense):
