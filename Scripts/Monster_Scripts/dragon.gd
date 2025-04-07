@@ -25,6 +25,8 @@ var animationSpeed = 18
 var moving = false
 var player = null
 var tileSize = 16
+var breathFire = false
+var breathAttackCooldown = 0
 
 #Monsters States
 var health = 50
@@ -45,23 +47,31 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	for temp in Movement_Speed:
-		var try_move = Vector2.ZERO
-		if player and !player.is_invisible:
-			try_move = vec_to_cardinal(position.direction_to(player.position))
-		else :
-			if GameMaster.DEBUG_RANDMOVE == true:
-				#move rand
-				var y = randi_range(-1, 1)
-				var x = randi_range(-1,1)
-				var direction = Vector2(x,y)
-				try_move = vec_to_cardinal(direction)
-			else:
-				return #Skip turn
-		if await move(try_move):
-			await get_tree().process_frame
-
-
+	if breathFire == true:
+		# emit fire
+		# damge
+		breathFire = false
+		breathAttackCooldown = 3
+	elif breathAttackCooldown == 0:
+		breathFire = true
+		# emit area of attack
+	else: 
+		breathAttackCooldown = breathAttackCooldown - 1
+		for temp in Movement_Speed:
+			var try_move = Vector2.ZERO
+			if player and !player.is_invisible:
+				try_move = vec_to_cardinal(position.direction_to(player.position))
+			else :
+				if GameMaster.DEBUG_RANDMOVE == true:
+					#move rand
+					var y = randi_range(-1, 1)
+					var x = randi_range(-1,1)
+					var direction = Vector2(x,y)
+					try_move = vec_to_cardinal(direction)
+				else:
+					return #Skip turn
+			if await move(try_move):
+				await get_tree().process_frame
 
 func move(dir) -> bool:
 	if dir == Vector2.UP:
@@ -159,7 +169,6 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
 		return Vector2.ZERO
-	
 	vec = vec.normalized()  # Ensure the vector is a unit vector
 	var ass = abs(vec.aspect())  # Calculate the aspect ratio
 	var res = vec.sign()  # Get the sign of x and y
@@ -172,5 +181,4 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.x = 0
 		else:
 			res.y = 0
-	
 	return res
