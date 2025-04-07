@@ -255,10 +255,10 @@ animations = [{
 size = Vector2(111, 111)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n60b2"]
-size = Vector2(1, 17)
+size = Vector2(15, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2tt"]
-size = Vector2(17, 1)
+size = Vector2(32, 15)
 
 [node name="Bat" type="CharacterBody2D"]
 script = ExtResource("1_eiiw1")

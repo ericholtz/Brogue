@@ -140,6 +140,7 @@ func takeTurn(turnsTaken: int):
 	decrement_status_effect_duration()
 	
 	took_turns.emit(1) #this just sends a signal to the ui turn counter
+	await get_tree().create_timer(0.1).timeout
 	await enemyTurn()
 	await get_tree().process_frame
 	can_move = true
