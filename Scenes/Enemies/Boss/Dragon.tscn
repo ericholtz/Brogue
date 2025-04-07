@@ -151,6 +151,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(48, 0)
@@ -170,6 +172,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
 position = Vector2(72, 24)
@@ -182,6 +186,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
 position = Vector2(72, 40)
@@ -194,6 +200,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(64, 0)
@@ -213,6 +221,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 8)
@@ -225,6 +235,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 24)
@@ -237,6 +249,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 40)
@@ -249,6 +263,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
 position = Vector2(88, 56)
@@ -261,6 +277,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
 
 [node name="BreathAttackLeft" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -283,6 +301,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-48, 0)
@@ -302,6 +322,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
 position = Vector2(-24, 24)
@@ -314,6 +336,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
 position = Vector2(-24, 40)
@@ -326,6 +350,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-64, 0)
@@ -345,6 +371,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 8)
@@ -357,6 +385,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 24)
@@ -369,6 +399,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 40)
@@ -381,6 +413,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
 position = Vector2(-40, 56)
@@ -393,6 +427,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
 
 [node name="BreathAttackTop" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -415,6 +451,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -48)
@@ -434,6 +472,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
 position = Vector2(24, -24)
@@ -446,6 +486,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
 position = Vector2(40, -24)
@@ -458,6 +500,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -64)
@@ -477,6 +521,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(8, -40)
@@ -489,6 +535,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(24, -40)
@@ -501,6 +549,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(40, -40)
@@ -513,6 +563,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
 position = Vector2(56, -40)
@@ -525,6 +577,8 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
 
 [node name="BreathAttackBottom" type="Area2D" parent="."]
 position = Vector2(24, 24)
