@@ -125,7 +125,7 @@ func hide_identify():
 	identify_visible = false
 
 func _on_use_pressed(use_button: BaseButton):
-	SoundFx.menu_yes()
+	SoundFx.inventory_click()
 	var index = use_button.get_index() / 5
 	player.use(index)
 	update_stats()
@@ -137,7 +137,7 @@ func _on_drop_pressed(drop_button: BaseButton):
 	update_stats()
 
 func _on_identify_pressed(identify_button: BaseButton):
-	SoundFx.menu_yes()
+	SoundFx.inventory_click()
 	var index = identify_button.get_index() / 5
 	player.identify(index)
 	hide_identify()
