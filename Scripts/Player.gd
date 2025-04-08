@@ -216,7 +216,6 @@ func _on_gold_gain(gold_worth: int):
 
 func _on_item_gain(item : Area2D):
 	var index = inventory.find(item.entity_name)
-	print(index)
 	# add unique new item
 	if (index == -1):
 		await get_tree().process_frame
@@ -250,13 +249,11 @@ func _on_damage_received(amount: int):
 		health -= amount
 		if health <= 0:
 			end_game()
-	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
 	if health < MAX_HEALTH:
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
-	#print("Player healed ", amount, " points. New health:", health)
 
 func use(item_index: int):
 	# check bounds
@@ -433,15 +430,6 @@ func use_map(map: Area2D):
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
 
-# func use_key(_key: Area2D) -> bool:
-# 	if is_standing_on_exit:
-# 		# call function to start new level
-# 		get_node("/root/World/map_gen").regenerate_map()
-# 		return true
-# 	else:
-# 		print("Cannot use key now.")
-# 		return false
-
 func add_speed(speed: int):
 	movement_speed += speed
 	moves_left += speed
@@ -501,16 +489,16 @@ func drop(item_index: int):
 	if item.count != 1:
 		item.count -= 1
 		item = item.duplicate()
+		inventory_node.add_child(item)
 		item.count = 1
 	else:
 		inventory.remove_at(item_index)
 	item.can_pickup = false
 	item.visible = true
-	inventory_node.remove_child(item)
-	$"../map_gen".add_child(item)
 	item.position = position
-	await get_tree().process_frame
-	await get_tree().process_frame
+	item.reparent($"../map_gen", false)
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 	item.set_deferred("can_pickup", true)
 
 func zoom(zoom_level: int):
