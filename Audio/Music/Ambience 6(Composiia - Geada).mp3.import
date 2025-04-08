@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dgyj0p2oml478"
+path="res://.godot/imported/Ambience 6(Composiia - Geada).mp3-5f6d28af5996e4dd446ac9798e816de4.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Ambience 6(Composiia - Geada).mp3"
+dest_files=["res://.godot/imported/Ambience 6(Composiia - Geada).mp3-5f6d28af5996e4dd446ac9798e816de4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

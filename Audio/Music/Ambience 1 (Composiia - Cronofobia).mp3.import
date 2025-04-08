@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://syb0qsbwkcl4"
+path="res://.godot/imported/Ambience 1 (Composiia - Cronofobia).mp3-08b5714f44914e5d7b2ed0617f1ca1bc.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Ambience 1 (Composiia - Cronofobia).mp3"
+dest_files=["res://.godot/imported/Ambience 1 (Composiia - Cronofobia).mp3-08b5714f44914e5d7b2ed0617f1ca1bc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
