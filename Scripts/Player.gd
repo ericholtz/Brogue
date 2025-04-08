@@ -29,7 +29,7 @@ extends CharacterBody2D
 var XPtoNext = 10
 var XPNeeded = XPtoNext - currentXP
 @export var strength = 1
-@export var defense = 1
+@export var defense = 0
 @export var movement_speed = 1
 @export var moves_left = 1
 @export var base_zoom = 3
