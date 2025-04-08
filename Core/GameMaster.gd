@@ -113,6 +113,7 @@ func collect_entity(entity: Area2D):
 		return
 	match entity.entity_type:
 		EntityType.GOLD:
+			SoundFx.small_coin()
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
 			gained_item.emit(entity)
