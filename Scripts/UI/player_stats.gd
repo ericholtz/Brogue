@@ -27,10 +27,17 @@ func _ready():
 	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
 
+func _process(delta):
+	if visible:
+		GameMaster.can_move = false
+
 func _input(event):
 	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
 		visible = !visible
-		GameMaster.can_move = !GameMaster.can_move
+		if visible:
+			GameMaster.can_move = false
+		else:
+			GameMaster.can_move = true
 		update_stats()
 		update_inventory()
 
