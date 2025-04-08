@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bjas7njn2s121"
+path="res://.godot/imported/Ambience 3 (Composiia - Apostatas ).mp3-8e0ed6961543034df942918c3b5305a2.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Ambience 3 (Composiia - Apostatas ).mp3"
+dest_files=["res://.godot/imported/Ambience 3 (Composiia - Apostatas ).mp3-8e0ed6961543034df942918c3b5305a2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

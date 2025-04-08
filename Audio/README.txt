@@ -1,2 +1,2 @@
-This directory is for audio files when we get to that point, any music or sound effects. 
-The actual sound manager will go in Core.
+This directory is for audio files. 
+Each folder has a more specific credit.txt file that details the source and original creator of each sound.

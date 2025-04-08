@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://5l3eaorcoorq"
+path="res://.godot/imported/Ambience 4 (Composiia - Mau Pressagio).mp3-739b39dd93ded8602891c3fe17054811.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Ambience 4 (Composiia - Mau Pressagio).mp3"
+dest_files=["res://.godot/imported/Ambience 4 (Composiia - Mau Pressagio).mp3-739b39dd93ded8602891c3fe17054811.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
