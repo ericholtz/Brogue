@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cnrhr7328bg3j" path="res://Textures/Tilemaps/custom/Hero-Invisible.png" id="4_dewec"]
 [ext_resource type="Texture2D" uid="uid://j2uot8ig0ji0" path="res://Textures/Tilemaps/custom/Hero-Poisoned.png" id="5_52ee3"]
 [ext_resource type="Texture2D" uid="uid://bvvmu07fdmyqh" path="res://Textures/Tilemaps/custom/Hero-Stat-Boost.png" id="6_bhhdu"]
-[ext_resource type="Shader" uid="uid://c68x7jr8hyfob" path="res://Shaders/darken_colors.gdshader" id="7_52ee3"]
+[ext_resource type="Shader" path="res://Shaders/darken_colors.gdshader" id="7_52ee3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhhdu"]
 atlas = ExtResource("2_tdieg")

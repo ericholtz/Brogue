@@ -39,13 +39,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -800.0
-offset_top = -11.5
+offset_top = -11.0
 offset_right = 800.0
-offset_bottom = 11.5
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_fk0kh")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -66,13 +66,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -800.0
-offset_top = -11.5
+offset_top = -11.0
 offset_right = 800.0
-offset_bottom = 11.5
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_fk0kh")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -127,7 +127,7 @@ label_settings = ExtResource("5_um3tq")
 
 [node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
-text = "XP to LVL UP:"
+text = "XP to LVL UP:	     "
 label_settings = ExtResource("5_um3tq")
 
 [node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
@@ -145,7 +145,7 @@ label_settings = ExtResource("5_um3tq")
 
 [node name="BaseStr" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
-text = "Base Strength:"
+text = "Strength:"
 label_settings = ExtResource("5_um3tq")
 
 [node name="BaseStrVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
@@ -154,7 +154,7 @@ label_settings = ExtResource("5_um3tq")
 
 [node name="BaseDef" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
-text = "Base Defense:"
+text = "Defense:"
 label_settings = ExtResource("5_um3tq")
 
 [node name="BaseDefVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
@@ -163,7 +163,7 @@ label_settings = ExtResource("5_um3tq")
 
 [node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
-text = "Weapon Attack:"
+text = "Attack:"
 label_settings = ExtResource("5_um3tq")
 
 [node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]

@@ -153,10 +153,12 @@ volume_db = -15.0
 [node name="MusicDeath" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("33_2cjd1")
 volume_db = -15.0
+parameters/looping = true
 
 [node name="MusicMainMenu" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("34_rdlb3")
 volume_db = -15.0
+parameters/looping = true
 
 [node name="sword1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("35_8pgo2")
