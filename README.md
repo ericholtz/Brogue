@@ -13,10 +13,9 @@ Here is a link to Wikipedia which has more details on the original rogue.
 (https://en.wikipedia.org/wiki/Rogue_(video_game))
 
 ## Game Details ##
-Rogue is a single player Roguelike Dungeon Crawler game.  
-You have a 2D grid that the player and all objects sit upon, called a tile_map.  
-On this grid you have things like walls, monsters, traps, items, and the player.  
-The goal of the game is to get as deep in the dungeon as possible.  
+BRogue is a single player Roguelike Dungeon Crawler game. It operates on a turn-based combat system with a dynamic item system and several fleshed out enemy types.
+BRogue is not a 1-1 recreation of the original Rogue, it is more like a loose homage to a classic. It has instead gained its own unique flair from our group as development has continued.
+The goal of the game is to get as deep in the dungeon as possible. The dungeon is populated by many dangerous monsters, and deceptive magic. Gather as much gold as you can while you try to stay alive!
 
 ## Installation ##
 - Install the latest version of Godot
