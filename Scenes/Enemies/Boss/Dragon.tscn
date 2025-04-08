@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhv8ctsep28qo"]
+[gd_scene load_steps=18 format=3 uid="uid://bhv8ctsep28qo"]
 
 [ext_resource type="Script" uid="uid://b4pggoxnc5vyc" path="res://Scripts/Monster_Scripts/dragon.gd" id="1_ow0un"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_8y5xr"]
@@ -37,7 +37,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylv64"]
-size = Vector2(111, 111)
+size = Vector2(143, 143)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7sdv0"]
 size = Vector2(15, 15)
@@ -45,6 +45,9 @@ size = Vector2(15, 15)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gdvx"]
 atlas = ExtResource("3_xvlvo")
 region = Rect2(48, 336, 16, 16)
+
+[sub_resource type="Gradient" id="Gradient_xvlvo"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvlvo"]
 size = Vector2(15, 47)
@@ -69,53 +72,51 @@ entity_type = 2
 position = Vector2(24, 24)
 shape = SubResource("RectangleShape2D_otsct")
 
-[node name="Rays" type="Node" parent="."]
-
-[node name="RayTopRight" type="RayCast2D" parent="Rays"]
+[node name="RayTopRight" type="RayCast2D" parent="."]
 position = Vector2(40, 8)
 target_position = Vector2(0, -16)
 
-[node name="RayTopMiddle" type="RayCast2D" parent="Rays"]
+[node name="RayTopMiddle" type="RayCast2D" parent="."]
 position = Vector2(24, 8)
 target_position = Vector2(0, -16)
 
-[node name="RayTopLeft" type="RayCast2D" parent="Rays"]
+[node name="RayTopLeft" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
 target_position = Vector2(0, -16)
 
-[node name="RayBottomRight" type="RayCast2D" parent="Rays"]
+[node name="RayBottomRight" type="RayCast2D" parent="."]
 position = Vector2(40, 40)
 target_position = Vector2(0, 16)
 
-[node name="RayBottomMiddle" type="RayCast2D" parent="Rays"]
+[node name="RayBottomMiddle" type="RayCast2D" parent="."]
 position = Vector2(24, 40)
 target_position = Vector2(0, 16)
 
-[node name="RayBottomLeft" type="RayCast2D" parent="Rays"]
+[node name="RayBottomLeft" type="RayCast2D" parent="."]
 position = Vector2(8, 40)
 target_position = Vector2(0, 16)
 
-[node name="RayRightTop" type="RayCast2D" parent="Rays"]
+[node name="RayRightTop" type="RayCast2D" parent="."]
 position = Vector2(40, 8)
 target_position = Vector2(16, 0)
 
-[node name="RayRightMiddle" type="RayCast2D" parent="Rays"]
+[node name="RayRightMiddle" type="RayCast2D" parent="."]
 position = Vector2(40, 24)
 target_position = Vector2(16, 0)
 
-[node name="RayRightBottom" type="RayCast2D" parent="Rays"]
+[node name="RayRightBottom" type="RayCast2D" parent="."]
 position = Vector2(40, 40)
 target_position = Vector2(16, 0)
 
-[node name="RayLeftTop" type="RayCast2D" parent="Rays"]
+[node name="RayLeftTop" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
 target_position = Vector2(-16, 0)
 
-[node name="RayLeftMiddle" type="RayCast2D" parent="Rays"]
+[node name="RayLeftMiddle" type="RayCast2D" parent="."]
 position = Vector2(8, 24)
 target_position = Vector2(-16, 0)
 
-[node name="RayLeftBottom" type="RayCast2D" parent="Rays"]
+[node name="RayLeftBottom" type="RayCast2D" parent="."]
 position = Vector2(8, 40)
 target_position = Vector2(-16, 0)
 
@@ -138,10 +139,7 @@ position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_7sdv0")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesClose" type="Node" parent="BreathAttackRight"]
-
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesClose"]
-position = Vector2(56, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/Close"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -153,16 +151,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(48, 0)
 shape = SubResource("RectangleShape2D_xvlvo")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesMedium" type="Node" parent="BreathAttackRight"]
-
-[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
-position = Vector2(72, 8)
+[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, -16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -174,9 +171,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
-position = Vector2(72, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -188,9 +185,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesMedium"]
-position = Vector2(72, 40)
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, 16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -202,16 +200,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(64, 0)
 shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesFar" type="Node" parent="BreathAttackRight"]
-
-[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
-position = Vector2(88, -8)
+[node name="Top" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -32)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -223,9 +220,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
-position = Vector2(88, 8)
+[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -237,9 +235,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
-position = Vector2(88, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackRight/Far"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -251,9 +249,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
-position = Vector2(88, 40)
+[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -265,9 +264,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/FireParticlesFar"]
-position = Vector2(88, 56)
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 32)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -279,6 +279,7 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 90.0
 angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackLeft" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -288,10 +289,7 @@ position = Vector2(-32, 0)
 shape = SubResource("RectangleShape2D_7sdv0")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesClose" type="Node" parent="BreathAttackLeft"]
-
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesClose"]
-position = Vector2(-8, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/Close"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -303,16 +301,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-48, 0)
 shape = SubResource("RectangleShape2D_xvlvo")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesMedium" type="Node" parent="BreathAttackLeft"]
-
-[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
-position = Vector2(-24, 8)
+[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, -16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -324,9 +321,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
-position = Vector2(-24, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -338,9 +335,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesMedium"]
-position = Vector2(-24, 40)
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, 16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -352,16 +350,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-64, 0)
 shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
-[node name="FireParticlesFar" type="Node" parent="BreathAttackLeft"]
-
-[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
-position = Vector2(-40, -8)
+[node name="Top" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -32)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -373,9 +370,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
-position = Vector2(-40, 8)
+[node name="TopMiddle" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -387,9 +385,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
-position = Vector2(-40, 24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -401,9 +399,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
-position = Vector2(-40, 40)
+[node name="BottomMiddle" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 16)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -415,9 +414,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/FireParticlesFar"]
-position = Vector2(-40, 56)
+[node name="Bottom" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 32)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -429,6 +429,7 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 270.0
 angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackTop" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -438,10 +439,7 @@ position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_k3oj0")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesClose" type="Node" parent="BreathAttackTop"]
-
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesClose"]
-position = Vector2(24, -8)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/Close"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -453,16 +451,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_kxhli")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesMedium" type="Node" parent="BreathAttackTop"]
-
-[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
-position = Vector2(8, -24)
+[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(-16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -474,9 +471,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
-position = Vector2(24, -24)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -488,9 +485,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesMedium"]
-position = Vector2(40, -24)
+[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -502,16 +500,15 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -64)
 shape = SubResource("RectangleShape2D_32r36")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesFar" type="Node" parent="BreathAttackTop"]
-
-[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
-position = Vector2(-8, -40)
+[node name="Left" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-32, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -523,9 +520,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
-position = Vector2(8, -40)
+[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -537,9 +535,9 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
-position = Vector2(24, -40)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackTop/Far"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -551,9 +549,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
-position = Vector2(40, -40)
+[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -565,9 +564,10 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/FireParticlesFar"]
-position = Vector2(56, -40)
+[node name="Right" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(32, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -579,6 +579,7 @@ emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
 angle_min = 180.0
 angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackBottom" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -588,10 +589,7 @@ position = Vector2(0, 32)
 shape = SubResource("RectangleShape2D_k3oj0")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesClose" type="Node" parent="BreathAttackBottom"]
-
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesClose"]
-position = Vector2(24, 56)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/Close"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -601,16 +599,15 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackBottom"]
 position = Vector2(0, 48)
 shape = SubResource("RectangleShape2D_kxhli")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesMedium" type="Node" parent="BreathAttackBottom"]
-
-[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
-position = Vector2(8, 72)
+[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(-16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -620,9 +617,9 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
-position = Vector2(24, 72)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -632,9 +629,10 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesMedium"]
-position = Vector2(40, 72)
+[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -644,16 +642,15 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackBottom"]
 position = Vector2(0, 64)
 shape = SubResource("RectangleShape2D_32r36")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
-[node name="FireParticlesFar" type="Node" parent="BreathAttackBottom"]
-
-[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
-position = Vector2(-8, 88)
+[node name="Left" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-32, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -663,9 +660,10 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
-position = Vector2(8, 88)
+[node name="LeftMiddle" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -675,9 +673,9 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
-position = Vector2(24, 88)
+[node name="Middle" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -687,9 +685,10 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
-position = Vector2(40, 88)
+[node name="RightMiddle" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(16, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -699,9 +698,10 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
-[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/FireParticlesFar"]
-position = Vector2(56, 88)
+[node name="Right" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(32, 0)
 emitting = false
 amount = 6
 texture = SubResource("AtlasTexture_4gdvx")
@@ -711,6 +711,15 @@ explosiveness = 0.5
 emission_shape = 2
 emission_sphere_radius = 5.0
 gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="BreathAttackRight" to="." method="_on_breath_attack_right_body_entered"]
+[connection signal="body_exited" from="BreathAttackRight" to="." method="_on_breath_attack_right_body_exited"]
+[connection signal="body_entered" from="BreathAttackLeft" to="." method="_on_breath_attack_left_body_entered"]
+[connection signal="body_exited" from="BreathAttackLeft" to="." method="_on_breath_attack_left_body_exited"]
+[connection signal="body_entered" from="BreathAttackTop" to="." method="_on_breath_attack_top_body_entered"]
+[connection signal="body_exited" from="BreathAttackTop" to="." method="_on_breath_attack_top_body_exited"]
+[connection signal="body_entered" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_entered"]
+[connection signal="body_exited" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_exited"]
