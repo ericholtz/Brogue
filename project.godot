@@ -20,7 +20,7 @@ config/windows_native_icon="res://BrogueIcon.ico"
 [autoload]
 
 GameMaster="*res://Core/GameMaster.gd"
-SfxManager="*res://Core/SFXManager.gd"
+SoundFx="*res://Core/sound_fx.tscn"
 
 [debug]
 

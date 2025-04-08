@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://et833pi0qn6"
-path="res://.godot/imported/levelup.wav-642574fafb33d4e4fb5b5cafd3eed86a.sample"
+uid="uid://b7mrk2sdjy30y"
+path="res://.godot/imported/heal.wav-11253f0035f0f383b1573eabb3ee1e5a.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/levelup.wav"
-dest_files=["res://.godot/imported/levelup.wav-642574fafb33d4e4fb5b5cafd3eed86a.sample"]
+source_file="res://Audio/SFX/heal.wav"
+dest_files=["res://.godot/imported/heal.wav-11253f0035f0f383b1573eabb3ee1e5a.sample"]
 
 [params]
 
