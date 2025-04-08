@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhv8ctsep28qo"]
+[gd_scene load_steps=25 format=3 uid="uid://bhv8ctsep28qo"]
 
 [ext_resource type="Script" uid="uid://b4pggoxnc5vyc" path="res://Scripts/Monster_Scripts/dragon.gd" id="1_ow0un"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_8y5xr"]
+[ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="3_xvlvo"]
+[ext_resource type="Texture2D" uid="uid://brsligyh2dvk3" path="res://Textures/Tilemaps/UI/Frames.png" id="4_4gdvx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_otsct"]
 size = Vector2(48, 48)
@@ -36,16 +38,39 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylv64"]
-size = Vector2(111, 111)
+size = Vector2(176, 176)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7sdv0"]
 size = Vector2(15, 15)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3oj0"]
+atlas = ExtResource("3_xvlvo")
+region = Rect2(48, 336, 16, 16)
+
+[sub_resource type="Gradient" id="Gradient_xvlvo"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxhli"]
+atlas = ExtResource("4_4gdvx")
+region = Rect2(720, 784, 32, 32)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvlvo"]
 size = Vector2(15, 47)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_32r36"]
+atlas = ExtResource("4_4gdvx")
+region = Rect2(720, 784, 32, 32)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdvx"]
 size = Vector2(15, 79)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdv5w"]
+atlas = ExtResource("4_4gdvx")
+region = Rect2(720, 784, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52hom"]
+atlas = ExtResource("4_4gdvx")
+region = Rect2(720, 784, 32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k3oj0"]
 size = Vector2(15, 15)
@@ -55,6 +80,12 @@ size = Vector2(47, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32r36"]
 size = Vector2(79, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cdv5w"]
+size = Vector2(79, 47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52hom"]
+size = Vector2(47, 79)
 
 [node name="Dragon" type="CharacterBody2D"]
 script = ExtResource("1_ow0un")
@@ -131,15 +162,234 @@ position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_7sdv0")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackRight/Close"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackRight/Close"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_kxhli")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(48, 0)
 shape = SubResource("RectangleShape2D_xvlvo")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
+[node name="TopFire" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, -16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopIndicator" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, -16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_32r36")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_32r36")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomFire" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, 16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomIndicator" type="CPUParticles2D" parent="BreathAttackRight/Medium"]
+position = Vector2(0, 16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_32r36")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Far" type="CollisionShape2D" parent="BreathAttackRight"]
 position = Vector2(64, 0)
 shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="TopFire" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -32)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopIndicator" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -32)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cdv5w")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopMiddleFire" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopMiddleIndicator" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, -16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cdv5w")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cdv5w")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomMiddleFire" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomMiddleIndicator" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cdv5w")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomFire" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 32)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 90.0
+angle_max = 90.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomIndicator" type="CPUParticles2D" parent="BreathAttackRight/Far"]
+position = Vector2(0, 32)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cdv5w")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackLeft" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -149,15 +399,252 @@ position = Vector2(-32, 0)
 shape = SubResource("RectangleShape2D_7sdv0")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackLeft/Close"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Close"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-48, 0)
 shape = SubResource("RectangleShape2D_xvlvo")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
 
+[node name="TopFire" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, -16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, -16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomFire" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, 16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Medium"]
+position = Vector2(0, 16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Far" type="CollisionShape2D" parent="BreathAttackLeft"]
 position = Vector2(-64, 0)
 shape = SubResource("RectangleShape2D_4gdvx")
 debug_color = Color(0.908218, 0.000116476, 0.737456, 0.42)
+
+[node name="TopFire" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -32)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -32)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopMiddleFire" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="TopMiddleIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, -16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomMiddleFire" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 16)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomMiddleIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 16)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomFire" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 32)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="BottomIndicator" type="CPUParticles2D" parent="BreathAttackLeft/Far"]
+position = Vector2(0, 32)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 270.0
+angle_max = 270.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackTop" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -167,15 +654,252 @@ position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_k3oj0")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackTop/Close"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackTop/Close"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_kxhli")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
+[node name="LeftFire" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftIndicator" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightFire" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightIndicator" type="CPUParticles2D" parent="BreathAttackTop/Medium"]
+position = Vector2(16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Far" type="CollisionShape2D" parent="BreathAttackTop"]
 position = Vector2(0, -64)
 shape = SubResource("RectangleShape2D_32r36")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="LeftFire" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-32, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftIndicator" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-32, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftMiddleFire" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftMiddleIndicator" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightMiddleFire" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightMiddleIndicator" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightFire" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(32, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightIndicator" type="CPUParticles2D" parent="BreathAttackTop/Far"]
+position = Vector2(32, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+angle_min = 180.0
+angle_max = 180.0
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="BreathAttackBottom" type="Area2D" parent="."]
 position = Vector2(24, 24)
@@ -185,15 +909,238 @@ position = Vector2(0, 32)
 shape = SubResource("RectangleShape2D_k3oj0")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackBottom/Close"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Close"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
 [node name="Medium" type="CollisionShape2D" parent="BreathAttackBottom"]
 position = Vector2(0, 48)
 shape = SubResource("RectangleShape2D_kxhli")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
+
+[node name="LeftFire" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightFire" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Medium"]
+position = Vector2(16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="Far" type="CollisionShape2D" parent="BreathAttackBottom"]
 position = Vector2(0, 64)
 shape = SubResource("RectangleShape2D_32r36")
 debug_color = Color(0.909804, 0, 0.737255, 0.419608)
 
+[node name="LeftFire" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-32, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-32, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftMiddleFire" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="LeftMiddleIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(-16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleFire" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="MiddleIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightMiddleFire" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(16, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightMiddleIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(16, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightFire" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(32, 0)
+emitting = false
+amount = 6
+texture = SubResource("AtlasTexture_k3oj0")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+emission_shape = 2
+emission_sphere_radius = 5.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="RightIndicator" type="CPUParticles2D" parent="BreathAttackBottom/Far"]
+position = Vector2(32, 0)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_52hom")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_xvlvo")
+
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="Melee1" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_cdv5w")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="Melee2" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_52hom")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="BreathAttackRight" to="." method="_on_breath_attack_right_body_entered"]
+[connection signal="body_exited" from="BreathAttackRight" to="." method="_on_breath_attack_right_body_exited"]
+[connection signal="body_entered" from="BreathAttackLeft" to="." method="_on_breath_attack_left_body_entered"]
+[connection signal="body_exited" from="BreathAttackLeft" to="." method="_on_breath_attack_left_body_exited"]
+[connection signal="body_entered" from="BreathAttackTop" to="." method="_on_breath_attack_top_body_entered"]
+[connection signal="body_exited" from="BreathAttackTop" to="." method="_on_breath_attack_top_body_exited"]
+[connection signal="body_entered" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_entered"]
+[connection signal="body_exited" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]
