@@ -1,12 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://hbjlsgxe16ad"]
+[gd_scene load_steps=9 format=3 uid="uid://b0vt7e01ki80p"]
 
-[ext_resource type="Script" uid="uid://bjb25wp3qu0gk" path="res://Scripts/UI/options.gd" id="1_emxk7"]
+[ext_resource type="Script" path="res://Scripts/UI/options.gd" id="1_emxk7"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="1_sk06h"]
 [ext_resource type="Texture2D" uid="uid://orogf78rjm6l" path="res://Textures/UI/tutorialblock.png" id="1_sow1w"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="2_8ogrm"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_sow1w"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="3_sow1w"]
-[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="4_emxk7"]
+[ext_resource type="LabelSettings" path="res://Shaders/MenuButtonLabelText.tres" id="4_emxk7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_emxk7"]
 font = ExtResource("2_sow1w")

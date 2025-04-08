@@ -33,6 +33,7 @@ var XPNeeded = XPtoNext - currentXP
 @export var movement_speed = 1
 @export var moves_left = 1
 @export var base_zoom = 3
+@export var has_key = false
 @export var entity_size = Vector2i(1, 1)
 
 #variable player stats to be affected by equipment
@@ -248,13 +249,11 @@ func _on_damage_received(amount: int):
 		health -= amount
 		if health <= 0:
 			end_game()
-	#print("Player took ", amount, " damage. New health:", health)
 
 func _on_heal_received(amount: int):
 	if health < MAX_HEALTH:
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
-	#print("Player healed ", amount, " points. New health:", health)
 
 func use(item_index: int):
 	# check bounds
@@ -395,7 +394,7 @@ func use_blind_scroll():
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
 
 func use_identify_scroll():
-	$"../PlayerStats".enable_identify()
+	$"../PlayerStats".show_identify()
 
 func use_gold_rush_scroll():
 	for i in range(0, randi_range(6, 9)):
@@ -419,8 +418,6 @@ func use_misc(misc: Area2D) -> bool:
 		GameMaster.MiscType.MAP:
 			use_map(misc)
 			return false
-		GameMaster.MiscType.KEY:
-			return use_key(misc)
 		_:
 			return false
 
@@ -432,15 +429,6 @@ func use_map(map: Area2D):
 		GameMaster.DISABLE_FOG = true
 	else:
 		print("This map was meant for level ", map.map_level, ", so it's useless on level ", current_level, ".")
-
-func use_key(key: Area2D) -> bool:
-	if is_standing_on_exit:
-		# call function to start new level
-		get_node("/root/World/map_gen").regenerate_map()
-		return true
-	else:
-		print("Cannot use key now.")
-		return false
 
 func add_speed(speed: int):
 	movement_speed += speed
@@ -486,11 +474,32 @@ func identify(item_index: int):
 		_:
 			return
 
+func identify_all():
+	for i in range(0, inventory.size()):
+		identify(i)
+
 func known(item_name: String) -> String:
 	if item_name in known_items:
 		return known_items[item_name]
 	else:
 		return item_name
+
+func drop(item_index: int):
+	var item = inventory_node.get_child(item_index)
+	if item.count != 1:
+		item.count -= 1
+		item = item.duplicate()
+		inventory_node.add_child(item)
+		item.count = 1
+	else:
+		inventory.remove_at(item_index)
+	item.can_pickup = false
+	item.visible = true
+	item.position = position
+	item.reparent($"../map_gen", false)
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	item.set_deferred("can_pickup", true)
 
 func zoom(zoom_level: int):
 	var zoom_levels = [

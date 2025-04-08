@@ -531,8 +531,7 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"rare_ice_enemy": Rare_ice_enemies,
 		"boss_enemy": Boss,
 		"gold": gold,
-		"exit": exit_scene,
-		"keys": keys
+		"exit": exit_scene
 		}
 	if spawn_options.keys().has(entity):
 		if spawn_options[entity].size() > option and option >= 0:
@@ -575,6 +574,7 @@ func regenerate_map() -> void:
 	GameMaster.DISABLE_FOG = false
 	$"../Player".zoom(3)
 	$"../Player".base_zoom = 3
+	$"../Player".has_key = false
 	
 	await get_tree().process_frame
 	
