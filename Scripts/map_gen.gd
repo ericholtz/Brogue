@@ -100,15 +100,16 @@ const BASE_ROOMS = 12
 
 ##-----(Base Enemy Spawn Chance)-----##
 const BASE_CAVE_ENEMY_SPAWN_CHANCE = 0.1
-const BASE_RARE_ENEMY_SPAWN_CHANCE = 0.01
+const BASE_RARE_ENEMY_SPAWN_CHANCE = 0.001
 const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.05
 const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.05
 const BASE_BOSS_ENEMY_SPAWN_CHANCE = 1
-const BASE_ICE_MAX_ENEMIES = 5
-const BASE_CAVE_MAX_ENEMIES = 10
+
+const BASE_ICE_MAX_ENEMIES = 3
+const BASE_CAVE_MAX_ENEMIES = 7
 const BASE_BOSS_MAX_ENEMIES = 1
 const BASE_RARE_ICE_MAX_ENEMIES = 1
-const BASE_ICE_BIG_ENEMIES = 5
+const BASE_ICE_BIG_ENEMIES = 3
 ##-----(Base Enemy Spawn Chance)-----##
 
 const BASE_MAX_GOLD = 2
@@ -120,15 +121,15 @@ const BASE_MAX_MISC = 1
 # Scaling factors
 const MAP_GROWTH_RATE = 2  # How much the map increases each level
 const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
-const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
+const SPAWN_RATE_INCREMENT = 0.03  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
 ##-----(Enemy Spawn Chance)-----##
 @export var cave_enemy_spawn_chance : float = 0.9
-@export var rare_ice_enemy_spawn_chance : float = 0.01
-@export var ice_enemy_spawn_chance : float = 0.45
-@export var big_ice_enemy_spawn_chance : float = 0.45
+@export var rare_ice_enemy_spawn_chance : float = 0.001
+@export var ice_enemy_spawn_chance : float = 0.25
+@export var big_ice_enemy_spawn_chance : float = 0.25
 @export var boss_enemy_spawn_chance : float = 1.0
 ##-----(Enemy Spawn Chance)-----##
 
