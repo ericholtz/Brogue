@@ -3,6 +3,7 @@ extends Node
 # signals
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
+signal gained_key()
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
@@ -37,6 +38,7 @@ enum EntityType {
 	ITEM,
 	ENEMY,
 	ROOM,
+	KEY,
 	}
 enum ItemType {
 	MELEE_WEAPON,
@@ -61,7 +63,6 @@ enum ScrollEffect {
 	STAT_BOOST,
 	}
 enum MiscType {
-	KEY,
 	MAP,
 	}
 
@@ -79,7 +80,7 @@ var status_effects = []
 var potion_types = {}
 var potion_types_str = {}
 
-var scroll_names = {}
+var scroll_titles = {}
 var scroll_sprite_regions = {}
 
 func _ready() -> void:
@@ -104,7 +105,7 @@ func init_vars():
 	potion_types = {}
 	potion_types_str = {}
 
-	scroll_names = {}
+	scroll_titles = {}
 	scroll_sprite_regions = {}
 
 func collect_entity(entity: Area2D):
@@ -115,6 +116,8 @@ func collect_entity(entity: Area2D):
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
 			gained_item.emit(entity)
+		EntityType.KEY:
+			gained_key.emit()
 
 func setname(player_name: String):
 	if player_name:
@@ -140,6 +143,7 @@ func takeTurn(turnsTaken: int):
 	decrement_status_effect_duration()
 	
 	took_turns.emit(1) #this just sends a signal to the ui turn counter
+	await get_tree().create_timer(0.1).timeout
 	await enemyTurn()
 	await get_tree().process_frame
 	can_move = true
@@ -250,10 +254,10 @@ func decide_scrolls():
 		horiz.append(16 * i)
 	
 	for effect in ScrollEffect.values():
-		var name = generate_gibberish_text()
-		while name in scroll_names.values():
-			name = generate_gibberish_text()
-		scroll_names[effect] = name
+		var title = generate_gibberish_text()
+		while title in scroll_titles.values():
+			title = generate_gibberish_text()
+		scroll_titles[effect] = title
 		
 		var index = randi_range(0, horiz.size() - 1)
 		scroll_sprite_regions[effect] = Rect2(horiz[index], 208, 16, 16)
@@ -264,13 +268,13 @@ func generate_gibberish_text():
 	var full_alphabet = alphabet.split()
 	full_alphabet.append_array(alphabet.to_upper().split())
 	
-	var str = ""
+	var string = ""
 	for word in range(0, randi_range(3, 5)):
 		for character in range(0, randi_range(2, 7)):
-			str += full_alphabet[randi_range(0, full_alphabet.size()-1)]
-		str += " "
+			string += full_alphabet[randi_range(0, full_alphabet.size()-1)]
+		string += " "
 	
-	return str.left(-1)
+	return string.left(-1)
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
@@ -319,60 +323,6 @@ func combat(player, enemy):
 	
 	#after player attacks, check if enemy is dead
 	var enemyDefeated = not is_instance_valid(enemy) or enemy.health <= 0
-	
-	#if it's alive, roll combat
-	if not enemyDefeated:
-		var enemyHitChance = calculate_hit_chance(enemy.strength,player.armor)
-		var enemyRoll = randf()
-		if DEBUG_COMBATLOGS:
-			print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
-		if enemyRoll <= enemyHitChance:
-			damage_player_signal.emit(enemyDamage)
-			var attackTween = animate_attack(enemy, player)
-			await attackTween.finished
-			if DEBUG_COMBATLOGS:
-				print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
-		else:
-			var missTween = animate_miss(enemy)
-			await missTween.finished
-			if DEBUG_COMBATLOGS:
-				print(enemyName," missed ",playerName,"!")
-	
-	#This is disgusting but it works
-	#Basically I just loop through enemies again, skipping the one we already fought
-	var tileSize = 16
-	for other_enemy in get_tree().get_nodes_in_group("enemies"):
-		# Skip the enemy already processed
-		if other_enemy == enemy:
-			continue
-		# Only allow valid enemies that are still alive
-		if is_instance_valid(other_enemy) and other_enemy.health > 0:
-			# Calculate direction from enemy to player
-			var direction_to_player = (player.position - other_enemy.position).normalized()
-			# Use the enemy's raycast for detection
-			other_enemy.Ray.target_position = direction_to_player * tileSize
-			other_enemy.Ray.force_raycast_update()
-			# Check if the ray hits the player
-			if other_enemy.Ray.is_colliding():
-				var collider = other_enemy.Ray.get_collider()
-				if collider == player:
-					var otherEnemyDamage = max(other_enemy.strength - player.armor, 1)
-					var otherEnemyHitChance = calculate_hit_chance(other_enemy.strength, player.armor)
-					var otherEnemyRoll = randf()
-					if DEBUG_COMBATLOGS:
-						print(other_enemy.name, " needs less than <", otherEnemyHitChance, "> to hit, rolled a <", snapped(otherEnemyRoll, 0.01), ">.")
-					if otherEnemyRoll <= otherEnemyHitChance:
-						damage_player_signal.emit(otherEnemyDamage)
-						var otherAttackTween = animate_attack(other_enemy, player)
-						await otherAttackTween.finished
-						if DEBUG_COMBATLOGS:
-							print(other_enemy.name, " dealt ", otherEnemyDamage, " damage to ", player.player_name, ". ", player.player_name, " has ", player.health, " health left.")
-					else:
-						var otherMissTween = animate_miss(other_enemy)
-						await otherMissTween.finished
-						if DEBUG_COMBATLOGS:
-							print(other_enemy.name, " missed ", player.player_name, "!")
-
 
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:

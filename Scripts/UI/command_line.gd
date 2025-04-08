@@ -49,7 +49,7 @@ func update_history():
 func process_command(command, option = "", num = "", count = ""):
 	match command:
 		"help":
-			command_history.append("======================= AVAILABLE COMMANDS =======================")
+			command_history.append("======================== AVAILABLE COMMANDS ========================")
 			command_history.append("  help - show available commands")
 			command_history.append("  clear - clear console scrollback")
 			command_history.append("  kill - kill player")
@@ -76,7 +76,8 @@ func process_command(command, option = "", num = "", count = ""):
 			command_history.append("  nextlevel <count> - immediately descend <count> levels forward")
 			command_history.append("  zoom <level> - change the camera zoom level to <level> (1-5)")
 			command_history.append("  zoom_raw <value> - set the zoom level to the exact raw <value>")
-			command_history.append("==================================================================")
+			command_history.append("  identify - identify the stats of all items currently in inventory")
+			command_history.append("====================================================================")
 			command_history.append("")
 		"clear":
 			command_history.clear()
@@ -123,5 +124,8 @@ func process_command(command, option = "", num = "", count = ""):
 			option = float(option)
 			$"../Player".zoom(option)
 			command_history.append("Set zoom value to " + str(option))
+		"identify":
+			$"../Player".identify_all()
+			command_history.append("Identified all items in inventory")
 		_:
 			command_history.append("Unknown command: " + command)

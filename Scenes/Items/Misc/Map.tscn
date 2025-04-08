@@ -8,7 +8,6 @@ size = Vector2(14, 14)
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource("1_6dk22")
-misc_type = 1
 item_type = 5
 consumable = true
 entity_name = "Map"
