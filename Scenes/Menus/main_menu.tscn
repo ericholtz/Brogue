@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b2uvl67s1w37y"]
+[gd_scene load_steps=14 format=3 uid="uid://b2uvl67s1w37y"]
 
 [ext_resource type="Script" uid="uid://ch6y4nt0nrmno" path="res://Scripts/UI/menu.gd" id="1_qi72p"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_aur2u"]
@@ -9,6 +9,8 @@
 [ext_resource type="LabelSettings" path="res://Shaders/MenuButtonLabelText.tres" id="7_neey8"]
 [ext_resource type="Texture2D" uid="uid://banlbymmswxbe" path="res://Textures/UI/statbanner.png" id="8_j4kqa"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="9_anmaw"]
+
+[sub_resource type="Theme" id="Theme_neey8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4fgt5"]
 shader = ExtResource("2_neey8")
@@ -48,6 +50,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+theme = SubResource("Theme_neey8")
 theme_override_constants/separation = 32
 
 [node name="BrogueLogo" type="TextureRect" parent="CenterContainer/VBoxContainer"]

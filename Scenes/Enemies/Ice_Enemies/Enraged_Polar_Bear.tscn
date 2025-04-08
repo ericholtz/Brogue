@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://qmgi82cbbpkd"]
+[gd_scene load_steps=42 format=3 uid="uid://qmgi82cbbpkd"]
 
 [ext_resource type="Script" uid="uid://djwtd0pkgxfvh" path="res://Scripts/Monster_Scripts/enraged_polar_bear.gd" id="1_o4p1i"]
 [ext_resource type="Texture2D" uid="uid://dmenpju35uech" path="res://Textures/Tilemaps/FrozenCavern/Monsters-Animated.png" id="2_go550"]
@@ -254,6 +254,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8od0r"]
 size = Vector2(127, 127)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tjxay"]
+size = Vector2(63, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cd8f"]
+size = Vector2(31, 63)
+
 [node name="EnragedPolarBear" type="CharacterBody2D"]
 script = ExtResource("1_o4p1i")
 entity_type = 2
@@ -306,5 +312,19 @@ position = Vector2(16, 16)
 [node name="Vision" type="CollisionShape2D" parent="PlayerVision"]
 shape = SubResource("RectangleShape2D_8od0r")
 
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_tjxay")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_4cd8f")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]

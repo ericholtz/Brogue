@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://w88ph3hm3xmc" path="res://Textures/UI/copy.png" id="4_8bck2"]
 [ext_resource type="Texture2D" uid="uid://gojr2701yji1" path="res://Textures/UI/statblock.png" id="4_emiye"]
 [ext_resource type="Texture2D" uid="uid://cpqjdn8fs2mvn" path="res://Textures/UI/copy_pressed.png" id="5_cffa4"]
-[ext_resource type="LabelSettings" path="res://Shaders/SmallStatText.tres" id="5_um3tq"]
+[ext_resource type="LabelSettings" uid="uid://b7ok81b7mfcff" path="res://Shaders/SmallStatText.tres" id="5_um3tq"]
 [ext_resource type="Texture2D" uid="uid://hirv7fym7x86" path="res://Textures/UI/copy_hover.png" id="6_cffa4"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="6_r7ppi"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="7_gle4s"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="8_8bck2"]
-[ext_resource type="LabelSettings" path="res://Shaders/MenuButtonLabelText.tres" id="9_cffa4"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="9_cffa4"]
 
 [node name="PlayerStats" type="CanvasLayer"]
 script = ExtResource("1_f5bc8")
