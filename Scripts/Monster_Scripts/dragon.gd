@@ -25,8 +25,10 @@ var animationSpeed = 18
 var moving = false
 var player = null
 var tileSize = 16
-var breathFire = false
+var breathFire = true
 var breathAttackCooldown = 0
+var breathAttackDirection = "None"
+var startedBreathAttackDirection = "None"
 
 #Monsters States
 var health = 50
@@ -47,16 +49,90 @@ func _ready():
 func take_turn():
 	if moving:
 		return
-	if breathFire == true:
-		# emit fire
-		# damge
+	if breathFire == true: # Attack with Fire Breath
 		breathFire = false
-		breathAttackCooldown = 3
-	elif breathAttackCooldown == 0:
+		if breathAttackDirection == "Right":
+			# Call Animations
+			$BreathAttackRight/Close/Middle.emitting = true
+			$BreathAttackRight/Medium/Top.emitting = true
+			$BreathAttackRight/Medium/Middle.emitting = true
+			$BreathAttackRight/Medium/Bottom.emitting = true
+			$BreathAttackRight/Far/Bottom.emitting = true
+			$BreathAttackRight/Far/BottomMiddle.emitting = true
+			$BreathAttackRight/Far/Middle.emitting = true
+			$BreathAttackRight/Far/TopMiddle.emitting = true
+			$BreathAttackRight/Far/Top.emitting = true
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Emiting Right Breath Attak")
+		elif breathAttackDirection == "Left":
+			# Call Animations
+			$BreathAttackLeft/Close/Middle.emitting = true
+			$BreathAttackLeft/Medium/Top.emitting = true
+			$BreathAttackLeft/Medium/Middle.emitting = true
+			$BreathAttackLeft/Medium/Bottom.emitting = true
+			$BreathAttackLeft/Far/Bottom.emitting = true
+			$BreathAttackLeft/Far/BottomMiddle.emitting = true
+			$BreathAttackLeft/Far/Middle.emitting = true
+			$BreathAttackLeft/Far/TopMiddle.emitting = true
+			$BreathAttackLeft/Far/Top.emitting = true
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Emiting Left Breath Attak")
+		elif breathAttackDirection == "Top":
+			# Call Animations
+			$BreathAttackTop/Close/Middle.emitting = true
+			$BreathAttackTop/Medium/Left.emitting = true
+			$BreathAttackTop/Medium/Middle.emitting = true
+			$BreathAttackTop/Medium/Right.emitting = true
+			$BreathAttackTop/Far/Right.emitting = true
+			$BreathAttackTop/Far/RightMiddle.emitting = true
+			$BreathAttackTop/Far/Middle.emitting = true
+			$BreathAttackTop/Far/LeftMiddle.emitting = true
+			$BreathAttackTop/Far/Left.emitting = true
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Emiting Top Breath Attak")
+		elif breathAttackDirection == "Bottom":
+			# Call Animations
+			$BreathAttackBottom/Close/Middle.emitting = true
+			$BreathAttackBottom/Medium/Left.emitting = true
+			$BreathAttackBottom/Medium/Middle.emitting = true
+			$BreathAttackBottom/Medium/Right.emitting = true
+			$BreathAttackBottom/Far/Right.emitting = true
+			$BreathAttackBottom/Far/RightMiddle.emitting = true
+			$BreathAttackBottom/Far/Middle.emitting = true
+			$BreathAttackBottom/Far/LeftMiddle.emitting = true
+			$BreathAttackBottom/Far/Left.emitting = true
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Emiting Bottom Breath Attak")
+		# Attack Player
+		if startedBreathAttackDirection == breathAttackDirection:
+			# Attack & damge
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Attacking With Breath Attak")
+				# Call Attack
+	elif breathAttackCooldown == 0: # Prepare Fire Breath Attack
 		breathFire = true
-		# emit area of attack
-	else: 
-		breathAttackCooldown = breathAttackCooldown - 1
+		breathAttackCooldown = 3
+		startedBreathAttackDirection = breathAttackDirection
+		# Find Direction
+		if startedBreathAttackDirection == "Right":
+			# emit area of attack right
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Starting Right Breath Attak")
+		elif startedBreathAttackDirection == "Left":
+			# emit area of attack left
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Starting Left Breath Attak")
+		elif startedBreathAttackDirection == "Top":
+			# emit area of attack top
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Starting Top Breath Attak")
+		elif startedBreathAttackDirection == "Bottom":
+			# emit area of attack bottom
+			if GameMaster.DEBUG_ENEMY_PRINTS == true:
+				print("Starting Bottom Breath Attak")
+	else: # Move and Wait for Cooldown
+		if breathAttackCooldown > 0:
+			breathAttackCooldown = breathAttackCooldown - 1
 		for temp in Movement_Speed:
 			var try_move = Vector2.ZERO
 			if player and !player.is_invisible:
@@ -157,14 +233,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		player = body
 		if GameMaster.DEBUG_ENEMY_PRINTS == true:
-			print("player in area")
+			print("Player In Vision Area")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		player = null
 		if GameMaster.DEBUG_ENEMY_PRINTS == true:
-			print("player exited area")
+			print("Player Exited Vision Area")
 	
 func vec_to_cardinal(vec: Vector2) -> Vector2:
 	if vec == Vector2.ZERO:
@@ -182,3 +258,51 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 		else:
 			res.y = 0
 	return res
+
+func _on_breath_attack_right_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "Right"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Right Breath Attack Area.")
+
+func _on_breath_attack_right_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "None"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Right Breath Attack Area.")
+
+func _on_breath_attack_left_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "Left"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Left Breath Attack Area.")
+
+func _on_breath_attack_left_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "None"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Left Breath Attack Area.")
+
+func _on_breath_attack_top_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "Top"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Top Breath Attack Area.")
+
+func _on_breath_attack_top_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "None"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Top Breath Attack Area.")
+
+func _on_breath_attack_bottom_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "Bottom"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Entered Bottom Breath Attack Area.")
+
+func _on_breath_attack_bottom_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		breathAttackDirection = "None"
+		if GameMaster.DEBUG_ENEMY_PRINTS == true:
+			print("Player Exited Bottom Breath Attack Area.")
