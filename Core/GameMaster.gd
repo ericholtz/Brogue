@@ -380,7 +380,6 @@ func combat(player, enemy):
 						await otherMissTween.finished
 						if DEBUG_COMBATLOGS:
 							print(other_enemy.name, " missed ", player.player_name, "!")
->>>>>>> 46d0d8d (Addad Dragon breaths logisc)
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
 		var deathTween = animate_death(enemy)
