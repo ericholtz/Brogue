@@ -11,7 +11,6 @@ var entity_size = Vector2i(1,1)
 var animationSpeed = 18
 var moving = false
 var player = null
-var player_attack = null
 var can_attack = false
 var tileSize = 16
 
@@ -36,8 +35,6 @@ func take_turn():
 		return
 	if can_attack == true and not player.is_invisible:
 		await GameMaster.ranged_enemy_combat(player, self)
-	elif player_attack != null and not player_attack.is_invisible and not player_attack.moving:
-		await GameMaster.ranged_enemy_combat(player_attack, self)
 	else:
 		var try_move = Vector2.ZERO
 		for temp in Movement_Speed:
@@ -102,15 +99,3 @@ func vec_to_cardinal(vec: Vector2) -> Vector2:
 			res.y = 0
 	
 	return res
-
-func _on_attack_vision_2_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		player_attack = body
-		if GameMaster.DEBUG_ENEMY_PRINTS == true:
-			print("Player Entered Attack Area.")
-
-func _on_attack_vision_2_body_exited(body: Node2D) -> void:
-	if body.name == "Player":
-		player_attack = null
-		if GameMaster.DEBUG_ENEMY_PRINTS == true:
-			print("Player Exited Attack Area.")

@@ -508,3 +508,30 @@ func animate_death(target) -> Tween:
 	tween.tween_property(target, "scale", Vector2(), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	return tween
+
+func dragon_combat(player, enemy):
+	#lock player
+	can_move = false
+	#grab some information about combatants
+	var playerName = player.player_name
+	var enemyName = enemy.name
+	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
+	var enemyDamage = max(enemy.strength, 1)
+	
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating !!fire!! between ",playerName," and !!!!",enemyName,"!!!!-----")
+	
+	damage_player_signal.emit(enemyDamage)
+	var attackTween = animate_attack(enemy, player)
+	await attackTween.finished
+	if DEBUG_COMBATLOGS:
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	
+	#if player dies, game over.
+	if player.health <= 0:
+		var deathTween = animate_death(player)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
+	await get_tree().process_frame
+	can_move = true;
