@@ -106,6 +106,10 @@ func take_turn():
 		# Attack Player
 		if startedBreathAttackDirection == breathAttackDirection:
 			# Attack & damge
+			# Attack & damge
+			# Attack & damge
+			# Attack & damge
+			# Attack & damge
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Attacking With Breath Attak")
 				# Call Attack
