@@ -1122,12 +1122,12 @@ color_ramp = SubResource("Gradient_xvlvo")
 
 [node name="AttackVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+[node name="Melee1" type="CollisionShape2D" parent="AttackVision"]
 position = Vector2(24, 24)
 shape = SubResource("RectangleShape2D_cdv5w")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+[node name="Melee2" type="CollisionShape2D" parent="AttackVision"]
 position = Vector2(24, 24)
 shape = SubResource("RectangleShape2D_52hom")
 debug_color = Color(1, 0, 0, 0.419608)
