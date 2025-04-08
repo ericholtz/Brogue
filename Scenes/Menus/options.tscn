@@ -42,11 +42,14 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_sow1w")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/TextureRect"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect"]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 20.0
@@ -54,39 +57,63 @@ offset_top = 20.0
 offset_right = 260.0
 offset_bottom = 544.0
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/TextureRect/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect/VBoxContainer"]
 layout_mode = 2
 text = "~Controls~"
 label_settings = SubResource("LabelSettings_emxk7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/TextureRect/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/normal_font = ExtResource("2_sow1w")
+theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "
-
-
 [b]Movement[/b]
-K / W / ↑		-		Move up
-J / S / ↓		 -		Move Down
-H / A / ←		-		Move Left
-L / D / →		-		Move Right
-SPACE			-		Stand Still
-TAB / ESC		-		Pause
+K / W / ↑ - Move up
+J / S / ↓ - Move Down
+H / A / ← - Move Left
+L / D / → - Move Right
+SPACE - Stand Still
+TAB / ESC - Pause"
+horizontal_alignment = 1
 
+[node name="TextureRect2" type="TextureRect" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_sow1w")
 
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect2"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 544.0
 
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect2/VBoxContainer"]
+layout_mode = 2
+text = "~Tips & Tricks~"
+label_settings = SubResource("LabelSettings_emxk7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/HBoxContainer/TextureRect2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("2_sow1w")
+theme_override_font_sizes/normal_font_size = 27
+bbcode_enabled = true
+text = "
 [b]Combat[/b]
-* Moving into an enemy attacks them. Beware of retaliation.
-* To equip items, open your inventory and select them.
-
-
+* Moving into an enemy attacks them.
+* To use items, open your inventory and select 'Use'
+* Using potions drinks them. Using scrolls reads them. Using weapons and armor equips them.
+* Be careful using unidentified items!
 
 [b]Potions[/b]
-* To quaff a potion, open your inventory and select it.
+* To quaff a potion, open your inventory and Use it.
 * Potions will have a different effect on each run. Be careful that you're actually drinking a health potion and not deadly poison."
 horizontal_alignment = 1
 
