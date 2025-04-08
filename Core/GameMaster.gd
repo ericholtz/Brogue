@@ -482,3 +482,4 @@ func dragon_combat(player, enemy):
 			print(playerName," died!\n")
 	await get_tree().process_frame
 	can_move = true;
+	

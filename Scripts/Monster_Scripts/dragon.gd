@@ -24,6 +24,7 @@ var entity_size = Vector2i(3, 3)
 var animationSpeed = 18
 var moving = false
 var player = null
+var playerattack = null
 var tileSize = 16
 var breathFire = true
 var breathAttackCooldown = 0
@@ -167,8 +168,8 @@ func take_turn():
 			$BreathAttackBottom/Far/LeftIndicator.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Starting Bottom Breath Attak")
-	elif player != null and not player.is_invisible and not player.moving: # Normal Attack
-		await GameMaster.ranged_enemy_combat(player, self)
+	elif playerattack != null and not playerattack.is_invisible and not playerattack.moving: # Normal Attack
+		await GameMaster.ranged_enemy_combat(playerattack, self)
 		if breathAttackCooldown > 0:
 			breathAttackCooldown = breathAttackCooldown - 1
 	else: # Move and Wait for Cooldown
@@ -350,12 +351,12 @@ func _on_breath_attack_bottom_body_exited(body: Node2D) -> void:
 
 func _on_attack_vision_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		player = body
+		playerattack = body
 		if GameMaster.DEBUG_ENEMY_PRINTS == true:
 			print("Player Entered Attack Area.")
 
 func _on_attack_vision_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
-		player = null
+		playerattack = null
 		if GameMaster.DEBUG_ENEMY_PRINTS == true:
 			print("Player Exited Attack Area.")
