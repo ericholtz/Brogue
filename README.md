@@ -7,20 +7,21 @@ Table of contents: Work in progress
 Engine: Godot  
 
 ## Rogue ##
+Rogue was a video game released in 1980, marked by randomly generated levels and near-infinite progression. It spawned
+an entire genre of similar games known as Roguelikes, and BRogue is our take on that idea.
 Here is a link to Wikipedia which has more details on the original rogue.
 (https://en.wikipedia.org/wiki/Rogue_(video_game))
 
-## Game Deatails ##
+## Game Details ##
 Rogue is a single player Roguelike Dungeon Crawler game.  
 You have a 2D grid that the player and all objects sit upon, called a tile_map.  
 On this grid you have things like walls, monsters, traps, items, and the player.  
 The goal of the game is to get as deep in the dungeon as possible.  
 
 ## Installation ##
-Yeah... so... Learn Git... And Godot...  
-At this time you have to download Godot first.  
-Then download the git zip for the project into the godot file structure.  
-Then open it in godot and execute it.  
+- Install the latest version of Godot
+- Clone repository into your 'projects' folder
+- Open as an existing project
 
 ## How To Play ##
 Use W or H or Up-Arrow to move up  
@@ -28,8 +29,9 @@ Use A or J or Left-Arrow to move left
 Use S or K or Down-Arrow to move down  
 Use D or L or Right-Arrow to move right  
 Use SPACE to stand still for a turn  
-Moving directly into enemies attacks them  
-Use TAB or ESC to open the inventory/pause menu  
+Moving directly into enemies attacks them
+Press I to open the inventory
+Use TAB or ESC to open the pause menu  
 
 ## Cool Cams ##
 ### Eric ###
@@ -40,8 +42,7 @@ Each of you add here!
 Map Gen, levels...  
 
 ### Alex ###
-Each of you add here!  
-Player... GameMaster...  
+Alex Tattersall is working on the core GameMaster turn order logic for Brogue, baseline Player logic, as well as UI/UX design. He has created the main combat loop for the game, created a sound manager system for global SFX and music, and created the second version of our UI and menu system.
 
 ### Silas ###
 A couple different animations for each enemy Type.  
