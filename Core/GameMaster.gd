@@ -3,6 +3,7 @@ extends Node
 # signals
 signal gained_gold(gold_count: int)
 signal gained_item(item_name: String)
+signal gained_key()
 signal set_name(player_name: String)
 signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
@@ -37,6 +38,7 @@ enum EntityType {
 	ITEM,
 	ENEMY,
 	ROOM,
+	KEY,
 	}
 enum ItemType {
 	MELEE_WEAPON,
@@ -61,7 +63,6 @@ enum ScrollEffect {
 	STAT_BOOST,
 	}
 enum MiscType {
-	KEY,
 	MAP,
 	}
 
@@ -79,7 +80,7 @@ var status_effects = []
 var potion_types = {}
 var potion_types_str = {}
 
-var scroll_names = {}
+var scroll_titles = {}
 var scroll_sprite_regions = {}
 
 func _ready() -> void:
@@ -104,7 +105,7 @@ func init_vars():
 	potion_types = {}
 	potion_types_str = {}
 
-	scroll_names = {}
+	scroll_titles = {}
 	scroll_sprite_regions = {}
 
 func collect_entity(entity: Area2D):
@@ -115,6 +116,8 @@ func collect_entity(entity: Area2D):
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
 			gained_item.emit(entity)
+		EntityType.KEY:
+			gained_key.emit()
 
 func setname(player_name: String):
 	if player_name:
@@ -251,10 +254,10 @@ func decide_scrolls():
 		horiz.append(16 * i)
 	
 	for effect in ScrollEffect.values():
-		var name = generate_gibberish_text()
-		while name in scroll_names.values():
-			name = generate_gibberish_text()
-		scroll_names[effect] = name
+		var title = generate_gibberish_text()
+		while title in scroll_titles.values():
+			title = generate_gibberish_text()
+		scroll_titles[effect] = title
 		
 		var index = randi_range(0, horiz.size() - 1)
 		scroll_sprite_regions[effect] = Rect2(horiz[index], 208, 16, 16)
@@ -265,13 +268,13 @@ func generate_gibberish_text():
 	var full_alphabet = alphabet.split()
 	full_alphabet.append_array(alphabet.to_upper().split())
 	
-	var str = ""
+	var string = ""
 	for word in range(0, randi_range(3, 5)):
 		for character in range(0, randi_range(2, 7)):
-			str += full_alphabet[randi_range(0, full_alphabet.size()-1)]
-		str += " "
+			string += full_alphabet[randi_range(0, full_alphabet.size()-1)]
+		string += " "
 	
-	return str.left(-1)
+	return string.left(-1)
 
 #player and enemy turns are separated out so the player always gets priority over the enemies (unless debuffs change that)
 func enemyTurn():
