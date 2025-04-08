@@ -51,56 +51,56 @@ func take_turn():
 		return
 	if breathFire == true: # Attack with Fire Breath
 		breathFire = false
-		if breathAttackDirection == "Right":
+		if startedBreathAttackDirection == "Right":
 			# Call Animations
-			$BreathAttackRight/Close/Middle.emitting = true
-			$BreathAttackRight/Medium/Top.emitting = true
-			$BreathAttackRight/Medium/Middle.emitting = true
-			$BreathAttackRight/Medium/Bottom.emitting = true
-			$BreathAttackRight/Far/Bottom.emitting = true
-			$BreathAttackRight/Far/BottomMiddle.emitting = true
-			$BreathAttackRight/Far/Middle.emitting = true
-			$BreathAttackRight/Far/TopMiddle.emitting = true
-			$BreathAttackRight/Far/Top.emitting = true
+			$BreathAttackRight/Close/MiddleFire.emitting = true
+			$BreathAttackRight/Medium/TopFire.emitting = true
+			$BreathAttackRight/Medium/MiddleFire.emitting = true
+			$BreathAttackRight/Medium/BottomFire.emitting = true
+			$BreathAttackRight/Far/BottomFire.emitting = true
+			$BreathAttackRight/Far/BottomMiddleFire.emitting = true
+			$BreathAttackRight/Far/MiddleFire.emitting = true
+			$BreathAttackRight/Far/TopMiddleFire.emitting = true
+			$BreathAttackRight/Far/TopFire.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Emiting Right Breath Attak")
-		elif breathAttackDirection == "Left":
+		elif startedBreathAttackDirection == "Left":
 			# Call Animations
-			$BreathAttackLeft/Close/Middle.emitting = true
-			$BreathAttackLeft/Medium/Top.emitting = true
-			$BreathAttackLeft/Medium/Middle.emitting = true
-			$BreathAttackLeft/Medium/Bottom.emitting = true
-			$BreathAttackLeft/Far/Bottom.emitting = true
-			$BreathAttackLeft/Far/BottomMiddle.emitting = true
-			$BreathAttackLeft/Far/Middle.emitting = true
-			$BreathAttackLeft/Far/TopMiddle.emitting = true
-			$BreathAttackLeft/Far/Top.emitting = true
+			$BreathAttackLeft/Close/MiddleFire.emitting = true
+			$BreathAttackLeft/Medium/TopFire.emitting = true
+			$BreathAttackLeft/Medium/MiddleFire.emitting = true
+			$BreathAttackLeft/Medium/BottomFire.emitting = true
+			$BreathAttackLeft/Far/BottomFire.emitting = true
+			$BreathAttackLeft/Far/BottomMiddleFire.emitting = true
+			$BreathAttackLeft/Far/MiddleFire.emitting = true
+			$BreathAttackLeft/Far/TopMiddleFire.emitting = true
+			$BreathAttackLeft/Far/TopFire.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Emiting Left Breath Attak")
-		elif breathAttackDirection == "Top":
+		elif startedBreathAttackDirection == "Top":
 			# Call Animations
-			$BreathAttackTop/Close/Middle.emitting = true
-			$BreathAttackTop/Medium/Left.emitting = true
-			$BreathAttackTop/Medium/Middle.emitting = true
-			$BreathAttackTop/Medium/Right.emitting = true
-			$BreathAttackTop/Far/Right.emitting = true
-			$BreathAttackTop/Far/RightMiddle.emitting = true
-			$BreathAttackTop/Far/Middle.emitting = true
-			$BreathAttackTop/Far/LeftMiddle.emitting = true
-			$BreathAttackTop/Far/Left.emitting = true
+			$BreathAttackTop/Close/MiddleFire.emitting = true
+			$BreathAttackTop/Medium/LeftFire.emitting = true
+			$BreathAttackTop/Medium/MiddleFire.emitting = true
+			$BreathAttackTop/Medium/RightFire.emitting = true
+			$BreathAttackTop/Far/RightFire.emitting = true
+			$BreathAttackTop/Far/RightMiddleFire.emitting = true
+			$BreathAttackTop/Far/MiddleFire.emitting = true
+			$BreathAttackTop/Far/LeftMiddleFire.emitting = true
+			$BreathAttackTop/Far/LeftFire.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Emiting Top Breath Attak")
-		elif breathAttackDirection == "Bottom":
+		elif startedBreathAttackDirection == "Bottom":
 			# Call Animations
-			$BreathAttackBottom/Close/Middle.emitting = true
-			$BreathAttackBottom/Medium/Left.emitting = true
-			$BreathAttackBottom/Medium/Middle.emitting = true
-			$BreathAttackBottom/Medium/Right.emitting = true
-			$BreathAttackBottom/Far/Right.emitting = true
-			$BreathAttackBottom/Far/RightMiddle.emitting = true
-			$BreathAttackBottom/Far/Middle.emitting = true
-			$BreathAttackBottom/Far/LeftMiddle.emitting = true
-			$BreathAttackBottom/Far/Left.emitting = true
+			$BreathAttackBottom/Close/MiddleFire.emitting = true
+			$BreathAttackBottom/Medium/LeftFire.emitting = true
+			$BreathAttackBottom/Medium/MiddleFire.emitting = true
+			$BreathAttackBottom/Medium/RightFire.emitting = true
+			$BreathAttackBottom/Far/RightFire.emitting = true
+			$BreathAttackBottom/Far/RightMiddleFire.emitting = true
+			$BreathAttackBottom/Far/MiddleFire.emitting = true
+			$BreathAttackBottom/Far/LeftMiddleFire.emitting = true
+			$BreathAttackBottom/Far/LeftFire.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Emiting Bottom Breath Attak")
 		# Attack Player
@@ -119,19 +119,55 @@ func take_turn():
 		startedBreathAttackDirection = breathAttackDirection
 		# Find Direction
 		if startedBreathAttackDirection == "Right":
-			# emit area of attack right
+			# Emit area indicators of attack Right
+			$BreathAttackRight/Close/MiddleIndicator.emitting = true
+			$BreathAttackRight/Medium/TopIndicator.emitting = true
+			$BreathAttackRight/Medium/MiddleIndicator.emitting = true
+			$BreathAttackRight/Medium/BottomIndicator.emitting = true
+			$BreathAttackRight/Far/TopIndicator.emitting = true
+			$BreathAttackRight/Far/TopMiddleIndicator.emitting = true
+			$BreathAttackRight/Far/MiddleIndicator.emitting = true
+			$BreathAttackRight/Far/BottomMiddleIndicator.emitting = true
+			$BreathAttackRight/Far/BottomIndicator.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Starting Right Breath Attak")
 		elif startedBreathAttackDirection == "Left":
-			# emit area of attack left
+			# Emit area indicators of attack Left
+			$BreathAttackLeft/Close/MiddleIndicator.emitting = true
+			$BreathAttackLeft/Medium/TopIndicator.emitting = true
+			$BreathAttackLeft/Medium/MiddleIndicator.emitting = true
+			$BreathAttackLeft/Medium/BottomIndicator.emitting = true
+			$BreathAttackLeft/Far/TopIndicator.emitting = true
+			$BreathAttackLeft/Far/TopMiddleIndicator.emitting = true
+			$BreathAttackLeft/Far/MiddleIndicator.emitting = true
+			$BreathAttackLeft/Far/BottomMiddleIndicator.emitting = true
+			$BreathAttackLeft/Far/BottomIndicator.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Starting Left Breath Attak")
 		elif startedBreathAttackDirection == "Top":
-			# emit area of attack top
+			# Emit area indicators of attack top
+			$BreathAttackTop/Close/MiddleIndicator.emitting = true
+			$BreathAttackTop/Medium/LeftIndicator.emitting = true
+			$BreathAttackTop/Medium/MiddleIndicator.emitting = true
+			$BreathAttackTop/Medium/RightIndicator.emitting = true
+			$BreathAttackTop/Far/RightIndicator.emitting = true
+			$BreathAttackTop/Far/RightMiddleIndicator.emitting = true
+			$BreathAttackTop/Far/MiddleIndicator.emitting = true
+			$BreathAttackTop/Far/LeftMiddleIndicator.emitting = true
+			$BreathAttackTop/Far/LeftIndicator.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Starting Top Breath Attak")
 		elif startedBreathAttackDirection == "Bottom":
-			# emit area of attack bottom
+			# Emit area indicators of attack bottom 
+			$BreathAttackBottom/Close/MiddleIndicator.emitting = true
+			$BreathAttackBottom/Medium/LeftIndicator.emitting = true
+			$BreathAttackBottom/Medium/MiddleIndicator.emitting = true
+			$BreathAttackBottom/Medium/RightIndicator.emitting = true
+			$BreathAttackBottom/Far/RightIndicator.emitting = true
+			$BreathAttackBottom/Far/RightMiddleIndicator.emitting = true
+			$BreathAttackBottom/Far/MiddleIndicator.emitting = true
+			$BreathAttackBottom/Far/LeftMiddleIndicator.emitting = true
+			$BreathAttackBottom/Far/LeftIndicator.emitting = true
 			if GameMaster.DEBUG_ENEMY_PRINTS == true:
 				print("Starting Bottom Breath Attak")
 	else: # Move and Wait for Cooldown
