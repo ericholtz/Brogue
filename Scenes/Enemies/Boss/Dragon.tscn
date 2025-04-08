@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bhv8ctsep28qo"]
+[gd_scene load_steps=25 format=3 uid="uid://bhv8ctsep28qo"]
 
 [ext_resource type="Script" uid="uid://b4pggoxnc5vyc" path="res://Scripts/Monster_Scripts/dragon.gd" id="1_ow0un"]
 [ext_resource type="Texture2D" uid="uid://od45k3ph4d1r" path="res://Textures/Tilemaps/DungeonCave/Monsters-Animated.png" id="2_8y5xr"]
@@ -80,6 +80,12 @@ size = Vector2(47, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32r36"]
 size = Vector2(79, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cdv5w"]
+size = Vector2(79.5, 47.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52hom"]
+size = Vector2(48, 80)
 
 [node name="Dragon" type="CharacterBody2D"]
 script = ExtResource("1_ow0un")
@@ -1114,6 +1120,18 @@ one_shot = true
 gravity = Vector2(0, 0)
 color_ramp = SubResource("Gradient_xvlvo")
 
+[node name="AttackVision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_cdv5w")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_52hom")
+debug_color = Color(1, 0, 0, 0.419608)
+
 [connection signal="body_entered" from="PlayerVision" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="PlayerVision" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="BreathAttackRight" to="." method="_on_breath_attack_right_body_entered"]
@@ -1124,3 +1142,5 @@ color_ramp = SubResource("Gradient_xvlvo")
 [connection signal="body_exited" from="BreathAttackTop" to="." method="_on_breath_attack_top_body_exited"]
 [connection signal="body_entered" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_entered"]
 [connection signal="body_exited" from="BreathAttackBottom" to="." method="_on_breath_attack_bottom_body_exited"]
+[connection signal="body_entered" from="AttackVision" to="." method="_on_attack_vision_body_entered"]
+[connection signal="body_exited" from="AttackVision" to="." method="_on_attack_vision_body_exited"]

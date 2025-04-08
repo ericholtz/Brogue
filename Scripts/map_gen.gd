@@ -101,15 +101,15 @@ const BASE_ROOMS = 12
 ##-----(Base Enemy Spawn Chance)-----##
 const BASE_CAVE_ENEMY_SPAWN_CHANCE = 0.1
 const BASE_RARE_ENEMY_SPAWN_CHANCE = 0.001
-const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.05
-const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.05
+const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.1
+const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.1
 const BASE_BOSS_ENEMY_SPAWN_CHANCE = 1
 
-const BASE_ICE_MAX_ENEMIES = 3
-const BASE_CAVE_MAX_ENEMIES = 7
+const BASE_ICE_MAX_ENEMIES = 4
+const BASE_CAVE_MAX_ENEMIES = 8
 const BASE_BOSS_MAX_ENEMIES = 1
 const BASE_RARE_ICE_MAX_ENEMIES = 1
-const BASE_ICE_BIG_ENEMIES = 3
+const BASE_ICE_BIG_ENEMIES = 4
 ##-----(Base Enemy Spawn Chance)-----##
 
 const BASE_MAX_GOLD = 2
@@ -121,15 +121,15 @@ const BASE_MAX_MISC = 1
 # Scaling factors
 const MAP_GROWTH_RATE = 2  # How much the map increases each level
 const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
-const SPAWN_RATE_INCREMENT = 0.03  # Increases spawn rates per level
+const SPAWN_RATE_INCREMENT = 0.02  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
 ##-----(Enemy Spawn Chance)-----##
 @export var cave_enemy_spawn_chance : float = 0.9
 @export var rare_ice_enemy_spawn_chance : float = 0.001
-@export var ice_enemy_spawn_chance : float = 0.25
-@export var big_ice_enemy_spawn_chance : float = 0.25
+@export var ice_enemy_spawn_chance : float = 0.5
+@export var big_ice_enemy_spawn_chance : float = 0.5
 @export var boss_enemy_spawn_chance : float = 1.0
 ##-----(Enemy Spawn Chance)-----##
 
@@ -420,7 +420,7 @@ func spawn_room_content(room: Node) -> void:
 		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
 		spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
 		
-	if level >= 2:
+	if level >= 2 and level != 5:
 		# Spawn Ice enemies
 		spawn_entities(room, Big_ice_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
 		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
@@ -432,10 +432,10 @@ func spawn_room_content(room: Node) -> void:
 		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
 		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
 	
-	#if level == 3:
+	if level == 5:
 		## Spawn Boss enemies
-		#if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
-		#spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
+		if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
+		spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
 	##-----(Spawn Enemies)-----##
 	
 	# Spawn gold
@@ -610,8 +610,8 @@ func regenerate_map() -> void:
 	##-----(Scaleing Max Enemies)-----##
 	max_cave_enemies_per_room = BASE_CAVE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	max_ice_enemies_per_room = BASE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
-	max_rare_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
-	#max_boss_enemies_per_room = BASE_BOSS_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	#max_rare_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
+	max_boss_enemies_per_room = BASE_BOSS_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	max_big_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	##-----(Scaleing Max Enemies)-----##
 	
