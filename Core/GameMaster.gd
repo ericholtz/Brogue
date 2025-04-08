@@ -324,9 +324,7 @@ func combat(player, enemy):
 	
 	#after player attacks, check if enemy is dead
 	var enemyDefeated = not is_instance_valid(enemy) or enemy.health <= 0
-<<<<<<< HEAD
 
-=======
 	
 	#if it's alive, roll combat
 	if not enemyDefeated:
