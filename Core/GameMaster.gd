@@ -113,11 +113,16 @@ func collect_entity(entity: Area2D):
 		return
 	match entity.entity_type:
 		EntityType.GOLD:
-			SoundFx.small_coin()
+			if entity.gold_worth < 10:
+				SoundFx.small_coin()
+			else:
+				SoundFx.large_coin()
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
+			SoundFx.item_pickup()
 			gained_item.emit(entity)
 		EntityType.KEY:
+			SoundFx.small_coin()
 			gained_key.emit()
 
 func setname(player_name: String):
@@ -172,6 +177,7 @@ func apply_health_diff():
 func heal_player(amount: int):
 	if DEBUG_COMBATLOGS:
 		print("Healing player for "+str(amount)+" points.")
+	SoundFx.heal()
 	heal_player_signal.emit(amount)
 
 func damage_player(amount: int):
@@ -310,6 +316,7 @@ func combat(player, enemy):
 	if DEBUG_COMBATLOGS:
 		print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
 	if playerRoll <= playerHitChance:
+		SoundFx.attack()
 		enemy.health -= playerDamage
 		var attackTween = animate_attack(player, enemy)
 		await attackTween.finished
@@ -317,6 +324,7 @@ func combat(player, enemy):
 			if DEBUG_COMBATLOGS:
 				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	else:
+		SoundFx.miss()
 		var missTween = animate_miss(player)
 		await missTween.finished
 		if DEBUG_COMBATLOGS:
@@ -327,6 +335,7 @@ func combat(player, enemy):
 
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
+		SoundFx.death()
 		var deathTween = animate_death(enemy)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:
@@ -342,6 +351,7 @@ func combat(player, enemy):
 				
 	#if player dies, game over.
 	if player.health <= 0:
+		SoundFx.death()
 		var deathTween = animate_death(player)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:
@@ -369,12 +379,14 @@ func ranged_enemy_combat(player, enemy):
 	if DEBUG_COMBATLOGS:
 		print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
 	if enemyRoll <= enemyHitChance:
+		SoundFx.attack()
 		damage_player_signal.emit(enemyDamage)
 		var attackTween = animate_attack(enemy, player)
 		await attackTween.finished
 		if DEBUG_COMBATLOGS:
 			print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 	else:
+		SoundFx.miss()
 		var missTween = animate_miss(enemy)
 		await missTween.finished
 		if DEBUG_COMBATLOGS:
@@ -382,6 +394,7 @@ func ranged_enemy_combat(player, enemy):
 	
 	#if player dies, game over.
 	if player.health <= 0:
+		SoundFx.death()
 		var deathTween = animate_death(player)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:

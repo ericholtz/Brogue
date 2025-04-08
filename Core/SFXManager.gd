@@ -25,6 +25,9 @@ func footstep():
 	var sound = steps.pick_random()
 	sound.play()
 
+func item_pickup():
+	$pickup.play()
+
 func level_up():
 	$levelup.play()
 
