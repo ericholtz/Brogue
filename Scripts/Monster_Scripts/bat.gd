@@ -17,7 +17,7 @@ var tileSize = 16
 
 #Monsters States
 var health = 3
-var strength = 3
+var strength = 1
 var defense = 0
 var Movement_Speed = 2
 var xp = 10
@@ -29,7 +29,7 @@ func _ready():
 	Animations.play("")
 	var Level = get_parent().level
 	health = 2 + Level
-	strength = (3 * Level) + 2
+	strength = (1 * Level) + 1
 	defense = 0
 
 func take_turn():

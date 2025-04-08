@@ -75,6 +75,8 @@ func play_ambience():
 	var ambience = [$MusicAmbience1, $MusicAmbience2, $MusicAmbience3, $MusicAmbience4, $MusicAmbience5, $MusicAmbience6]
 	var music = ambience.pick_random()
 	music.play()
+	await music.finished
+	play_ambience()
 
 func _stop_all_music():
 	$MusicMainMenu.stop()
