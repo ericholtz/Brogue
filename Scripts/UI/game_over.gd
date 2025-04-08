@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var player = $"../Player"
 
 func _ready():
+	SoundFx.game_over()
+	SoundFx.play_game_over_music()
 	if player.player_name.to_lower() == "eric":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "LOSER"
@@ -17,11 +19,14 @@ func _ready():
 	quit_btn.connect("pressed", Callable(self, "_on_quit"))
 
 func _on_play_again():
+	SoundFx.menu_yes()
 	GameMaster._ready()
 	get_tree().reload_current_scene()  # Restart the level
 
 func _on_main_menu():
+	SoundFx.menu_yes()
 	get_tree().change_scene_to_file("res://Scenes/Menus/main_menu.tscn")  # Load main menu
 
 func _on_quit():
+	SoundFx.menu_no()
 	get_tree().quit()  # Exit the game

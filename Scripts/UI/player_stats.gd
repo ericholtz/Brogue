@@ -35,8 +35,10 @@ func _input(event):
 	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
 		visible = !visible
 		if visible:
+			SoundFx.menu_yes()
 			GameMaster.can_move = false
 		else:
+			SoundFx.menu_no()
 			GameMaster.can_move = true
 		update_stats()
 		update_inventory()
@@ -107,9 +109,11 @@ func update_inventory():
 
 func _on_close_pressed():
 	visible = false
+	SoundFx.menu_no()
 	GameMaster.can_move = true
 
 func _on_copy_pressed():
+	SoundFx.menu_yes()
 	DisplayServer.clipboard_set(str(GameMaster.current_seed))
 
 func show_identify():
@@ -121,20 +125,24 @@ func hide_identify():
 	identify_visible = false
 
 func _on_use_pressed(use_button: BaseButton):
+	SoundFx.menu_yes()
 	var index = use_button.get_index() / 5
 	player.use(index)
 	update_stats()
 
 func _on_drop_pressed(drop_button: BaseButton):
+	SoundFx.menu_no()
 	var index = drop_button.get_index() / 5
 	player.drop(index)
 	update_stats()
 
 func _on_identify_pressed(identify_button: BaseButton):
+	SoundFx.menu_yes()
 	var index = identify_button.get_index() / 5
 	player.identify(index)
 	hide_identify()
 	update_stats()
 
 func _on_quit_pressed():
+	SoundFx.menu_no()
 	get_tree().change_scene_to_file("res://Scenes/Menus/main_menu.tscn")

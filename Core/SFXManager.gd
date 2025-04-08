@@ -11,6 +11,11 @@ func large_coin():
 	sound.play()
 
 func attack():
+	var clang = [$sword1, $sword2, $sword3, $sword4, $sword5]
+	var sound = clang.pick_random()
+	sound.play()
+	
+func miss():
 	var whoosh = [$swing1, $swing2]
 	var sound = whoosh.pick_random()
 	sound.play()
@@ -23,6 +28,9 @@ func footstep():
 func level_up():
 	$levelup.play()
 
+func game_over():
+	$gameoversfx.play()
+
 func heal():
 	$heal.play()
 
@@ -31,6 +39,9 @@ func buff():
 
 func debuff():
 	$bad.play()
+
+func drop_item():
+	$dropitem.play()
 
 func death():
 	$death.play()
@@ -48,12 +59,22 @@ func inventory_click():
 	$click1.play()
 
 func play_menu_music():
-	$MusicMainMenu.play()
+	if not $MusicMainMenu.playing:
+		_stop_all_music()
+		$MusicMainMenu.play()
+
+func play_game_over_music():
+	_stop_all_music()
+	$MusicDeath.play()
 
 func play_ambience():
+	_stop_all_music()
 	var ambience = [$MusicAmbience1, $MusicAmbience2, $MusicAmbience3, $MusicAmbience4, $MusicAmbience5, $MusicAmbience6]
 	var music = ambience.pick_random()
 	music.play()
 
-func play_game_over_music():
-	$MusicDeath.play()
+func _stop_all_music():
+	$MusicMainMenu.stop()
+	$MusicDeath.stop()
+	for ambience in [$MusicAmbience1, $MusicAmbience2, $MusicAmbience3, $MusicAmbience4, $MusicAmbience5, $MusicAmbience6]:
+		ambience.stop()
