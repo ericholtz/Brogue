@@ -172,3 +172,5 @@ stream = ExtResource("40_fqt6q")
 
 [node name="gameoversfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("41_tprj8")
+
+[node name="pickup" type="AudioStreamPlayer" parent="."]
