@@ -7,6 +7,7 @@ func _ready():
 
 func _on_start_button_pressed() -> void:
 	SoundFx.menu_yes()
+	SoundFx.play_ambience()
 	var input_seed = int(seed_text.text)
 	if input_seed != 0 and 1 <= input_seed and input_seed <= 1000000000:
 		GameMaster.user_seed = input_seed

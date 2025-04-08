@@ -160,6 +160,7 @@ func move(dir) -> int:
 				return 2
 		return 0
 	#create a new Tween object to handle smooth movement
+	SoundFx.footstep()
 	var tween = create_tween()
 	#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 	var target_pos = (position + inputs[dir] * tileSize).snapped(Vector2.ONE * tileSize/2)  # Snap target
@@ -179,6 +180,7 @@ func add_xp(amount: int):
 
 func gain_level():
 	while currentXP >= XPtoNext:
+		SoundFx.level_up()
 		print("+++++Gained a level!+++++")
 		animate_level_up()
 		currentXP -= XPtoNext
@@ -252,6 +254,7 @@ func _on_damage_received(amount: int):
 
 func _on_heal_received(amount: int):
 	if health < MAX_HEALTH:
+		SoundFx.heal()
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
 
