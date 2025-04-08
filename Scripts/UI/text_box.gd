@@ -17,6 +17,7 @@ func _hide_text_box(_unused_arg = null):
 
 func _on_line_edit_text_submitted(_new_text: String) -> void:
 	if Input.is_action_just_pressed("ui_text_submit"):
+		SoundFx.menu_yes()
 		if p_name.text:
 			text_box_container.hide()
 			#load("res://Scenes/world.tscn")

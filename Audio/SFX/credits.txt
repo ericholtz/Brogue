@@ -7,6 +7,9 @@ https://freesound.org/people/Vilkas_Sound/packs/39543/
 All footstep sfx - Steps by bnjmih on freesound.org
 https://freesound.org/people/bnjmih/packs/43116/
 
+All sword sfx and item drop - Sword Fight by Empiremonkey on freesound.org
+https://freesound.org/people/Empiremonkey/packs/34057/
+
 nextlevel.wav - slide down sfx by ImATaco on freesound.org
 https://freesound.org/people/ImATaco/sounds/711193/
 
@@ -19,6 +22,9 @@ https://freesound.org/people/komit.wav/sounds/402295/
 
 death.wav - 8 bit Death sound by MentosLat on freesound.org
 https://freesound.org/people/MentosLat/sounds/417486/
+
+gameover.wav - Game Over Arcade by Mountain_Man on freesound.org
+https://freesound.org/people/Mountain_Man/sounds/382310/
 
 good and bad sfx - Arcade Level and Arcade Something Bad by Poligonstudio on freesound.org
 https://freesound.org/people/Poligonstudio/sounds/412165/

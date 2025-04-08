@@ -13,11 +13,17 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_F1:  # Toggle console visibility
 			visible = !visible
-			GameMaster.can_move = !GameMaster.can_move
+			if visible:
+				SoundFx.menu_yes()
+				GameMaster.can_move = false
+			else:
+				SoundFx.menu_no()
+				GameMaster.can_move = true
 			if visible:
 				input_field.grab_focus()
 
 func _on_command_entered(command):
+	SoundFx.menu_yes()
 	command = command.strip_edges()
 	var words = command.split(" ", false)
 	if words.size() == 0 or words[0] == "":

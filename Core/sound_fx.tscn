@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bvtoxlf28wtky"]
+[gd_scene load_steps=42 format=3 uid="uid://bvtoxlf28wtky"]
 
 [ext_resource type="Script" uid="uid://4s31hdmois1e" path="res://Core/SFXManager.gd" id="1_dv4dc"]
 [ext_resource type="AudioStream" uid="uid://bc8u4rrhd8rbv" path="res://Audio/SFX/coin1.wav" id="2_s23jl"]
@@ -34,6 +34,13 @@
 [ext_resource type="AudioStream" uid="uid://dgyj0p2oml478" path="res://Audio/Music/Ambience 6(Composiia - Geada).mp3" id="32_eejyx"]
 [ext_resource type="AudioStream" uid="uid://caqba8n3fxufm" path="res://Audio/Music/Death (Composiia - Sina).mp3" id="33_2cjd1"]
 [ext_resource type="AudioStream" uid="uid://bpyexydc013vt" path="res://Audio/Music/Main Menu (Composiia - Coracao de Breu).mp3" id="34_rdlb3"]
+[ext_resource type="AudioStream" uid="uid://txg3vj85axit" path="res://Audio/SFX/sword1.wav" id="35_8pgo2"]
+[ext_resource type="AudioStream" uid="uid://66dfpwovmy27" path="res://Audio/SFX/sword2.wav" id="36_v7iow"]
+[ext_resource type="AudioStream" uid="uid://ctpioyoqbqpsb" path="res://Audio/SFX/sword3.wav" id="37_okpdb"]
+[ext_resource type="AudioStream" uid="uid://dxt8xg4hpd1on" path="res://Audio/SFX/sword4.wav" id="38_vxndl"]
+[ext_resource type="AudioStream" uid="uid://ccjjq671wes8f" path="res://Audio/SFX/sword5.wav" id="39_6qx5o"]
+[ext_resource type="AudioStream" uid="uid://bwc64t7vwwosa" path="res://Audio/SFX/dropitem.wav" id="40_fqt6q"]
+[ext_resource type="AudioStream" uid="uid://chg6gfi3a7o7e" path="res://Audio/SFX/gameover.wav" id="41_tprj8"]
 
 [node name="SoundFX" type="Node"]
 script = ExtResource("1_dv4dc")
@@ -115,24 +122,53 @@ stream = ExtResource("26_62l7y")
 
 [node name="MusicAmbience1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("27_8fmm8")
+volume_db = -15.0
 
 [node name="MusicAmbience2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("28_ec6bt")
+volume_db = -15.0
 
 [node name="MusicAmbience3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("29_6b5wo")
+volume_db = -15.0
 
 [node name="MusicAmbience4" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("30_n8ptg")
+volume_db = -15.0
 
 [node name="MusicAmbience5" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("31_pu1l8")
+volume_db = -15.0
 
 [node name="MusicAmbience6" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("32_eejyx")
+volume_db = -15.0
 
 [node name="MusicDeath" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("33_2cjd1")
+volume_db = -15.0
 
 [node name="MusicMainMenu" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("34_rdlb3")
+volume_db = -15.0
+
+[node name="sword1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_8pgo2")
+
+[node name="sword2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("36_v7iow")
+
+[node name="sword3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("37_okpdb")
+
+[node name="sword4" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("38_vxndl")
+
+[node name="sword5" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("39_6qx5o")
+
+[node name="dropitem" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("40_fqt6q")
+
+[node name="gameoversfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("41_tprj8")
