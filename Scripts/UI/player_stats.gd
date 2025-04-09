@@ -32,7 +32,7 @@ func _process(_delta):
 		GameMaster.can_move = false
 
 func _input(event):
-	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE, KEY_I]:
+	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
 		visible = !visible
 		if visible:
 			SoundFx.menu_yes()

@@ -97,6 +97,7 @@ func _ready():
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 	GameMaster.end_status_effect_signal.connect(_on_remove_status_effect.bind())
+	GameMaster.do_poison_particle.connect(_on_do_poison_particle.bind())
 	
 
 #Called every frame to handle continuous input
@@ -257,6 +258,9 @@ func _on_heal_received(amount: int):
 		SoundFx.heal()
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
+
+func _on_do_poison_particle():
+	$PoisonParticles2D.emitting = true
 
 func use(item_index: int):
 	# check bounds

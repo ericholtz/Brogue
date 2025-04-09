@@ -9,6 +9,7 @@ signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 signal end_status_effect_signal(effect: StatusEffect)
+signal do_poison_particle()
 
 # Turn on/off debug statments
 @export var DEBUG_MAP = false
@@ -161,6 +162,7 @@ func apply_health_diff():
 	
 	# 1 tick of poison damage every other turn
 	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
+		do_poison_particle.emit()
 		damage_amount += 1
 	
 	# passive regen every 20 turns

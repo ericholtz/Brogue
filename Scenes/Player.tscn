@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=33 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
@@ -34,11 +34,18 @@ colors = PackedColorArray(0.329412, 1, 0, 1, 0.902941, 1, 0, 1, 0.425, 1, 0, 1, 
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
 atlas = ExtResource("2_tdieg")
-region = Rect2(16, 64, 16, 16)
+region = Rect2(64, 336, 16, 16)
 
 [sub_resource type="Gradient" id="Gradient_dewec"]
-offsets = PackedFloat32Array(0, 0.526667, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.552956, 0.552956, 0.552956, 1, 0, 0, 0, 0)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arntx"]
+atlas = ExtResource("2_tdieg")
+region = Rect2(64, 336, 16, 16)
+
+[sub_resource type="Gradient" id="Gradient_lslt6"]
+offsets = PackedFloat32Array(0, 0.54, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otx2"]
 atlas = ExtResource("2_qilt3")
@@ -188,20 +195,17 @@ color_ramp = SubResource("Gradient_yoq75")
 z_index = 2
 position = Vector2(7.99853, 8.02359)
 emitting = false
-amount = 16
 texture = SubResource("AtlasTexture_ksbbd")
-lifetime = 0.9
+lifetime = 1.5
 one_shot = true
 speed_scale = 2.0
-explosiveness = 1.0
+explosiveness = 0.75
 spread = 180.0
-gravity = Vector2(0, 0)
+gravity = Vector2(0, -25)
 initial_velocity_min = 8.0
 initial_velocity_max = 16.0
-angular_velocity_min = -8.0
-angular_velocity_max = 8.0
-orbit_velocity_min = 0.15
-orbit_velocity_max = 0.15
+angular_velocity_min = -15.0
+angular_velocity_max = 15.0
 scale_amount_curve = SubResource("Curve_on12k")
 color_ramp = SubResource("Gradient_3ff0n")
 hue_variation_min = 1.0
@@ -226,6 +230,19 @@ scale_amount_curve = SubResource("Curve_on12k")
 color_ramp = SubResource("Gradient_dewec")
 hue_variation_min = 1.0
 hue_variation_max = 1.0
+
+[node name="PoisonParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(8, 8)
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_arntx")
+lifetime = 1.25
+one_shot = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, -30)
+angular_velocity_min = -15.0
+angular_velocity_max = 15.0
+color_ramp = SubResource("Gradient_lslt6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
