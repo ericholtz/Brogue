@@ -236,7 +236,6 @@ position = Vector2(8, 8)
 emitting = false
 amount = 1
 texture = SubResource("AtlasTexture_arntx")
-lifetime = 1.25
 one_shot = true
 direction = Vector2(0, -1)
 gravity = Vector2(0, -30)
