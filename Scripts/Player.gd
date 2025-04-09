@@ -269,12 +269,16 @@ func use(item_index: int):
 	var key_used = false
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
+			SoundFx.item_pickup()
 			attack = strength + item.attack
 		GameMaster.ItemType.ARMOR:
+			SoundFx.item_pickup()
 			armor = defense + item.armor
 		GameMaster.ItemType.POTION:
+			SoundFx.potion()
 			use_potion(item)
 		GameMaster.ItemType.SCROLL:
+			SoundFx.scroll()
 			use_scroll(item)
 		GameMaster.ItemType.MISC:
 			key_used = use_misc(item)
@@ -375,16 +379,23 @@ func remove_blind():
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = false
 
 func use_scroll(scroll: Area2D):
+	SoundFx.scroll()
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
+			SoundFx.level_up()
 			random_tp()
 		GameMaster.ScrollEffect.BLIND:
+			SoundFx.debuff()
 			use_blind_scroll()
 		GameMaster.ScrollEffect.IDENTIFY:
+			SoundFx.scroll()
 			use_identify_scroll()
 		GameMaster.ScrollEffect.GOLD_RUSH:
+			SoundFx.large_coin()
+			SoundFx.large_coin()
 			use_gold_rush_scroll()
 		GameMaster.ScrollEffect.STAT_BOOST:
+			SoundFx.buff()
 			use_stat_boost_scroll()
 
 func random_tp():
@@ -425,6 +436,7 @@ func use_misc(misc: Area2D) -> bool:
 			return false
 
 func use_map(map: Area2D):
+	SoundFx.scroll()
 	var current_level = $"../map_gen".level
 	if map.map_level == current_level:
 		base_zoom += 1

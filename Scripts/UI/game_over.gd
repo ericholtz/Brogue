@@ -20,6 +20,7 @@ func _ready():
 
 func _on_play_again():
 	SoundFx.menu_yes()
+	SoundFx.play_ambience()
 	GameMaster._ready()
 	get_tree().reload_current_scene()  # Restart the level
 

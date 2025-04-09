@@ -20,6 +20,14 @@ func miss():
 	var sound = whoosh.pick_random()
 	sound.play()
 
+func scroll():
+	var paper = [$paper1, $paper2, $paper3, $paper4]
+	var sound = paper.pick_random()
+	sound.play()
+
+func potion():
+	$potion.play()
+
 func footstep():
 	var steps = [$footstep1, $footstep2, $footstep3, $footstep4, $footstep5]
 	var sound = steps.pick_random()
