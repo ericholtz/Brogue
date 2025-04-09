@@ -43,10 +43,11 @@ Map Gen, levels...
 ### Alex ###
 Alex Tattersall is working on the core GameMaster turn order logic for Brogue, baseline Player logic, as well as UI/UX design. He has created the main combat loop for the game, created a sound manager system for global SFX and music, and created the second version of our UI and menu system.
 
-### Silas ###
-A couple different animations for each enemy Type.  
-~~A manual Astar Pathing algorithm.~~  
-More to come...  
+### Silas McCloud ###
+Git Username: Microgoober
+Three different  types of cave biome enemies,
+Five different  types of ice biome enemies,
+One complex Boss enemy.
 
 ## Contribution Guidelines ##
 Reach out to us!  
