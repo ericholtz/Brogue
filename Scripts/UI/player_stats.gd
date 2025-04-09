@@ -27,7 +27,7 @@ func _ready():
 	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
 
-func _process(delta):
+func _process(_delta):
 	if visible:
 		GameMaster.can_move = false
 
