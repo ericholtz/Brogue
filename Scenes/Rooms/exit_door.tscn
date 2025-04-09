@@ -1,8 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bshgb46jx5no4"]
+[gd_scene load_steps=9 format=3 uid="uid://bshgb46jx5no4"]
 
 [ext_resource type="Script" uid="uid://k6a8y5q5v5c5" path="res://Scripts/Room/exit_door.gd" id="1_8kdwr"]
-[ext_resource type="Script" uid="uid://de6e1qhbn0sk" path="res://Scripts/Room/exit.gd" id="1_tlqbj"]
+[ext_resource type="Script" path="res://Scripts/Room/exit.gd" id="1_tlqbj"]
+[ext_resource type="Shader" uid="uid://hnsr617qy3kt" path="res://Shaders/bouncytext.gdshader" id="3_je4mk"]
 [ext_resource type="Texture2D" uid="uid://c7j8lm1b83dwe" path="res://Textures/Tilemaps/DungeonCave/Dungeon.png" id="3_tlqbj"]
+[ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="4_82n4j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4q5mj"]
+shader = ExtResource("3_je4mk")
+shader_parameter/height = 2.5
+shader_parameter/speed = 2.5
+
+[sub_resource type="LabelSettings" id="LabelSettings_1ocoe"]
+font = ExtResource("4_82n4j")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5h1ot"]
 size = Vector2(14, 14)
@@ -13,6 +23,19 @@ script = ExtResource("1_tlqbj")
 [node name="Exit_door" type="Area2D" parent="."]
 position = Vector2(8, 8)
 script = ExtResource("1_8kdwr")
+
+[node name="ExitMsg" type="Label" parent="Exit_door"]
+visible = false
+z_index = 1
+material = SubResource("ShaderMaterial_4q5mj")
+offset_left = -86.0
+offset_top = -38.0
+offset_right = 86.0
+offset_bottom = -12.0
+text = "Go Find The Key!"
+label_settings = SubResource("LabelSettings_1ocoe")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit_door"]
 texture = ExtResource("3_tlqbj")

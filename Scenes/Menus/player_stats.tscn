@@ -23,15 +23,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="NameBox" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+[node name="NameBox" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_8x3ga")
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/NameBox"]
+[node name="Name" type="Label" parent="MarginContainer/VBoxContainer/NameBox"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -49,16 +58,16 @@ theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SeedControls" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="SeedControls" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="SeedBox" type="TextureRect" parent="PanelContainer/VBoxContainer/SeedControls"]
+[node name="SeedBox" type="TextureRect" parent="MarginContainer/VBoxContainer/SeedControls"]
 layout_mode = 2
 texture = ExtResource("2_8x3ga")
 stretch_mode = 5
 
-[node name="Seed" type="Label" parent="PanelContainer/VBoxContainer/SeedControls/SeedBox"]
+[node name="Seed" type="Label" parent="MarginContainer/VBoxContainer/SeedControls/SeedBox"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -76,7 +85,7 @@ theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CopyButton" type="TextureButton" parent="PanelContainer/VBoxContainer/SeedControls/SeedBox"]
+[node name="CopyButton" type="TextureButton" parent="MarginContainer/VBoxContainer/SeedControls/SeedBox"]
 layout_mode = 2
 offset_left = 284.0
 offset_right = 340.0
@@ -85,12 +94,12 @@ texture_normal = ExtResource("4_8bck2")
 texture_pressed = ExtResource("5_cffa4")
 texture_hover = ExtResource("6_cffa4")
 
-[node name="StatsBox" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+[node name="StatsBox" type="TextureRect" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_emiye")
 stretch_mode = 5
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/StatsBox"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/StatsBox"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -107,93 +116,93 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 columns = 2
 
-[node name="Level" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="Level" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Level:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="LevelVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="LevelVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="XP" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="XP" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Current XP:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="XPval" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="XPval" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="XPtoNext" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="XPtoNext" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "XP to LVL UP:	     "
 label_settings = ExtResource("5_um3tq")
 
-[node name="XPtoNextVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="XPtoNextVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="Health" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="Health" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Health:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="HealthVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="HealthVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="BaseStr" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="BaseStr" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Strength:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="BaseStrVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="BaseStrVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="BaseDef" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="BaseDef" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Defense:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="BaseDefVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="BaseDefVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="Atk" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="Atk" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Attack:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="AtkVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="AtkVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="Armor" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="Armor" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 text = "Armor:"
 label_settings = ExtResource("5_um3tq")
 
-[node name="ArmorVal" type="Label" parent="PanelContainer/VBoxContainer/StatsBox/GridContainer"]
+[node name="ArmorVal" type="Label" parent="MarginContainer/VBoxContainer/StatsBox/GridContainer"]
 layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
-[node name="Inventory" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Inventory" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="GridContainer" parent="PanelContainer/VBoxContainer/Inventory"]
+[node name="ItemList" type="GridContainer" parent="MarginContainer/VBoxContainer/Inventory"]
 layout_mode = 2
 columns = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 64
 
-[node name="Resume" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Resume" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -201,7 +210,7 @@ texture_normal = ExtResource("6_r7ppi")
 texture_pressed = ExtResource("7_gle4s")
 texture_hover = ExtResource("8_8bck2")
 
-[node name="ResumeLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Resume"]
+[node name="ResumeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Resume"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -219,13 +228,13 @@ label_settings = ExtResource("9_cffa4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Quit" type="TextureButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Quit" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("6_r7ppi")
 texture_pressed = ExtResource("7_gle4s")
 texture_hover = ExtResource("8_8bck2")
 
-[node name="QuitLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Quit"]
+[node name="QuitLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Quit"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -243,4 +252,4 @@ label_settings = ExtResource("9_cffa4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]

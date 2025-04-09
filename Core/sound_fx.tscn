@@ -201,7 +201,7 @@ volume_db = -15.0
 
 [node name="dropitem" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("40_fqt6q")
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="gameoversfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("41_tprj8")
@@ -225,4 +225,3 @@ stream = ExtResource("46_w1gk5")
 
 [node name="potion" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("47_tprj8")
-volume_db = -10.0

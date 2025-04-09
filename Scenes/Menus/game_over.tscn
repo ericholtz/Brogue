@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ddflf7xibxt8b" path="res://Scripts/UI/game_over.gd" id="1_08yff"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_5b2x3"]
 [ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="2_h1yjp"]
-[ext_resource type="Shader" path="res://Shaders/bouncytext.gdshader" id="2_m4ckg"]
+[ext_resource type="Shader" uid="uid://hnsr617qy3kt" path="res://Shaders/bouncytext.gdshader" id="2_m4ckg"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="2_prjnw"]
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="3_h1yjp"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="4_5b2x3"]

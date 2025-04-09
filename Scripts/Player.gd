@@ -500,6 +500,7 @@ func known(item_name: String) -> String:
 		return item_name
 
 func drop(item_index: int):
+	SoundFx.drop_item()
 	var item = inventory_node.get_child(item_index)
 	if item.count != 1:
 		item.count -= 1

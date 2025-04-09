@@ -1,12 +1,12 @@
 [gd_scene load_steps=23 format=3 uid="uid://cqqguphmvsvh8"]
 
-[ext_resource type="Script" uid="uid://b5smv047xrv02" path="res://Scripts/World.gd" id="1_mmcn7"]
-[ext_resource type="Script" uid="uid://c4ecd23w2wg8n" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
+[ext_resource type="Script" uid="uid://bf65igqduli8a" path="res://Scripts/World.gd" id="1_mmcn7"]
+[ext_resource type="Script" uid="uid://dr0bhqlqkef5y" path="res://Scripts/dmg_test.gd" id="4_oe7tn"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="4_ug0ho"]
 [ext_resource type="Texture2D" uid="uid://ddyu4y7e2vy0l" path="res://Textures/UI/Healthbarempty.png" id="5_5v1tr"]
 [ext_resource type="Script" uid="uid://g3y6r3nexe24" path="res://Core/UIManager.gd" id="5_7qe8y"]
 [ext_resource type="Texture2D" uid="uid://d11658lsp446r" path="res://Textures/Tilemaps/UI/Banners.png" id="5_ffptd"]
-[ext_resource type="Script" uid="uid://c178rh5h2diqj" path="res://Scripts/heal_test.gd" id="5_gyu86"]
+[ext_resource type="Script" uid="uid://bts57dcdebjcv" path="res://Scripts/heal_test.gd" id="5_gyu86"]
 [ext_resource type="Texture2D" uid="uid://dnthda512tlc3" path="res://Textures/UI/Healthbarfull.png" id="6_0fj1v"]
 [ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="6_3lq2y"]
 [ext_resource type="Texture2D" uid="uid://dnv57eosd2d6a" path="res://Textures/Tilemaps/UI/Inputs.png" id="8_0fj1v"]
@@ -149,6 +149,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DmgTest" type="TextureButton" parent="UIManager"]
+visible = false
 offset_left = 248.0
 offset_top = 216.0
 offset_right = 344.0
@@ -168,6 +169,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HealTest" type="TextureButton" parent="UIManager"]
+visible = false
 offset_left = 120.0
 offset_top = 216.0
 offset_right = 216.0

@@ -133,5 +133,17 @@ func process_command(command, option = "", num = "", count = ""):
 		"identify":
 			$"../Player".identify_all()
 			command_history.append("Identified all items in inventory")
+		"buttons":
+			var dmg = $"/root/World/UIManager/DmgTest"
+			var heal = $"/root/World/UIManager/HealTest"
+
+			if dmg.visible:
+				command_history.append("Hiding dev buttons")
+				dmg.visible = false
+				heal.visible = false
+			else:
+				command_history.append("Showing dev buttons")
+				dmg.visible = true
+				heal.visible = true
 		_:
 			command_history.append("Unknown command: " + command)
