@@ -1,19 +1,19 @@
 extends CanvasLayer
 
-@onready var name_label = $MarginContainer/VBoxContainer/NameBox/Name
-@onready var seed_label = $MarginContainer/VBoxContainer/SeedControls/SeedBox/Seed
-@onready var seed_copy = $MarginContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
-@onready var base_str_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
-@onready var base_def_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
-@onready var attack_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
-@onready var armor_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
-@onready var health_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
-@onready var xp_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/XPval
-@onready var xp_to_next_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
-@onready var lvl_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
-@onready var inventory_list = $MarginContainer/VBoxContainer/Inventory/ItemList
-@onready var resume_button = $MarginContainer/VBoxContainer/HBoxContainer/Resume
-@onready var quit_button = $MarginContainer/VBoxContainer/HBoxContainer/Quit
+@onready var name_label = $MarginContainer/HBoxContainer/VBoxContainer/NameBox/Name
+@onready var seed_label = $MarginContainer/HBoxContainer/VBoxContainer/SeedControls/SeedBox/Seed
+@onready var seed_copy = $MarginContainer/HBoxContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
+@onready var base_str_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
+@onready var base_def_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
+@onready var attack_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
+@onready var armor_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
+@onready var health_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
+@onready var xp_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/XPval
+@onready var xp_to_next_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
+@onready var lvl_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
+@onready var inventory_list = $MarginContainer/HBoxContainer/VBoxContainer/Inventory/ItemList
+@onready var resume_button = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Resume
+@onready var quit_button = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Quit
 @onready var cmdline = $"../CommandLine"
 
 var identify_visible = false

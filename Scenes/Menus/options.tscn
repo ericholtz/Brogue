@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0vt7e01ki80p"]
+[gd_scene load_steps=32 format=3 uid="uid://b0vt7e01ki80p"]
 
 [ext_resource type="Script" uid="uid://bjb25wp3qu0gk" path="res://Scripts/UI/options.gd" id="1_emxk7"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="1_sk06h"]
@@ -6,7 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="2_8ogrm"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_sow1w"]
 [ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="3_sow1w"]
+[ext_resource type="LabelSettings" uid="uid://b7ok81b7mfcff" path="res://Shaders/SmallStatText.tres" id="4_7fubm"]
 [ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="4_emxk7"]
+[ext_resource type="Texture2D" uid="uid://cxv8uxrhthgoq" path="res://Textures/Tilemaps/UI/Bars-Sliders-Scrollbars.png" id="5_aopeh"]
+[ext_resource type="Script" uid="uid://dvqhdegw1ta8n" path="res://Scripts/UI/master_slider.gd" id="5_ltnem"]
+[ext_resource type="Script" uid="uid://02aflpl6m4rv" path="res://Scripts/UI/sfx_slider.gd" id="6_fodw8"]
+[ext_resource type="Script" uid="uid://b4wp0xuqiy2ow" path="res://Scripts/UI/music_slider.gd" id="7_l3l4f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_emxk7"]
 font = ExtResource("2_sow1w")
@@ -15,6 +20,72 @@ outline_size = 12
 outline_color = Color(0.269795, 0.0972464, 0.126628, 1)
 shadow_size = 16
 shadow_color = Color(0, 0, 0, 0.458824)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45oyd"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 352, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehjm3"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 336, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aopeh"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(272, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_45oyd"]
+texture = SubResource("AtlasTexture_aopeh")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lq3oq"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(224, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_81va5"]
+texture = SubResource("AtlasTexture_lq3oq")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81va5"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 352, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wnot"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 336, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vulfg"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(272, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ugiw8"]
+texture = SubResource("AtlasTexture_vulfg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f84i1"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(224, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rut1q"]
+texture = SubResource("AtlasTexture_f84i1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugiw8"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 352, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rut1q"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(336, 336, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mok8y"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(272, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l47gs"]
+texture = SubResource("AtlasTexture_mok8y")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l47gs"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(224, 352, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u33g0"]
+texture = SubResource("AtlasTexture_l47gs")
 
 [node name="Options" type="Control"]
 layout_mode = 3
@@ -140,6 +211,57 @@ label_settings = SubResource("LabelSettings_emxk7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MasterLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Master Volume"
+label_settings = ExtResource("4_7fubm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_icons/grabber = SubResource("AtlasTexture_45oyd")
+theme_override_icons/grabber_highlight = SubResource("AtlasTexture_ehjm3")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_45oyd")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_81va5")
+max_value = 1.0
+step = 0.05
+script = ExtResource("5_ltnem")
+
+[node name="SFXLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "SFX Volume"
+label_settings = ExtResource("4_7fubm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXSlider" type="HSlider" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_icons/grabber = SubResource("AtlasTexture_81va5")
+theme_override_icons/grabber_highlight = SubResource("AtlasTexture_0wnot")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_ugiw8")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_rut1q")
+max_value = 1.0
+step = 0.05
+script = ExtResource("6_fodw8")
+
+[node name="MusicLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Music Volume"
+label_settings = ExtResource("4_7fubm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_icons/grabber = SubResource("AtlasTexture_ugiw8")
+theme_override_icons/grabber_highlight = SubResource("AtlasTexture_rut1q")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_l47gs")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_u33g0")
+max_value = 1.0
+step = 0.05
+script = ExtResource("7_l3l4f")
+
 [node name="Back" type="TextureButton" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -166,4 +288,10 @@ label_settings = ExtResource("4_emxk7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="mouse_exited" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MasterSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MasterSlider" method="_on_mouse_exited"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MasterSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MasterSlider" method="_on_value_changed"]
+[connection signal="mouse_exited" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" method="_on_mouse_exited"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" method="_on_value_changed"]
+[connection signal="mouse_exited" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" method="_on_mouse_exited"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" method="_on_value_changed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]
