@@ -281,10 +281,8 @@ func use(item_index: int):
 			SoundFx.item_pickup()
 			armor = defense + item.armor
 		GameMaster.ItemType.POTION:
-			SoundFx.potion()
 			use_potion(item)
 		GameMaster.ItemType.SCROLL:
-			SoundFx.scroll()
 			use_scroll(item)
 		GameMaster.ItemType.MISC:
 			key_used = use_misc(item)
@@ -301,6 +299,7 @@ func use(item_index: int):
 		item.free()
 
 func use_potion(potion: Area2D):
+	SoundFx.potion()
 	match potion.effect:
 		GameMaster.PotionEffect.HEALING:
 			use_healing_potion()
