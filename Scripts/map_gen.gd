@@ -122,12 +122,18 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
 ##-----(Enemy Spawn Chance)-----##
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7cdbd7525ce479bb703d3b19155963ae1b40bbf9
 @export var cave_enemy_spawn_chance : float = 0.2
 @export var rare_ice_enemy_spawn_chance : float = 0.01
 @export var ice_enemy_spawn_chance : float = 0.1
 @export var big_ice_enemy_spawn_chance : float = 0.2
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7cdbd7525ce479bb703d3b19155963ae1b40bbf9
 ##-----(Enemy Spawn Chance)-----##
 
 @export var gold_spawn_chance : float = 0.2
