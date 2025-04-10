@@ -55,7 +55,7 @@ const BLIND_LENGTH = 40
 ## scroll effects
 @export var is_stat_boosted = false
 const STAT_BOOST_LENGTH = 15
-@export var stats_before_stat_boost = []
+@export var stats_before_stat_boost = [attack, armor]
 
 ## effects from enemies
 @export var is_frozen = false # doesn't do anything, just an example - remove if needed
