@@ -387,35 +387,34 @@ func use_scroll(scroll: Area2D):
 	SoundFx.scroll()
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
-			SoundFx.level_up()
 			random_tp()
 		GameMaster.ScrollEffect.BLIND:
-			SoundFx.debuff()
 			use_blind_scroll()
 		GameMaster.ScrollEffect.IDENTIFY:
-			SoundFx.scroll()
 			use_identify_scroll()
 		GameMaster.ScrollEffect.GOLD_RUSH:
-			SoundFx.large_coin()
-			SoundFx.large_coin()
 			use_gold_rush_scroll()
 		GameMaster.ScrollEffect.STAT_BOOST:
-			SoundFx.buff()
 			use_stat_boost_scroll()
 
 func random_tp():
+	SoundFx.level_up()
 	$"../map_gen".place_entity_in_random_room(self)
 
 func use_blind_scroll():
+	SoundFx.debuff()
 	zoom(1)
 	is_blind = true
 	GameMaster.start_status_effect(GameMaster.StatusEffect.BLIND, BLIND_LENGTH)
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
 
 func use_identify_scroll():
+	SoundFx.scroll()
 	$"../PlayerStats".show_identify()
 
 func use_gold_rush_scroll():
+	SoundFx.large_coin()
+	SoundFx.large_coin()
 	for i in range(0, randi_range(6, 9)):
 		$"../map_gen".force_spawn(position, "gold", 0)
 	for i in range(0, randi_range(3, 5)):
@@ -424,6 +423,7 @@ func use_gold_rush_scroll():
 		$"../map_gen".force_spawn(position, "gold", 2)
 
 func use_stat_boost_scroll():
+	SoundFx.buff()
 	if not is_stat_boosted:
 		is_stat_boosted = true
 		stats_before_stat_boost = [attack, armor]
