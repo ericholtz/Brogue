@@ -123,7 +123,6 @@ func collect_entity(entity: Area2D):
 			SoundFx.item_pickup()
 			gained_item.emit(entity)
 		EntityType.KEY:
-			SoundFx.small_coin()
 			gained_key.emit()
 
 func setname(player_name: String):
