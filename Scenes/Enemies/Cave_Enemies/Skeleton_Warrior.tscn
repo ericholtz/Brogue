@@ -286,12 +286,12 @@ shape = SubResource("RectangleShape2D_n24i7")
 
 [node name="AttackVision" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackVision"]
+[node name="Melee1" type="CollisionShape2D" parent="AttackVision"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_g886w")
 debug_color = Color(1, 0, 0, 0.419608)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="AttackVision"]
+[node name="Melee2" type="CollisionShape2D" parent="AttackVision"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_nqx8l")
 debug_color = Color(1, 0, 0, 0.419608)

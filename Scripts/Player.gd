@@ -29,7 +29,7 @@ extends CharacterBody2D
 var XPtoNext = 10
 var XPNeeded = XPtoNext - currentXP
 @export var strength = 1
-@export var defense = 1
+@export var defense = 0
 @export var movement_speed = 1
 @export var moves_left = 1
 @export var base_zoom = 3
@@ -97,6 +97,7 @@ func _ready():
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 	GameMaster.end_status_effect_signal.connect(_on_remove_status_effect.bind())
+	GameMaster.do_poison_particle.connect(_on_do_poison_particle.bind())
 	
 
 #Called every frame to handle continuous input
@@ -258,6 +259,9 @@ func _on_heal_received(amount: int):
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
 
+func _on_do_poison_particle():
+	$PoisonParticles2D.emitting = true
+
 func use(item_index: int):
 	# check bounds
 	if item_index < 0 or item_index >= inventory_node.get_child_count():
@@ -269,12 +273,16 @@ func use(item_index: int):
 	var key_used = false
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
+			SoundFx.item_pickup()
 			attack = strength + item.attack
 		GameMaster.ItemType.ARMOR:
+			SoundFx.item_pickup()
 			armor = defense + item.armor
 		GameMaster.ItemType.POTION:
+			SoundFx.potion()
 			use_potion(item)
 		GameMaster.ItemType.SCROLL:
+			SoundFx.scroll()
 			use_scroll(item)
 		GameMaster.ItemType.MISC:
 			key_used = use_misc(item)
@@ -375,16 +383,23 @@ func remove_blind():
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = false
 
 func use_scroll(scroll: Area2D):
+	SoundFx.scroll()
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
+			SoundFx.level_up()
 			random_tp()
 		GameMaster.ScrollEffect.BLIND:
+			SoundFx.debuff()
 			use_blind_scroll()
 		GameMaster.ScrollEffect.IDENTIFY:
+			SoundFx.scroll()
 			use_identify_scroll()
 		GameMaster.ScrollEffect.GOLD_RUSH:
+			SoundFx.large_coin()
+			SoundFx.large_coin()
 			use_gold_rush_scroll()
 		GameMaster.ScrollEffect.STAT_BOOST:
+			SoundFx.buff()
 			use_stat_boost_scroll()
 
 func random_tp():
@@ -425,6 +440,7 @@ func use_misc(misc: Area2D) -> bool:
 			return false
 
 func use_map(map: Area2D):
+	SoundFx.scroll()
 	var current_level = $"../map_gen".level
 	if map.map_level == current_level:
 		base_zoom += 1
@@ -488,6 +504,7 @@ func known(item_name: String) -> String:
 		return item_name
 
 func drop(item_index: int):
+	SoundFx.drop_item()
 	var item = inventory_node.get_child(item_index)
 	if item.count != 1:
 		item.count -= 1

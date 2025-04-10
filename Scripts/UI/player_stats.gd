@@ -1,19 +1,19 @@
 extends CanvasLayer
 
-@onready var name_label = $PanelContainer/VBoxContainer/NameBox/Name
-@onready var seed_label = $PanelContainer/VBoxContainer/SeedControls/SeedBox/Seed
-@onready var seed_copy = $PanelContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
-@onready var base_str_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
-@onready var base_def_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
-@onready var attack_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
-@onready var armor_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
-@onready var health_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
-@onready var xp_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPval
-@onready var xp_to_next_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
-@onready var lvl_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
-@onready var inventory_list = $PanelContainer/VBoxContainer/Inventory/ItemList
-@onready var resume_button = $PanelContainer/VBoxContainer/HBoxContainer/Resume
-@onready var quit_button = $PanelContainer/VBoxContainer/HBoxContainer/Quit
+@onready var name_label = $MarginContainer/VBoxContainer/NameBox/Name
+@onready var seed_label = $MarginContainer/VBoxContainer/SeedControls/SeedBox/Seed
+@onready var seed_copy = $MarginContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
+@onready var base_str_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
+@onready var base_def_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
+@onready var attack_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
+@onready var armor_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
+@onready var health_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
+@onready var xp_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/XPval
+@onready var xp_to_next_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
+@onready var lvl_label = $MarginContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
+@onready var inventory_list = $MarginContainer/VBoxContainer/Inventory/ItemList
+@onready var resume_button = $MarginContainer/VBoxContainer/HBoxContainer/Resume
+@onready var quit_button = $MarginContainer/VBoxContainer/HBoxContainer/Quit
 
 var identify_visible = false
 var font = load("Textures/Tilemaps/UI/m5x7.ttf")
@@ -27,7 +27,7 @@ func _ready():
 	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
 
-func _process(delta):
+func _process(_delta):
 	if visible:
 		GameMaster.can_move = false
 

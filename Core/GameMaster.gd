@@ -9,6 +9,7 @@ signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 signal end_status_effect_signal(effect: StatusEffect)
+signal do_poison_particle()
 
 # Turn on/off debug statments
 @export var DEBUG_MAP = false
@@ -161,6 +162,7 @@ func apply_health_diff():
 	
 	# 1 tick of poison damage every other turn
 	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
+		do_poison_particle.emit()
 		damage_amount += 1
 	
 	# passive regen every 20 turns
@@ -306,7 +308,6 @@ func combat(player, enemy):
 	var enemyXP = enemy.xp
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
 	if DEBUG_COMBATLOGS:
 		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
@@ -333,6 +334,7 @@ func combat(player, enemy):
 	#after player attacks, check if enemy is dead
 	var enemyDefeated = not is_instance_valid(enemy) or enemy.health <= 0
 
+	
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
 		SoundFx.death()
@@ -402,6 +404,7 @@ func ranged_enemy_combat(player, enemy):
 	await get_tree().process_frame
 	can_move = true;
 
+
 #calculate chance to hit based on difference between attack and armor
 func calculate_hit_chance(attack, defense):
 	var baseHit = 0.90
@@ -467,3 +470,31 @@ func animate_death(target) -> Tween:
 	tween.tween_property(target, "scale", Vector2(), animSpeed).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	return tween
+
+func dragon_combat(player, enemy):
+	#lock player
+	can_move = false
+	#grab some information about combatants
+	var playerName = player.player_name
+	var enemyName = enemy.name
+	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
+	var enemyDamage = max(enemy.strength, 1)
+	
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating !!fire!! between ",playerName," and !!!!",enemyName,"!!!!-----")
+	
+	damage_player_signal.emit(enemyDamage)
+	var attackTween = animate_attack(enemy, player)
+	await attackTween.finished
+	if DEBUG_COMBATLOGS:
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	
+	#if player dies, game over.
+	if player.health <= 0:
+		var deathTween = animate_death(player)
+		await deathTween.finished
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
+	await get_tree().process_frame
+	can_move = true;
+	
