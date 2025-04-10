@@ -60,10 +60,6 @@ extends Node
 	load("res://Scenes/Enemies/Ice_Enemies/Ice_Serpent.tscn")
 	]
 
-@onready var Boss : Array[PackedScene] = [
-	load("res://Scenes/Enemies/Boss/Dragon.tscn")
-	]
-
 @onready var Rare_ice_enemies : Array[PackedScene] = [
 	load("res://Scenes/Enemies/Rare_Enemies/Snowman.tscn")
 	]
@@ -101,15 +97,13 @@ const BASE_ROOMS = 12
 ##-----(Base Enemy Spawn Chance)-----##
 const BASE_CAVE_ENEMY_SPAWN_CHANCE = 0.1
 const BASE_RARE_ENEMY_SPAWN_CHANCE = 0.001
-const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.1
-const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.1
-const BASE_BOSS_ENEMY_SPAWN_CHANCE = 1
+const BASE_ICE_ENEMY_SPAWN_CHANCE = 0.01
+const BASE_BIG_ICE_ENEMY_SPAWN_CHANCE = 0.01
 
 const BASE_ICE_MAX_ENEMIES = 4
-const BASE_CAVE_MAX_ENEMIES = 8
-const BASE_BOSS_MAX_ENEMIES = 1
+const BASE_CAVE_MAX_ENEMIES = 4
 const BASE_RARE_ICE_MAX_ENEMIES = 1
-const BASE_ICE_BIG_ENEMIES = 4
+const BASE_ICE_BIG_ENEMIES = 1
 ##-----(Base Enemy Spawn Chance)-----##
 
 const BASE_MAX_GOLD = 2
@@ -121,16 +115,17 @@ const BASE_MAX_MISC = 1
 # Scaling factors
 const MAP_GROWTH_RATE = 2  # How much the map increases each level
 const ROOMS_GROWTH_RATE = 3  # Additional rooms per level
-const SPAWN_RATE_INCREMENT = 0.02  # Increases spawn rates per level
+const SPAWN_RATE_INCREMENT = 0.05  # Increases spawn rates per level
 const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 
 # spawn chance
 ##-----(Enemy Spawn Chance)-----##
-@export var cave_enemy_spawn_chance : float = 0.9
-@export var rare_ice_enemy_spawn_chance : float = 0.001
-@export var ice_enemy_spawn_chance : float = 0.5
-@export var big_ice_enemy_spawn_chance : float = 0.5
-@export var boss_enemy_spawn_chance : float = 1.0
+
+@export var cave_enemy_spawn_chance : float = 0.2
+@export var rare_ice_enemy_spawn_chance : float = 0.01
+@export var ice_enemy_spawn_chance : float = 0.1
+@export var big_ice_enemy_spawn_chance : float = 0.05
+
 ##-----(Enemy Spawn Chance)-----##
 
 @export var gold_spawn_chance : float = 0.2
@@ -139,18 +134,15 @@ const ENEMY_GROWTH_RATE = 1  # Increase max enemies per level
 @export var potion_spawn_chance : float = 0.1
 @export var scroll_spawn_chance : float = 0.1
 @export var misc_spawn_chance : float = 0.1
-@export var heart_spawn_chance : float
 
 # max per room
 ##-----(Max Enemies Per Room)-----##
 @export var max_cave_enemies_per_room : int = 2
-@export var max_boss_enemies_per_room : int = 1
 @export var max_ice_enemies_per_room : int = 1
 @export var max_big_ice_enemies_per_room : int = 1
 @export var max_rare_ice_enemies_per_room : int = 1
 ##-----(Max Enemies Per Room)-----##
 
-@export var max_hearts_per_room : int
 @export var max_gold_per_room : int = 2
 @export var max_melee_weapons_per_room : int = 1
 @export var max_armor_per_room : int = 1
@@ -414,74 +406,118 @@ func adjust_first_room() -> void:
 
 # spawn all enemies/gold/items for each room
 func spawn_room_content(room: Node) -> void:
-	##-----(Spawn Enemies)-----##
-	# Spawn Cave enemies
-	if level == 1:
-		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
-		spawn_entities(room, Cave_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
-		
-	if level >= 2 and level != 5:
-		# Spawn Ice enemies
-		spawn_entities(room, Big_ice_enemies, cave_enemy_spawn_chance, max_cave_enemies_per_room)
-		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
-		spawn_entities(room, Ice_enemies, ice_enemy_spawn_chance, max_ice_enemies_per_room)
-		# Spawn Big enemies
-		if GameMaster.DEBUG_MAP: print("Spawning Big: Enemies")
-		spawn_entities(room, Big_ice_enemies, big_ice_enemy_spawn_chance, max_big_ice_enemies_per_room)
-		# Spawn Rare enemies
-		if GameMaster.DEBUG_MAP: print("Spawning Rare: Enemies")
-		spawn_entities(room, Rare_ice_enemies, rare_ice_enemy_spawn_chance, max_rare_ice_enemies_per_room)
-	
-	if level == 5:
-		## Spawn Boss enemies
-		if GameMaster.DEBUG_MAP: print("Spawning Boss: Enemy")
-		spawn_entities(room, Boss, boss_enemy_spawn_chance, max_boss_enemies_per_room)
-	##-----(Spawn Enemies)-----##
-	
-	# Spawn gold
-	if GameMaster.DEBUG_MAP: print("Spawning: Gold")
-	spawn_entities(room, gold, gold_spawn_chance, max_gold_per_room)
-	# Spawn melee_weapons
-	if GameMaster.DEBUG_MAP: print("Spawning: Weapons")
-	spawn_entities(room, melee_weapons, melee_weapon_spawn_chance, max_melee_weapons_per_room)
-	# Spawn armor
-	if GameMaster.DEBUG_MAP: print("Spawning: Armor")
-	spawn_entities(room, armor, armor_spawn_chance, max_armor_per_room)
-	# Spawn potions
-	if GameMaster.DEBUG_MAP: print("Spawning: Potions")
-	spawn_entities(room, potions, potion_spawn_chance, max_potions_per_room)
-	# Spawn scrolls
-	if GameMaster.DEBUG_MAP: print("Spawning: Scrolls")
-	spawn_entities(room, scrolls, scroll_spawn_chance, max_scrolls_per_room)
-	# Spawn misc
-	if GameMaster.DEBUG_MAP: print("Spawning: Misc")
-	spawn_entities(room, misc, misc_spawn_chance, max_misc_per_room)
+	var spawn_enemy: Array = []
+	var spawn_loot: Array = []
 
-# spawn one entity based off room, instantiated node, and chance and max constants about the node
-func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance : float, max_per_room : int) -> void:
-	if randf() < spawn_chance:
-		for i in range(randi() % max_per_room + 1):  # Random number of gold
-			var positions = []
-			var entity = entity_pool.pick_random().instantiate()
-			var check_pos = get_random_position_in_room(room, entity.entity_size)
-			check_pos.x = floor(check_pos.x / 16) * 16
-			check_pos.y = floor(check_pos.y / 16) * 16
-			for j in range(entity.entity_size.x):
-				for k in range(entity.entity_size.y):
-					positions.append(Vector2i(check_pos.x + j, check_pos.y + k))
-			var type = GameMaster.EntityType.keys()[entity.entity_type]
-			#if positions.size() > 1:
-			for vect in positions:
-				if room.spawned_entity[type].has(vect):
-					entity.queue_free()
-					return
-				else:
-					room.spawned_entity[type].append(vect)
-			entity.position = check_pos
-			
-			if GameMaster.DEBUG_MAP: print(entity.position)
-			if is_position_valid_for_item(entity.position, room):
-				call_deferred("add_child", entity)
+	# Spawn Cave enemies
+	if level % 5 in [1, 2]:
+		if GameMaster.DEBUG_MAP: print("Spawning Cave: Enemies")
+		spawn_enemy = [{
+			"scenes": Cave_enemies,
+			"spawn_chance": cave_enemy_spawn_chance,
+			"max_per_room": max_cave_enemies_per_room
+		}]
+		
+	# Spawn Ice enemies
+	elif level % 5 in [3, 4]:
+		if GameMaster.DEBUG_MAP: print("Spawning Small Ice: Enemies")
+		spawn_enemy = [
+			{
+				"scenes": Rare_ice_enemies,
+				"spawn_chance": rare_ice_enemy_spawn_chance,
+				"max_per_room": max_rare_ice_enemies_per_room
+			},
+			{
+				"scenes": Ice_enemies,
+				"spawn_chance": ice_enemy_spawn_chance,
+				"max_per_room": max_ice_enemies_per_room
+			},
+			{
+				"scenes": Big_ice_enemies,
+				"spawn_chance": big_ice_enemy_spawn_chance,
+				"max_per_room": max_big_ice_enemies_per_room
+			}
+		]
+
+	# Call once for enemies (if array is not empty)
+	if spawn_enemy.size() > 0:
+		spawn_entities(room, spawn_enemy)
+
+	# Now build and spawn all loot/item pools
+	spawn_loot = [
+		{ "scenes": gold, "spawn_chance": gold_spawn_chance, "max_per_room": max_gold_per_room },
+		{ "scenes": melee_weapons, "spawn_chance": melee_weapon_spawn_chance, "max_per_room": max_melee_weapons_per_room },
+		{ "scenes": armor, "spawn_chance": armor_spawn_chance, "max_per_room": max_armor_per_room },
+		{ "scenes": potions, "spawn_chance": potion_spawn_chance, "max_per_room": max_potions_per_room },
+		{ "scenes": scrolls, "spawn_chance": scroll_spawn_chance, "max_per_room": max_scrolls_per_room },
+		{ "scenes": misc, "spawn_chance": misc_spawn_chance, "max_per_room": max_misc_per_room }
+	]
+
+	if GameMaster.DEBUG_MAP: print("Spawning: Loot")
+	# Ensure the spawn_loot array is passed with the correct type
+	spawn_entities(room, spawn_loot)
+
+# Ensure the spawn_entities function is correctly defined to accept an array of dictionaries.
+func spawn_entities(room: Node, spawn_pool: Array) -> void:
+	# Iterate over each entry in the spawn pool (now explicitly typed as Array[Dictionary])
+	for entry in spawn_pool:
+		var scenes: Array = entry["scenes"]
+		var chance: float = entry["spawn_chance"]
+		var max_per_room: int = entry["max_per_room"]
+		
+		if randf() < chance:
+			for i in range(randi() % max_per_room + 1):
+				var entity = scenes.pick_random().instantiate()
+				var positions = []
+				var check_pos = get_random_position_in_room(room, entity.entity_size)
+				check_pos.x = floor(check_pos.x / 16) * 16
+				check_pos.y = floor(check_pos.y / 16) * 16
+
+				for j in range(entity.entity_size.x):
+					for k in range(entity.entity_size.y):
+						positions.append(Vector2i(check_pos.x + j, check_pos.y + k))
+
+				var type = GameMaster.EntityType.keys()[entity.entity_type]
+				for vect in positions:
+					if room.spawned_entity[type].has(vect):
+						entity.queue_free()
+						return
+					else:
+						room.spawned_entity[type].append(vect)
+
+				entity.position = check_pos
+				if GameMaster.DEBUG_MAP:
+					print(entity.position)
+				if is_position_valid_for_item(entity.position, room):
+					call_deferred("add_child", entity)
+
+
+
+## spawn one entity based off room, instantiated node, and chance and max constants about the node
+#func spawn_entities(room : Node, entity_pool : Array[PackedScene], spawn_chance : float, max_per_room : int) -> void:
+	#if randf() < spawn_chance:
+		#for i in range(randi() % max_per_room + 1):  # Random number of gold
+			#var positions = []
+			#var entity = entity_pool.pick_random().instantiate()
+			#var check_pos = get_random_position_in_room(room, entity.entity_size)
+			#check_pos.x = floor(check_pos.x / 16) * 16
+			#check_pos.y = floor(check_pos.y / 16) * 16
+			#for j in range(entity.entity_size.x):
+				#for k in range(entity.entity_size.y):
+					#positions.append(Vector2i(check_pos.x + j, check_pos.y + k))
+			#var type = GameMaster.EntityType.keys()[entity.entity_type]
+			##if positions.size() > 1:
+			#for vect in positions:
+				#if room.spawned_entity[type].has(vect):
+					#entity.queue_free()
+					#return
+				#else:
+					#room.spawned_entity[type].append(vect)
+			#entity.position = check_pos
+			#
+			#if GameMaster.DEBUG_MAP: print(entity.position)
+			#if is_position_valid_for_item(entity.position, room):
+				#call_deferred("add_child", entity)
 
 # get random location in each given room
 func get_random_position_in_room(room : Node, size : Vector2i) -> Vector2:
@@ -530,7 +566,6 @@ func force_spawn(player_pos : Vector2, entity : String, option : int):
 		"big_ice_enemy": Big_ice_enemies,
 		"ice_enemy": Ice_enemies,
 		"rare_ice_enemy": Rare_ice_enemies,
-		"boss_enemy": Boss,
 		"gold": gold,
 		"exit": exit_scene
 		}
@@ -583,6 +618,7 @@ func regenerate_map() -> void:
 	if level % 5 == 0:
 		var boss_room_node = preload("res://Scenes/Rooms/boss_room.tscn").instantiate()
 		add_child(boss_room_node)
+		GameMaster.can_move = true
 		return
 		
 	
@@ -596,7 +632,6 @@ func regenerate_map() -> void:
 	cave_enemy_spawn_chance = min(BASE_CAVE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	ice_enemy_spawn_chance = min(BASE_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	rare_ice_enemy_spawn_chance = min(BASE_RARE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
-	boss_enemy_spawn_chance = min(BASE_BOSS_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	big_ice_enemy_spawn_chance = min(BASE_BIG_ICE_ENEMY_SPAWN_CHANCE + (level * SPAWN_RATE_INCREMENT), 1.0)
 	##-----(Scaleing Spawn Chances)-----##
 	
@@ -611,13 +646,12 @@ func regenerate_map() -> void:
 	max_cave_enemies_per_room = BASE_CAVE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	max_ice_enemies_per_room = BASE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	#max_rare_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
-	max_boss_enemies_per_room = BASE_BOSS_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	max_big_ice_enemies_per_room = BASE_RARE_ICE_MAX_ENEMIES + (level * ENEMY_GROWTH_RATE)
 	##-----(Scaleing Max Enemies)-----##
 	
 	max_gold_per_room = BASE_MAX_GOLD + (level * ENEMY_GROWTH_RATE)
-	max_melee_weapons_per_room = BASE_MAX_MELEE_WEAPONS + (level * ENEMY_GROWTH_RATE)
-	max_armor_per_room = BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE)
+	max_melee_weapons_per_room = min(BASE_MAX_MELEE_WEAPONS + (level * ENEMY_GROWTH_RATE), 4)
+	max_armor_per_room = min(BASE_MAX_ARMOR + (level * ENEMY_GROWTH_RATE), 4)
 	max_potions_per_room = BASE_MAX_POTIONS + (level * ENEMY_GROWTH_RATE)
 	max_misc_per_room = BASE_MAX_MISC + (level * ENEMY_GROWTH_RATE)
 	
