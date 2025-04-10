@@ -97,6 +97,7 @@ func _ready():
 	GameMaster.damage_player_signal.connect(_on_damage_received.bind())
 	GameMaster.heal_player_signal.connect(_on_heal_received.bind())
 	GameMaster.end_status_effect_signal.connect(_on_remove_status_effect.bind())
+	GameMaster.do_poison_particle.connect(_on_do_poison_particle.bind())
 	
 
 #Called every frame to handle continuous input
@@ -159,6 +160,9 @@ func move(dir) -> int:
 				await GameMaster.combat(self, collider)
 				return 2
 		return 0
+	#only play footstep when stepping
+	if dir != "Space":
+		SoundFx.footstep()
 	#create a new Tween object to handle smooth movement
 	var tween = create_tween()
 	#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
@@ -179,6 +183,7 @@ func add_xp(amount: int):
 
 func gain_level():
 	while currentXP >= XPtoNext:
+		SoundFx.level_up()
 		print("+++++Gained a level!+++++")
 		animate_level_up()
 		currentXP -= XPtoNext
@@ -252,8 +257,12 @@ func _on_damage_received(amount: int):
 
 func _on_heal_received(amount: int):
 	if health < MAX_HEALTH:
+		SoundFx.heal()
 		$HealParticles2D.emitting = true
 		health = min(MAX_HEALTH, health+amount)
+
+func _on_do_poison_particle():
+	$PoisonParticles2D.emitting = true
 
 func use(item_index: int):
 	# check bounds
@@ -266,8 +275,10 @@ func use(item_index: int):
 	var key_used = false
 	match item.item_type:
 		GameMaster.ItemType.MELEE_WEAPON:
+			SoundFx.item_pickup()
 			attack = strength + item.attack
 		GameMaster.ItemType.ARMOR:
+			SoundFx.item_pickup()
 			armor = defense + item.armor
 		GameMaster.ItemType.POTION:
 			use_potion(item)
@@ -288,6 +299,7 @@ func use(item_index: int):
 		item.free()
 
 func use_potion(potion: Area2D):
+	SoundFx.potion()
 	match potion.effect:
 		GameMaster.PotionEffect.HEALING:
 			use_healing_potion()
@@ -372,6 +384,7 @@ func remove_blind():
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = false
 
 func use_scroll(scroll: Area2D):
+	SoundFx.scroll()
 	match scroll.effect:
 		GameMaster.ScrollEffect.RANDOM_TP:
 			random_tp()
@@ -385,18 +398,23 @@ func use_scroll(scroll: Area2D):
 			use_stat_boost_scroll()
 
 func random_tp():
+	SoundFx.level_up()
 	$"../map_gen".place_entity_in_random_room(self)
 
 func use_blind_scroll():
+	SoundFx.debuff()
 	zoom(1)
 	is_blind = true
 	GameMaster.start_status_effect(GameMaster.StatusEffect.BLIND, BLIND_LENGTH)
 	Camera.find_child('ScreenEffects').find_child('Darken').visible = true
 
 func use_identify_scroll():
+	SoundFx.scroll()
 	$"../PlayerStats".show_identify()
 
 func use_gold_rush_scroll():
+	SoundFx.large_coin()
+	SoundFx.large_coin()
 	for i in range(0, randi_range(6, 9)):
 		$"../map_gen".force_spawn(position, "gold", 0)
 	for i in range(0, randi_range(3, 5)):
@@ -405,6 +423,7 @@ func use_gold_rush_scroll():
 		$"../map_gen".force_spawn(position, "gold", 2)
 
 func use_stat_boost_scroll():
+	SoundFx.buff()
 	if not is_stat_boosted:
 		is_stat_boosted = true
 		stats_before_stat_boost = [attack, armor]
@@ -422,6 +441,7 @@ func use_misc(misc: Area2D) -> bool:
 			return false
 
 func use_map(map: Area2D):
+	SoundFx.scroll()
 	var current_level = $"../map_gen".level
 	if map.map_level == current_level:
 		base_zoom += 1
@@ -485,6 +505,7 @@ func known(item_name: String) -> String:
 		return item_name
 
 func drop(item_index: int):
+	SoundFx.drop_item()
 	var item = inventory_node.get_child(item_index)
 	if item.count != 1:
 		item.count -= 1

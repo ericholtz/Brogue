@@ -9,6 +9,7 @@ signal took_turns(turns: int)
 signal damage_player_signal(amount: int)
 signal heal_player_signal(amount: int)
 signal end_status_effect_signal(effect: StatusEffect)
+signal do_poison_particle()
 
 # Turn on/off debug statments
 @export var DEBUG_MAP = false
@@ -113,8 +114,13 @@ func collect_entity(entity: Area2D):
 		return
 	match entity.entity_type:
 		EntityType.GOLD:
+			if entity.gold_worth < 10:
+				SoundFx.small_coin()
+			else:
+				SoundFx.large_coin()
 			gained_gold.emit(entity.gold_worth)
 		EntityType.ITEM:
+			SoundFx.item_pickup()
 			gained_item.emit(entity)
 		EntityType.KEY:
 			gained_key.emit()
@@ -155,6 +161,7 @@ func apply_health_diff():
 	
 	# 1 tick of poison damage every other turn
 	if status_effects[StatusEffect.POISONED] != 0 and status_effects[StatusEffect.POISONED] % 2 == 0:
+		do_poison_particle.emit()
 		damage_amount += 1
 	
 	# passive regen every 20 turns
@@ -299,7 +306,6 @@ func combat(player, enemy):
 	var enemyXP = enemy.xp
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var playerDamage = max(player.attack - enemy.defense, 1)
-	var enemyDamage = max(enemy.strength - player.armor, 1)
 	
 	if DEBUG_COMBATLOGS:
 		print("-----Initiating combat between ",playerName," and ",enemyName,"!-----")
@@ -309,6 +315,7 @@ func combat(player, enemy):
 	if DEBUG_COMBATLOGS:
 		print(playerName," needs less than <",playerHitChance,"> to hit, rolled a <",snapped(playerRoll,0.01),">.")
 	if playerRoll <= playerHitChance:
+		SoundFx.attack()
 		enemy.health -= playerDamage
 		var attackTween = animate_attack(player, enemy)
 		await attackTween.finished
@@ -316,6 +323,7 @@ func combat(player, enemy):
 			if DEBUG_COMBATLOGS:
 				print(playerName," dealt ",playerDamage," damage to ",enemyName,". ",enemyName," has ",enemy.health," health left.\n")
 	else:
+		SoundFx.miss()
 		var missTween = animate_miss(player)
 		await missTween.finished
 		if DEBUG_COMBATLOGS:
@@ -327,6 +335,7 @@ func combat(player, enemy):
 	
 	#if enemy dies, call free and give player xp
 	if enemyDefeated:
+		SoundFx.death()
 		var deathTween = animate_death(enemy)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:
@@ -342,6 +351,7 @@ func combat(player, enemy):
 				
 	#if player dies, game over.
 	if player.health <= 0:
+		SoundFx.death()
 		var deathTween = animate_death(player)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:
@@ -369,12 +379,14 @@ func ranged_enemy_combat(player, enemy):
 	if DEBUG_COMBATLOGS:
 		print(enemyName," needs less than <",enemyHitChance,"> to hit, rolled a <",snapped(enemyRoll,0.01),">.")
 	if enemyRoll <= enemyHitChance:
+		SoundFx.attack()
 		damage_player_signal.emit(enemyDamage)
 		var attackTween = animate_attack(enemy, player)
 		await attackTween.finished
 		if DEBUG_COMBATLOGS:
 			print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 	else:
+		SoundFx.miss()
 		var missTween = animate_miss(enemy)
 		await missTween.finished
 		if DEBUG_COMBATLOGS:
@@ -382,6 +394,7 @@ func ranged_enemy_combat(player, enemy):
 	
 	#if player dies, game over.
 	if player.health <= 0:
+		SoundFx.death()
 		var deathTween = animate_death(player)
 		await deathTween.finished
 		if DEBUG_COMBATLOGS:
@@ -460,26 +473,26 @@ func dragon_combat(player, enemy):
 	#lock player
 	can_move = false
 	#grab some information about combatants
-	#var playerName = player.player_name
+	var playerName = player.player_name
 	var enemyName = enemy.name
 	#take combatant strength - opponent defense as damage, floor player to 1 and enemies to 0 damage to favor player some.
 	var enemyDamage = max(enemy.strength, 1)
 	
-	#if DEBUG_COMBATLOGS:
-		#print("-----Initiating !!fire!! between ",playerName," and !!!!",enemyName,"!!!!-----")
+	if DEBUG_COMBATLOGS:
+		print("-----Initiating !!fire!! between ",playerName," and !!!!",enemyName,"!!!!-----")
 	
 	damage_player_signal.emit(enemyDamage)
 	var attackTween = animate_attack(enemy, player)
 	await attackTween.finished
-	#if DEBUG_COMBATLOGS:
-		#print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
+	if DEBUG_COMBATLOGS:
+		print(enemyName," dealt ",enemyDamage," damage to ",playerName,". ",playerName," has ",player.health," health left.")
 	
 	#if player dies, game over.
 	if player.health <= 0:
 		var deathTween = animate_death(player)
 		await deathTween.finished
-		#if DEBUG_COMBATLOGS:
-			#print(playerName," died!\n")
+		if DEBUG_COMBATLOGS:
+			print(playerName," died!\n")
 	await get_tree().process_frame
 	can_move = true;
 	

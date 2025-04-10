@@ -17,7 +17,7 @@ var tileSize = 16
 
 #Monsters States
 var health = 3
-var strength = 3
+var strength = 1
 var defense = 0
 var Movement_Speed = 2
 var xp = 10

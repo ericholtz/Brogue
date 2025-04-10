@@ -1,19 +1,20 @@
 extends CanvasLayer
 
-@onready var name_label = $PanelContainer/VBoxContainer/NameBox/Name
-@onready var seed_label = $PanelContainer/VBoxContainer/SeedControls/SeedBox/Seed
-@onready var seed_copy = $PanelContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
-@onready var base_str_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
-@onready var base_def_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
-@onready var attack_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
-@onready var armor_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
-@onready var health_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
-@onready var xp_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPval
-@onready var xp_to_next_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
-@onready var lvl_label = $PanelContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
-@onready var inventory_list = $PanelContainer/VBoxContainer/Inventory/ItemList
-@onready var resume_button = $PanelContainer/VBoxContainer/HBoxContainer/Resume
-@onready var quit_button = $PanelContainer/VBoxContainer/HBoxContainer/Quit
+@onready var name_label = $MarginContainer/HBoxContainer/VBoxContainer/NameBox/Name
+@onready var seed_label = $MarginContainer/HBoxContainer/VBoxContainer/SeedControls/SeedBox/Seed
+@onready var seed_copy = $MarginContainer/HBoxContainer/VBoxContainer/SeedControls/SeedBox/CopyButton
+@onready var base_str_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/BaseStrVal
+@onready var base_def_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/BaseDefVal
+@onready var attack_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/AtkVal
+@onready var armor_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/ArmorVal
+@onready var health_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/HealthVal
+@onready var xp_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/XPval
+@onready var xp_to_next_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/XPtoNextVal
+@onready var lvl_label = $MarginContainer/HBoxContainer/VBoxContainer/StatsBox/GridContainer/LevelVal
+@onready var inventory_list = $MarginContainer/HBoxContainer/VBoxContainer/Inventory/ItemList
+@onready var resume_button = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Resume
+@onready var quit_button = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Quit
+@onready var cmdline = $"../CommandLine"
 
 var identify_visible = false
 var font = load("Textures/Tilemaps/UI/m5x7.ttf")
@@ -27,16 +28,20 @@ func _ready():
 	seed_copy.pressed.connect(_on_copy_pressed)
 	visible = false # Start hidden
 
-func _process(delta):
+func _process(_delta):
 	if visible:
 		GameMaster.can_move = false
 
 func _input(event):
-	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE]:
+	if cmdline.visible:
+		return
+	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE, KEY_I]:
 		visible = !visible
 		if visible:
+			SoundFx.menu_yes()
 			GameMaster.can_move = false
 		else:
+			SoundFx.menu_no()
 			GameMaster.can_move = true
 		update_stats()
 		update_inventory()
@@ -107,9 +112,11 @@ func update_inventory():
 
 func _on_close_pressed():
 	visible = false
+	SoundFx.menu_no()
 	GameMaster.can_move = true
 
 func _on_copy_pressed():
+	SoundFx.menu_yes()
 	DisplayServer.clipboard_set(str(GameMaster.current_seed))
 
 func show_identify():
@@ -121,20 +128,24 @@ func hide_identify():
 	identify_visible = false
 
 func _on_use_pressed(use_button: BaseButton):
+	SoundFx.inventory_click()
 	var index = use_button.get_index() / 5
 	player.use(index)
 	update_stats()
 
 func _on_drop_pressed(drop_button: BaseButton):
+	SoundFx.menu_no()
 	var index = drop_button.get_index() / 5
 	player.drop(index)
 	update_stats()
 
 func _on_identify_pressed(identify_button: BaseButton):
+	SoundFx.inventory_click()
 	var index = identify_button.get_index() / 5
 	player.identify(index)
 	hide_identify()
 	update_stats()
 
 func _on_quit_pressed():
+	SoundFx.menu_no()
 	get_tree().change_scene_to_file("res://Scenes/Menus/main_menu.tscn")
