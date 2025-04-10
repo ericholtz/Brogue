@@ -19,7 +19,6 @@ var total_height = 17
 
 func _ready():
 	spawned_entity = {"ENEMY" : [], "ITEM" : [], "GOLD" : []}
-	fill_fog()  # Covers the map at the start
 	fog_tilemap.z_index = 10
 	
 func _process(_delta):
@@ -27,16 +26,6 @@ func _process(_delta):
 		$Fog.visible = !GameMaster.DISABLE_FOG
 	reveal_area(player.global_position)
 
- #Covers the entire map with fog tiles
-func fill_fog():
-	if not fog_tilemap:
-		print("error no map")
-		return
-	
-	for x in range(start_idx, start_idx + total_width):
-		for y in range(start_idx, start_idx + total_height):
-			fog_tilemap.set_cell(Vector2i(x, y), 0, Vector2i(3, 13), 0)  # Use your fog tile ID
-			
 # Reveals tiles around the player
 func reveal_area(playerposition):
 	var tile_pos = fog_tilemap.local_to_map(fog_tilemap.to_local(playerposition))
@@ -79,7 +68,6 @@ func west():
 func gold():
 	$Gold.visible = true
 	
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
 		$Fog.visible = false
