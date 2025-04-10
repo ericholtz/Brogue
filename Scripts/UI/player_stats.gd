@@ -14,6 +14,7 @@ extends CanvasLayer
 @onready var inventory_list = $MarginContainer/VBoxContainer/Inventory/ItemList
 @onready var resume_button = $MarginContainer/VBoxContainer/HBoxContainer/Resume
 @onready var quit_button = $MarginContainer/VBoxContainer/HBoxContainer/Quit
+@onready var cmdline = $"../CommandLine"
 
 var identify_visible = false
 var font = load("Textures/Tilemaps/UI/m5x7.ttf")
@@ -32,6 +33,8 @@ func _process(_delta):
 		GameMaster.can_move = false
 
 func _input(event):
+	if cmdline.visible:
+		return
 	if event is InputEventKey and event.pressed and event.keycode in [KEY_TAB, KEY_ESCAPE, KEY_I]:
 		visible = !visible
 		if visible:

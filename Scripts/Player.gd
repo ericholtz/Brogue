@@ -160,8 +160,10 @@ func move(dir) -> int:
 				await GameMaster.combat(self, collider)
 				return 2
 		return 0
+	#only play footstep when stepping
+	if dir != "Space":
+		SoundFx.footstep()
 	#create a new Tween object to handle smooth movement
-	SoundFx.footstep()
 	var tween = create_tween()
 	#tween the position property of self to a position of +16 pixels in the input direction, on a sin curve
 	var target_pos = (position + inputs[dir] * tileSize).snapped(Vector2.ONE * tileSize/2)  # Snap target

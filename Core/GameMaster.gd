@@ -179,7 +179,6 @@ func apply_health_diff():
 func heal_player(amount: int):
 	if DEBUG_COMBATLOGS:
 		print("Healing player for "+str(amount)+" points.")
-	SoundFx.heal()
 	heal_player_signal.emit(amount)
 
 func damage_player(amount: int):
