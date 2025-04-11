@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dbx8ypfrhdjsj"]
+[gd_scene load_steps=35 format=3 uid="uid://dbx8ypfrhdjsj"]
 
 [ext_resource type="Script" uid="uid://bbgf6o5pomr3j" path="res://Scripts/Player.gd" id="1_2lqgk"]
 [ext_resource type="Texture2D" uid="uid://cfev8eg0mvn0p" path="res://Textures/Tilemaps/DungeonCave/Heroes-Animated.png" id="2_qilt3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://j2uot8ig0ji0" path="res://Textures/Tilemaps/custom/Hero-Poisoned.png" id="5_52ee3"]
 [ext_resource type="Texture2D" uid="uid://bvvmu07fdmyqh" path="res://Textures/Tilemaps/custom/Hero-Stat-Boost.png" id="6_bhhdu"]
 [ext_resource type="Shader" uid="uid://7hlalx4wngds" path="res://Shaders/invert_colors.gdshader" id="7_52ee3"]
+[ext_resource type="Shader" uid="uid://c68x7jr8hyfob" path="res://Shaders/darken_colors.gdshader" id="8_bhhdu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhhdu"]
 atlas = ExtResource("2_tdieg")
@@ -162,8 +163,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_17cu6"]
 size = Vector2(16, 16)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nn08x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_megsn"]
 shader = ExtResource("7_52ee3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nn08x"]
+shader = ExtResource("8_bhhdu")
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 2
@@ -261,7 +265,7 @@ zoom = Vector2(3, 3)
 
 [node name="Invert" type="ColorRect" parent="Camera2D/ScreenEffects"]
 visible = false
-material = SubResource("ShaderMaterial_nn08x")
+material = SubResource("ShaderMaterial_megsn")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
