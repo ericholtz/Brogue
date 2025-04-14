@@ -34,13 +34,16 @@ Use TAB or ESC to open the pause menu
 
 ## Cool Cams ##
 ### Eric ###
+Git Username: ericholtz
 Eric Holtz is working on the items functionality for Brogue. He has added scripting for all the item interactions, as well as functionality and effects resulting from the usage of the items. Items currently include melee weapons, armor, potions, and other miscellaneous items.
 
 ### Gabe ###
-Each of you add here!  
-Map Gen, levels...  
+Git Username: martigab000
+Gabriel Martin is working on the map generation for Brogue. He has created auto generation and regeneration of each level, implemented monster and item spawning.
+Created infastructure/framework for command line, and menu UI's. 
 
 ### Alex ###
+Git Username: AlexanderTCSE
 Alex Tattersall is working on the core GameMaster turn order logic for Brogue, baseline Player logic, as well as UI/UX design. He has created the main combat loop for the game, created a sound manager system for global SFX and music, and created the second version of our UI and menu system.
 
 ### Silas McCloud ###
