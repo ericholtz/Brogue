@@ -26,9 +26,15 @@ BRogue is not a 1-1 recreation of the original Rogue, it is more like a loose ho
 The goal of the game is to get as deep in the dungeon as possible. The dungeon is populated by many dangerous monsters, and deceptive magic. Gather as much gold as you can while you try to stay alive!
 
 ## Installation ##
+### Latest Release
+- Download most up-to-date release for your system
+- Unzip file
+- Run binary/executable file
+
+### Manual
 - Install the latest version of Godot
 - Clone repository into your 'projects' folder
-- Open as an existing project
+- Open as an existing project in the Godot editor and run
 
 ## How To Play ##
 Use W or H or Up-Arrow to move up  
