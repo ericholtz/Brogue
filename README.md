@@ -6,13 +6,13 @@ Description: A modern recreation of the original Rogue.
 Engine: Godot  
 
 ## Table of Contents ##
-- [Predecessor](#-Rogue)
-- [Overview](#-Overview)
-- [Installation](#-Installation)
-- [How To Play](#-How-To-Play)
-- [Cool Cams](#-Cool-Cams)
-- [Contribution Guidelines](#-Contribution-Guidelines)
-- [License](#-License)
+- [Predecessor](#Rogue)
+- [Overview](#Overview)
+- [Installation](#Installation)
+- [How To Play](#How-To-Play)
+- [Cool Cams](#Cool-Cams)
+- [Contribution Guidelines](#Contribution-Guidelines)
+- [License](#License)
 
 ## Rogue ##
 Rogue was a video game released in 1980, marked by randomly generated levels and near-infinite progression. It spawned
