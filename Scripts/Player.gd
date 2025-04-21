@@ -222,24 +222,27 @@ func _on_gold_gain(gold_worth: int):
 func _on_item_gain(item : Area2D):
 	var index = inventory.find(item.entity_name)
 	# add unique new item
-	if (index == -1):
-		await get_tree().process_frame
-		item.can_pickup = false
-		item.reparent(inventory_node)
-		#await item.call_deferred("reparent", inventory_node)
-		inventory.append(item.entity_name)
-		item.visible = false
-		if (DEBUG_ITEM):
-			print("Added ", item.entity_name, " to inventory. Current inventory is:")
-			print(inventory)
-	# increase existing stackable item count
-	elif (index != -1 and item.stackable):
-		var existing_item = inventory_node.get_child(index)
-		existing_item.count += 1
-		item.queue_free()
-		if (DEBUG_ITEM):
-			print("Increased stack count of ", existing_item.entity_name, " to ", existing_item.count, ". Current inventory is:")
-			print(inventory)
+	if is_instance_valid(item):
+		if (index == -1):
+			await get_tree().process_frame
+			item.can_pickup = false
+			item.reparent(inventory_node)
+			#await item.call_deferred("reparent", inventory_node)
+			inventory.append(item.entity_name)
+			item.visible = false
+			if (DEBUG_ITEM):
+				print("Added ", item.entity_name, " to inventory. Current inventory is:")
+				print(inventory)
+		# increase existing stackable item count
+		elif (index != -1 and item.stackable):
+			var existing_item = inventory_node.get_child(index)
+			existing_item.count += 1
+			item.queue_free()
+			if (DEBUG_ITEM):
+				print("Increased stack count of ", existing_item.entity_name, " to ", existing_item.count, ". Current inventory is:")
+				print(inventory)
+	else:
+		pass
 
 func _on_name_recieved(p_name: String):
 	player_name = p_name
