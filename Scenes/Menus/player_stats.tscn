@@ -276,7 +276,6 @@ layout_mode = 2
 label_settings = ExtResource("5_um3tq")
 
 [node name="Inventory" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
