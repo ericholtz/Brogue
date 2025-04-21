@@ -83,6 +83,7 @@ func process_command(command, option = "", num = "", count = ""):
 			command_history.append("  zoom <level> - change the camera zoom level to <level> (1-5)")
 			command_history.append("  zoom_raw <value> - set the zoom level to the exact raw <value>")
 			command_history.append("  identify - identify the stats of all items currently in inventory")
+			command_history.append("  buttons - hide/show developer cheat buttons")
 			command_history.append("====================================================================")
 			command_history.append("")
 		"clear":
