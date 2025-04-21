@@ -4,10 +4,14 @@ extends CanvasLayer
 @onready var main_menu_btn = $VBoxContainer/MainMenu
 @onready var quit_btn = $VBoxContainer/Quit
 @onready var player = $"../Player"
+@onready var map = $"../map_gen"
 
 func _ready():
 	SoundFx.game_over()
 	SoundFx.play_game_over_music()
+	if map.bad_death == true:
+		$VBoxContainer/Label2.visible = true
+		$VBoxContainer/Label2.text = "You tripped down the stairs and died"
 	if player.player_name.to_lower() == "eric":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "LOSER"

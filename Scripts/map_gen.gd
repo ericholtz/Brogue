@@ -90,6 +90,8 @@ var map : Array
 var room_grid
 var vec_map
 
+var map_done = false
+var bad_death = false
 # Base values for scaling
 const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
@@ -157,7 +159,6 @@ func _ready() -> void:
 	room_grid = {}
 	# dictionary of location and room node
 	vec_map = {}
-	
 	# setup for inserting a seed befor begining of run
 	if GameMaster.user_seed:
 		GameMaster.current_seed = GameMaster.user_seed
@@ -176,9 +177,21 @@ func _ready() -> void:
 	await get_tree().process_frame
 	# move player to start position maybe need await for new tree before moving player
 	$"../Player".global_position = (first_room_pos * (272)) + Vector2(80, 80)
+	map_done = true
 	if GameMaster.DEBUG_MAP: 
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
+		
+# if player doesnt spawn in correct spot kil him
+func _process(delta: float) -> void:
+	if vec_map:
+		if map_done != false:
+			var p_pos = (($"../Player".global_position) / 272).floor()
+			if vec_map[p_pos] == null:
+				bad_death = true
+				SoundFx.death()
+				GameMaster.animate_death($"../Player")
+				$"../Player".end_game()
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -206,7 +219,7 @@ func generate(cur_level : int) -> void:
 				stri += "0"
 			else:
 				stri += "X"
-	if GameMaster.DEBUG_MAP: print(stri)
+	#print(stri)
 	# place rooms according to map
 	instantiate_rooms()
 	# insert the exit at the farthest room from start
@@ -603,6 +616,7 @@ func place_entity_in_random_room(entity: Node2D):
 
 # when the level is complete regenerate a new map
 func regenerate_map() -> void:
+	map_done = false
 	GameMaster.can_move = false
 	# clear all children under map
 	clear_map()
@@ -676,4 +690,5 @@ func regenerate_map() -> void:
 	if GameMaster.DEBUG_MAP: 
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
+	map_done = true
 	GameMaster.can_move = true
