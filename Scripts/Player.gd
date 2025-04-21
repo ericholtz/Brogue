@@ -156,7 +156,7 @@ func move(dir) -> int:
 	if Ray.is_colliding():
 		var collider = Ray.get_collider()
 		if collider.is_in_group("enemies"):
-			if Input.is_action_just_pressed(dir):
+			if Input.is_action_pressed(dir):
 				await GameMaster.combat(self, collider)
 				return 2
 		return 0
