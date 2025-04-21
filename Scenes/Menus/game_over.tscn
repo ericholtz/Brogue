@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://djtye3tp4e48i"]
+[gd_scene load_steps=10 format=3 uid="uid://djtye3tp4e48i"]
 
 [ext_resource type="Script" uid="uid://ddflf7xibxt8b" path="res://Scripts/UI/game_over.gd" id="1_08yff"]
 [ext_resource type="FontFile" uid="uid://u5f428rcdkpc" path="res://Textures/Tilemaps/UI/m5x7.ttf" id="2_5b2x3"]
@@ -21,17 +21,6 @@ outline_color = Color(0.337255, 0.129412, 0.164706, 1)
 shadow_size = 32
 shadow_color = Color(0, 0, 0, 0.458824)
 shadow_offset = Vector2(1, 5)
-
-[sub_resource type="SystemFont" id="SystemFont_vjdim"]
-subpixel_positioning = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_qgwkb"]
-font = SubResource("SystemFont_vjdim")
-font_size = 32
-font_color = Color(1, 0.0627451, 0.0431373, 1)
-outline_size = 7
-outline_color = Color(0.0117647, 0.737255, 0, 0.972549)
-shadow_size = 0
 
 [node name="GameOver" type="CanvasLayer"]
 script = ExtResource("1_08yff")
@@ -131,6 +120,6 @@ label_settings = ExtResource("2_h1yjp")
 [node name="Label2" type="Label" parent="VBoxContainer"]
 visible = false
 layout_mode = 2
-label_settings = SubResource("LabelSettings_qgwkb")
+label_settings = ExtResource("2_h1yjp")
 horizontal_alignment = 1
 uppercase = true
