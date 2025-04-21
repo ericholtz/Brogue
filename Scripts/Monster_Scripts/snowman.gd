@@ -26,7 +26,7 @@ func _ready():
 	var Level = get_parent().level
 	health = Level
 	strength = 1
-	defense = (15 * Level) 
+	defense = (10 * Level) 
 
 func take_turn():
 	return # Here for future
