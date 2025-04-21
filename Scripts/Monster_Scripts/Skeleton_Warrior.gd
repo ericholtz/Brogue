@@ -27,9 +27,9 @@ func _ready():
 	name = "Skeleton"
 	Animations.play("")
 	var Level = get_parent().level
-	health = (Level) + 1
+	health = (Level) + 3
 	strength = Level + 1
-	defense = (2 * Level) - 3 
+	defense = (2 * Level) 
 
 func take_turn():
 	if moving:

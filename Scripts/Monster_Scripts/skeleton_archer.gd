@@ -27,7 +27,7 @@ func _ready():
 	Animations.play("")
 	var Level = get_parent().level
 	health =  Level
-	strength = Level
+	strength = Level + 1
 	defense = Level
 
 func take_turn():

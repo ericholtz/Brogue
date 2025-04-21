@@ -34,7 +34,7 @@ func _ready():
 	add_to_group("enemies")
 	Animations.play("")
 	var Level = get_parent().level
-	health = 2 * Level
+	health = 5 * Level
 	strength = (Level) + 3
 	defense = 0
 
