@@ -26,7 +26,7 @@ var moving = false
 var player = null
 var playerattack = null
 var tileSize = 16
-var breathFire = true
+var breathFire = false
 var breathAttackCooldown = 0
 var breathAttackDirection = "None"
 var startedBreathAttackDirection = "None"
@@ -43,7 +43,7 @@ func _ready():
 	add_to_group("enemies")
 	Animations.play("")
 	var Level = get_parent().level
-	health = (3 * Level)
+	health = (4 * Level)
 	strength = 2 * (Level)
 	defense = Level
 
