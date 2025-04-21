@@ -12,6 +12,8 @@ func _ready():
 	if map.bad_death == true:
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "You tripped down the stairs and died"
+		$VBoxContainer.rotation_degrees = 5
+		$VBoxContainer.set_position(Vector2(515,90))
 	if player.player_name.to_lower() == "eric":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "LOSER"
