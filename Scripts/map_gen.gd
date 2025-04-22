@@ -92,6 +92,7 @@ var vec_map
 
 var map_done = false
 var bad_death = false
+var dead = false
 # Base values for scaling
 const BASE_MAP_SIZE = 7
 const BASE_ROOMS = 12
@@ -189,9 +190,10 @@ func _process(delta: float) -> void:
 			var p_pos = (($"../Player".global_position) / 272).floor()
 			if vec_map[p_pos] == null:
 				bad_death = true
-				SoundFx.death()
-				GameMaster.animate_death($"../Player")
-				$"../Player".end_game()
+				if dead == false:
+					GameMaster.animate_death($"../Player")
+					$"../Player".end_game()
+					dead = true
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
