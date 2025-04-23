@@ -1,17 +1,60 @@
-[gd_scene load_steps=2 format=3 uid="uid://dg40fs1i5xr7k"]
+[gd_scene load_steps=8 format=3 uid="uid://dg40fs1i5xr7k"]
 
 [ext_resource type="Script" uid="uid://go14sxob4m7q" path="res://Scripts/UI/top_scores.gd" id="1_u52jn"]
+[ext_resource type="LabelSettings" uid="uid://m06gs858ywop" path="res://Shaders/MenuButtonLabelText.tres" id="2_x7v3f"]
+[ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="3_6kl88"]
+[ext_resource type="LabelSettings" uid="uid://b7ok81b7mfcff" path="res://Shaders/SmallStatText.tres" id="3_a4msp"]
+[ext_resource type="Texture2D" uid="uid://c2540dd6akqtj" path="res://Textures/UI/scoreblock.png" id="3_do2k7"]
+[ext_resource type="Texture2D" uid="uid://cx5nsjyrh8wnh" path="res://Textures/UI/menubuttonbigpressed.png" id="4_a4msp"]
+[ext_resource type="Texture2D" uid="uid://dslfk6uaudw15" path="res://Textures/UI/menubuttonbighover.png" id="5_do2k7"]
 
 [node name="TopScores" type="VBoxContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_right = 150.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_u52jn")
 
 [node name="TitleLabel" type="Label" parent="."]
 layout_mode = 2
+text = "High Scores"
+label_settings = ExtResource("2_x7v3f")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ScoresLabel" type="Label" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 2
+texture = ExtResource("3_do2k7")
+stretch_mode = 5
 
-[node name="BackButton" type="Button" parent="."]
+[node name="ScoresLabel" type="Label" parent="TextureRect"]
 layout_mode = 2
+offset_left = 30.0
+offset_top = 26.0
+offset_right = 466.0
+offset_bottom = 52.0
+label_settings = ExtResource("3_a4msp")
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BackButton" type="TextureButton" parent="."]
+layout_mode = 2
+texture_normal = ExtResource("3_6kl88")
+texture_pressed = ExtResource("4_a4msp")
+texture_hover = ExtResource("5_do2k7")
+stretch_mode = 5
+
+[node name="BackLabel" type="Label" parent="BackButton"]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 34.0
+offset_right = 370.0
+offset_bottom = 98.0
+text = "Back"
+label_settings = ExtResource("2_x7v3f")
+horizontal_alignment = 1
+vertical_alignment = 1

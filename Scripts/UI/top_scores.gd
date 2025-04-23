@@ -1,6 +1,6 @@
 extends Control
 
-@onready var scores_label = $ScoresLabel
+@onready var scores_label = $TextureRect/ScoresLabel
 @onready var back_button = $BackButton
 
 func _ready():
