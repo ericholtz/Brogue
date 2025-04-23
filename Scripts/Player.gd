@@ -217,7 +217,8 @@ func end_game():
 func _on_gold_gain(gold_worth: int):
 	# increase gold counter
 	gold += gold_worth
-	print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
+	if GameMaster.DEBUG_COMBATLOGS:
+		print("collected gold, increasing gold by ", gold_worth, "; total gold = ", gold)
 
 func _on_item_gain(item : Area2D):
 	var index = inventory.find(item.entity_name)

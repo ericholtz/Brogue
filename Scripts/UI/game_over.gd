@@ -27,6 +27,10 @@ func _ready():
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ", LOSER.\n"
 		$VBoxContainer/Label2.text += "SCORE: " + str(0)
+	if player.player_name.to_lower() == "alex":
+		$VBoxContainer/Label2.visible = true
+		$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ", LOSER.\n"
+		$VBoxContainer/Label2.text += "SCORE: " + char(0x1FAF5) + char(0x1F921)#char(0x1F595)
 	if player.player_name.to_lower() == "silas":
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ", LOSRE.\n"
@@ -41,6 +45,7 @@ func _ready():
 	save_high_score()
 
 func _on_play_again():
+	GameMaster.turnCounter = 0
 	SoundFx.menu_yes()
 	SoundFx.play_ambience()
 	GameMaster._ready()

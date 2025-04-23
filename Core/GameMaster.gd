@@ -252,8 +252,8 @@ func decide_potions():
 		potion_types_str[potion_name] = PotionEffect.keys()[potion_index]
 		for j in range(i, potion_names.size()):
 			weights[j][potion_index] = 0
-	
-	print(potion_types_str)
+	if GameMaster.DEBUG_COMBATLOGS:
+		print(potion_types_str)
 
 func decide_scrolls():
 	var horiz = []

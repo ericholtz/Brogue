@@ -183,19 +183,27 @@ func _ready() -> void:
 		print("First room position (grid):", first_room_pos)
 		print("Player global position:", $"../Player".global_position)
 		
-# if player doesnt spawn in correct spot kil him
+ #if player doesnt spawn in correct spot kil him
+#func _process(_delta: float) -> void:
+	#if not vec_map or not map_done:
+		#return
+	#var p_pos: Vector2 = ($"../Player".global_position / 272).floor()
+	#var room = vec_map.get(p_pos, null)
+	#if room == null:
+		#bad_death = true
+		#if not dead:
+			#GameMaster.animate_death($"../Player")
+			#$"../Player".end_game()
+			#dead = true
+
 func _process(_delta: float) -> void:
 	if not vec_map or not map_done:
 		return
 	var p_pos: Vector2 = ($"../Player".global_position / 272).floor()
 	var room = vec_map.get(p_pos, null)
 	if room == null:
-		bad_death = true
 		if not dead:
-			GameMaster.animate_death($"../Player")
-			$"../Player".end_game()
-			dead = true
-
+			$"../Player".global_position = (first_room_pos * (272)) + Vector2(80, 80)
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
