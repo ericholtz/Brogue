@@ -17,7 +17,7 @@ func _ready():
 	$VBoxContainer/Label2.text += "SCORE: " + str(score)
 	if map.bad_death == true:
 		$VBoxContainer/Label2.visible = true
-		$VBoxContainer/Label2.text = "You tripped down the stairs and died"
+		$VBoxContainer/Label2.text = "You tripped down the stairs and died.\n"
 		$VBoxContainer/Label2.text += "SCORE: " + str(score)
 		$VBoxContainer.rotation_degrees = 2
 		$VBoxContainer.set_position(Vector2(515,90))
