@@ -5,21 +5,30 @@ extends CanvasLayer
 @onready var quit_btn = $VBoxContainer/Quit
 @onready var player = $"../Player"
 @onready var map = $"../map_gen"
+@onready var gold = int(player.gold)
+@onready var dungeonfloor = int(map.level)
+@onready var score = gold * dungeonfloor
 
 func _ready():
 	SoundFx.game_over()
 	SoundFx.play_game_over_music()
+	$VBoxContainer/Label2.visible = true
+	$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ".\n"
+	$VBoxContainer/Label2.text += "SCORE: " + str(score)
 	if map.bad_death == true:
 		$VBoxContainer/Label2.visible = true
 		$VBoxContainer/Label2.text = "You tripped down the stairs and died"
-		$VBoxContainer.rotation_degrees = 5
+		$VBoxContainer/Label2.text += "SCORE: " + str(score)
+		$VBoxContainer.rotation_degrees = 2
 		$VBoxContainer.set_position(Vector2(515,90))
 	if player.player_name.to_lower() == "eric":
 		$VBoxContainer/Label2.visible = true
-		$VBoxContainer/Label2.text = "LOSER"
+		$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ", LOSER.\n"
+		$VBoxContainer/Label2.text += "SCORE: " + str(score)
 	if player.player_name.to_lower() == "silas":
 		$VBoxContainer/Label2.visible = true
-		$VBoxContainer/Label2.text = "LOSRE"
+		$VBoxContainer/Label2.text = "You hoarded " + str(gold) + " gold by floor " + str(dungeonfloor) + ", LOSRE.\n"
+		$VBoxContainer/Label2.text += "SCORE: " + str(score)
 	play_again_btn.connect("pressed", Callable(self, "_on_play_again"))
 	main_menu_btn.connect("pressed", Callable(self, "_on_main_menu"))
 	quit_btn.connect("pressed", Callable(self, "_on_quit"))

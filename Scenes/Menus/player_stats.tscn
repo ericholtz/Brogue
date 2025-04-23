@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bulhxywvpoddg"]
+[gd_scene load_steps=41 format=3 uid="uid://bulhxywvpoddg"]
 
 [ext_resource type="Script" uid="uid://uang0iebkgho" path="res://Scripts/UI/player_stats.gd" id="1_f5bc8"]
 [ext_resource type="Texture2D" uid="uid://banlbymmswxbe" path="res://Textures/UI/statbanner.png" id="2_8x3ga"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://dvqhdegw1ta8n" path="res://Scripts/UI/master_slider.gd" id="13_6x6ni"]
 [ext_resource type="Script" uid="uid://02aflpl6m4rv" path="res://Scripts/UI/sfx_slider.gd" id="14_1iow6"]
 [ext_resource type="Script" uid="uid://b4wp0xuqiy2ow" path="res://Scripts/UI/music_slider.gd" id="15_s0ftv"]
+[ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="17_s0ftv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_s0ftv"]
 font = ExtResource("3_fk0kh")
@@ -90,6 +91,22 @@ region = Rect2(224, 352, 16, 16)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2dqje"]
 texture = SubResource("AtlasTexture_xvkid")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q1bp"]
+atlas = ExtResource("13_1iow6")
+region = Rect2(256, 304, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ah2kv"]
+atlas = ExtResource("17_s0ftv")
+region = Rect2(224, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7n4bo"]
+atlas = ExtResource("17_s0ftv")
+region = Rect2(208, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13tis"]
+atlas = ExtResource("17_s0ftv")
+region = Rect2(240, 112, 16, 16)
 
 [node name="PlayerStats" type="CanvasLayer"]
 script = ExtResource("1_f5bc8")
@@ -410,6 +427,31 @@ max_value = 1.0
 step = 0.05
 script = ExtResource("15_s0ftv")
 
+[node name="WindowLabel" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VolumeBox"]
+layout_mode = 2
+text = "Display Mode"
+label_settings = ExtResource("5_um3tq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WindowSize" type="OptionButton" parent="MarginContainer/HBoxContainer/MarginContainer/VolumeBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_fk0kh")
+theme_override_font_sizes/font_size = 32
+theme_override_icons/arrow = SubResource("AtlasTexture_1q1bp")
+expand_icon = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Windowed"
+popup/item_0/icon = SubResource("AtlasTexture_ah2kv")
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/icon = SubResource("AtlasTexture_7n4bo")
+popup/item_1/id = 1
+popup/item_2/text = "Borderless"
+popup/item_2/icon = SubResource("AtlasTexture_13tis")
+popup/item_2/id = 2
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MasterSlider" to="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MasterSlider" method="_on_mouse_exited"]
 [connection signal="value_changed" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MasterSlider" to="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MasterSlider" method="_on_value_changed"]
@@ -417,3 +459,4 @@ script = ExtResource("15_s0ftv")
 [connection signal="value_changed" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/SFXSlider" to="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/SFXSlider" method="_on_value_changed"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MusicSlider" to="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MusicSlider" method="_on_mouse_exited"]
 [connection signal="value_changed" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MusicSlider" to="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/MusicSlider" method="_on_value_changed"]
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/MarginContainer/VolumeBox/WindowSize" to="." method="_on_window_size_item_selected"]

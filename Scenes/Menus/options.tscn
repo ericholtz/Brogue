@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b0vt7e01ki80p"]
+[gd_scene load_steps=37 format=3 uid="uid://b0vt7e01ki80p"]
 
 [ext_resource type="Script" uid="uid://bjb25wp3qu0gk" path="res://Scripts/UI/options.gd" id="1_emxk7"]
 [ext_resource type="Texture2D" uid="uid://bo1iy2dqdvijm" path="res://Textures/UI/menubuttonbig.png" id="1_sk06h"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dvqhdegw1ta8n" path="res://Scripts/UI/master_slider.gd" id="5_ltnem"]
 [ext_resource type="Script" uid="uid://02aflpl6m4rv" path="res://Scripts/UI/sfx_slider.gd" id="6_fodw8"]
 [ext_resource type="Script" uid="uid://b4wp0xuqiy2ow" path="res://Scripts/UI/music_slider.gd" id="7_l3l4f"]
+[ext_resource type="Texture2D" uid="uid://o403j52a0dp4" path="res://Textures/Tilemaps/UI/Icons.png" id="9_45oyd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_emxk7"]
 font = ExtResource("2_sow1w")
@@ -86,6 +87,22 @@ region = Rect2(224, 352, 16, 16)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u33g0"]
 texture = SubResource("AtlasTexture_l47gs")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xvkid"]
+atlas = ExtResource("5_aopeh")
+region = Rect2(256, 304, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u33g0"]
+atlas = ExtResource("9_45oyd")
+region = Rect2(224, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knqib"]
+atlas = ExtResource("9_45oyd")
+region = Rect2(208, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf4o0"]
+atlas = ExtResource("9_45oyd")
+region = Rect2(240, 112, 16, 16)
 
 [node name="Options" type="Control"]
 layout_mode = 3
@@ -262,6 +279,31 @@ max_value = 1.0
 step = 0.05
 script = ExtResource("7_l3l4f")
 
+[node name="WindowLabel" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Display Mode"
+label_settings = ExtResource("4_7fubm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WindowSize" type="OptionButton" parent="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sow1w")
+theme_override_font_sizes/font_size = 32
+theme_override_icons/arrow = SubResource("AtlasTexture_xvkid")
+expand_icon = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Windowed"
+popup/item_0/icon = SubResource("AtlasTexture_u33g0")
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/icon = SubResource("AtlasTexture_knqib")
+popup/item_1/id = 1
+popup/item_2/text = "Borderless"
+popup/item_2/icon = SubResource("AtlasTexture_pf4o0")
+popup/item_2/id = 2
+
 [node name="Back" type="TextureButton" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -294,4 +336,5 @@ vertical_alignment = 1
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/SFXSlider" method="_on_value_changed"]
 [connection signal="mouse_exited" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" method="_on_mouse_exited"]
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" to="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/MusicSlider" method="_on_value_changed"]
+[connection signal="item_selected" from="CenterContainer/VBoxContainer/HBoxContainer/Settings/VBoxContainer/WindowSize" to="." method="_on_window_size_item_selected"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]
