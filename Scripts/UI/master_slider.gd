@@ -6,8 +6,8 @@ extends HSlider
 func _ready() -> void:
 	value = db_to_linear(AudioServer.get_bus_volume_db(_bus))
 
-func _on_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(_bus, linear_to_db(value))
+func _on_value_changed(vol: float) -> void:
+	AudioServer.set_bus_volume_db(_bus, linear_to_db(vol))
 
 func _on_mouse_exited():
 	release_focus()

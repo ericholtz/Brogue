@@ -184,16 +184,18 @@ func _ready() -> void:
 		print("Player global position:", $"../Player".global_position)
 		
 # if player doesnt spawn in correct spot kil him
-func _process(delta: float) -> void:
-	if vec_map:
-		if map_done != false:
-			var p_pos = (($"../Player".global_position) / 272).floor()
-			if vec_map[p_pos] == null:
-				bad_death = true
-				if dead == false:
-					GameMaster.animate_death($"../Player")
-					$"../Player".end_game()
-					dead = true
+func _process(_delta: float) -> void:
+	if not vec_map or not map_done:
+		return
+	var p_pos: Vector2 = ($"../Player".global_position / 272).floor()
+	var room = vec_map.get(p_pos, null)
+	if room == null:
+		bad_death = true
+		if not dead:
+			GameMaster.animate_death($"../Player")
+			$"../Player".end_game()
+			dead = true
+
 
 # clear all child nodes under map_gen
 func clear_map() -> void:
@@ -213,14 +215,14 @@ func generate(cur_level : int) -> void:
 	check_room(size_w, size_h, 0, Vector2.ZERO, true)
 	
 	# print view of map generation in the command line
-	var stri = ""
-	for y in range(map_height):
-		stri += "\n"
-		for x in range(map_width):
-			if map[x][y]:
-				stri += "0"
-			else:
-				stri += "X"
+	#var stri = ""
+	#for y in range(map_height):
+	#	stri += "\n"
+	#	for x in range(map_width):
+	#		if map[x][y]:
+	#			stri += "0"
+	#		else:
+	#			stri += "X"
 	#print(stri)
 	# place rooms according to map
 	instantiate_rooms()

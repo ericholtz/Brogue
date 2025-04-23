@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cnrhr7328bg3j" path="res://Textures/Tilemaps/custom/Hero-Invisible.png" id="4_dewec"]
 [ext_resource type="Texture2D" uid="uid://j2uot8ig0ji0" path="res://Textures/Tilemaps/custom/Hero-Poisoned.png" id="5_52ee3"]
 [ext_resource type="Texture2D" uid="uid://bvvmu07fdmyqh" path="res://Textures/Tilemaps/custom/Hero-Stat-Boost.png" id="6_bhhdu"]
-[ext_resource type="Shader" path="res://Shaders/invert_colors.gdshader" id="7_52ee3"]
+[ext_resource type="Shader" uid="uid://7hlalx4wngds" path="res://Shaders/invert_colors.gdshader" id="7_52ee3"]
 [ext_resource type="Shader" uid="uid://c68x7jr8hyfob" path="res://Shaders/darken_colors.gdshader" id="8_bhhdu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhhdu"]
@@ -35,7 +35,7 @@ colors = PackedColorArray(0.329412, 1, 0, 1, 0.902941, 1, 0, 1, 0.425, 1, 0, 1, 
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2lx3f"]
 atlas = ExtResource("2_tdieg")
-region = Rect2(64, 336, 16, 16)
+region = Rect2(16, 80, 16, 16)
 
 [sub_resource type="Gradient" id="Gradient_dewec"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
