@@ -118,9 +118,34 @@ grow_vertical = 2
 text = "Quit"
 label_settings = ExtResource("2_h1yjp")
 
+[node name="TopScores" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_prjnw")
+texture_pressed = ExtResource("3_h1yjp")
+texture_hover = ExtResource("4_5b2x3")
+stretch_mode = 5
+
+[node name="TopScoresLabel" type="Label" parent="VBoxContainer/TopScores"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Scores"
+label_settings = ExtResource("2_h1yjp")
+
 [node name="Label2" type="Label" parent="VBoxContainer"]
 visible = false
 layout_mode = 2
 label_settings = ExtResource("2_h1yjp")
 horizontal_alignment = 1
 uppercase = true
+
+[connection signal="pressed" from="VBoxContainer/TopScores" to="." method="_on_top_scores_pressed"]
