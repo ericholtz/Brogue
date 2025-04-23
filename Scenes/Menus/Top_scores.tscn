@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg40fs1i5xr7k"]
+
+[ext_resource type="Script" uid="uid://go14sxob4m7q" path="res://Scripts/UI/top_scores.gd" id="1_u52jn"]
+
+[node name="TopScores" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_u52jn")
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 2
+
+[node name="ScoresLabel" type="Label" parent="."]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 2

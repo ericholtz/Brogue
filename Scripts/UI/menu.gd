@@ -20,3 +20,8 @@ func _on_quit_button_pressed() -> void:
 func _on_option_button_pressed():
 	SoundFx.menu_yes()
 	get_tree().change_scene_to_file("res://Scenes/Menus/options.tscn")
+
+
+func _on_top_scores_pressed() -> void:
+	SoundFx.menu_yes()
+	get_tree().change_scene_to_file("res://Scenes/Menus/Top_scores.tscn")
