@@ -22,13 +22,13 @@ extends CharacterBody2D
 
 #base player stats to be affected by levels/potions
 @export var player_name = ""
-@export var health = 10
-@export var MAX_HEALTH = 10
+@export var health = 15
+@export var MAX_HEALTH = 15
 @export var level = 1
 @export var currentXP = 0
 var XPtoNext = 10
 var XPNeeded = XPtoNext - currentXP
-@export var strength = 1
+@export var strength = 3
 @export var defense = 0
 @export var movement_speed = 1
 @export var moves_left = 1
@@ -191,9 +191,9 @@ func gain_level():
 		XPtoNext = 10 * (level ** 2)
 		MAX_HEALTH = MAX_HEALTH + 5
 		health = MAX_HEALTH
-		strength += 1
+		strength += 3
 		defense += 1
-		attack += 1
+		attack += 3
 		armor += 1
 
 func animate_level_up():
